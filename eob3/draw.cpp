@@ -55,7 +55,6 @@ rect hilite, clipping, sys_static_area;
 fnevent	domodal, ptips, pbeforemodal, pleavemodal;
 unsigned char alpha = 255;
 const void* hilite_object;
-cursor hcursor;
 bool hpressed;
 bool text_clipped;
 bool button_pressed, button_executed, button_hilited, input_disabled;
@@ -2089,7 +2088,6 @@ static void beforemodal() {
 	hilite_object = 0;
 	tips_text[0] = 0;
 	tips_pos.clear();
-	hcursor = cursor::Arrow;
 	if(hkey == InputNeedUpdate)
 		hkey = InputUpdate;
 	else

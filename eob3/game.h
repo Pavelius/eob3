@@ -15,6 +15,7 @@ enum directionn : unsigned char {
 };
 enum messagen : unsigned char {
 	Cancel, Continue, Title, Yes, No, OK,
+	StartGame, LoadGame, ExitGame,
 	Characterinfo, CharacterSkills, PartyStatusFormat,
 	Class, Race, Level, LevelShort, Experience, ExperienceShort,
 	LastMessage = ExperienceShort

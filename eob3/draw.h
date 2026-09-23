@@ -69,9 +69,6 @@ enum dwwindowf {
 	WFMaximized = 0x0040,
 	WFAbsolutePos = 0x0080,
 };
-enum class cursor : unsigned char {
-	Arrow, Hand, LeftRight, UpDown, All, No, Edit, Wait,
-};
 
 namespace colors {
 extern color button, form, window;
@@ -171,7 +168,6 @@ extern const sprite* font; // Currently selected font
 extern fnevent domodal, ptips, pbeforemodal, pleavemodal;
 extern rect	hilite;
 extern const void* hilite_object;
-extern cursor hcursor; // set this mouse cursor
 extern bool	hpressed; // flag if any of mouse keys is pressed
 extern bool	text_clipped;
 extern bool button_pressed, button_executed, button_hilited, input_disabled;

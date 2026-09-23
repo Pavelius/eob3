@@ -7,26 +7,28 @@
 
 void main_util();
 
+static void character_generation() {
+}
+
+static void load_game() {
+}
+
+static void add_exit_scene(messagen v) {
+	an.addv(buttonparam, -1, 0, message_names[v], KeyEscape, 0);
+}
+
+static void next_main_menu() {
+	auto result = choose_main_menu();
+	if(result > 0)
+		next_scene((fnevent)result);
+}
+
 static void main_menu() {
 	music_play(MusAdept);
-	while(true) {
-		an.add(1, "Set volume maximum");
-		an.add(2, "Set volume minimal");
-		an.add(3, "First song");
-		an.add(4, "Second song");
-		an.addv(buttonparam, -1, 0, "Exit Game", KeyEscape, 0);
-		//
-		auto result = choose_main_menu();
-		if(result <= 0)
-			break;
-		switch(result) {
-		case 1: music_setvolume(0xFFFF); break;
-		case 2: music_setvolume(20000); break;
-		case 3: music_play(MusFinster); break;
-		case 4: music_play(MusInn); break;
-		default: break;
-		}
-	}
+	an.add((long)character_generation, message_names[StartGame]);
+	an.add((long)load_game, message_names[LoadGame]);
+	add_exit_scene(ExitGame);
+	next_main_menu();
 }
 
 int main(int argc, char* argv[]) {

@@ -3,6 +3,7 @@
 
 const char* message_names[LastMessage + 1] = {
 	"Cancel", "Continue", "Title", "Yes", "No", "OK",
+	"Start a new game", "Load existing game", "Exit game",
 	"Characterinfo", "CharacterSkills", "PartyStatusFormat",
 	"Class", "Race", "Level", "LevelShort", "Experience", "ExperienceShort"
 };

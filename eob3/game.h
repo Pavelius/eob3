@@ -26,7 +26,8 @@ enum resn : unsigned char {
 	LastRes = XSPL
 };
 enum soundn : unsigned char {
-	NoMusic, MusAdept, MusAutomap, MusBinge, MusBlut, MusCamp, MusDepot, MusDiskmenu, MusFinster,
+	NoMusic,
+	MusAdept, MusAutomap, MusBinge, MusBlut, MusCamp, MusDepot, MusDiskmenu, MusFinster,
 	MusFireGhost, MusGashok, MusGenerate,
 };
 

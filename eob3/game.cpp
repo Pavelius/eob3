@@ -23,7 +23,7 @@ static void main_menu() {
 		case 1: music_setvolume(0xFFFF); break;
 		case 2: music_setvolume(20000); break;
 		case 3: music_play(MusFinster); break;
-		case 4: music_play(MusAdept); break;
+		case 4: music_play(MusGenerate); break;
 		default: break;
 		}
 	}

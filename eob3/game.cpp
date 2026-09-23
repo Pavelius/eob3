@@ -11,6 +11,8 @@ static void character_generation() {
 }
 
 static void load_game() {
+	if(!confirm("Do you really want exit?"))
+		return;
 }
 
 static void add_exit_scene(messagen v) {

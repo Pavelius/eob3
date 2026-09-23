@@ -1905,10 +1905,12 @@ static int menu_button_width() {
 }
 
 static void menu_position(const char* format, point& origin, point& size, int padding, int button_area) {
-	rect rc = {0, 0, 240, 0};
-	// textw(rc, format);
-	size.x = rc.width() + padding * 2;
-	size.y = rc.height() + padding * 2 + button_area;
+	pushrect push;
+	auto w = textw(format);
+	if(w > 240)
+		w = 240;
+	size.x = w + padding * 2;
+	size.y = texth(format, width) + padding * 2 + button_area;
 	origin.x = (getwidth() - size.x) / 2;
 	origin.y = (140 - size.y - button_area) / 2;
 }

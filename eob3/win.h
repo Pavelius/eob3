@@ -26,6 +26,7 @@ typedef void* HFONT;
 typedef void* HDC;
 typedef unsigned UINT;
 typedef unsigned DWORD;
+typedef unsigned long DWORD_PTR;
 typedef unsigned short WORD;
 typedef unsigned char BYTE;
 typedef LRESULT(CALLBACK *WNDPROC)(void*, unsigned, int, int);

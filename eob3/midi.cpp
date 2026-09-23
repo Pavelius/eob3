@@ -28,8 +28,6 @@
 #define HANDLE void*
 #define HMIDISTRM HANDLE
 #define HMIDIOUT HANDLE
-#define DWORD unsigned long
-#define DWORD_PTR unsigned long
 #define WINMMAPI extern "C" __declspec(dllimport)
 #define MMRESULT unsigned int
 #define WINAPI __stdcall
@@ -78,12 +76,12 @@ struct MIDIHDR {
 	char*       lpData;               /* pointer to locked data block */
 	DWORD       dwBufferLength;       /* length of data in data block */
 	DWORD       dwBytesRecorded;      /* used for input only */
-	DWORD*		dwUser;               /* for client's use */
+	DWORD_PTR	dwUser;               /* for client's use */
 	DWORD       dwFlags;              /* assorted flags (see defines) */
 	struct midihdr_tag *lpNext;   /* reserved for driver */
-	DWORD*		reserved;             /* reserved for driver */
+	DWORD_PTR	reserved;             /* reserved for driver */
 	DWORD       dwOffset;             /* Callback offset into buffer */
-	DWORD*      dwReserved[8];        /* Reserved for MMSYSTEM */
+	DWORD_PTR	dwReserved[8];        /* Reserved for MMSYSTEM */
 };
 
 WINMMAPI MMRESULT WINAPI midiOutOpen(HMIDIOUT* phmo, unsigned int uDeviceID, DWORD_PTR dwCallback, DWORD_PTR dwInstance, DWORD fdwOpen);
@@ -112,7 +110,7 @@ class midiplayer {
 	void*			m_stream = 0;
 	MIDIHDR			m_header = {};
 
-	static void callback(HMIDIOUT hdmi, unsigned msg, unsigned* instance, unsigned*, unsigned*) {
+	static void callback(HMIDIOUT hdmi, unsigned msg, DWORD_PTR instance, DWORD_PTR, DWORD_PTR) {
 		if(msg == MOM_DONE) {
 			auto p = (midiplayer*)instance;
 			if(p)
@@ -122,7 +120,7 @@ class midiplayer {
 
 	void initialize() {
 		auto device = MIDI_MAPPER;
-		if(midiStreamOpen(&m_stream, &device, 1, (unsigned long)&callback, (unsigned)this, CALLBACK_FUNCTION) != MMSYSERR_NOERROR)
+		if(midiStreamOpen(&m_stream, &device, 1, (DWORD_PTR)&callback, (DWORD_PTR)this, CALLBACK_FUNCTION) != MMSYSERR_NOERROR)
 			m_stream = 0;
 	}
 
@@ -181,6 +179,8 @@ public:
 			return;
 		}
 
+		reset();
+
 		// MIDI time division.
 		MIDIPROPTIMEDIV div{};
 		div.cbStruct = sizeof(div);
@@ -194,7 +194,8 @@ public:
 		m_header.lpData = (char*)data;
 		m_header.dwBufferLength = size * sizeof(unsigned);
 		m_header.dwBytesRecorded = m_header.dwBufferLength;
-		if(midiOutPrepareHeader(m_stream, &m_header, sizeof(m_header)) != MMSYSERR_NOERROR) {
+		auto r = midiOutPrepareHeader(m_stream, &m_header, sizeof(m_header));
+		if(r != MMSYSERR_NOERROR) {
 			stop();
 			return;
 		}
@@ -225,14 +226,22 @@ public:
 
 static midiplayer music;
 
+bool music_mute;
+
 void music_play(soundn v) {
+	if(music_mute)
+		return;
 	music.play(songs[v].data, songs[v].size, songs[v].division);
 }
 
 void music_stop() {
+	if(music_mute)
+		return;
 	music.stop();
 }
 
 void music_setvolume(short unsigned v) {
+	if(music_mute)
+		return;
 	music.setvolume(v);
 }

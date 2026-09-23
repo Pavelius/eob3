@@ -45,6 +45,12 @@ pushfont::pushfont(int size) : pushfont() {
 	font = res_data[size ? FONT8 : FONT6];
 }
 
+struct pushdialog {
+	long focus;
+	pushdialog() : focus(current_focus) { current_focus = 0; }
+	~pushdialog() { current_focus = focus; }
+};
+
 static unsigned get_frame_tick() {
 	return current_cpu_time / 10;
 }
@@ -304,6 +310,8 @@ static void paint_player_damage(int hits, unsigned counter) {
 }
 
 void focusing(long v) {
+	if(!current_focus)
+		current_focus = v;
 }
 
 static bool paint_button(const char* title, long button_data, unsigned key, unsigned flags = TextBold, bool force_focus = false) {
@@ -1722,7 +1730,7 @@ static long choose_answer(const char* title, const char* cancel, fnevent before_
 		return r;
 	}
 	pushrect push;
-	// pushscene push_scene;
+	pushdialog push_dialog;
 	auto push_origin = answer_origin;
 	answer_origin = 0;
 	answer_per_page = per_page;
@@ -1792,7 +1800,7 @@ static int get_total_use(char* source_value) {
 
 void choose_spells(const char* title, const char* cancel, int spell_type) {
 	pushrect push;
-	// pushscene push_scene;
+	pushdialog push_dialog;
 	auto level = 0;
 	auto last_level = level;
 	//auto spells_known = get_spells_known(player);
@@ -1882,12 +1890,12 @@ void choose_spells(const char* title, const char* cancel, int spell_type) {
 	//}
 }
 
-void show_scene(fnevent before_paint, fnevent input, long focus) {
+void show_scene(fnevent scene_paint, fnevent input, long focus) {
 	pushrect push;
-	// pushscene push_scene;
+	pushdialog push_dialog;
 	current_focus = focus;
 	while(ismodal()) {
-		before_paint();
+		scene_paint();
 		domodal();
 		if(input)
 			input();
@@ -1918,7 +1926,7 @@ static void menu_position(const char* format, point& origin, point& size, int pa
 long choose_dialog(const char* title, int padding) {
 	pushrect push;
 	pushfore push_fore;
-	// pushscene push_scene;
+	pushdialog push_dialog;
 	point origin, size;
 	caret = {0, 0};
 	width = 320; height = 200;
@@ -1997,7 +2005,7 @@ static int player_position;
 
 void* choose_generate_box(const char* header, const char* footer) {
 	pushrect push;
-	// pushscene push_scene;
+	pushdialog push_dialog;
 	current_focus = player_position;
 	auto push_fore = fore;
 	while(ismodal()) {
@@ -2022,7 +2030,7 @@ void* choose_generate_box(const char* header, const char* footer) {
 long choose_generate_box(fnevent proc) {
 	pushrect push;
 	pushfore push_fore;
-	// pushscene push_scene;
+	pushdialog push_dialog;
 	auto push_origin = answer_origin;
 	answer_per_page = 4;
 	answer_index = 0;
@@ -2229,7 +2237,7 @@ long choose_generate_dialog(const char* header, bool random) {
 
 long show_message(const char* format, bool add_anaswers, const char* cancel, unsigned cancel_key) {
 	pushrect push;
-//	pushscene push_scene;
+	pushdialog push_dialog;
 	auto push_picture = answer_picture;
 	while(ismodal()) {
 		paint_background(PLAYFLD, 0);
@@ -2274,8 +2282,8 @@ bool confirm(const char* format) {
 	if(!format)
 		return false;
 	an.clear();
-	an.add(1, getnm(Yes), 0, 'Y');
-	an.add(0, getnm(No), 0, 'N');
+	an.addv(buttonparam, 1, 0, getnm(Yes), 'Y', 0);
+	an.addv(buttoncancel, -1, 0, getnm(No), 'N', 0);
 	return choose_dialog(format, 8) != 0;
 }
 

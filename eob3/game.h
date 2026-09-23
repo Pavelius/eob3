@@ -29,7 +29,7 @@ enum resn : unsigned char {
 enum soundn : unsigned char {
 	NoMusic,
 	MusAdept, MusAutomap, MusBinge, MusBlut, MusCamp, MusDepot, MusDiskmenu, MusFinster,
-	MusFireGhost, MusGashok, MusGenerate, MusTravel, MusHealer, MusInn,
+	MusFireGhost, MusGashok, MusGenerate, MusTravel, MusHealer, MusInn, MusKvirasim,
 };
 
 extern const char* direction_names[Down + 1];
@@ -53,6 +53,7 @@ void choose_spells(const char* title, const char* cancel, int spell_type);
 void fix_attack(const creature* attacker, wearn slot, int hits);
 void fix_damage(const creature* target, int value);
 bool focus_input();
+void focusing(long v);
 void header_yellow(const char* format);
 void initialize_gui();
 void message_box(const char* format);

@@ -26,7 +26,7 @@ static void next_main_menu() {
 }
 
 static void main_menu() {
-	music_play(MusAdept);
+	music_play(MusKvirasim);
 	an.add((long)character_generation, message_names[StartGame]);
 	an.add((long)load_game, message_names[LoadGame]);
 	add_exit_scene(ExitGame);
@@ -35,6 +35,7 @@ static void main_menu() {
 
 int main(int argc, char* argv[]) {
 	start_random_seed = getcputime();
+	// music_mute = true;
 	// start_random_seed = 1423089921;
 	srand(start_random_seed);
 	initialize_gui();

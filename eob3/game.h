@@ -28,7 +28,7 @@ enum resn : unsigned char {
 enum soundn : unsigned char {
 	NoMusic,
 	MusAdept, MusAutomap, MusBinge, MusBlut, MusCamp, MusDepot, MusDiskmenu, MusFinster,
-	MusFireGhost, MusGashok, MusGenerate,
+	MusFireGhost, MusGashok, MusGenerate, MusTravel, MusHealer, MusInn,
 };
 
 extern const char* direction_names[Down + 1];

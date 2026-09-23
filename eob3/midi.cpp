@@ -107,11 +107,8 @@ WINMMAPI MMRESULT WINAPI midiOutSetVolume(HMIDIOUT hmo, DWORD dwVolume);
 
 class midiplayer {
 
-	const unsigned*	data = 0;
-	unsigned		size = 0;
-	unsigned short	division = 120;
+	const unsigned*	m_data = 0;
 	bool			m_prepared = false;
-	bool			m_playing = false;
 	void*			m_stream = 0;
 	MIDIHDR			m_header = {};
 
@@ -119,7 +116,7 @@ class midiplayer {
 		if(msg == MOM_DONE) {
 			auto p = (midiplayer*)instance;
 			if(p)
-				p->m_playing = false;
+				p->m_data = 0;
 		}
 	}
 
@@ -135,6 +132,15 @@ class midiplayer {
 		m_stream = 0;
 	}
 
+	void reset() {
+		for(auto channel = 0; channel < 16; ++channel) {
+			// CC 123 - All Notes Off
+			midiOutShortMsg((HMIDIOUT)m_stream, 0xB0 | channel | (123 << 8));
+			// CC 121 - Reset All Controllers
+			midiOutShortMsg((HMIDIOUT)m_stream, 0xB0 | channel | (121 << 8));
+		}
+	}
+
 public:
 
 	midiplayer() {
@@ -147,7 +153,7 @@ public:
 
 	void stop() {
 		if(!m_stream) {
-			m_playing = false;
+			m_data = 0;
 			return;
 		}
 		midiStreamStop(m_stream);
@@ -156,19 +162,24 @@ public:
 			midiOutUnprepareHeader(m_stream, &m_header, sizeof(MIDIHDR));
 			m_prepared = false;
 		}
-		m_playing = false;
+		m_data = 0;
 	}
 
 	bool playing() const {
-		return m_playing;
+		return m_data != 0;
 	}
 
 	void play(const unsigned* data, unsigned size, unsigned short division) {
 
+		if(m_data && m_data == data)
+			return; // Already play this
+
 		stop();
 
-		if(!data || !size || !m_stream)
+		if(!data || !size || !m_stream) {
+			m_data = 0;
 			return;
+		}
 
 		// MIDI time division.
 		MIDIPROPTIMEDIV div{};
@@ -199,11 +210,8 @@ public:
 			return;
 		}
 
-		m_playing = true;
+		m_data = data;
 
-	}
-
-	void resume() {
 	}
 
 	void setvolume(unsigned short value) {

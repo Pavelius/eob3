@@ -12,4 +12,3 @@ extern soundi songs[];
 void music_play(soundn id);
 void music_setvolume(short unsigned v);
 void music_stop();
-void sfx_play(soundn v);

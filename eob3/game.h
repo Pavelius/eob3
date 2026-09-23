@@ -26,8 +26,8 @@ enum resn : unsigned char {
 	LastRes = XSPL
 };
 enum soundn : unsigned char {
-	NoMusic, MusMain, MusDwarfMine, MusGenerate,
-	MusHit,
+	NoMusic, MusAdept, MusAutomap, MusBinge, MusBlut, MusCamp, MusDepot, MusDiskmenu, MusFinster,
+	MusFireGhost, MusGashok, MusGenerate,
 };
 
 extern const char* direction_names[Down + 1];

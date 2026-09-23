@@ -98,9 +98,6 @@
     <ClCompile Include="midi_util.cpp">
       <Filter>util</Filter>
     </ClCompile>
-    <ClCompile Include="main_util.cpp">
-      <Filter>util</Filter>
-    </ClCompile>
     <ClCompile Include="midi.cpp">
       <Filter>support</Filter>
     </ClCompile>
@@ -154,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="game.cpp">
       <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="main_util.cpp">
+      <Filter>util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

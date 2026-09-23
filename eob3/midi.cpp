@@ -216,14 +216,9 @@ public:
 };
 
 static midiplayer music;
-static midiplayer sfx[4];
 
 void music_play(soundn v) {
 	music.play(songs[v].data, songs[v].size, songs[v].division);
-}
-
-void sfx_play(soundn v) {
-	sfx[0].play(songs[v].data, songs[v].size, songs[v].division);
 }
 
 void music_stop() {

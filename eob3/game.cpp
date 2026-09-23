@@ -8,13 +8,12 @@
 void main_util();
 
 static void main_menu() {
-	music_play(MusMain);
+	music_play(MusAdept);
 	while(true) {
 		an.add(1, "Set volume maximum");
 		an.add(2, "Set volume minimal");
 		an.add(3, "First song");
 		an.add(4, "Second song");
-		an.add(5, "Add sfx");
 		an.addv(buttonparam, -1, 0, "Exit Game", KeyEscape, 0);
 		//
 		auto result = choose_main_menu();
@@ -23,9 +22,8 @@ static void main_menu() {
 		switch(result) {
 		case 1: music_setvolume(0xFFFF); break;
 		case 2: music_setvolume(20000); break;
-		case 3: music_play(MusMain); break;
-		case 4: music_play(MusDwarfMine); break;
-		case 5: sfx_play(MusHit); break;
+		case 3: music_play(MusFinster); break;
+		case 4: music_play(MusAdept); break;
 		default: break;
 		}
 	}

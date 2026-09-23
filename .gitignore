@@ -363,3 +363,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/eob3/main_util.cpp
+/eob3/midi_util.cpp
+/eob3/main_util.cpp
+/eob3/midi_util.cpp

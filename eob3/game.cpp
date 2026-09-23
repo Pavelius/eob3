@@ -26,7 +26,6 @@ static void next_main_menu() {
 }
 
 static void main_menu() {
-	music_play(MusKvirasim);
 	an.add((long)character_generation, message_names[StartGame]);
 	an.add((long)load_game, message_names[LoadGame]);
 	add_exit_scene(ExitGame);
@@ -42,6 +41,7 @@ int main(int argc, char* argv[]) {
 #ifdef _DEBUG
 	main_util();
 #endif
+	music_play(MusKvirasim);
 	sys_create_window(-1, -1, 320, 200, 0, 32);
 	sys_caption("Eye of beholder (remake)");
 	sys_timer(100);

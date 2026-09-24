@@ -225,3 +225,61 @@ int get_party_index(const creature* player) {
 void update_player() {
 
 }
+
+bool allow(classn type, racen race) {
+	switch(race) {
+	case Dwarf:
+		switch(type) {
+		case Ranger: case Paladin: case Mage:
+		case FighterMage:
+		case MageTheif:
+		case FighterMageTheif:
+			return false;
+		default:
+			return true;
+		}
+	case Elf:
+		switch(type) {
+		case Ranger: case Paladin:
+		case FighterCleric:
+			return false;
+		default:
+			return true;
+		}
+	case HalfElf:
+		switch(type) {
+		case Ranger: case Paladin:
+		case FighterMageTheif:
+			return false;
+		default:
+			return true;
+		}
+	case Halfling:
+		switch(type) {
+		case Ranger: case Paladin:
+		case FighterCleric: case FighterMage:
+		case MageTheif: case FighterMageTheif:
+			return false;
+		default:
+			return true;
+		}
+	default:
+		return type >= Fighter && type <= Theif;
+	}
+}
+
+bool allow(alignmentn alignment, classn type) {
+	switch(type) {
+	case Paladin:
+		return alignment == LawfulGood;
+	case Ranger:
+		switch(alignment) {
+		case LawfulGood: case NeutralGood: case ChaoticGood:
+			return true;
+		default:
+			return false;
+		}
+	default:
+		return true;
+	}
+}

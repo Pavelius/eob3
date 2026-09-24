@@ -47,10 +47,6 @@ extern const char* gender_names[Female + 1];
 extern const char* race_names[Halfling + 1];
 extern const char* name_names[];
 
-//inline const char* getnm(abilityn v) { return ability_names[v]; }
-//inline const char* getnm(classn v) { return class_names[v]; }
-//inline const char* getnm(racen v) { return race_names[v]; }
-
 int get_class_count(classn v);
 int get_class_index(classn base, classn type);
 
@@ -88,4 +84,6 @@ extern creature* player;
 
 int get_party_index(const creature* player);
 
+bool allow(alignmentn type, classn v);
+bool allow(classn type, racen v);
 void update_player();

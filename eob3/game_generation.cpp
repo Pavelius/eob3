@@ -13,16 +13,44 @@ static racen select_race() {
 	return (racen)choose_generate_dialog(message_names[SelectRace]);
 }
 
+static gendern select_gender() {
+	an.add(Male, gender_names[Male]);
+	an.add(Female, gender_names[Female]);
+	return (gendern)choose_generate_dialog(message_names[SelectGender]);
+}
+
+static classn select_class(racen race) {
+	for(auto i = Fighter; i <= FighterMageTheif; i = (classn)(i + 1)) {
+		if(!allow(i, race))
+			continue;
+		an.add(i, class_names[i]);
+	}
+	return (classn)choose_generate_dialog(message_names[SelectGender]);
+}
+
+static alignmentn select_alignment(classn type) {
+	for(auto i = LawfulGood; i <= ChaoticEvil; i = (alignmentn)(i + 1)) {
+		if(!allow(i, type))
+			continue;
+		an.add(i, alignment_names[i]);
+	}
+	return (alignmentn)choose_generate_dialog(message_names[SelectAlignment]);
+}
+
 void game_generation() {
 	pushvalue push(player);
 	music_play(MusGenerate);
+	generate_player_index = 0;
 	while(true) {
 		const char* footer = 0;
-		generate_player_index = choose_generate_box("Test string", footer);
+		generate_player_index = choose_generate_box(message_names[MsgGeneraionInfo], footer, generate_player_index);
 		if(generate_player_index == 2000) // Start game
 			break;
 		player = characters + generate_player_index - 1;
-		select_race();
+		auto race = select_race();
+		auto gender = select_gender();
+		auto class_type = select_class(race);
+		auto alignment = select_alignment(class_type);
 	}
 	//while(true) {
 	//	player_position = choose_player_position();

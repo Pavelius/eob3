@@ -55,6 +55,7 @@ struct answers {
 	void add(long value, const char* name, ...);
 	void addp(fnevent proc, long value, void* object, const char* name, ...);
 	void addv(fnevent proc, long value, void* object, const char* name, unsigned key, const char* format);
+	void checkkeys();
 	void clear();
 	long random() const;
 	void remove(int index) { elements.remove(index); }

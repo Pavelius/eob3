@@ -17,7 +17,8 @@ enum messagen : unsigned char {
 	Cancel, Continue, Title, Yes, No, OK,
 	StartGame, LoadGame, ExitGame,
 	Characterinfo, CharacterSkills, PartyStatusFormat,
-	SelectRace,
+	SelectRace, SelectGender, SelectClass, SelectAlignment,
+	MsgGeneraionInfo,
 	Class, Race, Level, LevelShort, Experience, ExperienceShort,
 	LastMessage = ExperienceShort
 };
@@ -50,7 +51,7 @@ bool confirm(const char* format);
 void correct_answers(int maximum);
 long choose_avatar(unsigned char* source, unsigned count);
 long choose_dialog(const char* title, int padding);
-long choose_generate_box(const char* header, const char* footer);
+long choose_generate_box(const char* header, const char* footer, int current);
 long choose_generate_dialog(const char* header);
 long choose_large_menu(const char* header, const char* cancel);
 long choose_main_menu();

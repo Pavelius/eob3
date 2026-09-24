@@ -126,8 +126,6 @@ void answers::addv(fnevent proc, long value, void* object, const char* text, uns
 	p->value = value;
 	p->text = sc.get();
 	p->key = key;
-	if(!key)
-		p->key = anhotkey(elements.count - 1);
 	sc.addv(text, format);
 	sc.addsz();
 }
@@ -171,4 +169,13 @@ const answers::element* answers::find(long value) const {
 			return &e;
 	}
 	return 0;
+}
+
+void answers::checkkeys() {
+	auto index = 0;
+	for(auto& e : elements) {
+		if(!e.key)
+			e.key = anhotkey(index);
+		index++;
+	}
 }

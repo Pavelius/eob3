@@ -1961,7 +1961,7 @@ static void paint_generate_avatars(creature* hilite, long progress_position) {
 		} else {
 			if(current_focus == button_data)
 				paint_hilite_rect();
-			if(button_input(button_data, KeyEnter))
+			if(button_input(button_data, 0))
 				execute(buttonparam, button_data);
 		}
 		caret.x -= 14; caret.y += 43;
@@ -1974,10 +1974,11 @@ static void paint_generate_avatars(creature* hilite, long progress_position) {
 	}
 }
 
-long choose_generate_box(const char* header, const char* footer) {
+long choose_generate_box(const char* header, const char* footer, int current) {
 	pushrect push;
 	pushdialog push_dialog;
 	pushfore push_fore;
+	current_focus = current;
 	while(ismodal()) {
 		paint_background(CHARGEN, 0);
 		paint_generate_avatars(player, -1);
@@ -2193,6 +2194,7 @@ long choose_generate_dialog(const char* header) {
 	if(!interactive)
 		return an.random();
 	an.sort();
+	an.checkkeys();
 	return choose_answer(header, 0, paint_generate, text_label_left, 2, 10, paint_generate_header);
 }
 

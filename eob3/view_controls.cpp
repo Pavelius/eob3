@@ -1745,9 +1745,9 @@ long choose_large_menu(const char* header, const char* cancel) {
 }
 
 long choose_small_menu(const char* header, const char* cancel) {
-	//int maximum = 6;
-	//if(cancel)
-	//	maximum--;
+	int maximum = 6;
+	if(cancel)
+		maximum--;
 	//return choose_answer(header, cancel, paint_small_menu, text_label_menu, 0, maximum, header_yellow);
 	return 0;
 }
@@ -2018,22 +2018,22 @@ long choose_generate_box(fnevent proc) {
 
 static void paint_avatar_list() {
 	pushrect push;
-	//int maximum = character_avatars.size();
-	//correct_answers(maximum);
-	//width = 32; height = 32;
-	//for(auto i = 0; i < answer_per_page; i++) {
-	//	auto index = answer_origin + i;
-	//	if(index >= maximum)
-	//		break;
-	//	auto n = character_avatars[index];
-	//	image(gres(PORTM), n, 0);
-	//	if(hmouse.in(getrect()) && hkey == MouseLeft && !hpressed && answer_index != index)
-	//		execute(buttonparam, (long)n);
-	//	button_input(character_avatars.begin() + index, 0, 0);
-	//	if(index == answer_index)
-	//		paint_hilite_rect();
-	//	caret.x += 32;
-	//}
+	int maximum = character_avatars.size();
+	correct_answers(maximum);
+	width = 32; height = 32;
+	for(auto i = 0; i < answer_per_page; i++) {
+		auto index = answer_origin + i;
+		if(index >= maximum)
+			break;
+		auto n = character_avatars.data[index];
+		image(res_data[PORTM], n, 0);
+		if(hmouse.in(getrect()) && hkey == MouseLeft && !hpressed && answer_index != index)
+			execute(buttonparam, n);
+		button_input(index, 0, 0);
+		if(index == answer_index)
+			paint_hilite_rect();
+		caret.x += 32;
+	}
 }
 
 const char* getnms(abilityn v) {
@@ -2180,7 +2180,7 @@ void paint_character_edit() {
 }
 
 static void paint_generate_header(const char* header) {
-	caret = {146, 70}; width = 156;
+	setpos(146, 70); width = 156;
 	paint_header(header, true);
 	caret.x += 8; caret.y += 4; height = texth(); width -= 8;
 }

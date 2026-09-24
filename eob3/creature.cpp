@@ -1,4 +1,6 @@
 #include "creature.h"
+#include "math.h"
+#include "rand.h"
 
 static char hit_points_adjustment[] = {
 	-4, -3, -2, -2, -1, -1, -1, 0, 0, 0,
@@ -152,6 +154,28 @@ static int experience_rogue[21] = {
 	0, 0, 1250, 2500, 5000, 10000, 20000, 40000, 70000, 110000,
 	160000, 220000, 440000, 660000, 880000, 1100000, 1320000, 1540000, 1760000, 1980000, 2200000
 };
+static char race_minimum[Halfling + 1][6] = {
+	{3, 3, 3, 3, 3, 3},
+	{8, 3, 11, 3, 3, 3},
+	{3, 6, 7, 8, 3, 8},
+	{3, 6, 6, 4, 3, 3},
+	{7, 7, 10, 6, 3, 3},
+};
+static char race_maximum[Halfling + 1][6] = {
+	{18, 18, 18, 18, 18, 18},
+	{18, 17, 18, 18, 18, 17},
+	{18, 18, 18, 18, 18, 18},
+	{18, 18, 18, 18, 18, 18},
+	{18, 18, 18, 18, 17, 18},
+};
+static char class_minimum[Theif + 1][6] = {
+	{9, 0, 0, 0, 0, 0}, // Fighter
+	{13, 13, 14, 0, 14, 0}, // Ranger
+	{12, 0, 9, 0, 13, 17}, // Paladin
+	{0, 0, 0, 9, 0, 0}, // Mage
+	{0, 0, 0, 0, 9, 0}, // Cleric
+	{0, 9, 0, 0, 0, 0}, // Theif
+};
 
 creature characters[32];
 creature* player;
@@ -170,6 +194,30 @@ static classn class_data[FighterMageTheif + 1][3] = {
 	{Mage, Theif},
 	{Fighter, Mage, Theif},
 };
+
+void creature::clear() {
+	memset((void*)this, 0, sizeof(*this));
+	name_id = 0xFF;
+	avatar = 0xFF;
+}
+
+void creature::add(abilityn n, int v) {
+	v += abilities[n];
+	if(v < -120)
+		v = -120;
+	else if(v > 120)
+		v = 120;
+	abilities[n] = (char)v;
+}
+
+static abilityn get_primary(classn v) {
+	switch(v) {
+	case Theif: return Dexterity;
+	case Cleric: return Wisdow;
+	case Mage: return Intellegence;
+	default: return Strenght;
+	}
+}
 
 static groupn get_group(classn v) {
 	switch(v) {
@@ -222,8 +270,330 @@ int get_party_index(const creature* player) {
 	return 0;
 }
 
-void update_player() {
+static void update_languages() {
+	//player->languages = player->getrace().languages;
+	//player->understand(player->race);
+	//if(player->getrace().origin)
+	//	player->understand(player->getrace().origin);
+	//if(player->basic.abilities[Intellegence] >= 10)
+	//	player->understand((racen)0); // All creatures with 11+ untellegence known common language
+}
 
+static void update_basic() {
+	memcpy(player->abilities, player->basic.abilities, ExeptionalStrenght + 1);
+//	memcpy(player->feats, player->basic.feats, sizeof(player->basic.feats));
+}
+
+//static int get_skill_level(featn v) {
+//	// For monsters and other special effects
+//	if(player->is(v))
+//		return player->getlevel();
+//	// For multiclass and characters
+//	auto& ei = player->getclass();
+//	for(auto i = 0; i < ei.count; i++) {
+//		if(bsdata<classi>::elements[ei.classes[i]].is(v))
+//			return player->levels[i];
+//	}
+//	return 0;
+//}
+
+static void update_basic_skills() {
+	//for(auto i = ClimbWalls; i <= ReadLanguages; i = (abilityn)(i + 1)) {
+	//	auto level = imin(imax(0, get_skill_level(bsdata<abilityi>::elements[i].skill)), 17);
+	//	auto value = theif_skill_basic[level][i - ClimbWalls];
+	//	player->abilities[i] += value;
+	//}
+}
+
+static int get_maximum_hits() {
+	auto n = get_class_count(player->type);
+	auto m = player->hd();
+	auto a = player->get(Constitution);
+	auto h = maptbl(hit_points_adjustment, a);
+	if(h > 2 && !player->is(Fighter))
+		h = 2;
+	auto r = player->get(Hits) + h * m + player->hpr / imax(1, (int)n);
+	if(r < m)
+		r = m;
+	return r;
+}
+
+static bool allow_exeptional_strenght(classn type, racen race) {
+	if(race == Halfling)
+		return false;
+	switch(get_class(type, 0)) {
+	case Fighter: case Paladin: case Ranger: return true;
+	default: return false;
+	}
+}
+
+static int get_modified_strenght() {
+	auto a = player->get(Strenght);
+	auto e = player->get(ExeptionalStrenght);
+	if(!allow_exeptional_strenght(player->type, player->race))
+		e = 0;
+	if(a > 18)
+		a += 6;
+	else if(a == 18 && e > 0) {
+		if(e <= 50)
+			a += 1;
+		else if(e <= 75)
+			a += 2;
+		else if(e <= 90)
+			a += 3;
+		else if(e <= 99)
+			a += 4;
+		else
+			a += 5;
+	}
+	return a;
+}
+
+static void update_ability(abilityn v, int level, int per_level, int minimal) {
+	if(level <= 0 || !per_level)
+		return;
+	auto value = player->abilities[v];
+	if(value <= minimal)
+		return;
+	value -= level / per_level;
+	if(value < minimal)
+		value = minimal;
+	player->abilities[v] = value;
+}
+
+static void update_abilities() {
+	player->add(Strenght, -player->abilities[DrainedStrenght]);
+	auto n = -(player->abilities[DrainedStrenght] + player->abilities[DrainedLevels]);
+	player->add(AttackMelee, n);
+	player->add(AttackRange, n);
+	player->add(Constitution, -player->abilities[DrainedConstitution]);
+	auto s = -player->abilities[DrainedLevels] * 5;
+	player->add(SaveVsParalization, s);
+	player->add(SaveVsPoison, s);
+	player->add(SaveVsTraps, s);
+	player->add(SaveVsMagic, s);
+	auto disease_level = player->abilities[DiseaseLevel];
+	update_ability(Charisma, disease_level, 2, 6);
+	update_ability(Dexterity, disease_level, 3, 6);
+	update_ability(Strenght, disease_level, 5, 3);
+}
+
+static void update_theif_skill_by_dexterity() {
+	auto a = player->get(Dexterity);
+	auto p = maptbl(theif_skill_adjustment, a);
+	player->add(PickPockets, p[0]);
+	player->add(OpenLocks, p[1]);
+	player->add(RemoveTraps, p[2]);
+	player->add(MoveSilently, p[3]);
+}
+
+static void add_additional_spell(abilityn v) {
+	if(player->abilities[v])
+		player->abilities[v]++;
+}
+
+static void update_additional_spells() {
+	//auto c = player->getcaster();
+	//if(c != 0)
+	//	return;
+	//auto k = player->get(Wisdow);
+	//if(k >= 13)
+	//	add_additional_spell(Spell1);
+	//if(k >= 14)
+	//	add_additional_spell(Spell1);
+	//if(k >= 15)
+	//	add_additional_spell(Spell2);
+	//if(k >= 16)
+	//	add_additional_spell(Spell2);
+	//if(k >= 17)
+	//	add_additional_spell(Spell3);
+	//if(k >= 18)
+	//	add_additional_spell(Spell4);
+	//if(k >= 19) {
+	//	add_additional_spell(Spell1);
+	//	add_additional_spell(Spell3);
+	//}
+}
+
+static void update_depended_abilities() {
+	auto k = get_modified_strenght();
+	player->abilities[AttackMelee] += maptbl(hit_probability, k);
+	player->abilities[AttackRange] += maptbl(reaction_adjustment, player->abilities[Dexterity]);
+	player->abilities[DamageMelee] += maptbl(damage_adjustment, k);
+	player->abilities[AC] += maptbl(defence_adjustment, player->abilities[Dexterity]);
+	player->abilities[ReactionBonus] += maptbl(cha_reaction_adjustment, player->abilities[Charisma]);
+	if(player->is(Mage))
+		player->abilities[LearnSpell] += maptbl(chance_learn_spell, player->abilities[Intellegence]);
+	if(player->wears[RightHand])
+		player->abilities[Speed] += player->wears[RightHand].geti().combat.speed;
+	else if(player->wears[LeftHand])
+		player->abilities[Speed] += player->wears[LeftHand].geti().combat.speed;
+	//else if(player->is(Large))
+	//	player->abilities[Speed] += 6;
+	else
+		player->abilities[Speed] += 3;
+	//if(player->is(FeelPain))
+	//	player->add(AttackMelee, -4);
+	//if(player->is(Blinded)) {
+	//	player->add(AttackMelee, -4);
+	//	player->add(AttackRange, -4);
+	//}
+}
+
+static void update_bonus_saves() {
+	auto k = player->get(Constitution);
+	if(player->is(Dwarf) || player->is(Halfling))
+		player->abilities[SaveVsPoison] += maptbl(dwarven_bonus, k) * 5;
+	if(player->is(Dwarf) || player->is(Halfling))
+		player->abilities[SaveVsMagic] += maptbl(dwarven_bonus, k) * 5;
+}
+
+static int magic_wear_value(int magic_bonus) {
+	return 17 + magic_bonus;
+}
+
+//static void magic_wear(variant v) {
+//	if(v.iskind<abilityi>()) {
+//		auto m = bsdata<abilityi>::elements[v.value].wearing_multiplier;
+//		if(m == 100) {
+//			auto k = magic_wear_value(v.counter);
+//			auto n = player->abilities[v.value];
+//			if(n < k)
+//				n = k;
+//			player->abilities[v.value] = n;
+//		} else
+//			player->add((abilityn)v.value, v.counter * m);
+//	} else if(v.iskind<spelli>()) {
+//		// Nothing to do. Camp spell add.
+//	} else
+//		script_run(v);
+//}
+
+static void update_wear() {
+	for(auto& e : player->equipment()) {
+		if(!e)
+			continue;
+		auto& ei = e.geti();
+		if(ei.wear == LeftHand) {
+			if(player->wears[RightHand] && player->wears[RightHand].is(TwoHanded))
+				continue; // RULE: Two handed weapon
+		}
+		//if(ei.wearing)
+		//	script_run(ei.wearing);
+		//if((ei.wear >= Head && ei.wear <= Legs) // If wearable equipment only!
+		//	&& ei.wear != LeftHand && ei.wear != RightHand) {
+		//	auto power = e.getpower();
+		//	if(power)
+		//		magic_wear(power);
+		//}
+	}
+}
+
+static void apply_boost(short type, short param) {
+	//if(type <= Hits)
+	//	player->add((abilityn)type, param);
+	//else if(type == BoostSpell)
+	//	ftscript<spelli>(param, 0);
+	//else if(type == BoostFeat)
+	//	ftscript<feati>(param, 0);
+	//else {
+	//	// TODO: error for debuging
+	//}
+}
+
+static void update_duration() {
+	//auto push_modifier = modifier; modifier = Wearing;
+	//referencei target = player;
+	//for(auto& e : bsdata<boosti>()) {
+	//	if(e.target == target)
+	//		apply_boost(e.type, e.param);
+	//}
+	//modifier = push_modifier;
+}
+
+static bool have_boost_summon(const item& it) {
+	//referencei target = player;
+	//for(auto& e : bsdata<boosti>()) {
+	//	if(e.target == target && e.type == BoostSpell) {
+	//		if(it.is(bsdata<spelli>::elements[e.param].summon))
+	//			return true;
+	//	}
+	//}
+	return false;
+}
+
+static void update_summon() {
+	//for(auto& it : player->wears) {
+	//	if(it.is(SummonedItem) && !have_boost_summon(it)) {
+	//		auto w = it.geti().wear;
+	//		it.clear();
+	//		if(w == RightHand)
+	//			change_quick_item(player, RightHand);
+	//	}
+	//}
+}
+
+static int get_thac0_value() {
+	auto count = get_class_count(player->type);
+	auto result = 0;
+	for(auto i = 0; i < count; i++) {
+		auto type = get_class(player->type, i);
+		auto level = imin(imax(0, (int)player->levels[i]), 21);
+		auto save_group = get_group(type);
+		auto value = thac0_advance[save_group][level];
+		if(value > result)
+			result = value;
+	}
+	return result;
+}
+
+static int get_save_value(int save_index_value) {
+	auto count = get_class_count(player->type);
+	auto result = 20;
+	for(auto i = 0; i < count; i++) {
+		auto type = get_class(player->type, i);
+		auto level = imin(imax(0, (int)player->levels[i]), 21);
+		auto save_group = get_group(type);
+		auto value = saves_advance[save_group][save_index_value][level];
+		if(value < result)
+			result = value;
+	}
+	return (20 - result + 1) * 5;
+}
+
+static void update_saves() {
+	for(auto i = SaveVsParalization; i <= SaveVsMagic; i = (abilityn)(i + 1))
+		player->add(i, get_save_value(save_index[i - SaveVsParalization]));
+}
+
+static void update_thac0() {
+	auto value = get_thac0_value();
+	player->add(AttackMelee, value);
+	player->add(AttackRange, value);
+}
+
+static void update_bonus_experience() {
+	auto primary = get_primary(get_class(player->type, 0));
+	if(player->get(primary) >= 16)
+		player->add(BonusExperience, 1);
+}
+
+void update_player() {
+	update_basic();
+	update_languages();
+	update_summon();
+	update_wear();
+	update_duration();
+	update_saves();
+	update_thac0();
+	update_basic_skills();
+	update_abilities();
+	update_depended_abilities();
+	update_additional_spells();
+	update_theif_skill_by_dexterity();
+	update_bonus_saves();
+	update_bonus_experience();
+	player->hpm = get_maximum_hits();
 }
 
 bool allow(classn type, racen race) {
@@ -282,4 +652,71 @@ bool allow(alignmentn alignment, classn type) {
 	default:
 		return true;
 	}
+}
+
+static int compare_char_desc(const void* v1, const void* v2) {
+	return *((char*)v2) - *((char*)v1);
+}
+
+static int get_best_4d6() {
+	char result[4];
+	for(size_t i = 0; i < sizeof(result) / sizeof(result[0]); i++)
+		result[i] = (rand() % 6) + 1;
+	qsort(result, sizeof(result) / sizeof(result[0]), sizeof(result[0]), compare_char_desc);
+	return result[0] + result[1] + result[2];
+}
+
+static int get_best_index(char* result, size_t size) {
+	auto result_index = 0;
+	for(size_t i = 0; i < size; i++) {
+		if(result[i] > result[result_index])
+			result_index = i;
+	}
+	return result_index;
+}
+
+static void apply_minimal(char* abilities, const char* minimal) {
+	for(auto i = 0; i < 6; i++) {
+		if(minimal[i] && abilities[Strenght + i] < minimal[i])
+			abilities[Strenght + i] = minimal[i];
+	}
+}
+
+static void apply_maximal(char* abilities, const char* maximal) {
+	for(auto i = 0; i < 6; i++) {
+		if(maximal[i] && abilities[Strenght + i] > maximal[i])
+			abilities[Strenght + i] = maximal[i];
+	}
+}
+
+void generate_abilities() {
+	char result[8] = {};
+	if(true) {
+		for(size_t i = 0; i < sizeof(result) / sizeof(result[0]); i++)
+			result[i] = (rand() % 6) + (rand() % 6) + (rand() % 6) + 3;
+		qsort(result, sizeof(result) / sizeof(result[0]), sizeof(result[0]), compare_char_desc);
+		zshuffle(result, 6);
+	} else {
+		for(size_t i = 0; i < 6; i++)
+			result[i] = get_best_4d6();
+	}
+	for(size_t i = 0; i < 6; i++)
+		player->basic.abilities[Strenght + i] = result[i];
+	auto primary = get_primary(player->type);
+	auto base_class = get_class(player->type, 0);
+	auto race = player->race;
+	iswap(player->basic.abilities[get_best_index(player->basic.abilities + Strenght, 6)], player->basic.abilities[primary]);
+	apply_minimal(player->basic.abilities, class_minimum[base_class]);
+	apply_minimal(player->basic.abilities, race_minimum[race]);
+	apply_maximal(player->basic.abilities, race_maximum[race]);
+	player->basic.abilities[ExeptionalStrenght] = d100() + 1;
+}
+
+void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment) {
+}
+
+void creature::update() {
+	auto push = player; player = this;
+	update_player();
+	player = push;
 }

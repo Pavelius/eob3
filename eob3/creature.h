@@ -52,6 +52,20 @@ int get_class_index(classn base, classn type);
 
 classn get_class(classn v, int index);
 
+struct racenc {
+	unsigned char data = 0;
+	racenc() = default;
+	template<typename... Ts> constexpr racenc(racen v, Ts... args) : racenc(args...) { set(v); }
+	bool is(racen v) const { return (data & (1 << v)) != 0; }
+	void set(racen v) { data |= (1 << v); }
+};
+struct classnc {
+	unsigned char data = 0;
+	classnc() = default;
+	template<typename... Ts> constexpr classnc(classn v, Ts... args) : classnc(args...) { set(v); }
+	bool is(classn v) const { return (data & (1 << v)) != 0; }
+	void set(classn v) { data |= (1 << v); }
+};
 struct npci {
 	alignmentn		alignment;
 	racen			race;
@@ -62,28 +76,34 @@ struct npci {
 	const char* name() const { return (name_id==0xFF) ? race_names[race] : name_names[name_id]; }
 	int hd() const { return levels[0]; }
 };
-
 struct statable {
 	char			abilities[Hits + 1];
 };
-
 struct creature : npci, statable, wearable {
+	statable		basic;
 	unsigned		experience;
-	short			hp, hpm, food;
+	short			hp, hpm, hpr, food;
 	int get(abilityn v) const { return abilities[v]; }
 	int get(classn v) const { auto n = get_class_index(type, v); return (n == -1) ? 0 : levels[n]; }
 	int getfood() const { return get(Constitution) * 20; }
 	int gethp() const { return hpm; }
+	void add(abilityn n, int v);
+	void clear();
 	bool is(classn v) const { return get_class_index(type, v) != -1; }
+	bool is(racen v) const { return race == v; }
 	bool isdisabled() const { return false; }
 	bool isdead() const { return hp <= -10; }
+	void update();
 };
 extern creature characters[32]; // All characters in game
 extern creature* party[6]; // Party of characters
 extern creature* player;
 
 int get_party_index(const creature* player);
+int select_avatars(unsigned char* result, racen race, gendern gender, classn type);
 
 bool allow(alignmentn type, classn v);
 bool allow(classn type, racen v);
+void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment);
+void generate_abilities();
 void update_player();

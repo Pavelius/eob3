@@ -156,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="answers.cpp" />
+    <ClCompile Include="appearance.cpp" />
     <ClCompile Include="bin_chargen.cpp" />
     <ClCompile Include="bin_chargenb.cpp" />
     <ClCompile Include="bin_font6.cpp" />

@@ -12,10 +12,6 @@ static void load_game() {
 		return;
 }
 
-static void add_exit_scene(messagen v) {
-	an.addv(buttonparam, -1, 0, message_names[v], KeyEscape, 0);
-}
-
 static void next_main_menu() {
 	auto result = choose_main_menu();
 	if(result > 0)
@@ -25,7 +21,7 @@ static void next_main_menu() {
 static void main_menu() {
 	an.add((long)game_generation, message_names[StartGame]);
 	an.add((long)load_game, message_names[LoadGame]);
-	add_exit_scene(ExitGame);
+	an.addv(buttonparam, 0, 0, message_names[ExitGame], KeyEscape, 0);
 	next_main_menu();
 }
 

@@ -37,6 +37,12 @@ static alignmentn select_alignment(classn type) {
 	return (alignmentn)choose_generate_dialog(message_names[SelectAlignment]);
 }
 
+static unsigned char choose_avatar() {
+	unsigned char source[256];
+	auto count = select_avatars(source, player->race, player->gender, player->type);
+	return (unsigned char)choose_avatar(source, count);
+}
+
 void game_generation() {
 	pushvalue push(player);
 	music_play(MusGenerate);
@@ -46,11 +52,19 @@ void game_generation() {
 		generate_player_index = choose_generate_box(message_names[MsgGeneraionInfo], footer, generate_player_index);
 		if(generate_player_index == 2000) // Start game
 			break;
-		player = characters + generate_player_index - 1;
 		auto race = select_race();
 		auto gender = select_gender();
 		auto class_type = select_class(race);
 		auto alignment = select_alignment(class_type);
+		player = characters + generate_player_index - 1;
+		player->clear();
+		player->race = race;
+		player->gender = gender;
+		player->type = class_type;
+		player->alignment = alignment;
+		generate_abilities();
+		player->update();
+		player->avatar = choose_avatar();
 	}
 	//while(true) {
 	//	player_position = choose_player_position();

@@ -101,6 +101,7 @@ struct item {
 	void damage(const char* interactive, int use);
 	void identify(int v) { identified = (v >= 0) ? 1 : 0; }
 	bool is(powern v) const { return power == v; }
+	bool is(itemfn v) const { return geti().flags.is(v); }
 	bool is(wearn v) const { return geti().wear == v; }
 	bool isartifact() const { return get_magic(power) >= 4; }
 	bool iscursed() const { return (power == Cursed || power == Delusion); }

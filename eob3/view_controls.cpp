@@ -1493,9 +1493,7 @@ void make_screenshoot() {
 	//		draw::canvas->ptr(0, 0), canvas->width, canvas->height, canvas->bpp, canvas->scanline, 0);
 }
 
-void show_scene_font() {
-
-}
+void show_scene_font();
 
 static void common_input() {
 	switch(hkey) {

@@ -177,6 +177,7 @@
     <ClCompile Include="stringbuilder.cpp" />
     <ClCompile Include="view_controls.cpp" />
     <ClCompile Include="view_focus.cpp" />
+    <ClCompile Include="view_util.cpp" />
     <ClCompile Include="win_draw.cpp" />
     <ClCompile Include="win_io_file.cpp" />
     <ClCompile Include="win_time.cpp" />

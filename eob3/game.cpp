@@ -7,9 +7,6 @@
 
 void main_util();
 
-static void character_generation() {
-}
-
 static void load_game() {
 	if(!confirm("Do you really want exit?"))
 		return;
@@ -26,7 +23,7 @@ static void next_main_menu() {
 }
 
 static void main_menu() {
-	an.add((long)character_generation, message_names[StartGame]);
+	an.add((long)game_generation, message_names[StartGame]);
 	an.add((long)load_game, message_names[LoadGame]);
 	add_exit_scene(ExitGame);
 	next_main_menu();
@@ -41,7 +38,7 @@ int main(int argc, char* argv[]) {
 #ifdef _DEBUG
 	main_util();
 #endif
-	music_play(MusGenerate);
+	music_play(MusKvirasim);
 	sys_create_window(-1, -1, 320, 200, 0, 32);
 	sys_caption("Eye of beholder (remake)");
 	sys_timer(100);

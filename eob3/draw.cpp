@@ -17,7 +17,7 @@
 #include "draw.h"
 #include "math.h"
 
-#ifndef __GNUC__
+#ifdef _MSC_VER
 #pragma optimize("t", on)
 #define NOEXEPT noexcept(true)
 #else
@@ -1496,6 +1496,7 @@ void texta(const char* string, unsigned state) {
 			string = skiptr(string + c);
 		}
 	}
+	text_next = caret;
 	caret = push_caret;
 }
 

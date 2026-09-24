@@ -32,6 +32,7 @@ static int disp_weapon[6][2];
 static unsigned animate_counter;
 static int* table_columns;
 static char console_text[4096]; stringbuilder sb(console_text);
+static slice<unsigned char> character_avatars;
 
 bool need_update_animation;
 bool interactive = true;
@@ -42,7 +43,7 @@ static void paint_inventory();
 const int animation_step = 300;
 
 pushfont::pushfont(int size) : pushfont() {
-	font = res_data[size ? FONT8 : FONT6];
+	::font = res_data[size ? FONT8 : FONT6];
 }
 
 struct pushdialog : pushfocus {
@@ -75,8 +76,8 @@ void fix_damage(const creature* target, int value) {
 	if(i == -1) {
 		//	fix_monster_damage(target);
 	} else {
-	//	if(disp_damage[i])
-	//		fix_animate(); // Try add another animation over existing. So we update right now.
+		//	if(disp_damage[i])
+		//		fix_animate(); // Try add another animation over existing. So we update right now.
 		disp_damage[i] = value;
 		need_update_animation = true;
 	}
@@ -481,11 +482,11 @@ static void set_player_by_focus() {
 
 static void set_focus_by_player() {
 	if(player) {
-	//	if(current_focus == player->wears + RightHand)
-	//		return;
-	//	if(current_focus == player->wears + LeftHand)
-	//		return;
-	//	current_focus = player->wears + RightHand;
+		//	if(current_focus == player->wears + RightHand)
+		//		return;
+		//	if(current_focus == player->wears + LeftHand)
+		//		return;
+		//	current_focus = player->wears + RightHand;
 	}
 }
 
@@ -1934,73 +1935,64 @@ long choose_dialog(const char* title, int padding) {
 }
 
 static void paint_header(const char* header, bool hilite = false) {
-	auto push_fore = fore;
+	pushfore push;
 	if(hilite)
 		fore = colors::title;
-	auto h = texth(header, width);
 	texta(header, TextBold);
-	caret.y += h;
-	fore = push_fore;
+	caret.y = text_next.y;
 }
 
-static void paint_generate_avatars(creature* hilite, long player_position) {
+static void paint_generate_avatars(creature* hilite, long progress_position) {
 	pushrect push;
-	auto push_player = player;
-	for(auto i = 0; i < 4; i++) {
-		caret.x = 17 + push.caret.x + (i % 2) * 64;
-		caret.y = 64 + push.caret.y + (i / 2) * 64;
-		width = 33;
-		height = 34;
-		auto button_data = i;
-		if(!player_position)
+	pushvalue push_player(player);
+	for(auto button_data = 0; button_data < 4; button_data++) {
+		caret.x = 17 + push.caret.x + (button_data % 2) * 64;
+		caret.y = 64 + push.caret.y + (button_data / 2) * 64;
+		width = 33; height = 34;
+		if(progress_position == -1)
 			focusing(button_data);
-		player = party[i];
-		if(player)
+		player = characters + button_data;
+		if(player->hp)
 			paint_avatar();
 		caret.x--; caret.y--;
-		if(player_position == button_data)
-			image(caret.x, caret.y, res_data[XSPL], (getcputime() / 100) % 10, 0);
-		if(current_focus == button_data) {
-			paint_hilite_rect();
-			auto run = button_input(button_data, KeyEnter);
-			if(run)
+		if(progress_position != -1) {
+			if(progress_position == button_data)
+				image(caret.x, caret.y, res_data[XSPL], (current_cpu_time / 100) % 10, 0);
+		} else {
+			if(current_focus == button_data)
+				paint_hilite_rect();
+			if(button_input(button_data, KeyEnter))
 				execute(buttonparam, button_data);
 		}
 		caret.x -= 14; caret.y += 43;
 		width = 60; height = 8;
-		if(player) {
+		if(player->name_id != 0xFF) {
 			pushfont push_font(0);
 			pushfore push_fore(colors::white);
 			texta(player->name(), AlignCenterCenter);
 		}
 	}
-	player = push_player;
 }
 
-static int player_position;
-
-void* choose_generate_box(const char* header, const char* footer) {
+long choose_generate_box(const char* header, const char* footer) {
 	pushrect push;
 	pushdialog push_dialog;
-	current_focus = player_position;
-	auto push_fore = fore;
+	pushfore push_fore;
 	while(ismodal()) {
 		paint_background(CHARGEN, 0);
-		// paint_generate_avatars(player, 0);
-		caret = {150, 80}; width = 148;
-		paint_header(header);
+		paint_generate_avatars(player, -1);
+		setpos(150, 80); width = 148; paint_header(header);
 		if(footer) {
 			caret.y += 8;
 			paint_header(footer);
-			caret.x = 25; caret.y = 181;
-			button(CHARGENB, 4, 5, -1, 'P', buttoncancel);
+			setpos(25, 181); button(CHARGENB, 4, 5, -1, 'P', buttonparam, 2000);
 		}
 		domodal();
 		if(!focus_input())
 			common_input();
 	}
-	fore = push_fore;
-	return (void*)getresult();
+	sys_update_window();
+	return getresult();
 }
 
 long choose_generate_box(fnevent proc) {
@@ -2012,7 +2004,7 @@ long choose_generate_box(fnevent proc) {
 	answer_index = 0;
 	while(ismodal()) {
 		paint_background(CHARGEN, 0);
-		paint_generate_avatars(player, player_position);
+		paint_generate_avatars(player, generate_player_index);
 		caret.x = 144; caret.y = 66; width = 160;
 		proc();
 		domodal();
@@ -2125,7 +2117,7 @@ void paint_choose_avatars() {
 		break;
 	case KeyEnter:
 		clear_input();
-		// execute(buttonparam, character_avatars[answer_index]);
+		execute(buttonparam, character_avatars.data[answer_index]);
 		break;
 	}
 }
@@ -2164,19 +2156,12 @@ static void reroll_player() {
 	//create_player_finish();
 }
 
-bool choose_avatar() {
-	// unsigned char avatars[256];
-	//auto count = get_avatars(avatars, last_race, last_gender, last_class, no_party_avatars);
-	//character_avatars = slice<unsigned char>(avatars, count);
-	//auto result = (unsigned char)(long)choose_generate_box(paint_choose_avatars);
-	//if(result == 0xFF)
-	//	return false;
-	//player->avatar = result;
-	return true;
+long choose_avatar(unsigned char* source, unsigned count) {
+	character_avatars = slice<unsigned char>(source, count);
+	return choose_generate_box(paint_choose_avatars);
 }
 
 static void edit_face() {
-	choose_avatar();
 }
 
 void paint_character_edit() {
@@ -2201,13 +2186,13 @@ static void paint_generate_header(const char* header) {
 
 static void paint_generate() {
 	paint_background(CHARGEN, 0);
-	// paint_generate_avatars(player, player_position);
+	paint_generate_avatars(player, generate_player_index);
 }
 
-long choose_generate_dialog(const char* header, bool random) {
-	an.sort();
-	if(random)
+long choose_generate_dialog(const char* header) {
+	if(!interactive)
 		return an.random();
+	an.sort();
 	return choose_answer(header, 0, paint_generate, text_label_left, 2, 10, paint_generate_header);
 }
 
@@ -2272,6 +2257,7 @@ void message_box(const char* format) {
 }
 
 static void main_beforemodal() {
+	current_cpu_time = getcputime();
 	clear_focus_data();
 	cancel_position.clear();
 }
@@ -2282,4 +2268,5 @@ void initialize_gui() {
 	colors::special = color(64, 255, 255);
 	colors::text = colors::white;
 	pbeforemodal = main_beforemodal;
+	palt = (color*)res_data[MENU]->ptr(res_data[MENU]->get(0).pallette);
 }

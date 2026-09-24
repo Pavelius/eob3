@@ -17,6 +17,7 @@ enum messagen : unsigned char {
 	Cancel, Continue, Title, Yes, No, OK,
 	StartGame, LoadGame, ExitGame,
 	Characterinfo, CharacterSkills, PartyStatusFormat,
+	SelectRace,
 	Class, Race, Level, LevelShort, Experience, ExperienceShort,
 	LastMessage = ExperienceShort
 };
@@ -40,13 +41,17 @@ extern sprite* res_data[LastRes + 1];
 inline const char* getnm(messagen v) { return message_names[v]; }
 
 extern bool interactive;
+extern int generate_player_index;
 
 bool alternate_focus_input();
 void button_frame(int count, bool focused, bool pressed);
 void button_label(int index, long data, const char* format, unsigned key, fnevent proc);
 bool confirm(const char* format);
 void correct_answers(int maximum);
+long choose_avatar(unsigned char* source, unsigned count);
 long choose_dialog(const char* title, int padding);
+long choose_generate_box(const char* header, const char* footer);
+long choose_generate_dialog(const char* header);
 long choose_large_menu(const char* header, const char* cancel);
 long choose_main_menu();
 long choose_small_menu(const char* header, const char* cancel);
@@ -54,6 +59,7 @@ void choose_spells(const char* title, const char* cancel, int spell_type);
 void fix_attack(const creature* attacker, wearn slot, int hits);
 void fix_damage(const creature* target, int value);
 bool focus_input();
+void game_generation();
 void header_yellow(const char* format);
 void initialize_gui();
 void message_box(const char* format);

@@ -139,7 +139,9 @@
     <ClInclude Include="dice.h" />
     <ClInclude Include="draw.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="item.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="sprite_util.h" />
     <ClInclude Include="stream.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="point.h" />
@@ -154,22 +156,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="answers.cpp" />
+    <ClCompile Include="bin_chargen.cpp" />
+    <ClCompile Include="bin_chargenb.cpp" />
     <ClCompile Include="bin_font6.cpp" />
     <ClCompile Include="bin_font8.cpp" />
     <ClCompile Include="bin_menu.cpp" />
     <ClCompile Include="bin_playfld.cpp" />
+    <ClCompile Include="character_generate.cpp" />
     <ClCompile Include="creature.cpp" />
     <ClCompile Include="color.cpp" />
     <ClCompile Include="dice.cpp" />
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="draw_text.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="item.cpp" />
     <ClCompile Include="locale_en.cpp" />
     <ClCompile Include="main_util.cpp" />
     <ClCompile Include="midi.cpp" />
     <ClCompile Include="mid_music.cpp" />
     <ClCompile Include="res.cpp" />
     <ClCompile Include="scale.cpp" />
+    <ClCompile Include="sprite_util.cpp" />
     <ClCompile Include="stream.cpp" />
     <ClCompile Include="math.cpp" />
     <ClCompile Include="midi_util.cpp" />

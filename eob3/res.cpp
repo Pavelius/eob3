@@ -2,11 +2,13 @@
 
 extern unsigned char bin_font6[];
 extern unsigned char bin_font8[];
+extern unsigned char bin_chargen[];
+extern unsigned char bin_chargenb[];
 extern unsigned char bin_menu[];
 extern unsigned char bin_playfld[];
 
 sprite* res_data[LastRes + 1] = {
 	(sprite*)bin_font6, (sprite*)bin_font8,
-	0, 0, 0, 0, 0, 0, 0, 0,
+	0, (sprite*)bin_chargen, (sprite*)bin_chargenb, 0, 0, 0, 0, 0,
 	(sprite*)bin_menu, (sprite*)bin_playfld,
 };

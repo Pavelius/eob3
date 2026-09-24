@@ -4,7 +4,8 @@
 const char* message_names[LastMessage + 1] = {
 	"Cancel", "Continue", "Title", "Yes", "No", "OK",
 	"Start a new game", "Load existing game", "Exit game",
-	"Characterinfo", "CharacterSkills", "PartyStatusFormat",
+	"Information", "CharacterSkills", "PartyStatusFormat",
+	"Select character Race",
 	"Class", "Race", "Level", "LevelShort", "Experience", "ExperienceShort"
 };
 
@@ -30,7 +31,7 @@ const char* gender_names[Female + 1] = {
 };
 
 const char* race_names[Halfling + 1] = {
-	"Human", "Dwarf", "Elf", "HalfElf", "Halfling",
+	"Human", "Dwarf", "Elf", "Half-Elf", "Halfling",
 };
 
 const char* name_names[20] = {

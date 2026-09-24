@@ -1,5 +1,7 @@
 #pragma once
 
+#include "item.h"
+
 enum groupn : unsigned char {
 	Warriors, Priests, Rogues, Wizards,
 };
@@ -69,7 +71,7 @@ struct statable {
 	char			abilities[Hits + 1];
 };
 
-struct creature : npci, statable {
+struct creature : npci, statable, wearable {
 	unsigned		experience;
 	short			hp, hpm, food;
 	int get(abilityn v) const { return abilities[v]; }

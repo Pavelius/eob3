@@ -78,6 +78,12 @@
     <ClInclude Include="view_focus.h">
       <Filter>logic</Filter>
     </ClInclude>
+    <ClInclude Include="item.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite_util.h">
+      <Filter>util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="creature.cpp">
@@ -163,6 +169,21 @@
     </ClCompile>
     <ClCompile Include="view_util.cpp">
       <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="sprite_util.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_chargen.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_chargenb.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="character_generate.cpp">
+      <Filter>logic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

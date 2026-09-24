@@ -18,7 +18,7 @@ long current_focus, pressed_focus;
 bool disable_input;
 
 void focusing(long focus) {
-	if(!focus || disable_input)
+	if(!focus_valid(focus) || disable_input)
 		return;
 	if(!render_current
 		|| render_current >= objects + sizeof(objects) / sizeof(objects[0]) - 1)

@@ -41,6 +41,7 @@ inline const char* getnm(messagen v) { return message_names[v]; }
 
 extern bool interactive;
 
+bool alternate_focus_input();
 void button_frame(int count, bool focused, bool pressed);
 void button_label(int index, long data, const char* format, unsigned key, fnevent proc);
 bool confirm(const char* format);
@@ -53,7 +54,6 @@ void choose_spells(const char* title, const char* cancel, int spell_type);
 void fix_attack(const creature* attacker, wearn slot, int hits);
 void fix_damage(const creature* target, int value);
 bool focus_input();
-void focusing(long v);
 void header_yellow(const char* format);
 void initialize_gui();
 void message_box(const char* format);

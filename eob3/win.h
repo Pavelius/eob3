@@ -26,7 +26,6 @@ typedef void* HFONT;
 typedef void* HDC;
 typedef unsigned UINT;
 typedef unsigned DWORD;
-typedef unsigned long DWORD_PTR;
 typedef unsigned short WORD;
 typedef unsigned char BYTE;
 typedef LRESULT(CALLBACK *WNDPROC)(void*, unsigned, int, int);
@@ -35,6 +34,12 @@ typedef unsigned	COLORREF;
 typedef int(CALLBACK *BFFCALLBACK)(void*, unsigned, unsigned, unsigned);
 typedef unsigned(CALLBACK *OFNHOOKPROC)(void*, unsigned, unsigned, unsigned);
 typedef void(CALLBACK *PIMAGE_TLS_CALLBACK)(void* DllHandle, unsigned long Reason, void* Reserved);
+
+#ifdef _WIN64
+typedef unsigned long long DWORD_PTR;
+#else
+typedef unsigned long DWORD_PTR;
+#endif
 
 #define VK_BACK		8
 #define VK_TAB		9

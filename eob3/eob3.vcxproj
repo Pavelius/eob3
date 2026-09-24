@@ -149,6 +149,7 @@
     <ClInclude Include="slice.h" />
     <ClInclude Include="stringbuilder.h" />
     <ClInclude Include="timer.h" />
+    <ClInclude Include="view_focus.h" />
     <ClInclude Include="win.h" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +176,7 @@
     <ClCompile Include="point.cpp" />
     <ClCompile Include="stringbuilder.cpp" />
     <ClCompile Include="view_controls.cpp" />
+    <ClCompile Include="view_focus.cpp" />
     <ClCompile Include="win_draw.cpp" />
     <ClCompile Include="win_io_file.cpp" />
     <ClCompile Include="win_time.cpp" />

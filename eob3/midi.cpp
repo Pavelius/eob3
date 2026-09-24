@@ -323,19 +323,14 @@ static midiplayer music;
 bool music_mute;
 
 void music_play(soundn v) {
-	if(music_mute)
-		return;
-	music.play(songs[v].data, songs[v].size, songs[v].division);
+	if(!music_mute)
+		music.play(songs[v].data, songs[v].size, songs[v].division);
 }
 
 void music_stop() {
-	if(music_mute)
-		return;
 	music.stop();
 }
 
 void music_setvolume(short unsigned v) {
-	if(music_mute)
-		return;
 	music.setvolume(v);
 }

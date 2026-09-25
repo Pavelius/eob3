@@ -14,7 +14,7 @@ struct renderi {
 static renderi objects[48];
 static renderi*	render_current;
 
-long current_focus, pressed_focus;
+long current_focus;
 bool disable_input;
 
 void focusing(long focus) {

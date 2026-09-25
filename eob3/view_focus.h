@@ -2,7 +2,7 @@
 
 const long empty_focus = -1;
 
-extern long current_focus, pressed_focus;
+extern long current_focus;
 extern bool disable_input;
 
 struct pushfocus {

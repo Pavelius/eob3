@@ -6,7 +6,7 @@ struct sprite;
 
 typedef void(*fnevent)(); // Callback function of any command executing
 typedef void(*fnoutput)(const char* format); // Callback function of string out
-typedef void(*fnapaint)(int index, long value, const char* text, unsigned key, fnevent proc);
+typedef void(*fnapaint)(int index, long value, const char* text, unsigned key);
 
 enum wearn : unsigned char;
 
@@ -47,7 +47,7 @@ extern int generate_player_index;
 
 bool alternate_focus_input();
 void button_frame(int count, bool focused, bool pressed);
-void button_label(int index, long data, const char* format, unsigned key, fnevent proc);
+void button_label(int index, long data, const char* format, unsigned key);
 bool confirm(const char* format);
 void correct_answers(int maximum);
 void change_avatar();
@@ -74,5 +74,5 @@ void paint_main_menu();
 void paint_test_mode();
 void pick_up_item();
 void show_scene(fnevent before_paint, fnevent input, long focus);
-void text_label(int index, long data, const char* format, unsigned key, fnevent proc);
-void text_label_left(int index, long data, const char* format, unsigned key, fnevent proc);
+void text_label(int index, long data, const char* format, unsigned key);
+void text_label_left(int index, long data, const char* format, unsigned key);

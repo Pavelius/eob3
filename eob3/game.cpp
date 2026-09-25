@@ -21,7 +21,7 @@ static void next_main_menu() {
 static void main_menu() {
 	an.add((long)game_generation, message_names[StartGame]);
 	an.add((long)load_game, message_names[LoadGame]);
-	an.addv(buttonparam, 0, 0, message_names[ExitGame], KeyEscape, 0);
+	an.add((long)buttoncancel, message_names[ExitGame]);
 	next_main_menu();
 }
 

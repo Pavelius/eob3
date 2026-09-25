@@ -24,7 +24,7 @@ static color title(64, 255, 255); // Spells header color
 
 int answer_origin, answer_per_page, answer_index;
 
-static long current_select;
+static long current_select, pressed_focus;
 static fnevent character_view_proc;
 static point cancel_position;
 static bool hilite_player;
@@ -166,20 +166,21 @@ void button_frame(int count, bool focused, bool pressed) {
 	button_back(focused);
 }
 
-static bool button_input(long button_data, unsigned key, unsigned key_hot = 0xFFFF0000) {
+static void button_input(long button_data, unsigned key, unsigned key_hot = 0xFFFF0000) {
+	button_clear();
 	if(!focus_valid(button_data))
-		return false;
-	auto ishilited = ishilite();
+		return;
+	button_hilited = ishilite();
 	auto isfocused = (current_focus == button_data);
-	if(hkey == MouseLeft && hpressed && ishilited && current_focus != button_data)
-		execute(cbsetptr, button_data, &current_focus);
-	else if((isfocused && (hkey == KeyEnter || hkey == key_hot)) || (key && hkey == key) || (ishilited && hpressed))
+	if(hkey == MouseLeft && hpressed && button_hilited && current_focus != button_data)
+		execute(cbsetptr, button_data, &current_focus); // Automatic focus set
+	else if((isfocused && (hkey == KeyEnter || hkey == key_hot)) || (key && hkey == key) || (button_hilited && hpressed))
 		pressed_focus = button_data;
-	else if((hkey == InputKeyUp && pressed_focus == button_data) || (ishilited && hkey == MouseLeft && !hpressed)) {
+	else if((hkey == InputKeyUp && pressed_focus == button_data) || (button_hilited && hkey == MouseLeft && !hpressed)) {
 		pressed_focus = empty_focus;
-		return true;
+		button_executed = true;
 	}
-	return false;
+	button_pressed = (pressed_focus == button_data);
 }
 
 static void button_press_effect() {
@@ -192,9 +193,9 @@ static void button_press_effect() {
 	memset(canvas->ptr(caret.x, caret.y), 0, width * sizeof(color));
 }
 
-static bool button(rect rc) {
+static void button(rect rc) {
 	if(disable_input)
-		return false;
+		return;
 	pushrect push;
 	caret.x = rc.x1;
 	caret.y = rc.y1;
@@ -203,24 +204,23 @@ static bool button(rect rc) {
 	auto button_data = (*((int*)&caret));
 	auto ishilited = ishilite();
 	auto isfocused = (current_focus == button_data);
-	auto run = false;
-	if(ishilited && hpressed)
+	if(ishilited && hpressed) {
 		pressed_focus = button_data;
-	else if(ishilited && hkey == MouseLeft && !hpressed) {
+		button_pressed = true;
+	} else if(ishilited && hkey == MouseLeft && !hpressed) {
 		pressed_focus = empty_focus;
-		run = true;
+		button_executed = true;
 	}
-	if(pressed_focus == button_data)
+	if(button_pressed)
 		button_press_effect();
-	return run;
 }
 
-static bool button(resn id, int normal, int pressed, int overlay, unsigned key) {
+static void button(resn id, int normal, int pressed, int overlay, unsigned key) {
 	auto ps = res_data[id];
 	pushrect push; width = ps->get(normal).sx; height = ps->get(normal).sy;
 	auto button_data = *((int*)&caret);
-	auto run = button_input(button_data, key);
-	auto frame = (pressed_focus == button_data) ? pressed : normal;
+	button_input(button_data, key);
+	auto frame = button_pressed ? pressed : normal;
 	image(ps, frame, 0);
 	if(overlay != -1) {
 		auto& f1 = ps->get(frame);
@@ -231,17 +231,6 @@ static bool button(resn id, int normal, int pressed, int overlay, unsigned key) 
 			caret.y += (f1.sy - f2.sy + 1) / 2;
 		image(ps, overlay, 0);
 	}
-	return run;
-}
-
-static void button(resn id, int normal, int pressed, int overlay, unsigned key, fnevent proc, long param = 0, void* object = 0) {
-	if(button(id, normal, pressed, overlay, key))
-		execute(proc, param, object);
-}
-
-static void button(rect rc, fnevent proc, long param = 0, void* object = 0) {
-	if(button(rc))
-		execute(proc, param, object);
 }
 
 void correct_answers(int maximum) {
@@ -308,27 +297,25 @@ static void paint_player_damage(int hits, unsigned counter) {
 	textc(colors::white, "%1i", hits);
 }
 
-static bool paint_button(const char* title, long button_data, unsigned key, unsigned flags = TextBold, bool force_focus = false) {
+static void paint_button(const char* title, long button_data, unsigned key, unsigned flags = TextBold, bool force_focus = false) {
 	pushrect push;
 	auto push_fore = fore;
 	if(!focus_valid(button_data))
 		button_data = (long)title;
 	focusing(button_data);
-	auto run = button_input(button_data, key);
-	auto pressed = (pressed_focus == button_data);
-	button_frame(1, false, pressed);
+	button_input(button_data, key);
+	button_frame(1, false, button_pressed);
 	if((current_focus == button_data) || force_focus)
 		fore = colors::focus;
 	caret.y += 2;
 	caret.x += 4;
 	width -= 4 * 2;
-	if(pressed) {
+	if(button_pressed) {
 		caret.x++;
 		caret.y++;
 	}
 	text(title, -1, flags);
 	fore = push_fore;
-	return run;
 }
 
 static void paint_answers(fnapaint paintcell, int height_grid) {
@@ -344,33 +331,31 @@ static void paint_answers(fnapaint paintcell, int height_grid) {
 	while(true) {
 		if(index >= index_stop)
 			break;
-		paintcell(index, an.elements[index].value, an.elements[index].text, an.elements[index].key, an.elements[index].proc);
+		paintcell(index, an.elements[index].value, an.elements[index].text, an.elements[index].key);
+		fire(an.elements[index].proc, an.elements[index].value);
 		caret.y += height_grid;
 		index++;
 	}
 }
 
-void text_label(int index, long data, const char* format, unsigned key, fnevent proc) {
-	auto push_fore = fore;
-	focusing(data);
-	if(button_input(data, key))
-		execute(proc, (long)data);
+void text_label(int index, long button_data, const char* format, unsigned key) {
+	pushfore push;
+	focusing(button_data);
+	button_input(button_data, key);
 	fore = colors::white;
-	if(current_focus == data)
+	if(current_focus == button_data)
 		fore = colors::focus;
-	if(pressed_focus == data)
+	if(button_pressed)
 		fore = fore.darken();
 	texta(format, AlignCenter | TextBold);
-	fore = push_fore;
 }
 
-void text_label_menu(int index, long button_data, const char* format, unsigned key, fnevent proc) {
+static void text_label_menu(int index, long button_data, const char* format, unsigned key) {
 	auto push_fore = fore;
 	if(!focus_valid(button_data))
 		button_data = (long)format;
 	focusing(button_data);
-	if(button_input(button_data, key, 'E'))
-		execute(proc, (long)button_data);
+	button_input(button_data, key, 'E');
 	if(current_focus == button_data) {
 		pushrect push;
 		caret.x -= 2; caret.y -= 1;
@@ -388,7 +373,7 @@ void text_label_menu(int index, long button_data, const char* format, unsigned k
 		fore = colors::white.mix(colors::dark, 196);
 	else
 		fore = colors::white;
-	if(pressed_focus == button_data)
+	if(button_pressed)
 		fore = fore.darken();
 	text(format);
 	fore = push_fore;
@@ -412,13 +397,12 @@ static void text_label_row(const char* format) {
 	width = push_width;
 }
 
-static void text_label_menu_table(int index, long button_data, const char* format, unsigned key, fnevent proc) {
+static void text_label_menu_table(int index, long button_data, const char* format, unsigned key) {
 	auto push_fore = fore;
 	if(!focus_valid(button_data))
 		button_data = (long)format;
 	focusing(button_data);
-	if(button_input(button_data, key, 'E'))
-		execute(proc, (long)button_data);
+	button_input(button_data, key, 'E');
 	if(current_focus == button_data) {
 		pushrect push;
 		caret.x -= 2; caret.y -= 1;
@@ -436,7 +420,7 @@ static void text_label_menu_table(int index, long button_data, const char* forma
 		fore = colors::white.mix(colors::dark, 196);
 	else
 		fore = colors::white;
-	if(pressed_focus == button_data)
+	if(button_pressed)
 		fore = fore.darken();
 	if(index >= 1000)
 		text(format);
@@ -445,15 +429,14 @@ static void text_label_menu_table(int index, long button_data, const char* forma
 	fore = push_fore;
 }
 
-void text_label_left(int index, long data, const char* format, unsigned key, fnevent proc) {
+void text_label_left(int index, long data, const char* format, unsigned key) {
 	auto push_fore = fore;
 	focusing(data);
-	if(button_input(data, key))
-		execute(proc, (long)data);
+	button_input(data, key);
 	fore = colors::white;
 	if(current_focus == data)
 		fore = colors::focus;
-	if(pressed_focus == data)
+	if(button_pressed)
 		fore = fore.darken();
 	texta(format, TextBold);
 	fore = push_fore;
@@ -464,15 +447,14 @@ static void label_control(const char* format, long data, unsigned flags) {
 	fore = colors::white;
 	if(current_focus == data)
 		fore = colors::focus;
-	if(pressed_focus == data)
+	if(button_pressed)
 		fore = fore.darken();
 	texta(format, flags);
 	fore = push_fore;
 }
 
-void button_label(int index, long data, const char* format, unsigned key, fnevent proc) {
-	if(paint_button(format, data, key))
-		execute(proc, (long)data);
+void button_label(int index, long button_data, const char* format, unsigned key) {
+	paint_button(format, button_data, key);
 }
 
 static void set_player_by_focus() {
@@ -519,12 +501,12 @@ static void paint_compass(directionn d) {
 	image(114, 132, res_data[COMPASS], i, 0);
 	image(79, 158, res_data[COMPASS], 4 + i, 0);
 	image(150, 158, res_data[COMPASS], 8 + i, 0);
-	button({5, 128, 24, 144}, press_key, KeyHome);
-	button({24, 128, 44, 144}, press_key, KeyUp);
-	button({44, 128, 64, 144}, press_key, KeyPageUp);
-	button({5, 145, 24, 161}, press_key, KeyLeft);
-	button({24, 145, 44, 161}, press_key, KeyDown);
-	button({44, 145, 64, 161}, press_key, KeyRight);
+	button({5, 128, 24, 144}); fire(press_key, KeyHome);
+	button({24, 128, 44, 144}); fire(press_key, KeyUp);
+	button({44, 128, 64, 144}); fire(press_key, KeyPageUp);
+	button({5, 145, 24, 161}); fire(press_key, KeyLeft);
+	button({24, 145, 44, 161}); fire(press_key, KeyDown);
+	button({44, 145, 64, 161}); fire(press_key, KeyRight);
 }
 
 static void paint_menu(point position, int object_width, int object_height) {
@@ -600,28 +582,31 @@ static void paint_shadow() {
 	alpha = push;
 }
 
-static bool mouse_button() {
+static void mouse_button() {
+	button_clear();
 	if(!ishilite())
-		return false;
-	if(hpressed)
+		return;
+	if(hpressed) {
 		paint_shadow();
+		button_pressed = true;
+	}
 	if(hkey == MouseLeft && !hpressed)
-		return true;
-	return false;
+		button_executed = true;
 }
 
-static bool mouse_button(long button_data, unsigned key) {
+static void mouse_button(long button_data, unsigned key) {
+	mouse_button();
 	if(!focus_valid(button_data))
-		return false;
-	if(mouse_button())
-		return true;
-	if(key && hkey == key)
-		pressed_focus = button_data;
-	else if(hkey == InputKeyUp && pressed_focus == button_data) {
-		pressed_focus = empty_focus;
-		return true;
+		return;
+	if(!button_pressed) {
+		if(key && hkey == key) {
+			pressed_focus = button_data;
+			button_pressed = true;
+		} else if(hkey == InputKeyUp && pressed_focus == button_data) {
+			pressed_focus = empty_focus;
+			button_executed = true;
+		}
 	}
-	return false;
 }
 
 static void apply_switch_page() {
@@ -655,7 +640,8 @@ static void paint_avatar() {
 			paint_player_damage(v, (animate_counter + pind) % 2);
 		}
 	}
-	button({push.caret.x, push.caret.y, push.caret.x + 31, push.caret.y + 32}, apply_switch_page, (long)player);
+	button({push.caret.x, push.caret.y, push.caret.x + 31, push.caret.y + 32});
+	fire(apply_switch_page, (long)player);
 }
 
 static void greenbar(int vc, int vm) {
@@ -833,9 +819,9 @@ static void paint_sheet_head() {
 	caret.y = origin.y + 36;
 	width = 140; height = 131;
 	fore = colors::info;
-	button({274, 36, 293, 50}, prev_character);
-	button({297, 36, 316, 50}, next_character);
-	button({302, 149, 319, 166}, next_sheet_page);
+	button({274, 36, 293, 50}); fire(prev_character);
+	button({297, 36, 316, 50}); fire(next_character);
+	button({302, 149, 319, 166}); fire(next_sheet_page);
 }
 
 static void paint_blank() {
@@ -1128,7 +1114,7 @@ void paint_avatars() {
 			hilite_player && (player == push_player));
 	}
 	player = push_player;
-	button({289, 178, 319, 198}, press_key, KeyEscape);
+	button({289, 178, 319, 198}); fire(press_key, KeyEscape);
 }
 
 void paint_avatars_no_focus() {
@@ -1671,6 +1657,7 @@ static long choose_answer(const char* title, const char* cancel, fnevent before_
 	answer_per_page = per_page;
 	if(!header_paint)
 		header_paint = paint_title;
+	an.checkkeys();
 	while(ismodal()) {
 		if(before_paint)
 			before_paint();
@@ -1682,7 +1669,8 @@ static long choose_answer(const char* title, const char* cancel, fnevent before_
 					width = textw(cancel) + 6;
 				caret = cancel_position;
 			}
-			answer_paint(1000, 0, cancel, KeyEscape, buttonparam);
+			answer_paint(1000, 0, cancel, KeyEscape);
+			fire(buttoncancel);
 		}
 		domodal();
 		if(answer_input())
@@ -1879,8 +1867,8 @@ long choose_dialog(const char* title, int padding) {
 		caret.x = (320 - total_width) / 2;
 		for(auto& e : an.elements) {
 			width = textw(e.text) + 6;
-			if(paint_button(e.text, e.value, e.key, TextBold))
-				execute(buttonparam, (long)e.value);
+			paint_button(e.text, e.value, e.key, TextBold);
+			fire(buttonparam, (long)e.value);
 			caret.x += width;
 			caret.x += 2;
 		}
@@ -1909,8 +1897,8 @@ static void paint_generate_avatars(creature* hilite, long progress_position) {
 		width = 33; height = 34;
 		if(progress_position == -1) {
 			focusing(button_data);
-			if(button_input(button_data, 0))
-				execute(buttonparam, button_data);
+			button_input(button_data, 0);
+			fire(buttonparam, button_data);
 		}
 		player = characters + button_data;
 		if(player->avatar != 0xFF)
@@ -1945,7 +1933,7 @@ long choose_generate_box(const char* header, const char* footer, int current) {
 		if(footer) {
 			caret.y += 8;
 			paint_header(footer);
-			setpos(25, 181); button(CHARGENB, 4, 5, -1, 'P', buttonparam, 2000);
+			setpos(25, 181); button(CHARGENB, 4, 5, -1, 'P'); fire(buttonparam, 2000);
 		}
 		domodal();
 		if(!focus_input())
@@ -2058,8 +2046,8 @@ static void next_sheet_page() {
 }
 
 static void paint_choose_avatars() {
-	button(CHARGENB, 2, 3, 8, KeyLeft, cbsetint, answer_index - 1, &answer_index); caret.y += 16;
-	button(CHARGENB, 2, 3, 9, KeyRight, cbsetint, answer_index + 1, &answer_index); caret.y += 16;
+	button(CHARGENB, 2, 3, 8, KeyLeft); fire(cbsetint, answer_index - 1, &answer_index); caret.y += 16;
+	button(CHARGENB, 2, 3, 9, KeyRight); fire(cbsetint, answer_index + 1, &answer_index); caret.y += 16;
 	caret.x += 33; caret.y -= 32;
 	paint_avatar_list();
 	caret.x -= 33; caret.y += 36;
@@ -2091,11 +2079,11 @@ static void paint_character_edit() {
 	caret.x = push.x; caret.y += 36;
 	paint_character_info();
 	caret.x = 224; caret.y = 172;
-	button(CHARGENB, 6, 7, -1, KeyDelete, delete_character); caret.x += 41;
-	button(CHARGENB, 0, 1, 13, KeyEnter, buttonok);
+	button(CHARGENB, 6, 7, -1, KeyDelete); fire(delete_character); caret.x += 41;
+	button(CHARGENB, 0, 1, 13, KeyEnter); fire(buttonok);
 	caret.x = 224; caret.y = 156;
-	button(CHARGENB, 0, 1, 10, 'R', reroll_character); caret.x += 41;
-	button(CHARGENB, 0, 1, 12, 'F', change_avatar);
+	button(CHARGENB, 0, 1, 10, 'R'); fire(reroll_character); caret.x += 41;
+	button(CHARGENB, 0, 1, 12, 'F'); fire(change_avatar);
 }
 
 void change_character() {

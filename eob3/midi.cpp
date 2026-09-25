@@ -35,6 +35,11 @@
 
 const int MMSYSERR_NOERROR = 0; /* no error */
 
+#define MHDR_DONE       0x00000001  /* done bit */
+#define MHDR_PREPARED   0x00000002  /* set if header prepared */
+#define MHDR_INQUEUE    0x00000004  /* reserved for driver */
+#define MHDR_ISSTRM     0x00000008  /* buffer is stream buffer */
+
 #define MM_MOM_OPEN         0x3C7 /* MIDI output */
 #define MM_MOM_CLOSE        0x3C8
 #define MM_MOM_DONE         0x3C9
@@ -111,9 +116,8 @@ class midiplayer {
 	const unsigned*	data = 0;
 	unsigned		size = 0;
 	unsigned		position = 0;
-	void*			m_stream = 0;
-	bool			done = false;
-	bool			prepared = false;
+	void*			stream = 0;
+	volatile bool	done = false;
 
 	static void callback(HMIDIOUT, unsigned msg, DWORD_PTR instance, DWORD_PTR param1, DWORD_PTR) {
 		if(msg != MOM_DONE)
@@ -123,50 +127,51 @@ class midiplayer {
 			p->done = true;
 	}
 
-	void unprepare() {
-		if(prepared) {
-			if(midiOutUnprepareHeader(m_stream, &header, sizeof(MIDIHDR)) != MMSYSERR_NOERROR)
-				return;
-			prepared = false;
+	static bool unprepare(void* stream, MIDIHDR& header) {
+		if((header.dwFlags & MHDR_PREPARED) != 0) {
+			auto error_code = midiOutUnprepareHeader(stream, &header, sizeof(MIDIHDR));
+			if(error_code != MMSYSERR_NOERROR)
+				return false;
+			header = {};
 		}
+		return true;
 	}
 
-	void post(const unsigned* data, unsigned count) {
-
-		if(prepared)
-			return;
-
-		// PRevent MIDI buffer overrun and error 11 from midiOutPrepareHeader.
-		// Maximum buffer is 65k bytes.
-		auto post_count = count;
-		if(post_count > BufferSize)
-			post_count = BufferSize;
-		
+	static bool post(void* stream, MIDIHDR& header, const unsigned* data, unsigned post_count) {
+		if(!unprepare(stream, header))
+			return false;
 		header = {};
 		header.lpData = (char*)data;
 		header.dwBufferLength = post_count * sizeof(unsigned);
 		header.dwBytesRecorded = header.dwBufferLength;
-		if(midiOutPrepareHeader(m_stream, &header, sizeof(header)) != MMSYSERR_NOERROR)
-			return;
-		prepared = true;
-
-		if(midiStreamOut(m_stream, &header, sizeof(header)) != MMSYSERR_NOERROR) {
-			midiOutUnprepareHeader(m_stream, &header, sizeof(header));
-			prepared = false;
-			return;
+		auto error_code = midiOutPrepareHeader(stream, &header, sizeof(header));
+		if(error_code != MMSYSERR_NOERROR)
+			return false;
+		error_code = midiStreamOut(stream, &header, sizeof(header));
+		if(error_code != MMSYSERR_NOERROR) {
+			midiOutUnprepareHeader(stream, &header, sizeof(header));
+			return false;
 		}
+		return true;
+	}
 
-		position += post_count;
-
+	void post(const unsigned* data, unsigned count) {
+		// Prevent MIDI buffer overrun and error 11 from midiOutPrepareHeader.
+		// Maximum buffer is 65k bytes.
+		auto post_count = count;
+		if(post_count > BufferSize)
+			post_count = BufferSize;
+		if(post(stream, header, data, post_count))
+			position += post_count;
 	}
 
 	void update() {
 		if(!done)
 			return;
 		done = false;
+		unprepare(stream, header);
 		if(position < size) {
 			// Not played all song. Post next song portion.
-			unprepare();
 			post(data + position, size - position);
 		} else {
 			data = 0;
@@ -177,28 +182,23 @@ class midiplayer {
 
 	void initialize() {
 		auto device = MIDI_MAPPER;
-		if(midiStreamOpen(&m_stream, &device, 1, (DWORD_PTR)&callback, (DWORD_PTR)this, CALLBACK_FUNCTION) != MMSYSERR_NOERROR)
-			m_stream = 0;
+		if(midiStreamOpen(&stream, &device, 1, (DWORD_PTR)&callback, (DWORD_PTR)this, CALLBACK_FUNCTION) != MMSYSERR_NOERROR)
+			stream = 0;
 	}
 
 	void close() {
 		stop();
-		if(m_stream)
-			midiStreamClose(m_stream);
-		m_stream = 0;
+		if(stream)
+			midiStreamClose(stream);
+		stream = 0;
 	}
 
 	void reset() {
 		for(auto channel = 0; channel < 16; ++channel) {
 			// CC 123 - All Notes Off
-			midiOutShortMsg(
-				(HMIDIOUT)m_stream,
-				0xB0 | channel | (123 << 8));
-
+			midiOutShortMsg( (HMIDIOUT)stream, 0xB0 | channel | (123 << 8));
 			// CC 121 - Reset All Controllers
-			midiOutShortMsg(
-				(HMIDIOUT)m_stream,
-				0xB0 | channel | (121 << 8));
+			midiOutShortMsg((HMIDIOUT)stream, 0xB0 | channel | (121 << 8));
 		}
 	}
 
@@ -213,10 +213,10 @@ public:
 	}
 
 	void stop() {
-		if(m_stream) {
-			midiStreamStop(m_stream);
-			midiOutReset(m_stream);
-			unprepare();
+		if(stream) {
+			midiStreamStop(stream);
+			midiOutReset(stream);
+			unprepare(stream, header);
 		}
 		data = 0;
 		size = 0;
@@ -236,7 +236,7 @@ public:
 
 		stop();
 
-		if(!data || !size || !m_stream)
+		if(!data || !size || !stream)
 			return;
 
 		reset();
@@ -246,10 +246,7 @@ public:
 		div.cbStruct = sizeof(div);
 		div.dwTimeDiv = division;
 
-		if(midiStreamProperty(
-			m_stream,
-			(unsigned char*)&div,
-			MIDIPROP_SET | MIDIPROP_TIMEDIV) != MMSYSERR_NOERROR)
+		if(midiStreamProperty(stream, (unsigned char*)&div, MIDIPROP_SET | MIDIPROP_TIMEDIV) != MMSYSERR_NOERROR)
 			return;
 
 		this->data = data;
@@ -258,7 +255,7 @@ public:
 
 		post(data, size);
 
-		if(midiStreamRestart(m_stream) != MMSYSERR_NOERROR) {
+		if(midiStreamRestart(stream) != MMSYSERR_NOERROR) {
 			stop();
 			return;
 		}
@@ -266,10 +263,10 @@ public:
 	}
 
 	void setvolume(unsigned short value) {
-		if(!m_stream)
+		if(!stream)
 			return;
 		DWORD v = value | ((unsigned)value << 16);
-		midiOutSetVolume(m_stream, v);
+		midiOutSetVolume(stream, v);
 	}
 };
 

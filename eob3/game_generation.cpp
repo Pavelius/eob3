@@ -45,7 +45,7 @@ static unsigned char choose_avatar() {
 
 void game_generation() {
 	pushvalue push(player);
-	music_play(MusGenerate);
+	current_music = MusGenerate;
 	generate_player_index = 0;
 	while(true) {
 		const char* footer = 0;

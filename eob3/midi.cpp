@@ -107,90 +107,69 @@ class midiplayer {
 
 	static const unsigned BufferSize = 15000; // 60000 bytes, 5000 MIDI events
 
-	const unsigned*	m_data = 0;
-	const unsigned*	m_position = 0;
-	unsigned		m_remain = 0;
+	MIDIHDR			header = {};
+	const unsigned*	data = 0;
+	unsigned		size = 0;
+	unsigned		position = 0;
 	void*			m_stream = 0;
-	MIDIHDR			m_header[2] = {};
-	bool			m_prepared[2] = {};
+	bool			done = false;
+	bool			prepared = false;
 
 	static void callback(HMIDIOUT, unsigned msg, DWORD_PTR instance, DWORD_PTR param1, DWORD_PTR) {
 		if(msg != MOM_DONE)
 			return;
-
 		auto p = (midiplayer*)instance;
-		if(!p)
-			return;
-
-		auto header = (MIDIHDR*)param1;
-
-		if(header == &p->m_header[0])
-			p->done(0);
-		else if(header == &p->m_header[1])
-			p->done(1);
+		if(p)
+			p->done = true;
 	}
 
-	void done(unsigned index) {
-
-		// Finished header can now be unprepared.
-		if(m_prepared[index]) {
-			midiOutUnprepareHeader(
-				m_stream,
-				&m_header[index],
-				sizeof(MIDIHDR));
-			m_prepared[index] = false;
+	void unprepare() {
+		if(prepared) {
+			if(midiOutUnprepareHeader(m_stream, &header, sizeof(MIDIHDR)) != MMSYSERR_NOERROR)
+				return;
+			prepared = false;
 		}
-
-		// If there is more music, reuse this header.
-		if(m_remain) {
-			queue(index);
-			return;
-		}
-
-		// No more source data. If another header is still playing,
-		// wait for its MOM_DONE.
-		if(m_prepared[0] || m_prepared[1])
-			return;
-
-		// Whole song finished.
-		m_data = 0;
-		m_position = 0;
-		m_remain = 0;
 	}
 
-	bool queue(unsigned index) {
+	void post(const unsigned* data, unsigned count) {
 
-		if(!m_remain)
-			return false;
+		if(prepared)
+			return;
 
-		auto count = m_remain;
-		if(count > BufferSize)
-			count = BufferSize;
-
-		auto& header = m_header[index];
+		auto post_count = count;
+		if(post_count > BufferSize)
+			post_count = BufferSize;
+		
 		header = {};
-		header.lpData = (char*)m_position;
-		header.dwBufferLength = count * sizeof(unsigned);
+		header.lpData = (char*)data;
+		header.dwBufferLength = post_count * sizeof(unsigned);
 		header.dwBytesRecorded = header.dwBufferLength;
-
-		if(midiOutPrepareHeader(
-			m_stream,
-			&header,
-			sizeof(header)) != MMSYSERR_NOERROR)
-			return false;
-
-		m_prepared[index] = true;
+		if(midiOutPrepareHeader(m_stream, &header, sizeof(header)) != MMSYSERR_NOERROR)
+			return;
+		prepared = true;
 
 		if(midiStreamOut(m_stream, &header, sizeof(header)) != MMSYSERR_NOERROR) {
 			midiOutUnprepareHeader(m_stream, &header, sizeof(header));
-			m_prepared[index] = false;
-			return false;
+			prepared = false;
+			return;
 		}
 
-		m_position += count;
-		m_remain -= count;
+		position += post_count;
 
-		return true;
+	}
+
+	void update() {
+		if(!done)
+			return;
+		done = false;
+		if(position < size) {
+			unprepare();
+			post(data + position, size - position);
+		} else {
+			data = 0;
+			size = 0;
+			position = 0;
+		}
 	}
 
 	void initialize() {
@@ -231,42 +210,26 @@ public:
 	}
 
 	void stop() {
-
-		if(!m_stream) {
-			m_data = 0;
-			m_position = 0;
-			m_remain = 0;
-			return;
+		if(m_stream) {
+			midiStreamStop(m_stream);
+			midiOutReset(m_stream);
+			unprepare();
 		}
-
-		// Stop stream and return all queued buffers.
-		midiStreamStop(m_stream);
-		midiOutReset(m_stream);
-
-		for(auto i = 0u; i < 2; ++i) {
-			if(m_prepared[i]) {
-				midiOutUnprepareHeader(
-					m_stream,
-					&m_header[i],
-					sizeof(MIDIHDR));
-
-				m_prepared[i] = false;
-			}
-			m_header[i] = {};
-		}
-		m_data = 0;
-		m_position = 0;
-		m_remain = 0;
+		data = 0;
+		size = 0;
+		position = 0;
 	}
 
 	bool playing() const {
-		return m_data != 0;
+		return data != 0;
 	}
 
 	void play(const unsigned* data, unsigned size, unsigned short division) {
 
-		if(m_data && m_data == data)
+		if(this->data && this->data == data) {
+			update();
 			return; // Already play this
+		}
 
 		stop();
 
@@ -286,28 +249,17 @@ public:
 			MIDIPROP_SET | MIDIPROP_TIMEDIV) != MMSYSERR_NOERROR)
 			return;
 
-		m_data = data;
-		m_position = data;
-		m_remain = size;
+		this->data = data;
+		this->size = size;
+		this->position = 0;
 
-		// Queue first buffer.
-		if(!queue(0)) {
-			stop();
-			return;
-		}
-
-		// Queue second buffer if necessary.
-		if(m_remain) {
-			if(!queue(1)) {
-				stop();
-				return;
-			}
-		}
+		post(data, size);
 
 		if(midiStreamRestart(m_stream) != MMSYSERR_NOERROR) {
 			stop();
 			return;
 		}
+
 	}
 
 	void setvolume(unsigned short value) {
@@ -321,10 +273,11 @@ public:
 static midiplayer music;
 
 bool music_mute;
+soundn current_music;
 
-void music_play(soundn v) {
+void music_update() {
 	if(!music_mute)
-		music.play(songs[v].data, songs[v].size, songs[v].division);
+		music.play(songs[current_music].data, songs[current_music].size, songs[current_music].division);
 }
 
 void music_stop() {

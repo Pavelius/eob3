@@ -5,6 +5,7 @@
 #include "game.h"
 #include "math.h"
 #include "pushvalue.h"
+#include "sound.h"
 #include "stream.h"
 #include "timer.h"
 #include "view_focus.h"
@@ -2260,6 +2261,7 @@ void message_box(const char* format) {
 
 static void main_beforemodal() {
 	current_cpu_time = getcputime();
+	music_update();
 	clear_focus_data();
 	cancel_position.clear();
 }

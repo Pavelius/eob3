@@ -26,11 +26,10 @@ const char* ability_names[Hits + 1] = {
 	"Spell1", "Spell2", "Spell3", "Spell4", "Spell5", "Spell6", "Spell7", "Spell8", "Spell9", "Spells",
 	"Bonus Experience", "Reaction Bonus",
 	"Exeptional Strenght",
-	"AcidD1Level", "AcidD2Level", "PoisonLevel", "DiseaseLevel", "DuplicateIllusion",
+	"AcidD1Level", "AcidD2Level", "PoisonLevel", "DiseaseLevel", "Duplicate Illusions",
 	"DrainedStrenght", "DrainedConstitution", "DrainedLevels",
 	"Hits"
 };
-
 const char* ability_short[Hits + 1] = {
 	"Str", "Dex", "Con", "Int", "Wis", "Cha",
 	"Save vs Paralization", "Save vs Poison", "Save vs Traps", "Save vs Magic",
@@ -43,7 +42,7 @@ const char* ability_short[Hits + 1] = {
 	"Spell1", "Spell2", "Spell3", "Spell4", "Spell5", "Spell6", "Spell7", "Spell8", "Spell9", "Spells",
 	"Bonus Experience", "Reaction Bonus",
 	"Exeptional Strenght",
-	"AcidD1Level", "AcidD2Level", "PoisonLevel", "DiseaseLevel", "DuplicateIllusion",
+	"AcidD1Level", "AcidD2Level", "PoisonLevel", "DiseaseLevel", "Duplicate Illusions",
 	"DrainedStrenght", "DrainedConstitution", "DrainedLevels",
 	"Hits"
 };

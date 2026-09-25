@@ -37,14 +37,6 @@ static alignmentn select_alignment(classn type) {
 	return (alignmentn)choose_generate_dialog(message_names[SelectAlignment]);
 }
 
-static bool no_party_avatar(unsigned char v) {
-	for(auto i = 0; i < 4; i++) {
-		if(characters[i].avatar == v)
-			return false;
-	}
-	return true;
-}
-
 static unsigned char choose_avatar() {
 	unsigned char source[256];
 	auto count = select_avatars(source, player->race, player->gender, player->type, no_party_avatar);

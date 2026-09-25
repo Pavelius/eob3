@@ -741,12 +741,6 @@ void reroll_character() {
 	player->update();
 }
 
-static void new_character() {
-}
-
-void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment) {
-}
-
 void creature::update() {
 	auto push = player; player = this;
 	update_player();
@@ -830,4 +824,39 @@ unsigned char random_name(racen race, gendern gender) {
 	if(!count)
 		return 0xFF;
 	return source[rand() % count];
+}
+
+bool no_party_avatar(unsigned char v) {
+	for(auto i = 0; i < 4; i++) {
+		if(characters[i].avatar == v)
+			return false;
+	}
+	return true;
+}
+
+unsigned char random_avatar(racen race, gendern gender, classn type) {
+	unsigned char source[250];
+	auto count = select_avatars(source, race, gender, type, no_party_avatar);
+	if(!count)
+		return 0xFF;
+	return source[rand() % count];
+}
+
+static creature* new_character() {
+	for(auto& e : characters) {
+		if(e.avatar == 0xFF)
+			return &e;
+	}
+	return 0;
+}
+
+void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment) {
+	player = new_character();
+	player->clear();
+	player->race = race;
+	player->gender = gender;
+	player->type = class_type;
+	player->alignment = alignment;
+	player->avatar = random_avatar(race, gender, class_type);
+	reroll_character();
 }

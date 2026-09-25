@@ -104,6 +104,7 @@ extern creature characters[32]; // All characters in game
 extern creature* party[6]; // Party of characters
 extern creature* player;
 
+unsigned char random_avatar(racen race, gendern gender, classn type);
 unsigned char random_name(racen race, gendern gender);
 
 int get_hit_die(classn type);
@@ -114,6 +115,7 @@ int select_names(unsigned char* result, racen race, gendern gender, fncfilter fi
 bool allow(alignmentn type, classn v);
 bool allow(classn type, racen v);
 void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment);
+bool no_party_avatar(unsigned char v);
 void reroll_ability();
 void reroll_character();
 void reroll_hits();

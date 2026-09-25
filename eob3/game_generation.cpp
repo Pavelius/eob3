@@ -93,7 +93,15 @@ static void party_generation() {
 		characters[i].joinparty();
 }
 
+static void party_random_generation() {
+	create_charater(Human, Male, Fighter, LawfulGood);
+	create_charater(Human, Female, Fighter, NeutralGood);
+	create_charater(Elf, Female, MageTheif, ChaoticGood);
+	create_charater(Dwarf, Male, Cleric, ChaoticGood);
+}
+
 void game_generation() {
 	game_clear();
+//	party_random_generation();
 	party_generation();
 }

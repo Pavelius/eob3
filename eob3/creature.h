@@ -97,7 +97,7 @@ struct creature : npci, statable, wearable {
 	bool is(racen v) const { return race == v; }
 	bool isdisabled() const { return false; }
 	bool isdead() const { return hp <= -10; }
-	void joinparty() {}
+	void joinparty() { /*TODO: Join party later.*/ }
 	void update();
 };
 extern creature characters[32]; // All characters in game

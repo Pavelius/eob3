@@ -109,7 +109,7 @@ int select_names(unsigned char* result, racen race, gendern gender, fncfilter fi
 	auto pb = get_name_group(race);
 	auto bs = (gender == Female) ? 1 : 0;
 	for(unsigned char i = 0; i < 50 / 2; i++) {
-		auto v = 50 * pb + i * 2 + bs;
+		auto v = pb + i * 2 + bs;
 		if(filter && !filter(v))
 			continue;
 		*ps++ = v;

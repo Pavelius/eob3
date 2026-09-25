@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="adat.h" />
     <ClInclude Include="answers.h" />
+    <ClInclude Include="collection.h" />
     <ClInclude Include="creature.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="dice.h" />
@@ -163,7 +164,9 @@
     <ClCompile Include="bin_font8.cpp" />
     <ClCompile Include="bin_menu.cpp" />
     <ClCompile Include="bin_playfld.cpp" />
+    <ClCompile Include="bin_portm.cpp" />
     <ClCompile Include="bin_xspl.cpp" />
+    <ClCompile Include="collection.cpp" />
     <ClCompile Include="game_generation.cpp" />
     <ClCompile Include="creature.cpp" />
     <ClCompile Include="color.cpp" />

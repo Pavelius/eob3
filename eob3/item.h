@@ -48,6 +48,8 @@ enum wearn : unsigned char {
 	FirstInvertory = Backpack, LastInvertory = LastBelt
 };
 
+extern const char* item_names[LastItem + 1];
+
 struct itemfc {
 	unsigned char data = 0;
 	itemfc() = default;
@@ -81,7 +83,7 @@ int get_magic(powern v);
 
 struct item {
 	itemn		type;
-	powern		power;
+	powern		power; // Special additional magical powers
 	purposen	purpose; // Special purpose of item (depends on mission or quest)
 	union {
 		struct {
@@ -93,14 +95,15 @@ struct item {
 	constexpr explicit operator bool() const { return type != 0; }
 	constexpr const itemi& geti() const { return item_data[type]; }
 	constexpr bool countable() const { return type >= Arrow; }
-	const char*	name() const;
+	const char*	name() const { return item_names[type]; }
 	bool allow(wearn v) const;
-	void clear();
+	void clear() { type = NoItem; power = NoPower; purpose = CommonItem; count = 0; }
 	void consume() { setcount(getcount() - 1); }
 	void createpower(char magic_bonus, int chance_magical, int chance_cursed);
 	void damage(const char* interactive, int use);
 	void identify(int v) { identified = (v >= 0) ? 1 : 0; }
 	bool is(powern v) const { return power == v; }
+	bool is(purposen v) const { return purpose == v; }
 	bool is(itemfn v) const { return geti().flags.is(v); }
 	bool is(wearn v) const { return geti().wear == v; }
 	bool isartifact() const { return get_magic(power) >= 4; }
@@ -113,7 +116,7 @@ struct item {
 	bool join(item& it);
 	int	getcost() const;
 	int	getcount() const { return countable() ? count + 1 : 1; }
-	int	getmagic() const;
+	int	getmagic() const { return get_magic(power); }
 	powern getpower() const { return power; }
 	void setcount(int v);
 	void usecharge(const char* interactive, int chance = 35, int use = 1); // Maximum charges is always 10

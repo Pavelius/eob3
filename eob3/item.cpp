@@ -39,3 +39,17 @@ itemi item_data[LastItem + 1] = {
 };
 
 static_assert(sizeof(item) == sizeof(int));
+
+int get_magic(powern v) {
+	switch(v) {
+	case NoPower: return 0;
+	case Magical: return 1;
+	case Magical2: return 2;
+	case Magical3: return 3;
+	case Magical4: return 4;
+	case Magical5: return 5;
+	case Cursed: return -1;
+	case Delusion: return -2;
+	default: return 1;
+	}
+}

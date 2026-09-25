@@ -1,6 +1,7 @@
 #include "creature.h"
 #include "math.h"
 #include "rand.h"
+#include "stringbuilder.h"
 
 static char hit_points_adjustment[] = {
 	-4, -3, -2, -2, -1, -1, -1, 0, 0, 0,
@@ -393,26 +394,26 @@ static void add_additional_spell(abilityn v) {
 }
 
 static void update_additional_spells() {
-	//auto c = player->getcaster();
-	//if(c != 0)
-	//	return;
-	//auto k = player->get(Wisdow);
-	//if(k >= 13)
-	//	add_additional_spell(Spell1);
-	//if(k >= 14)
-	//	add_additional_spell(Spell1);
-	//if(k >= 15)
-	//	add_additional_spell(Spell2);
-	//if(k >= 16)
-	//	add_additional_spell(Spell2);
-	//if(k >= 17)
-	//	add_additional_spell(Spell3);
-	//if(k >= 18)
-	//	add_additional_spell(Spell4);
-	//if(k >= 19) {
-	//	add_additional_spell(Spell1);
-	//	add_additional_spell(Spell3);
-	//}
+	if(player->is(Cleric)) {
+		// RULE: Priest have their spell count increased, depend on window.
+		auto k = player->get(Wisdow);
+		if(k >= 13)
+			add_additional_spell(Spell1);
+		if(k >= 14)
+			add_additional_spell(Spell1);
+		if(k >= 15)
+			add_additional_spell(Spell2);
+		if(k >= 16)
+			add_additional_spell(Spell2);
+		if(k >= 17)
+			add_additional_spell(Spell3);
+		if(k >= 18)
+			add_additional_spell(Spell4);
+		if(k >= 19) {
+			add_additional_spell(Spell1);
+			add_additional_spell(Spell3);
+		}
+	}
 }
 
 static void update_depended_abilities() {
@@ -523,14 +524,14 @@ static bool have_boost_summon(const item& it) {
 }
 
 static void update_summon() {
-	//for(auto& it : player->wears) {
-	//	if(it.is(SummonedItem) && !have_boost_summon(it)) {
-	//		auto w = it.geti().wear;
-	//		it.clear();
-	//		if(w == RightHand)
-	//			change_quick_item(player, RightHand);
-	//	}
-	//}
+	for(auto& e : player->wears) {
+		if(e.is(SummonedItem) && !have_boost_summon(e)) {
+			auto w = e.geti().wear;
+			e.clear();
+//			if(w == RightHand)
+//				change_quick_item(player, RightHand);
+		}
+	}
 }
 
 static int get_thac0_value() {
@@ -690,7 +691,7 @@ static void apply_maximal(char* abilities, const char* maximal) {
 }
 
 void generate_abilities() {
-	char result[8] = {};
+	char result[12] = {};
 	if(true) {
 		for(size_t i = 0; i < sizeof(result) / sizeof(result[0]); i++)
 			result[i] = (rand() % 6) + (rand() % 6) + (rand() % 6) + 3;
@@ -719,4 +720,83 @@ void creature::update() {
 	auto push = player; player = this;
 	update_player();
 	player = push;
+}
+
+static bool specialized(itemn type, racen race) {
+	switch(race) {
+	case Dwarf: return type == BattleAxe || type==Mace;
+	case Elf: return type == Longsword || type == ShortSword;
+	case HalfElf: return type == Longsword || type == ShortSword;
+	case Halfling: return type == ShortSword || type == Dagger;
+	default: return type == Longsword || type == TwoHandedSword;
+	}
+}
+
+combati creature::getattack(wearn id, bool large_enemy) const {
+	auto weapon = wears[id].type;
+	auto result = wears[id].geti().combat;
+	if(large_enemy && result.large)
+		result.damage = result.large;
+	auto isranged = wears[id].isranged();
+	result.attack += player->get(isranged ? AttackRange : AttackMelee);
+	result.damage.b += player->get(isranged ? DamageRange : DamageMelee);
+	// RULE: Single player fighter have bonus speñialization
+	if(type==Fighter && specialized(weapon, race)) {
+		if(isranged)
+			result.attack += 2;
+		else {
+			result.attack += 1;
+			result.damage.b += 2;
+		}
+	}
+	// RULE: Elves gain bonus to attack with elvish weapon
+	if(race==Elf && (weapon==Longsword || weapon==ShortSword))
+		result.attack += 1;
+	auto magic = get_magic(wears[id].power);
+	result.attack += magic;
+	result.damage.b += magic;
+	return result;
+}
+
+static const char* str(const dice& v) {
+	static char temp[32]; stringbuilder sb(temp);
+	sb.add("%1i-%2i", v.minimum(), v.maximum());
+	return temp;
+}
+
+const char* creature::strvalue(abilityn id) const {
+	switch(id) {
+	case AttackMelee: return str("%1i", 20 - getattack(RightHand, false).attack);
+	case DamageMelee: return str(getattack(RightHand, false).damage);
+	case AC: return str("%1i", 10 - get(id));
+	case Hits: return str("%1i", hpm);
+	case ReactionBonus: return str("%+1i", get(id));
+	case Strenght:
+		if(get(id) == 18) {
+			auto exeptional = player->get(ExeptionalStrenght);
+			if(exeptional == 100)
+				return "18/00";
+			else
+				return str("18/%1.2i", exeptional);
+		} else
+			return str("%1i", get(id));
+	default:
+		return str("%1i", get(id));
+	}
+}
+
+static bool no_party_name(unsigned char v) {
+	for(auto i = 0; i < 4; i++) {
+		if(characters[i].avatar == v)
+			return false;
+	}
+	return true;
+}
+
+unsigned char random_name(racen race, gendern gender) {
+	unsigned char source[250];
+	auto count = select_names(source, race, gender, no_party_name);
+	if(!count)
+		return 0xFF;
+	return source[rand() % count];
 }

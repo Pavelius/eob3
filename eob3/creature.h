@@ -2,6 +2,8 @@
 
 #include "item.h"
 
+typedef bool (*fncfilter)(unsigned char v);
+
 enum groupn : unsigned char {
 	Warriors, Priests, Rogues, Wizards,
 };
@@ -45,7 +47,7 @@ extern const char* alignment_names[ChaoticEvil + 1];
 extern const char* class_names[FighterMageTheif + 1];
 extern const char* gender_names[Female + 1];
 extern const char* race_names[Halfling + 1];
-extern const char* name_names[];
+extern const char* name_names[50 * 4];
 
 int get_class_count(classn v);
 int get_class_index(classn base, classn type);
@@ -73,7 +75,7 @@ struct npci {
 	classn			type;
 	unsigned char	avatar, name_id;
 	char			levels[3];
-	const char* name() const { return (name_id==0xFF) ? race_names[race] : name_names[name_id]; }
+	const char* name() const { return (name_id == 0xFF) ? race_names[race] : name_names[name_id]; }
 	int hd() const { return levels[0]; }
 };
 struct statable {
@@ -83,6 +85,8 @@ struct creature : npci, statable, wearable {
 	statable		basic;
 	unsigned		experience;
 	short			hp, hpm, hpr, food;
+	const char* strvalue(abilityn id) const;
+	combati getattack(wearn id, bool large_enemy) const;
 	int get(abilityn v) const { return abilities[v]; }
 	int get(classn v) const { auto n = get_class_index(type, v); return (n == -1) ? 0 : levels[n]; }
 	int getfood() const { return get(Constitution) * 20; }
@@ -93,17 +97,22 @@ struct creature : npci, statable, wearable {
 	bool is(racen v) const { return race == v; }
 	bool isdisabled() const { return false; }
 	bool isdead() const { return hp <= -10; }
+	void joinparty() {}
 	void update();
 };
 extern creature characters[32]; // All characters in game
 extern creature* party[6]; // Party of characters
 extern creature* player;
 
+unsigned char random_name(racen race, gendern gender);
+
 int get_party_index(const creature* player);
-int select_avatars(unsigned char* result, racen race, gendern gender, classn type);
+int select_avatars(unsigned char* result, racen race, gendern gender, classn type, fncfilter filter);
+int select_names(unsigned char* result, racen race, gendern gender, fncfilter filter);
 
 bool allow(alignmentn type, classn v);
 bool allow(classn type, racen v);
 void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment);
 void generate_abilities();
+void reroll_character();
 void update_player();

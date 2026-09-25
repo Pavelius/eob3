@@ -37,70 +37,71 @@ static alignmentn select_alignment(classn type) {
 	return (alignmentn)choose_generate_dialog(message_names[SelectAlignment]);
 }
 
+static bool no_party_avatar(unsigned char v) {
+	for(auto i = 0; i < 4; i++) {
+		if(characters[i].avatar == v)
+			return false;
+	}
+	return true;
+}
+
 static unsigned char choose_avatar() {
 	unsigned char source[256];
-	auto count = select_avatars(source, player->race, player->gender, player->type);
+	auto count = select_avatars(source, player->race, player->gender, player->type, 0);
 	return (unsigned char)choose_avatar(source, count);
 }
 
-void game_generation() {
+void change_avatar() {
+	player->avatar = choose_avatar();
+}
+
+void reroll_character() {
+	player->name_id = random_name(player->race, player->gender);
+	generate_abilities();
+	player->update();
+}
+
+static void game_clear() {
+	memset(party, 0, lenghof(party));
+	for(auto& e : characters)
+		e.clear();
+}
+
+static void party_generation() {
 	pushvalue push(player);
 	current_music = MusGenerate;
 	generate_player_index = 0;
+	game_clear();
 	while(true) {
 		const char* footer = 0;
 		generate_player_index = choose_generate_box(message_names[MsgGeneraionInfo], footer, generate_player_index);
 		if(generate_player_index == 2000) // Start game
 			break;
-		auto race = select_race();
-		auto gender = select_gender();
-		auto class_type = select_class(race);
-		auto alignment = select_alignment(class_type);
-		player = characters + generate_player_index - 1;
-		player->clear();
-		player->race = race;
-		player->gender = gender;
-		player->type = class_type;
-		player->alignment = alignment;
-		generate_abilities();
-		player->update();
-		player->avatar = choose_avatar();
+		player = characters + generate_player_index;
+		if(characters[generate_player_index].avatar == 0xFF) {
+			auto race = select_race();
+			auto gender = select_gender();
+			auto class_type = select_class(race);
+			auto alignment = select_alignment(class_type);
+			player->clear();
+			player->race = race;
+			player->gender = gender;
+			player->type = class_type;
+			player->alignment = alignment;
+			// clear_spellbook();
+			generate_abilities();
+			player->update();
+			player->name_id = random_name(race, gender);
+			player->avatar = choose_avatar();
+		}
+		change_character();
 	}
-	//while(true) {
-	//	player_position = choose_player_position();
-	//	if(!player_position)
-	//		break;
-	//	if(*player_position)
-	//		choose_generate_box(paint_character_edit);
-	//	else {
-	//		choose_race(0);
-	//		choose_gender(0);
-	//		choose_class(0);
-	//		choose_alignment(0);
-	//		player = bsdata<creaturei>::addz();
-	//		player->clear();
-	//		clear_spellbook();
-	//		create_npc(player, 0, is_party_name);
-	//		generate_abilities();
-	//		apply_race_ability();
-	//		roll_player_hits();
-	//		update_player();
-	//		update_player_hits();
-	//		if(!choose_avatar()) {
-	//			player->clear();
-	//			continue;
-	//		}
-	//		create_player_finish();
-	//		*player_position = player;
-	//		choose_generate_box(paint_character_edit);
-	//	}
-	//}
-	//// Join party
-	//for(auto p : characters) {
-	//	if(!p)
-	//		continue;
-	//	player = p;
-	//	join_party();
-	//}
+	// Join party
+	for(auto i = 0; i < 4; i++)
+		characters[i].joinparty();
+}
 
+void game_generation() {
+	game_clear();
+	party_generation();
 }

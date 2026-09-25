@@ -84,6 +84,9 @@
     <ClInclude Include="sprite_util.h">
       <Filter>util</Filter>
     </ClInclude>
+    <ClInclude Include="collection.h">
+      <Filter>support</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="creature.cpp">
@@ -190,6 +193,12 @@
     </ClCompile>
     <ClCompile Include="appearance.cpp">
       <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_portm.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="collection.cpp">
+      <Filter>support</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

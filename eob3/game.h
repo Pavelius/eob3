@@ -19,6 +19,7 @@ enum messagen : unsigned char {
 	Characterinfo, CharacterSkills, PartyStatusFormat,
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
 	MsgGeneraionInfo,
+	ConfirmDeleteCharacter,
 	Class, Race, Level, LevelShort, Experience, ExperienceShort,
 	LastMessage = ExperienceShort
 };
@@ -49,6 +50,8 @@ void button_frame(int count, bool focused, bool pressed);
 void button_label(int index, long data, const char* format, unsigned key, fnevent proc);
 bool confirm(const char* format);
 void correct_answers(int maximum);
+void change_avatar();
+void change_character();
 long choose_avatar(unsigned char* source, unsigned count);
 long choose_dialog(const char* title, int padding);
 long choose_generate_box(const char* header, const char* footer, int current);

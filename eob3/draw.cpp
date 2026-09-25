@@ -51,7 +51,7 @@ point hmouse = {-5000, -5000}, dragmouse, caret, camera, text_next, tips_pos; //
 int	width, height, dialog_width = 500, fsize = 32;
 unsigned hkey;
 const sprite* font;
-rect hilite, clipping, sys_static_area;
+rect hilite, clipping;
 fnevent	domodal, ptips, pbeforemodal, pleavemodal;
 unsigned char alpha = 255;
 const void* hilite_object;
@@ -74,8 +74,6 @@ static bool	break_modal;
 static long break_result;
 static bool drag_active;
 static fnevent next_proc;
-
-extern rect	sys_static_area;
 
 static void correct(int& x1, int& y1, int& x2, int& y2) {
 	if(x1 > x2)
@@ -1277,34 +1275,9 @@ void setclip(rect v) {
 		clipping.y2 = v.y2;
 }
 
-static void intersect_rect(rect& r1, const rect& r2) {
-	if(!r1.intersect(r2))
-		return;
-	if(hmouse.in(r2)) {
-		if(r2.y1 > r1.y1)
-			r1.y1 = r2.y1;
-		if(r2.x1 > r1.x1)
-			r1.x1 = r2.x1;
-		if(r2.y2 < r1.y2)
-			r1.y2 = r2.y2;
-		if(r2.x2 < r1.x2)
-			r1.x2 = r2.x2;
-	} else {
-		if(hmouse.y > r2.y2 && r2.y2 > r1.y1)
-			r1.y1 = r2.y2;
-		else if(hmouse.y < r2.y1 && r2.y1 < r1.y2)
-			r1.y2 = r2.y1;
-		else if(hmouse.x > r2.x2 && r2.x2 > r1.x1)
-			r1.x1 = r2.x2;
-		else if(hmouse.x < r2.x1 && r2.x1 < r1.x2)
-			r1.x2 = r2.x1;
-	}
-}
-
 bool ishilite(const rect& rc) {
 	if(hkey == InputNoUpdate)
 		return false;
-	intersect_rect(sys_static_area, rc);
 	if(!hmouse.in(clipping))
 		return false;
 	if(hmouse.in(rc)) {
@@ -2093,10 +2066,6 @@ static void beforemodal() {
 		hkey = InputUpdate;
 	else
 		domodal = standart_domodal;
-	if(hmouse.x < 0 || hmouse.y < 0)
-		sys_static_area.clear();
-	else
-		sys_static_area = {0, 0, width, height};
 }
 
 bool ismodal() {

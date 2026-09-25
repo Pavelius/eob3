@@ -35,6 +35,7 @@ int main(int argc, char* argv[]) {
 	main_util();
 #endif
 	current_music = MusKvirasim;
+	music_mute = true;
 	sys_create_window(-1, -1, 320, 200, 0, 32);
 	sys_caption("Eye of beholder (remake)");
 	sys_timer(100);

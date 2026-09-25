@@ -55,6 +55,19 @@ static portraiti portraits[] = {
 	{Female, {Human, HalfElf, Elf}, {Cleric, Mage}},
 	{Female, {Human, HalfElf}, {Fighter, Paladin, Ranger, Cleric}}, // 45
 	{Male, {Human, HalfElf, Elf}, {Fighter, Paladin}},
+	{Female, {HalfElf, Elf, Halfling}, {Fighter, Mage, Theif, Cleric}},
+	{Female, {Human, HalfElf, Elf, Halfling}, {Mage, Theif, Cleric}},
+	{Female, {Human, HalfElf}, {Mage, Theif, Cleric}},
+	{Male, {Halfling}, {Fighter, Theif}}, // 50
+	{Male, {Dwarf}, {Fighter, Cleric}},
+	{Male, {Dwarf}, {Fighter, Cleric}},
+	{Male, {Dwarf}, {Fighter, Cleric, Theif}},
+	{Male, {Halfling}, {Fighter, Cleric, Theif}},
+	{Female, {Human}, {Fighter, Ranger, Mage, Theif, Cleric}}, // 55
+	{Male, {Dwarf}, {Fighter, Cleric, Theif}},
+	{Male, {Elf}, {Mage, Cleric, Theif}},
+	{Male, {Dwarf}, {Fighter, Cleric, Theif}},
+	{Female, {Human, HalfElf, Elf, Halfling}, {Cleric, Mage, Theif}},
 };
 
 static bool match(const classnc& flags, classn type) {

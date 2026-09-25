@@ -166,6 +166,23 @@ void button_frame(int count, bool focused, bool pressed) {
 	button_back(focused);
 }
 
+static void list_input(long index) {
+	button_clear();
+	if(!focus_valid(index))
+		return;
+	button_hilited = ishilite();
+	auto isfocused = (answer_index == index);
+	if(button_hilited && !isfocused && hkey == MouseLeft && hpressed)
+		execute(cbsetint, index, &answer_index);
+	else if((isfocused && hkey == KeyEnter) || (button_hilited && hpressed))
+		pressed_focus = index;
+	else if((hkey == InputKeyUp && pressed_focus == index) || (button_hilited && hkey == MouseLeft && !hpressed)) {
+		pressed_focus = empty_focus;
+		button_executed = true;
+	}
+	button_pressed = (pressed_focus == index);
+}
+
 static void button_input(long button_data, unsigned key, unsigned key_hot = 0xFFFF0000) {
 	button_clear();
 	if(!focus_valid(button_data))
@@ -1971,11 +1988,10 @@ static void paint_avatar_list() {
 			break;
 		auto n = character_avatars.data[index];
 		image(res_data[PORTM], n, 0);
-		if(hmouse.in(getrect()) && hkey == MouseLeft && !hpressed && answer_index != index)
-			execute(buttonparam, n);
-		button_input(index, 0, 0);
+		list_input(index);
 		if(index == answer_index)
 			paint_hilite_rect();
+		fire(buttonparam, n);
 		caret.x += 32;
 	}
 }

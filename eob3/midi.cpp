@@ -136,6 +136,8 @@ class midiplayer {
 		if(prepared)
 			return;
 
+		// PRevent MIDI buffer overrun and error 11 from midiOutPrepareHeader.
+		// Maximum buffer is 65k bytes.
 		auto post_count = count;
 		if(post_count > BufferSize)
 			post_count = BufferSize;
@@ -163,6 +165,7 @@ class midiplayer {
 			return;
 		done = false;
 		if(position < size) {
+			// Not played all song. Post next song portion.
 			unprepare();
 			post(data + position, size - position);
 		} else {

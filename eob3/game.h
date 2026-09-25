@@ -60,6 +60,7 @@ long choose_large_menu(const char* header, const char* cancel);
 long choose_main_menu();
 long choose_small_menu(const char* header, const char* cancel);
 void choose_spells(const char* title, const char* cancel, int spell_type);
+void fix_animate();
 void fix_attack(const creature* attacker, wearn slot, int hits);
 void fix_damage(const creature* target, int value);
 bool focus_input();

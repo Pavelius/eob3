@@ -77,8 +77,8 @@ void fix_damage(const creature* target, int value) {
 	if(i == -1) {
 		//	fix_monster_damage(target);
 	} else {
-		//if(disp_damage[i])
-		//	fix_animate(); // Try add another animation over existing. So we update right now.
+		if(disp_damage[i])
+			fix_animate(); // Try add another animation over existing. So we update right now.
 		disp_damage[i] = value;
 		need_update_animation = true;
 	}
@@ -90,12 +90,12 @@ void fix_attack(const creature* attacker, wearn slot, int hits) {
 	if(pind == -1)
 		return;
 	//// If thrown animation fix attack
-	//auto avatar_thrown = attacker->wears[slot].geti().avatar_thrown;
+	auto avatar_thrown = attacker->wears[slot].geti().avatar.thrown;
 	//if(avatar_thrown)
 	//	thrown_item(party, Up, avatar_thrown, pind % 2, enemy_distance);
-	//if(disp_weapon[pind][((slot == RightHand) ? 0 : 1)] != -1)
-	//	fix_animate();
-	//disp_weapon[pind][((slot == RightHand) ? 0 : 1)] = hits;
+	if(disp_weapon[pind][((slot == RightHand) ? 0 : 1)] != -1)
+		fix_animate();
+	disp_weapon[pind][((slot == RightHand) ? 0 : 1)] = hits;
 	need_update_animation = true;
 }
 

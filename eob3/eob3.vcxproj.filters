@@ -87,6 +87,9 @@
     <ClInclude Include="collection.h">
       <Filter>support</Filter>
     </ClInclude>
+    <ClInclude Include="area.h">
+      <Filter>logic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="creature.cpp">

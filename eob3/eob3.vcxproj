@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="adat.h" />
     <ClInclude Include="answers.h" />
+    <ClInclude Include="area.h" />
     <ClInclude Include="collection.h" />
     <ClInclude Include="creature.h" />
     <ClInclude Include="color.h" />

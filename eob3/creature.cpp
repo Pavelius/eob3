@@ -267,6 +267,15 @@ int get_class_index(classn type, classn v) {
 	return -1;
 }
 
+int get_hit_die(classn type) {
+	switch(type) {
+	case Fighter: case Paladin: case Ranger: return 10;
+	case Theif: return 6;
+	case Mage: return 4;
+	default: return 8;
+	}
+}
+
 int get_party_index(const creature* player) {
 	return 0;
 }
@@ -282,7 +291,7 @@ static void update_languages() {
 
 static void update_basic() {
 	memcpy(player->abilities, player->basic.abilities, ExeptionalStrenght + 1);
-//	memcpy(player->feats, player->basic.feats, sizeof(player->basic.feats));
+	//	memcpy(player->feats, player->basic.feats, sizeof(player->basic.feats));
 }
 
 //static int get_skill_level(featn v) {
@@ -299,16 +308,16 @@ static void update_basic() {
 //}
 
 static void update_basic_skills() {
-	//for(auto i = ClimbWalls; i <= ReadLanguages; i = (abilityn)(i + 1)) {
-	//	auto level = imin(imax(0, get_skill_level(bsdata<abilityi>::elements[i].skill)), 17);
-	//	auto value = theif_skill_basic[level][i - ClimbWalls];
-	//	player->abilities[i] += value;
-	//}
+	for(auto i = ClimbWalls; i <= ReadLanguages; i = (abilityn)(i + 1)) {
+		//	auto level = imin(imax(0, get_skill_level(bsdata<abilityi>::elements[i].skill)), 17);
+		//	auto value = theif_skill_basic[level][i - ClimbWalls];
+		//	player->abilities[i] += value;
+	}
 }
 
 static int get_maximum_hits() {
 	auto n = get_class_count(player->type);
-	auto m = player->hd();
+	auto m = player->level();
 	auto a = player->get(Constitution);
 	auto h = maptbl(hit_points_adjustment, a);
 	if(h > 2 && !player->is(Fighter))
@@ -528,8 +537,8 @@ static void update_summon() {
 		if(e.is(SummonedItem) && !have_boost_summon(e)) {
 			auto w = e.geti().wear;
 			e.clear();
-//			if(w == RightHand)
-//				change_quick_item(player, RightHand);
+			//			if(w == RightHand)
+			//				change_quick_item(player, RightHand);
 		}
 	}
 }
@@ -690,7 +699,7 @@ static void apply_maximal(char* abilities, const char* maximal) {
 	}
 }
 
-void generate_abilities() {
+void reroll_ability() {
 	char result[12] = {};
 	if(true) {
 		for(size_t i = 0; i < sizeof(result) / sizeof(result[0]); i++)
@@ -713,6 +722,28 @@ void generate_abilities() {
 	player->basic.abilities[ExeptionalStrenght] = d100() + 1;
 }
 
+void reroll_hits() {
+	auto n = get_class_count(player->type);
+	player->hpr = 0;
+	for(char i = 0; i < n; i++) {
+		auto die = get_hit_die(get_class(player->type, i));
+		auto value = 1 + rand() % die;
+		if(value < die / 2)
+			value = die / 2;
+		player->hpr += value;
+	}
+}
+
+void reroll_character() {
+	player->name_id = random_name(player->race, player->gender);
+	reroll_ability();
+	reroll_hits();
+	player->update();
+}
+
+static void new_character() {
+}
+
 void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment) {
 }
 
@@ -724,7 +755,7 @@ void creature::update() {
 
 static bool specialized(itemn type, racen race) {
 	switch(race) {
-	case Dwarf: return type == BattleAxe || type==Mace;
+	case Dwarf: return type == BattleAxe || type == Mace;
 	case Elf: return type == Longsword || type == ShortSword;
 	case HalfElf: return type == Longsword || type == ShortSword;
 	case Halfling: return type == ShortSword || type == Dagger;
@@ -741,7 +772,7 @@ combati creature::getattack(wearn id, bool large_enemy) const {
 	result.attack += player->get(isranged ? AttackRange : AttackMelee);
 	result.damage.b += player->get(isranged ? DamageRange : DamageMelee);
 	// RULE: Single player fighter have bonus speñialization
-	if(type==Fighter && specialized(weapon, race)) {
+	if(type == Fighter && specialized(weapon, race)) {
 		if(isranged)
 			result.attack += 2;
 		else {
@@ -750,7 +781,7 @@ combati creature::getattack(wearn id, bool large_enemy) const {
 		}
 	}
 	// RULE: Elves gain bonus to attack with elvish weapon
-	if(race==Elf && (weapon==Longsword || weapon==ShortSword))
+	if(race == Elf && (weapon == Longsword || weapon == ShortSword))
 		result.attack += 1;
 	auto magic = get_magic(wears[id].power);
 	result.attack += magic;

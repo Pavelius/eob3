@@ -76,7 +76,7 @@ struct npci {
 	unsigned char	avatar, name_id;
 	char			levels[3];
 	const char* name() const { return (name_id == 0xFF) ? race_names[race] : name_names[name_id]; }
-	int hd() const { return levels[0]; }
+	int level() const { return levels[0]; }
 };
 struct statable {
 	char			abilities[Hits + 1];
@@ -106,6 +106,7 @@ extern creature* player;
 
 unsigned char random_name(racen race, gendern gender);
 
+int get_hit_die(classn type);
 int get_party_index(const creature* player);
 int select_avatars(unsigned char* result, racen race, gendern gender, classn type, fncfilter filter);
 int select_names(unsigned char* result, racen race, gendern gender, fncfilter filter);
@@ -113,6 +114,7 @@ int select_names(unsigned char* result, racen race, gendern gender, fncfilter fi
 bool allow(alignmentn type, classn v);
 bool allow(classn type, racen v);
 void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment);
-void generate_abilities();
+void reroll_ability();
 void reroll_character();
+void reroll_hits();
 void update_player();

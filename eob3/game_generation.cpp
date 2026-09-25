@@ -55,12 +55,6 @@ void change_avatar() {
 	player->avatar = choose_avatar();
 }
 
-void reroll_character() {
-	player->name_id = random_name(player->race, player->gender);
-	generate_abilities();
-	player->update();
-}
-
 static void game_clear() {
 	memset(party, 0, lenghof(party));
 	for(auto& e : characters)
@@ -97,9 +91,7 @@ static void party_generation() {
 			player->type = class_type;
 			player->alignment = alignment;
 			// clear_spellbook();
-			generate_abilities();
-			player->update();
-			player->name_id = random_name(race, gender);
+			reroll_character();
 			player->avatar = choose_avatar();
 		}
 		change_character();

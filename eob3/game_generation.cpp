@@ -48,7 +48,7 @@ void change_avatar() {
 }
 
 static void game_clear() {
-	memset(party, 0, sizeof(party));
+	memset(adventurers, 0, sizeof(adventurers));
 	for(auto& e : characters)
 		e.clear();
 }

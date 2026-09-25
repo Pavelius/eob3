@@ -180,7 +180,7 @@ static char class_minimum[Theif + 1][6] = {
 
 creature characters[32];
 creature* player;
-creature* party[6];
+creature* adventurers[6];
 
 static classn class_data[FighterMageTheif + 1][3] = {
 	{Fighter},

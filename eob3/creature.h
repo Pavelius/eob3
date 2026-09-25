@@ -101,7 +101,7 @@ struct creature : npci, statable, wearable {
 	void update();
 };
 extern creature characters[32]; // All characters in game
-extern creature* party[6]; // Party of characters
+extern creature* adventurers[6]; // Party of characters
 extern creature* player;
 
 unsigned char random_avatar(racen race, gendern gender, classn type);

@@ -794,8 +794,8 @@ static void prev_character() {
 	auto index = get_party_index(player);
 	if(index <= 0)
 		return;
-	if(party[index - 1]) {
-		player = party[index - 1];
+	if(adventurers[index - 1]) {
+		player = adventurers[index - 1];
 		set_focus_by_player();
 	}
 }
@@ -804,8 +804,8 @@ static void next_character() {
 	auto index = get_party_index(player);
 	if(index < 0 || index >= 5)
 		return;
-	if(party[index + 1]) {
-		player = party[index + 1];
+	if(adventurers[index + 1]) {
+		player = adventurers[index + 1];
 		set_focus_by_player();
 	}
 }
@@ -1111,13 +1111,13 @@ void paint_avatars() {
 	static point points[] = {{183, 1}, {255, 1}, {183, 53}, {255, 53}, {183, 105}, {255, 105}};
 	pushrect push;
 	auto push_player = player;
-	if(party[4])
+	if(adventurers[4])
 		copy_image({183, 53}, {183, 105}, 65, 52);
-	if(party[5])
+	if(adventurers[5])
 		copy_image({255, 53}, {255, 105}, 65, 52);
 	for(auto i = 0; i < 6; i++) {
 		caret = points[i];
-		player = party[i];
+		player = adventurers[i];
 		if(!player)
 			continue;
 		paint_character(player->isdisabled() /* || player->is(Paralized)*/,
@@ -1545,7 +1545,7 @@ static void examine_item() {
 }
 
 static void choose_character(int index) {
-	auto p = party[index];
+	auto p = adventurers[index];
 	if(p) {
 		player = p;
 		if(((creature*)current_focus) >= player && ((creature*)current_focus) < (player + 1))

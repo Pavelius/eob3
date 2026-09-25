@@ -107,10 +107,9 @@ static int get_name_group(racen race) {
 int select_names(unsigned char* result, racen race, gendern gender, fncfilter filter) {
 	auto ps = result;
 	auto pb = get_name_group(race);
-	auto pe = pb + 50;
 	auto bs = (gender == Female) ? 1 : 0;
 	for(unsigned char i = 0; i < 50 / 2; i++) {
-		auto v = i * 2 + bs;
+		auto v = 50 * pb + i * 2 + bs;
 		if(filter && !filter(v))
 			continue;
 		*ps++ = v;

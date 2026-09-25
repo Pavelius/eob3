@@ -245,7 +245,7 @@ static int* get_experience_table(classn v) {
 
 int get_class_count(classn v) {
 	switch(v) {
-	case FighterCleric: case FighterMage: case FighterTheif:
+	case FighterCleric: case FighterMage: case FighterTheif: case MageTheif:
 		return 2;
 	case FighterMageTheif:
 		return 3;

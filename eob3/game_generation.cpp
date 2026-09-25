@@ -25,7 +25,7 @@ static classn select_class(racen race) {
 			continue;
 		an.add(i, class_names[i]);
 	}
-	return (classn)choose_generate_dialog(message_names[SelectGender]);
+	return (classn)choose_generate_dialog(message_names[SelectClass]);
 }
 
 static alignmentn select_alignment(classn type) {
@@ -48,7 +48,7 @@ void change_avatar() {
 }
 
 static void game_clear() {
-	memset(party, 0, lenghof(party));
+	memset(party, 0, sizeof(party));
 	for(auto& e : characters)
 		e.clear();
 }

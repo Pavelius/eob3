@@ -47,7 +47,7 @@ static bool no_party_avatar(unsigned char v) {
 
 static unsigned char choose_avatar() {
 	unsigned char source[256];
-	auto count = select_avatars(source, player->race, player->gender, player->type, 0);
+	auto count = select_avatars(source, player->race, player->gender, player->type, no_party_avatar);
 	return (unsigned char)choose_avatar(source, count);
 }
 
@@ -67,18 +67,26 @@ static void game_clear() {
 		e.clear();
 }
 
+static bool is_party_formed() {
+	for(auto i = 0; i < 4; i++) {
+		if(characters[i].avatar == 0xFF)
+			return false;
+	}
+	return true;
+}
+
 static void party_generation() {
 	pushvalue push(player);
 	current_music = MusGenerate;
 	generate_player_index = 0;
 	game_clear();
 	while(true) {
-		const char* footer = 0;
-		generate_player_index = choose_generate_box(message_names[MsgGeneraionInfo], footer, generate_player_index);
+		const char* footer = is_party_formed() ? message_names[GeneraionInfo] : 0;
+		generate_player_index = choose_generate_box(message_names[GeneraionInfo], footer, generate_player_index);
 		if(generate_player_index == 2000) // Start game
 			break;
 		player = characters + generate_player_index;
-		if(characters[generate_player_index].avatar == 0xFF) {
+		if(player->avatar == 0xFF) {
 			auto race = select_race();
 			auto gender = select_gender();
 			auto class_type = select_class(race);

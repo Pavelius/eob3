@@ -18,7 +18,7 @@ enum messagen : unsigned char {
 	StartGame, LoadGame, ExitGame,
 	Characterinfo, CharacterSkills, PartyStatusFormat,
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
-	MsgGeneraionInfo,
+	GeneraionInfo, GenerationPlayInfo,
 	ConfirmDeleteCharacter,
 	Class, Race, Level, LevelShort, Experience, ExperienceShort,
 	LastMessage = ExperienceShort

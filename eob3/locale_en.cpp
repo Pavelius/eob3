@@ -7,6 +7,7 @@ const char* message_names[LastMessage + 1] = {
 	"Information", "CharacterSkills", "PartyStatusFormat",
 	"Select Race", "Select Gender", "Select Class", "Select Alignment",
 	"Select the box of the character you wish to create or view.",
+	"Press Enter to play game.",
 	"Do you really want to delete this character?",
 	"Class", "Race", "Level", "LevelShort", "Experience", "ExperienceShort"
 };

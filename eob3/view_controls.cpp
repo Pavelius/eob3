@@ -77,8 +77,8 @@ void fix_damage(const creature* target, int value) {
 	if(i == -1) {
 		//	fix_monster_damage(target);
 	} else {
-		//	if(disp_damage[i])
-		//		fix_animate(); // Try add another animation over existing. So we update right now.
+		//if(disp_damage[i])
+		//	fix_animate(); // Try add another animation over existing. So we update right now.
 		disp_damage[i] = value;
 		need_update_animation = true;
 	}
@@ -194,6 +194,7 @@ static void button_press_effect() {
 }
 
 static void button(rect rc) {
+	button_clear();
 	if(disable_input)
 		return;
 	pushrect push;
@@ -202,15 +203,14 @@ static void button(rect rc) {
 	width = rc.width();
 	height = rc.height();
 	auto button_data = (*((int*)&caret));
-	auto ishilited = ishilite();
-	auto isfocused = (current_focus == button_data);
-	if(ishilited && hpressed) {
-		pressed_focus = button_data;
-		button_pressed = true;
-	} else if(ishilited && hkey == MouseLeft && !hpressed) {
-		pressed_focus = empty_focus;
-		button_executed = true;
+	button_hilited = ishilite();
+	if(button_hilited) {
+		if(hpressed)
+			pressed_focus = button_data;
+		else if(hkey == MouseLeft && !hpressed)
+			pressed_focus = empty_focus;
 	}
+	button_pressed = (pressed_focus == button_data);
 	if(button_pressed)
 		button_press_effect();
 }
@@ -282,9 +282,9 @@ static void paint_player_hit(const creature* player, wearn id) {
 	auto pind = get_party_index(player);
 	if(pind == -1)
 		return;
-	//auto value = disp_weapon[pind][id == RightHand ? 0 : 1];
-	//if(!value)
-	//	return;
+	auto value = disp_weapon[pind][id == RightHand ? 0 : 1];
+	if(!value)
+		return;
 	auto push_caret = caret;
 	caret.x += width / 2;
 	caret.y += height / 2;
@@ -465,11 +465,11 @@ static void set_player_by_focus() {
 
 static void set_focus_by_player() {
 	if(player) {
-		//	if(current_focus == player->wears + RightHand)
-		//		return;
-		//	if(current_focus == player->wears + LeftHand)
-		//		return;
-		//	current_focus = player->wears + RightHand;
+		if(current_focus == (long)(player->wears + RightHand))
+			return;
+		if(current_focus == (long)(player->wears + LeftHand))
+			return;
+		current_focus = (long)(player->wears + RightHand);
 	}
 }
 
@@ -864,14 +864,9 @@ static void textn(const char* format, int value, const char* value_format = 0, i
 	caret.y += texth() + 1;
 }
 
-static void addv(stringbuilder& sb, const dice& value) {
-	// sb.add("%1i-%2i", value.minimum(), value.maximum());
-}
-
 static void textn(abilityn id) {
-	//char temp[260]; stringbuilder sb(temp);
-	//add_value(sb, id); textr(temp);
-	//textn(namesh(bsdata<abilityi>::elements[id].id));
+	textr(player->strvalue(id));
+	textn(ability_short[id]);
 }
 
 void header_yellow(const char* format) {
@@ -1035,26 +1030,24 @@ static void paint_inventory() {
 		{130 - 9, 138 - 9}, // LastBell
 	};
 	pushrect push;
-	auto push_font = font;
-	auto push_fore = fore;
+	pushfont push_font;
+	pushfore push_fore;
 	paint_sheet_head();
 	wearn id = (wearn)0;
 	width = dx;
 	height = dx;
-	//for(auto pt : points) {
-	//	caret = pt;
-	//	caret.x += 178;
-	//	if(id == LeftRing || id == RightRing)
-	//		paint_ring(player->wears[id], id);
-	//	else
-	//		paint_item(player->wears[id], id);
-	//	id = (wearn)(id + 1);
-	//}
-	//caret.x = 219; caret.y = 159; width = 80; height = texth();
-	//paint_states();
-	//font = push_font;
-	//fore = push_fore;
-	//button({237, 38, 265, 52}, use_item);
+	for(auto pt : points) {
+		caret = pt;
+		caret.x += 178;
+		if(id == LeftRing || id == RightRing)
+			paint_ring(player->wears[id], id);
+		else
+			paint_item(player->wears[id], id);
+		id = (wearn)(id + 1);
+	}
+	caret.x = 219; caret.y = 159; width = 80; height = texth();
+	paint_states();
+	button({237, 38, 265, 52}); // fire(use_item);
 }
 
 static void paint_character() {
@@ -1071,12 +1064,12 @@ static void paint_character() {
 	height = 16;
 	caret.x = push.caret.x + 33;
 	caret.y = push.caret.y + 10;
-	//paint_item(player->wears[RightHand], RightHand, 84);
-	//paint_player_hit(player, RightHand);
+	paint_item(player->wears[RightHand], RightHand, 84);
+	paint_player_hit(player, RightHand);
 	caret.y = push.caret.y + 26;
-	//auto disable_offhand = player->wears[RightHand] && player->wears[RightHand].is(TwoHanded);
-	//paint_item(player->wears[LeftHand], LeftHand, 83, -1, disable_offhand);
-	//paint_player_hit(player, LeftHand);
+	auto disable_offhand = player->wears[RightHand] && player->wears[RightHand].is(TwoHanded);
+	paint_item(player->wears[LeftHand], LeftHand, 83, -1, disable_offhand);
+	paint_player_hit(player, LeftHand);
 	caret.x = push.caret.x + 2;
 	caret.y = push.caret.y + 10;
 	width = 31;
@@ -1461,14 +1454,14 @@ static void common_input() {
 }
 
 static bool can_place(const creature* player, wearn id, item* pi) {
-	//if(id >= Head && id <= LastBelt) {
+	if(id >= Head && id <= LastBelt) {
 	//	if(*pi && !pi->isallow(id))
 	//		return false;
 	//	if(player->wears[id] && !can_remove((item*)player->wears + id))
 	//		return false;
 	//	if(!player->isallow(*pi))
 	//		return false;
-	//}
+	}
 	return true;
 }
 
@@ -1490,9 +1483,9 @@ void pick_up_item() {
 		//	}
 		current_select = current_focus;
 	} else {
-		//	auto p1 = (item*)current_select;
-		//	auto p2 = (item*)current_focus;
-		//	current_select = 0;
+		auto p1 = (item*)current_select;
+		auto p2 = (item*)current_focus;
+		current_select = 0;
 		//	auto c1 = item_owner(p1);
 		//	if(!c1)
 		//		return;
@@ -1518,7 +1511,7 @@ void pick_up_item() {
 }
 
 static void examine_item() {
-	//auto pi = (item*)current_focus;
+	auto pi = (item*)current_focus;
 	//auto pc = item_owner(pi);
 	//if(!pc)
 	//	return;
@@ -1921,10 +1914,15 @@ static void paint_generate_avatars(creature* hilite, long progress_position) {
 	}
 }
 
+static void paint_generate_progress() {
+	paint_background(CHARGEN, 0);
+	paint_generate_avatars(player, generate_player_index);
+}
+
 long choose_generate_box(const char* header, const char* footer, int current) {
 	pushrect push;
-	pushdialog push_dialog;
 	pushfore push_fore;
+	pushdialog push_dialog;
 	current_focus = current;
 	while(ismodal()) {
 		paint_background(CHARGEN, 0);
@@ -1951,8 +1949,7 @@ static long choose_generate_box(fnevent proc) {
 	answer_per_page = 4;
 	answer_index = 0;
 	while(ismodal()) {
-		paint_background(CHARGEN, 0);
-		paint_generate_avatars(player, generate_player_index);
+		paint_generate_progress();
 		caret.x = 144; caret.y = 66; width = 160;
 		proc();
 		domodal();
@@ -2096,17 +2093,12 @@ static void paint_generate_header(const char* header) {
 	caret.x += 8; caret.y += 4; height = texth(); width -= 8;
 }
 
-static void paint_generate() {
-	paint_background(CHARGEN, 0);
-	paint_generate_avatars(player, generate_player_index);
-}
-
 long choose_generate_dialog(const char* header) {
 	if(!interactive)
 		return an.random();
 	an.sort();
 	an.checkkeys();
-	return choose_answer(header, 0, paint_generate, text_label_left, 2, 10, paint_generate_header);
+	return choose_answer(header, 0, paint_generate_progress, text_label_left, 2, 10, paint_generate_header);
 }
 
 //long show_message(const char* format, bool add_anaswers, const char* cancel, unsigned cancel_key) {

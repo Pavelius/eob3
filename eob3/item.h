@@ -36,11 +36,10 @@ enum itemn : unsigned char {
 	RandomTreasure,
 };
 enum featn : unsigned char {
-	Large, TwoHanded, Deadly, Precise,
-};
-enum powern : unsigned char {
 	NoPower, Magical, Magical2, Magical3, Magical4, Magical5, Cursed, Delusion,
 	Protection, Flaming, Freezing,
+	TwoHanded, Deadly, Precise,
+	Invisibled, SeeMagical, SeeCursed,
 };
 enum purposen : unsigned char {
 	CommonItem, SummonedItem, ToolItem, QuestItem, NaturalItem,
@@ -54,10 +53,10 @@ enum wearn : unsigned char {
 
 extern const char* item_names[LastItem + 1];
 
-struct featfc {
-	unsigned char data = 0;
-	featfc() = default;
-	template<typename... Ts> constexpr featfc(featn v, Ts... args) : featfc(args...) { set(v); }
+struct featc {
+	unsigned data = 0;
+	featc() = default;
+	template<typename... Ts> constexpr featc(featn v, Ts... args) : featc(args...) { set(v); }
 	bool is(featn v) const { return (data & (1 << v)) != 0; }
 	void set(featn v) { data |= (1 << v); }
 };
@@ -77,18 +76,18 @@ struct itemi {
 	wearn		wear;
 	int			cost;
 	avatari		avatar;
-	featfc		flags;
+	featc		flags;
 	combati		combat;
 	defencei	defence;
 };
 extern itemi item_data[LastItem + 1];
 
 int get_chance_identify(itemn v);
-int get_magic(powern v);
+int get_magic(featn v);
 
 struct item {
 	itemn		type;
-	powern		power; // Special additional magical powers
+	featn		power; // Special additional magical powers
 	purposen	purpose; // Special purpose of item (depends on mission or quest)
 	union {
 		struct {
@@ -107,9 +106,8 @@ struct item {
 	void createpower(char magic_bonus, int chance_magical, int chance_cursed) {}
 	void damage(const char* interactive, int use) {}
 	void identify(int v) { identified = (v >= 0) ? 1 : 0; }
-	bool is(powern v) const { return power == v; }
+	bool is(featn v) const { return power == v || geti().flags.is(v); }
 	bool is(purposen v) const { return purpose == v; }
-	bool is(featn v) const { return geti().flags.is(v); }
 	bool is(wearn v) const { return geti().wear == v; }
 	bool isartifact() const { return get_magic(power) >= 4; }
 	bool iscursed() const { return (power == Cursed || power == Delusion); }
@@ -122,8 +120,8 @@ struct item {
 	int	getcost() const;
 	int	getcount() const { return countable() ? count + 1 : 1; }
 	int	getmagic() const { return get_magic(power); }
-	powern getpower() const { return power; }
-	void set(powern v) { power = v; }
+	featn getpower() const { return power; }
+	void set(featn v) { power = v; }
 	void set(purposen v) { purpose = v; }
 	void setcount(int v);
 	void usecharge(const char* interactive, int chance = 35, int use = 1); // Maximum charges is always 10

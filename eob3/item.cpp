@@ -44,7 +44,7 @@ static_assert(sizeof(item) == sizeof(int));
 
 item* last_item;
 
-int get_magic(powern v) {
+int get_magic(featn v) {
 	switch(v) {
 	case NoPower: return 0;
 	case Magical: return 1;

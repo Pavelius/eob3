@@ -111,15 +111,11 @@ char* szurl(char* result, const char* base_url, const char* folder, const char* 
 	if(base_url)
 		sb.add(base_url);
 	if(folder) {
-		if(sb)
-			sb.add("/");
 		sb.add(folder);
+		sb.add("/");
 	}
-	if(name) {
-		if(sb)
-			sb.add("/");
+	if(name)
 		sb.add(name);
-	}
 	if(suffix)
 		sb.add(suffix);
 	if(ext) {

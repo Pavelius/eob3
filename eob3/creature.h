@@ -93,11 +93,12 @@ struct monsteri {
 	int				exp; // Experience award for killing.
 	alignmentn		alignment; // Default behaivor. Evil is aggressive.
 	itemn			items[4]; // This items will be equip and some time looted.
+	featc			feats; // Special feats
 };
 extern monsteri monsters[LastMonster + 1];
 struct statable {
 	char			abilities[Hits + 1];
-	featfc			feats;
+	featc			feats;
 };
 struct npci {
 	alignmentn		alignment;
@@ -137,6 +138,7 @@ extern creature characters[32]; // All characters in game
 extern creature* adventurers[6]; // Party of characters
 extern creature* player;
 
+creature* get_creature(void* pointer);
 creature* new_character();
 
 unsigned char random_avatar(racen race, gendern gender, classn type);

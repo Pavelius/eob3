@@ -861,6 +861,12 @@ creature* new_character() {
 	return 0;
 }
 
+creature* get_creature(void* pointer) {
+	if(pointer >= characters && pointer < characters + lengthof(characters))
+		return characters + ((creature*)pointer - characters);
+	return 0;
+}
+
 void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment) {
 	player->clear();
 	player->race = race;

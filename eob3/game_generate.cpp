@@ -93,35 +93,33 @@ static void party_generation() {
 		characters[i].joinparty();
 }
 
+static void create(int index, racen race, gendern gender, classn type, alignmentn alignment) {
+	player = characters + index;
+	create_charater(race, gender, type, alignment);
+	adventurers[index] = player;
+}
+
 static void party_random_generation() {
-	create_charater(Human, Male, Fighter, LawfulGood);
-	create_charater(Human, Female, Fighter, NeutralGood);
-	create_charater(Elf, Female, MageTheif, ChaoticGood);
-	create_charater(Dwarf, Male, Cleric, ChaoticGood);
+	create(0, Human, Male, Fighter, LawfulGood);
+	create(1, Human, Female, Fighter, NeutralGood);
+	create(2, Elf, Female, MageTheif, ChaoticGood);
+	create(3, Dwarf, Male, Cleric, ChaoticGood);
+}
+
+static long choose_action(const char* cancel) {
+	char temp[32]; stringbuilder sb(temp);
+	sb.add(message_names[WhatPlayerDo], player->name());
+	return choose_large_menu(temp, cancel);
+}
+
+static void test_city_menu() {
+	answer_picture = PicCity;
+	play_city();
 }
 
 void game_generation() {
 	game_clear();
-//	party_random_generation();
-	party_generation();
+	party_random_generation();
+	test_city_menu();
+	// party_generation();
 }
-
-//RoomStairsUp shape(ShapeExit)
-//features StairsUp
-//RoomStairsDown shape(ShapeExit)
-//features StairsDown
-//RoomLair shape(ShapeLargeRoom) floor(WanderingMonster)
-//features Boss Door Minions FloorLairTreasure
-//RoomSmallLair shape(ShapeRoom) floor(WanderingMonster)
-//features Boss Door Minions
-//RoomTrap shape(ShapePassage) floor(FloorTrap)
-//features FloorTreasure Door
-//RoomCity shape(ShapeCity)
-//features Interact1 Door Dwellers FloorTreasure FloorTreasure
-//RoomCorner shape(ShapeDeadEnd)
-//RoomOverlay1 shape(ShapeExit)
-//features Interact1
-//RoomOverlay2 shape(ShapeExit)
-//features Interact2
-//RoomOverlay3 shape(ShapeExit)
-//features Interact3

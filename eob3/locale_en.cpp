@@ -1,5 +1,6 @@
 #include "creature.h"
 #include "game.h"
+#include "quest.h"
 
 const char* message_names[LastMessage + 1] = {
 	"Cancel", "Continue", "Title", "Yes", "No", "OK",
@@ -9,6 +10,8 @@ const char* message_names[LastMessage + 1] = {
 	"Select the box of the character you wish to create or view.",
 	"Press Enter to play game.",
 	"Do you really want to delete this character?",
+	"What %1 do?",
+	"City Iriaebor",
 	"Class", "Race", "Level", "LevelShort", "Experience", "ExperienceShort"
 };
 const char* direction_names[Down + 1] = {
@@ -45,6 +48,9 @@ const char* ability_short[Hits + 1] = {
 	"AcidD1", "AcidD2", "Poi", "Dis", "Clones",
 	"DStr", "DCon", "DrLev",
 	"HP"
+};
+extern const char* variable_names[LastVariable + 1] = {
+	"Reputation", "Gold", "Blessing"
 };
 const char* alignment_names[ChaoticEvil + 1] = {
 	"True Neutral",

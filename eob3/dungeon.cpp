@@ -530,7 +530,7 @@ void dungeoni::getmonsters(creature** result, pointc index, directionn dr) {
 			continue;
 		if(e != index)
 			continue;
-		if(e.is(Large))
+		if(e.islarge())
 			result[2] = &e;
 		else
 			result[get_side(e.side, dr)] = &e;

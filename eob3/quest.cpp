@@ -27,6 +27,8 @@
 #include "game.h"
 #include "quest.h"
 
+variablei game;
+
 static sitei flooded_collectors[] = {
 	{BRICK, Human, 2, {Kobold, Leech}, NoMonster, {Lair, TrappedCorridor}},
 	{BRICK, Human, 1, {Kobold, Leech}, NoMonster, {GreatLair, Lair}},
@@ -43,4 +45,12 @@ int quest_count(questfn v) {
 			result++;
 	}
 	return result;
+}
+
+void addv(variablen v, int i) {
+	game.add(v, i);
+}
+
+int getv(variablen v) {
+	return game.variables[v];
 }

@@ -8,6 +8,7 @@ typedef void(*fnevent)(); // Callback function of any command executing
 typedef void(*fnoutput)(const char* format); // Callback function of string out
 typedef void(*fnapaint)(int index, long value, const char* text, unsigned key);
 
+enum variablen : unsigned char;
 enum wearn : unsigned char;
 
 enum directionn : unsigned char {
@@ -21,6 +22,8 @@ enum messagen : unsigned char {
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
 	GeneraionInfo, GenerationPlayInfo,
 	ConfirmDeleteCharacter,
+	WhatPlayerDo,
+	CityName,
 	Class, Race, Level, LevelShort, Experience, ExperienceShort,
 	LastMessage = ExperienceShort
 };
@@ -37,6 +40,12 @@ enum soundn : unsigned char {
 	MusAdept, MusAutomap, MusBinge, MusBlut, MusCamp, MusDepot, MusDiskmenu, MusFinster,
 	MusFireGhost, MusGashok, MusGenerate, MusTravel, MusHealer, MusInn, MusKvirasim,
 };
+enum picturen : unsigned char {
+	NoPicture,
+	PicAdaque, PicAmaldo, PicDexter, PicNord1, PicNord2,
+	PicCity,
+	LastPicture = PicCity
+};
 
 extern const char* direction_names[Down + 1];
 extern const char* message_names[LastMessage + 1];
@@ -48,6 +57,9 @@ inline const char* getnm(messagen v) { return message_names[v]; }
 extern bool interactive;
 extern int generate_player_index;
 
+int getv(variablen v);
+
+void addv(variablen v, int i);
 bool alternate_focus_input();
 void button_frame(int count, bool focused, bool pressed);
 void button_label(int index, long data, const char* format, unsigned key);
@@ -71,12 +83,12 @@ void game_generation();
 void header_yellow(const char* format);
 void initialize_gui();
 void message_box(const char* format);
-void paint_city();
-void paint_city_menu();
+void paint_adventure();
 void paint_small_menu();
 void paint_main_menu();
 void paint_test_mode();
 void pick_up_item();
+void play_city();
 void show_scene(fnevent before_paint, fnevent input, long focus);
 void text_label(int index, long data, const char* format, unsigned key);
 void text_label_left(int index, long data, const char* format, unsigned key);

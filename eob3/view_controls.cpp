@@ -6,6 +6,7 @@
 #include "game.h"
 #include "math.h"
 #include "pushvalue.h"
+#include "quest.h"
 #include "sound.h"
 #include "stream.h"
 #include "timer.h"
@@ -724,63 +725,62 @@ static void focus_and_pick_up_item() {
 
 static void paint_item(item& it, wearn id, int emphty_avatar = -1, int pallette_feat = -1, bool show_disabled = false) {
 	pushrect push;
-	//if(pallette_feat == -1) {
-	//	if(player->is(SeeCursed) && it.iscursed())
-	//		pallette_feat = SeeCursed;
-	//	else if(player->is(SeeMagical) && it.ismagical())
-	//		pallette_feat = SeeMagical;
-	//}
-	//if(!disable_input) {
-	//	focusing(&it);
-	//	if(current_select == &it)
-	//		paint_select_rect();
-	//	else if(current_focus == &it)
-	//		paint_focus_rect();
-	//	if(ishilite()) {
-	//		if(hkey == MouseLeft && !hpressed) {
-	//			if(current_select)
-	//				execute(focus_and_pick_up_item, (long)&it);
-	//			else if(current_focus == &it)
-	//				execute(pick_up_item);
-	//			else
-	//				execute(cbsetptr, (long)&it, 0, &current_focus);
-	//		}
-	//	}
-	//}
-	//auto avatar = it.geti().avatar;
-	//if(!it)
-	//	avatar = emphty_avatar;
-	//if(avatar != -1) {
-	//	auto rs = gres(ITEMS);
-	//	if(pallette_feat) {
-	//		color pallette[256];
-	//		auto& e = rs->get(avatar);
-	//		auto p = (color*)rs->ptr(e.pallette);
-	//		memcpy(pallette, p, sizeof(pallette));
-	//		switch(pallette_feat) {
-	//		case SeeMagical:
-	//			pallette[12] = colors::blue.mix(colors::white, get_alpha(140, 160));
-	//			break;
-	//		case SeeCursed:
-	//			pallette[12] = colors::red.mix(colors::white, get_alpha(140, 160));
-	//			break;
-	//		}
-	//		draw::palt = pallette;
-	//		image(caret.x + width / 2, caret.y + height / 2, rs, avatar, ImagePallette);
-	//	} else
-	//		image(caret.x + width / 2, caret.y + height / 2, gres(ITEMS), avatar, 0);
-	//}
-	//auto count = it.getcount();
-	//if(count > 1) {
-	//	auto ps = str("%1i", count);
-	//	caret.y = push.caret.y + push.height - 6 - 2;
-	//	caret.x = push.caret.x + push.width - textw(ps) - 3;
-	//	auto push_fore = fore;
-	//	fore = colors::white;
-	//	text(ps, -1, TextBold);
-	//	caret = push.caret;
-	//	fore = push_fore;
-	//}
+	auto button_data = (long)&it;
+	if(pallette_feat == -1) {
+		if(player->is(SeeCursed) && it.iscursed())
+			pallette_feat = SeeCursed;
+		else if(player->is(SeeMagical) && it.ismagical())
+			pallette_feat = SeeMagical;
+	}
+	if(!disable_input) {
+		focusing(button_data);
+		if(current_select == button_data)
+			paint_select_rect();
+		else if(current_focus == button_data)
+			paint_focus_rect();
+		if(ishilite()) {
+			if(hkey == MouseLeft && !hpressed) {
+				if(current_select)
+					execute(focus_and_pick_up_item, button_data);
+				else if(current_focus == button_data)
+					execute(pick_up_item);
+				else
+					execute(cbsetptr, button_data, &current_focus);
+			}
+		}
+	}
+	auto avatar = it.geti().avatar.pack;
+	if(!it)
+		avatar = emphty_avatar;
+	if(avatar != -1) {
+		auto rs = res_data[ITEMS];
+		if(pallette_feat) {
+			color pallette[256];
+			auto& e = rs->get(avatar);
+			auto p = (color*)rs->ptr(e.pallette);
+			memcpy(pallette, p, sizeof(pallette));
+			switch(pallette_feat) {
+			case SeeMagical:
+				pallette[12] = colors::blue.mix(colors::white, get_alpha(140, 160));
+				break;
+			case SeeCursed:
+				pallette[12] = colors::red.mix(colors::white, get_alpha(140, 160));
+				break;
+			}
+			pushvalue push_pal(palt, pallette);
+			image(caret.x + width / 2, caret.y + height / 2, rs, avatar, ImagePallette);
+		} else
+			image(caret.x + width / 2, caret.y + height / 2, rs, avatar, 0);
+	}
+	auto count = it.getcount();
+	if(count > 1) {
+		auto ps = str("%1i", count);
+		caret.y = push.caret.y + push.height - 6 - 2;
+		caret.x = push.caret.x + push.width - textw(ps) - 3;
+		pushfore push_fore(colors::white);
+		text(ps, -1, TextBold);
+		caret = push.caret;
+	}
 	if(show_disabled)
 		paint_disabled();
 }
@@ -1207,18 +1207,17 @@ static void texta(const char* format, unsigned flags, color text_color) {
 
 static void party_status_text() {
 	char temp[64]; stringbuilder sb(temp);
-	sb.add(getnm(PartyStatusFormat));
+	sb.add(message_names[PartyStatusFormat]);
 	texta(temp, AlignLeft);
 }
 
-void paint_party_status() {
+static void paint_party_status() {
 	pushrect push;
 	pushfont push_font(0);
 	paint_menu({0, 122}, 178, 52);
-	caret.x = 8; caret.y = 126;
-	width = 160; height = texth();
-	//texta(party.getlocation()->getname(), AlignCenter, colors::yellow);
-	//caret.y += texth() + 3;
+	setpos(8, 126, 160, texth());
+	texta(message_names[CityName], AlignCenter, colors::yellow);
+	caret.y += texth() + 3;
 	//if(is_dead_line()) {
 	//	auto v = getparty(Minutes);
 	//	auto v1 = getparty(StartDeadLine);
@@ -1226,86 +1225,88 @@ void paint_party_status() {
 	//	if(v1 < v && v < v2)
 	//		field(getnm("Time"), 64, 160, v2 - v, v2 - v1);
 	//}
-	//field(gtn<partystati>(Reputation), 64, 160, getparty(Reputation), 100);
-	//field(gtn<partystati>(Blessing), 64, 160, getparty(Blessing), 100);
+	field(variable_names[Reputation], 64, 160, getv(Reputation), 100);
+	field(variable_names[Blessing], 64, 160, getv(Blessing), 100);
 	party_status_text();
 }
 
 static void paint_console() {
 	pushrect push;
 	pushfont push_font;
-	caret = {5, 180};
-	width = 280; height = 6 * 3;
+	setpos(5, 180, 280, 6 * 3);
 	texta(console_text, AlignLeft);
 }
 
 static void update_focus_player() {
-	// player = item_owner(current_focus);
+	player = get_creature((void*)current_focus);
 }
 
-void paint_city_menu() {
+void paint_large_menu() {
 	paint_background(PLAYFLD, 0);
-	// paint_compass(party.d);
+	paint_compass(party.d);
 	paint_avatars_no_focus_hilite();
 	paint_console();
-	//	if(!loc)
-	//		paint_party_status();
+	if(!loc)
+		paint_party_status();
 	paint_menu({0, 0}, 178, 121);
-	caret = {6, 6};
-	width = 165;
-	height = texth() + 3;
+	setpos(6, 6, 165, texth() + 3);
 	cancel_position = {6, 104};
 }
 
 void paint_small_menu() {
 	paint_background(PLAYFLD, 0);
-	//	paint_compass(party.d);
-	//	if(loc)
-	//		paint_dungeon();
-	//	else
+	paint_compass(party.d);
+	//if(loc)
+	//	paint_dungeon();
+	//else
 	paint_picture();
 	paint_avatars_no_focus_hilite();
 	paint_console();
 	paint_small_menu({68, 124}, 110, 50);
-	caret = {71, 126};
-	width = 109;
-	height = 6 + 1;
+	setpos(71, 126, 109, 6 + 1);
 	cancel_position = {71, 168};
 }
 
-void paint_city() {
+static void paint_city() {
 	paint_background(PLAYFLD, 0);
 	paint_picture();
 	paint_party_status();
 	paint_party_sheets();
 	update_focus_player();
-	//	console_scroll(3000);
 	paint_console();
 }
 
-void paint_adventure() {
+void play_city() {
+	scene(paint_city);
+}
+
+static void paint_adventure() {
 	paint_background(PLAYFLD, 0);
-	//	paint_compass(party.d);
-	//	animation_update();
-	//	paint_dungeon();
+	paint_compass(party.d);
+	// animation_update();
+	// paint_dungeon();
 	paint_party_sheets();
 	update_focus_player();
 	//	console_scroll(3000);
 	paint_console();
 }
 
+void play_adventure() {
+	scene(paint_adventure);
+}
+
 void paint_test_mode() {
 	paint_background(PLAYFLD, 0);
-	//	paint_compass(party.d);
+	paint_compass(party.d);
 	paint_avatars_no_focus_hilite();
 }
 
 static void paint_adventure_no_update() {
 	paint_background(PLAYFLD, 0);
-	//	paint_compass(party.d);
+	paint_compass(party.d);
 	//	paint_dungeon();
 	paint_avatars_no_focus();
-	//	console_scroll(3000);
+	// console_scroll(3000);
 	paint_console();
 }
 
@@ -1328,7 +1329,7 @@ void fix_animate() {
 	waitcputime(animation_step);
 	memset(disp_damage, 0, sizeof(disp_damage));
 	memset(disp_weapon, 0, sizeof(disp_weapon));
-	//	fix_monster_damage_end();
+	// fix_monster_damage_end();
 	need_update_animation = false;
 }
 
@@ -1466,19 +1467,19 @@ static void common_input() {
 	case Ctrl + 'L': show_sprites(ITEMGL, {32, 24}, {64, 32}); break;
 	case Ctrl + 'P': show_scene_images(); break;
 	case Ctrl + 'F': show_scene_font(); break;
-		// case Ctrl + 'E': loc->set({20, 20}, CellExplored, 20); break;
+	case Ctrl + 'E': loc->set({20, 20}, CellExplored, 20); break;
 	}
 #endif
 }
 
 static bool can_place(const creature* player, wearn id, item* pi) {
 	if(id >= Head && id <= LastBelt) {
-	//	if(*pi && !pi->isallow(id))
-	//		return false;
-	//	if(player->wears[id] && !can_remove((item*)player->wears + id))
-	//		return false;
-	//	if(!player->isallow(*pi))
-	//		return false;
+		//	if(*pi && !pi->isallow(id))
+		//		return false;
+		//	if(player->wears[id] && !can_remove((item*)player->wears + id))
+		//		return false;
+		//	if(!player->isallow(*pi))
+		//		return false;
 	}
 	return true;
 }
@@ -1565,7 +1566,7 @@ static bool character_input() {
 	case 'C': switch_page(paint_sheet); break;
 	case 'G': switch_page(paint_quest_goals); break;
 	case 'X': switch_page(paint_skills); break;
-	// case 'O': replace_character(); break;
+		// case 'O': replace_character(); break;
 	case 'P': pick_up_item(); break;
 	case 'Q': examine_item(); break;
 	case KeyEscape:
@@ -1698,8 +1699,12 @@ static long choose_answer(const char* title, const char* cancel, fnevent before_
 	return getresult();
 }
 
+long choose_city() {
+	return scene(paint_city);
+}
+
 long choose_large_menu(const char* header, const char* cancel) {
-	return choose_answer(header, cancel, paint_city_menu, button_label, 1, -1, 0);
+	return choose_answer(header, cancel, paint_large_menu, button_label, 1, -1, 0);
 }
 
 long choose_small_menu(const char* header, const char* cancel) {

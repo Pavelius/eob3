@@ -61,10 +61,8 @@ enum wellmsgn : unsigned char {
 };
 enum roomn : unsigned char {
 	NoRoom, StairsUp, StairsDown,
-	Lair, GreatLair,
-	TrappedCorridor, PittedCorridor,
-	IllusionStairsDown,
-	LastRoom = IllusionStairsDown,
+	Lair, GreatLair, TrappedCorridor, IllusionaryStairsDown,
+	LastRoom = IllusionaryStairsDown,
 };
 
 typedef char goala[KillAlmostAllMonsters + 1];
@@ -75,10 +73,10 @@ extern const char* wellmsg_names[MessageHabbits + 1];
 struct sitei {
 	resn			type; // Resources of dungeon
 	racen			language; // All wellmsgn in this language (by race)
-	unsigned char	level; // Dungeon level: 0 - is outdoor surface, 1+ for underground.
+	unsigned char	level; // Dungeon level or count of levels to create.
 	monstern		habbits[2]; // Who dwelve here
-	roomn			features[8]; // Features located on this dungeon level
-	monstern		boss, minions; // Boss with minions can be present on level lair
+	monstern		boss; // Boss can be present on level lair
+	roomn			features[4]; // Features located on this dungeon levels.
 	itemn			key; // Key open all doors
 	itemn			special; // Special item find somewhere
 	unsigned char	webs, barrels, eggs, graves, blood, dirt, blades, jug; // Count of special corridor features in dungeon

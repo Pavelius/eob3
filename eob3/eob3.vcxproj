@@ -145,6 +145,7 @@
     <ClInclude Include="item.h" />
     <ClInclude Include="pointc.h" />
     <ClInclude Include="pointca.h" />
+    <ClInclude Include="quest.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="sprite_util.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="monster.cpp" />
     <ClCompile Include="pointc.cpp" />
     <ClCompile Include="pointca.cpp" />
+    <ClCompile Include="quest.cpp" />
     <ClCompile Include="res.cpp" />
     <ClCompile Include="scale.cpp" />
     <ClCompile Include="shape.cpp" />

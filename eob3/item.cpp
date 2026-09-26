@@ -33,6 +33,8 @@ itemi item_data[LastItem + 1] = {
 	{RightHand, 0, {}, {TwoHanded}, {}}, // TwoHandedSword
 	{RightHand, 0, {}, {TwoHanded}, {}}, // Bow
 	{RightHand, 0, {}, {TwoHanded}, {}}, // Sling
+	{Key, 0}, // Cooper key
+	{Key, 0}, // Silver key
 	{Quiver, 0, {}, {}, {}}, // Arrow
 	{Quiver, 0, {}, {}, {}}, // Stone
 	{Quiver, 0, {}, {}, {}}, // Dart

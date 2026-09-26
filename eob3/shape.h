@@ -13,11 +13,16 @@
 	See the License for the specific language governing permissions and
 	limitations under the License.77
 
-	Symbols:
+	This class allow to put on dungeon map shape of room or location.
+
+	SYMBOLS MEANING:
+
 	Space	Unknown transparent cell.
 	X		Blocking pass walls.
 	.		Floors.
-	0..9	Special point of interests. 0 - point is center.
+	0		Center point of iterest.
+	1		Usually doorway or entry.
+	2..9	Custom points. Monsters, treasures or other local logic.
 
 */
 

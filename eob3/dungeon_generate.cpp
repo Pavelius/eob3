@@ -260,21 +260,22 @@ static void secret(pointc v, directionn d) {
 
 static void monster(pointc v, directionn d, monstern type, int count) {
 	loc->set(v, CellPassable);
-	//if(pi->is(Large))
-	//	loc->addmonster(v, d, 0, pi);
-	//else {
-	//	int sides[4] = {0, 1, 2, 3};
-	//	zshuffle(sides, 4);
-	//	if(pi->minions) {
-	//		loc->addmonster(v, d, sides[0], pi);
-	//		// If creature have bodyguards, then this bodyguard guard it
-	//		for(auto i = 1; i < count; i++)
-	//			loc->addmonster(v, d, sides[i], pi->minions);
-	//	} else {
-	//		for(auto i = 0; i < count; i++)
-	//			loc->addmonster(v, d, sides[i], pi);
-	//	}
-	//}
+	if(is_large(type))
+		loc->add(type, v, d, 0); // Large monster stand alone on box
+	else {
+		int sides[4] = {0, 1, 2, 3};
+		zshuffle(sides, 4);
+		auto minions = get_minions(type);
+		if(minions) {
+			loc->add(type, v, d, sides[0]);
+			// If creature have bodyguards, then this bodyguard guard it
+			for(auto i = 1; i < count; i++)
+				loc->add(minions, v, d, sides[i]);
+		} else {
+			for(auto i = 0; i < count; i++)
+				loc->add(type, v, d, sides[i]);
+		}
+	}
 }
 
 static void monster(pointc v, directionn d) {
@@ -282,15 +283,14 @@ static void monster(pointc v, directionn d) {
 	monster(v, d, loc->habbits[n], xrand(1, 4));
 }
 
+static void monster_tough(pointc v, directionn d) {
+	monster(v, d, loc->habbits[1], xrand(1, 4));
+}
+
 static void monster_boss(pointc v, directionn d) {
 	loc->set(v, CellPassable);
 	auto type = loc->boss ? loc->boss : loc->habbits[1];
 	loc->add(type, v, d, 0);
-}
-
-static void monster_minion(pointc v, directionn d) {
-	auto type = loc->minions ? loc->minions : loc->habbits[1];
-	monster(v, d, type, xrand(1, 4));
 }
 
 static void overlay_interact(pointc v, directionn d, celln tile) {
@@ -771,8 +771,8 @@ static void stairs_down(pointc v, directionn d, shapen shape) {
 static void create_lair(pointc v, directionn d, shapen shape) {
 	apply_shape(v, d, shape, '0', monster_boss);
 	apply_shape(v, d, shape, '1', lair_door);
-	apply_shape(v, d, shape, '2', monster_minion);
-	apply_shape(v, d, shape, '.', monster_minion);
+	apply_shape(v, d, shape, '2', monster);
+	apply_shape(v, d, shape, '.', monster);
 }
 
 static void validate_position(pointc& v, directionn d, shapen shape) {

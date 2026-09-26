@@ -14,6 +14,10 @@ bool is_large(resn v) {
 	}
 }
 
+bool is_large(monstern v) {
+	return is_large(monsters[v].res);
+}
+
 monstern get_minions(monstern v) {
 	return NoMonster;
 }

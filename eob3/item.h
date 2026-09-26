@@ -28,6 +28,7 @@ enum itemn : unsigned char {
 	BattleAxe, Axe, Club, Dagger, Flail, Halberd, WarHammer, Mace, Spear, Staff,
 	Longsword, ShortSword, TwoHandedSword,
 	Bow, Sling,
+	CooperKey, SilverKey,
 	Arrow, Stone, Dart,
 	LastItem = Dart,
 	RandomItem, RandomSmallItem,

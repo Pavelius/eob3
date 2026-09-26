@@ -67,6 +67,7 @@ int get_class_count(classn v);
 int get_class_index(classn base, classn type);
 
 bool is_large(resn v);
+bool is_large(monstern v);
 
 classn get_class(classn v, int index);
 

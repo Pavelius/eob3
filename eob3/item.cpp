@@ -55,3 +55,7 @@ int get_magic(powern v) {
 	default: return 1;
 	}
 }
+
+int get_chance_identify(itemn v) {
+	return 0; // No additional bonuses
+}

@@ -105,3 +105,23 @@ void game_generation() {
 //	party_random_generation();
 	party_generation();
 }
+
+//RoomStairsUp shape(ShapeExit)
+//features StairsUp
+//RoomStairsDown shape(ShapeExit)
+//features StairsDown
+//RoomLair shape(ShapeLargeRoom) floor(WanderingMonster)
+//features Boss Door Minions FloorLairTreasure
+//RoomSmallLair shape(ShapeRoom) floor(WanderingMonster)
+//features Boss Door Minions
+//RoomTrap shape(ShapePassage) floor(FloorTrap)
+//features FloorTreasure Door
+//RoomCity shape(ShapeCity)
+//features Interact1 Door Dwellers FloorTreasure FloorTreasure
+//RoomCorner shape(ShapeDeadEnd)
+//RoomOverlay1 shape(ShapeExit)
+//features Interact1
+//RoomOverlay2 shape(ShapeExit)
+//features Interact2
+//RoomOverlay3 shape(ShapeExit)
+//features Interact3

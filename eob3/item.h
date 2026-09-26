@@ -29,7 +29,10 @@ enum itemn : unsigned char {
 	Longsword, ShortSword, TwoHandedSword,
 	Bow, Sling,
 	Arrow, Stone, Dart,
-	LastItem = Dart
+	LastItem = Dart,
+	RandomItem, RandomSmallItem,
+	RandomRation,
+	RandomTreasure,
 };
 enum featn : unsigned char {
 	Large, TwoHanded, Deadly, Precise,
@@ -79,6 +82,7 @@ struct itemi {
 };
 extern itemi item_data[LastItem + 1];
 
+int get_chance_identify(itemn v);
 int get_magic(powern v);
 
 struct item {
@@ -118,6 +122,8 @@ struct item {
 	int	getcount() const { return countable() ? count + 1 : 1; }
 	int	getmagic() const { return get_magic(power); }
 	powern getpower() const { return power; }
+	void set(powern v) { power = v; }
+	void set(purposen v) { purpose = v; }
 	void setcount(int v);
 	void usecharge(const char* interactive, int chance = 35, int use = 1); // Maximum charges is always 10
 };
@@ -135,3 +141,5 @@ struct wearable {
 	void		putbelt(item& v);
 	void		shrinkbelt();
 };
+
+itemn random(itemn v);

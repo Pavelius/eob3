@@ -47,3 +47,4 @@ struct posable : pointc {
 extern posable party;
 
 typedef bool (*fnpointc)(pointc v);
+typedef void (*fncorridor)(pointc v, directionn d);

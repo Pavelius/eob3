@@ -85,7 +85,7 @@ struct dungstatei {
 	posable			portal; // where is portal
 	posable			special; // where is special item dropped
 	posable			features[8]; // where is dungeon features locatied (if any)
-	short unsigned	wellmsgn; // count of wellmsgn
+	short unsigned	messages; // count of wellmsgn
 	short unsigned	secrets_found; // count of secret rooms found (used secret button)
 	short unsigned	elements; // count of corridors
 	short unsigned	bones; // count of bones
@@ -101,8 +101,9 @@ struct dungstatei {
 	short unsigned	locks_open; // total opened locks by theif tools or by key
 	short unsigned	total_passable; // total cell passable (include buttons and pits)
 	short unsigned	explored_passable; // total cell passable (include buttons and pits) explored
-	short unsigned	wallmessages[MessageHabbits]; // count of variable wellmsgn
+	short unsigned	variables[MessageHabbits]; // count of variable wellmsgn
 	short unsigned	goals; // Reaching goals by party
+	void add(wellmsgn v, int n = 1) { variables[v] += n; }
 	void clear();
 };
 
@@ -193,4 +194,5 @@ int get_side_ex(int side, directionn d);
 directionn to(directionn v, directionn d);
 directionn get_part_placement(pointc v);
 
+void dungeon_create(slice<sitei> source);
 bool filter_corridor(pointc v);

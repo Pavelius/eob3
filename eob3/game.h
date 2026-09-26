@@ -26,6 +26,8 @@ enum messagen : unsigned char {
 };
 enum resn : unsigned char {
 	FONT6, FONT8,
+	BRICK, FOREST,
+	KOBOLD, LEECH,
 	BORDER, CHARGEN, CHARGENB, COMPASS, INVENT, ITEMGS, ITEMGL, ITEMS,
 	MENU, PLAYFLD, PORTM, SCENE, THROWN, XSPL,
 	LastRes = XSPL

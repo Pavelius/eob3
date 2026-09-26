@@ -11,11 +11,9 @@ const char* message_names[LastMessage + 1] = {
 	"Do you really want to delete this character?",
 	"Class", "Race", "Level", "LevelShort", "Experience", "ExperienceShort"
 };
-
 const char* direction_names[Down + 1] = {
 	"Center", "Left", "Up", "Right", "Down"
 };
-
 const char* ability_names[Hits + 1] = {
 	"Strenght", "Dexterity", "Constitution", "Intellegence", "Wisdow", "Charisma",
 	"Save vs Paralization", "Save vs Poison", "Save vs Traps", "Save vs Magic",
@@ -28,7 +26,7 @@ const char* ability_names[Hits + 1] = {
 	"Spell1", "Spell2", "Spell3", "Spell4", "Spell5", "Spell6", "Spell7", "Spell8", "Spell9", "Spells",
 	"Bonus Experience", "Reaction Bonus",
 	"Exeptional Strenght",
-	"AcidD1Level", "AcidD2Level", "PoisonLevel", "DiseaseLevel", "Duplicate Illusions",
+	"AcidD1", "AcidD2", "Poison", "Disease", "Clones",
 	"DrainedStrenght", "DrainedConstitution", "DrainedLevels",
 	"Hits"
 };
@@ -41,35 +39,31 @@ const char* ability_short[Hits + 1] = {
 	"CD", "DS",
 	"AC", "Att", "Rng", "Dam", "Dam",
 	"Speed", "Turn Undead", "Backstab", "Attacks",
-	"Spell1", "Spell2", "Spell3", "Spell4", "Spell5", "Spell6", "Spell7", "Spell8", "Spell9", "Spells",
-	"Bonus Experience", "RA",
-	"Exeptional Strenght",
-	"AcidD1Level", "AcidD2Level", "PoisonLevel", "DiseaseLevel", "Duplicate Illusions",
+	"S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "Spells",
+	"BE", "RA",
+	"ExS",
+	"AcidD1", "AcidD2", "Poi", "Dis", "Clones",
 	"DStr", "DCon", "DrLev",
 	"HP"
 };
-
 const char* alignment_names[ChaoticEvil + 1] = {
+	"True Neutral",
 	"Lawful Good", "Neutral Good", "Chaotic Good",
-	"Lawful Neutral", "True Neutral", "Chaotic Neutral",
+	"Lawful Neutral", "Chaotic Neutral",
 	"Lawful Evil", "Neutral Evil", "Chaotic Evil"
 };
-
 const char* class_names[FighterMageTheif + 1] = {
 	"Fighter", "Ranger", "Paladin", "Mage", "Cleric", "Theif",
 	"Fighter/Cleric", "Fighter/Mage", "Fighter/Theif",
 	"Mage/Theif",
 	"Fighter/Mage/Theif",
 };
-
 const char* gender_names[Female + 1] = {
 	"Male", "Female"
 };
-
 const char* race_names[Halfling + 1] = {
 	"Human", "Dwarf", "Elf", "Half-Elf", "Halfling",
 };
-
 const char* name_names[50 * 4] = {
 	"Aldren", "Elira", "Garrick", "Mirena", "Taren", // Human names
 	"Lianna", "Corwin", "Selena", "Branor", "Alicia",

@@ -6,6 +6,7 @@
 typedef bool (*fncfilter)(unsigned char v);
 
 enum monstern : unsigned char;
+enum resn : unsigned char;
 enum spelln : unsigned char;
 
 enum groupn : unsigned char {
@@ -19,10 +20,12 @@ enum classn : unsigned char {
 };
 enum racen : unsigned char {
 	Human, Dwarf, Elf, HalfElf, Halfling,
+	Goblinoid, Animal,
 };
 enum alignmentn : unsigned char {
+	TrueNeutral,
 	LawfulGood, NeutralGood, ChaoticGood,
-	LawfulNeutral, TrueNeutral, ChaoticNeutral,
+	LawfulNeutral, ChaoticNeutral,
 	LawfulEvil, NeutralEvil, ChaoticEvil,
 };
 enum gendern : unsigned char {
@@ -43,6 +46,11 @@ enum abilityn : unsigned char {
 	AcidD1Level, AcidD2Level, PoisonLevel, DiseaseLevel, DuplicateIllusion,
 	DrainedStrenght, DrainedConstitution, DrainedLevels,
 	Hits
+};
+enum monstern : unsigned char {
+	NoMonster,
+	Kobold, Leech, DwarfWarrior, Spider,
+	LastMonster = Spider
 };
 
 extern const char* ability_names[Hits + 1];
@@ -72,6 +80,20 @@ struct classnc {
 	bool is(classn v) const { return (data & (1 << v)) != 0; }
 	void set(classn v) { data |= (1 << v); }
 };
+struct monsteri {
+	resn			res; // Main graphic resource
+	racen			race; // Main race of creature
+	char			overlays[3]; // Graphics ovelays with different weapons or faces.
+	char			hd, ac; // Combat statistic.
+	int				exp; // Experience award for killing.
+	alignmentn		alignment; // Default behaivor. Evil is aggressive.
+	itemn			items[4]; // This items will be equip and some time looted.
+};
+extern monsteri monsters[LastMonster + 1];
+struct statable {
+	char			abilities[Hits + 1];
+	featfc			feats;
+};
 struct npci {
 	alignmentn		alignment;
 	racen			race;
@@ -82,10 +104,6 @@ struct npci {
 	char			levels[3];
 	const char* name() const { return (name_id == 0xFF) ? race_names[race] : name_names[name_id]; }
 	int level() const { return levels[0]; }
-};
-struct statable {
-	char			abilities[Hits + 1];
-	featfc			feats;
 };
 struct creature : npci, posable, statable, wearable {
 	statable		basic;
@@ -115,6 +133,9 @@ extern creature* player;
 unsigned char random_avatar(racen race, gendern gender, classn type);
 unsigned char random_name(racen race, gendern gender);
 
+monstern get_minions(monstern v);
+racen get_race(monstern v);
+
 int get_hit_die(classn type);
 int get_party_index(const creature* player);
 int select_avatars(unsigned char* result, racen race, gendern gender, classn type, fncfilter filter);
@@ -124,6 +145,7 @@ bool allow(alignmentn type, classn v);
 bool allow(classn type, racen v);
 void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment);
 bool no_party_avatar(unsigned char v);
+bool is_large(resn v);
 void reroll_ability();
 void reroll_character();
 void reroll_hits();

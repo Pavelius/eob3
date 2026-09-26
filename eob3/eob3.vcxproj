@@ -175,7 +175,7 @@
     <ClCompile Include="bin_portm.cpp" />
     <ClCompile Include="bin_scene.cpp" />
     <ClCompile Include="bin_xspl.cpp" />
-    <ClCompile Include="bmp_util.cpp" />
+    <ClCompile Include="bitmap.cpp" />
     <ClCompile Include="collection.cpp" />
     <ClCompile Include="dungeon.cpp" />
     <ClCompile Include="dungeon_generate.cpp" />

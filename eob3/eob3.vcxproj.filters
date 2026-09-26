@@ -242,9 +242,6 @@
     <ClCompile Include="quest.cpp">
       <Filter>logic</Filter>
     </ClCompile>
-    <ClCompile Include="bmp_util.cpp">
-      <Filter>util</Filter>
-    </ClCompile>
     <ClCompile Include="bin_scene.cpp">
       <Filter>resources</Filter>
     </ClCompile>
@@ -253,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="bin_items.cpp">
       <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bitmap.cpp">
+      <Filter>interface</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -221,7 +221,9 @@ int	texth(const char* string, int width);
 int	textw(int sym);
 int	textw(const char* string, int count = -1);
 
+bool bitmap_read(const char* url, unsigned char* output, int output_width, int output_height, int output_bpp, color* pallette);
 void bitmap_write(const char* url, unsigned char* bits, int width, int height, int bpp, int scanline, color* pallette);
+
 void blit(surface& dest, int x, int y, int width, int height, unsigned flags, const surface& source, int x_source, int y_source);
 void blit(surface& dest, int x, int y, int width, int height, unsigned flags, const surface& source, int x_source, int y_source, int width_source, int height_source);
 void button_clear();

@@ -313,4 +313,5 @@ void sys_update_window();
 void cbsetuc();
 void cbsetsht();
 void cbsetint();
+void cbsetlong();
 void cbsetptr();

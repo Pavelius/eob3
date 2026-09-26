@@ -148,7 +148,7 @@ void apply_focus(int key) {
 	auto p = next_focus(current_focus, key);
 	if(!p)
 		return;
-	current_focus = p->focus;
+	execute(cbsetlong, p->focus, &current_focus);
 }
 
 long focus_next(long focus, int key) {
@@ -158,15 +158,14 @@ long focus_next(long focus, int key) {
 	return p->focus;
 }
 
-bool focus_input() {
+void focus_input() {
 	switch(hkey) {
 	case KeyLeft: apply_focus(KeyLeft); break;
 	case KeyRight: apply_focus(KeyRight); break;
 	case KeyUp: apply_focus(KeyUp); break;
 	case KeyDown: apply_focus(KeyDown); break;
-	default: return false;
+	default: break;
 	}
-	return true;
 }
 
 void clear_focus_data() {

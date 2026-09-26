@@ -100,10 +100,10 @@ static void create(int index, racen race, gendern gender, classn type, alignment
 }
 
 static void party_random_generation() {
-	create(0, Human, Male, Fighter, LawfulGood);
 	create(1, Human, Female, Fighter, NeutralGood);
 	create(2, Elf, Female, MageTheif, ChaoticGood);
 	create(3, Dwarf, Male, Cleric, ChaoticGood);
+	create(0, Human, Male, Fighter, LawfulGood);
 }
 
 static long choose_action(const char* cancel) {
@@ -114,12 +114,12 @@ static long choose_action(const char* cancel) {
 
 static void test_city_menu() {
 	answer_picture = PicCity;
-	play_city();
+	next_scene(play_city);
 }
 
 void game_generation() {
 	game_clear();
-	party_random_generation();
+	// party_random_generation();
+	party_generation();
 	test_city_menu();
-	// party_generation();
 }

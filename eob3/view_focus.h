@@ -14,7 +14,7 @@ struct pushfocus {
 void apply_focus(int key);
 void clear_focus_data();
 void focusing(long focus_data);
-bool focus_input();
+void focus_input();
 long focus_next(long focus, int key);
 
 inline bool focus_valid(long v) { return v != empty_focus; }

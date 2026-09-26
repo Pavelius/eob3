@@ -84,7 +84,7 @@ struct combati {
 };
 struct itemi {
 	struct avatari {
-		unsigned char pack, ground, thrown;
+		short	pack = -1, ground = -1, thrown = -1;
 	};
 	struct defencei {
 		char	ac;

@@ -2106,6 +2106,11 @@ void cbsetint() {
 	*p = hparam;
 }
 
+void cbsetlong() {
+	auto p = (long*)hobject;
+	*p = hparam;
+}
+
 void cbsetsht() {
 	auto p = (short*)hobject;
 	*p = (short)hparam;

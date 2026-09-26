@@ -1267,19 +1267,6 @@ void paint_small_menu() {
 	cancel_position = {71, 168};
 }
 
-static void paint_city() {
-	paint_background(PLAYFLD, 0);
-	paint_picture();
-	paint_party_status();
-	paint_party_sheets();
-	update_focus_player();
-	paint_console();
-}
-
-void play_city() {
-	scene(paint_city);
-}
-
 static void paint_adventure() {
 	paint_background(PLAYFLD, 0);
 	paint_compass(party.d);
@@ -1315,22 +1302,6 @@ void paint_main_menu() {
 	caret = {80, 110};
 	width = 166;
 	height = texth();
-}
-
-void fix_animate() {
-	if(!need_update_animation)
-		return;
-	animate_counter++;
-	//	if(loc)
-	//		paint_adventure_no_update();
-	//	else
-	paint_city();
-	sys_redraw();
-	waitcputime(animation_step);
-	memset(disp_damage, 0, sizeof(disp_damage));
-	memset(disp_weapon, 0, sizeof(disp_weapon));
-	// fix_monster_damage_end();
-	need_update_animation = false;
 }
 
 static void paint_title(const char* title) {
@@ -1401,6 +1372,7 @@ static void show_sprites(resn id, point start, point size) {
 		paint_sprites(id, start, focus, per_line);
 		caret = {0, 192};
 		text(str("index %1i", focus), -1, TextBold);
+		focus_input();
 		domodal();
 		switch(hkey) {
 		case KeyRight: focus++; break;
@@ -1409,7 +1381,6 @@ static void show_sprites(resn id, point start, point size) {
 		case KeyUp: focus -= per_line; break;
 		case KeyEscape: breakmodal(0); break;
 		}
-		focus_input();
 	}
 }
 
@@ -1448,25 +1419,28 @@ void make_screenshoot() {
 	auto index = get_file_number("screenshoots", "scr*.bmp");
 	char temp[260]; stringbuilder sb(temp);
 	sb.add("screenshoots/scr%1.5i.bmp", index);
-	//	draw::write(temp,
-	//		draw::canvas->ptr(0, 0), canvas->width, canvas->height, canvas->bpp, canvas->scanline, 0);
+	bitmap_write(temp, canvas->ptr(0, 0), canvas->width, canvas->height, canvas->bpp, canvas->scanline, 0);
 }
 
 void show_scene_font();
 
-static void common_input() {
+static void show_item_sprites() {
+	show_sprites(ITEMS, {8, 8}, {16, 16});
+}
+
+void common_input() {
 	switch(hkey) {
-	case Ctrl + F5: make_screenshoot(); break;
+	case Ctrl + F5: execute(make_screenshoot); break;
 	}
 #ifdef _DEBUG
 	switch(hkey) {
 	case Ctrl + 'A': show_sprites(PORTM, {0, 0}, {32, 32}); break;
 	case Ctrl + 'S': show_sprites(ITEMGS, {16, 16}, {32, 32}); break;
 		//	case Ctrl + 'D': show_dungeon_images(); break;
-	case Ctrl + 'I': show_sprites(ITEMS, {8, 8}, {16, 16}); break;
+	case Ctrl + 'I': execute(show_item_sprites); break;
 	case Ctrl + 'L': show_sprites(ITEMGL, {32, 24}, {64, 32}); break;
-	case Ctrl + 'P': show_scene_images(); break;
-	case Ctrl + 'F': show_scene_font(); break;
+	case Ctrl + 'P': execute(show_scene_images); break;
+	case Ctrl + 'F': execute(show_scene_font); break;
 	case Ctrl + 'E': loc->set({20, 20}, CellExplored, 20); break;
 	}
 #endif
@@ -1580,15 +1554,14 @@ static bool character_input() {
 	return true;
 }
 
-bool alternate_focus_input() {
+void alternate_focus_input() {
 	switch(hkey) {
 	case 'A': apply_focus(KeyLeft); break;
 	case 'S': apply_focus(KeyRight); break;
 	case 'W': apply_focus(KeyUp); break;
 	case 'Z': apply_focus(KeyDown); break;
-	default: return false;
+	default: break;
 	}
-	return true;
 }
 
 static void clear_input() {
@@ -1605,24 +1578,6 @@ static void clear_input() {
 //		return true;
 //	}
 //	return false;
-//}
-
-//void city_input(const hotkeyi* hotkeys) {
-//	if(focus_input())
-//		return;
-//	if(alternate_focus_input())
-//		return;
-//	if(character_input())
-//		return;
-//	hotkey_input(hotkeys);
-//}
-
-//void adventure_input(const hotkeyi* hotkeys) {
-//	if(alternate_focus_input())
-//		return;
-//	if(character_input())
-//		return;
-//	hotkey_input(hotkeys);
 //}
 
 static bool answer_input() {
@@ -1656,6 +1611,45 @@ static bool answer_input() {
 	return true;
 }
 
+static void paint_city_no_input() {
+	paint_background(PLAYFLD, 0);
+	paint_picture();
+	paint_party_status();
+	paint_party_sheets();
+	update_focus_player();
+	paint_console();
+}
+
+static void paint_city() {
+	paint_city_no_input();
+	focus_input();
+	alternate_focus_input();
+	character_input();
+	common_input();
+}
+
+void play_city() {
+	pushdialog push;
+	set_focus_by_player();
+	scene(paint_city);
+}
+
+void fix_animate() {
+	if(!need_update_animation)
+		return;
+	animate_counter++;
+	//	if(loc)
+	//		paint_adventure_no_update();
+	//	else
+	paint_city_no_input();
+	sys_redraw();
+	waitcputime(animation_step);
+	memset(disp_damage, 0, sizeof(disp_damage));
+	memset(disp_weapon, 0, sizeof(disp_weapon));
+	// fix_monster_damage_end();
+	need_update_animation = false;
+}
+
 static long choose_answer(const char* title, const char* cancel, fnevent before_paint, fnapaint answer_paint, int padding, int per_page, fnoutput header_paint) {
 	if(!interactive) {
 		auto r = an.random();
@@ -1684,23 +1678,16 @@ static long choose_answer(const char* title, const char* cancel, fnevent before_
 			answer_paint(1000, 0, cancel, KeyEscape);
 			fire(buttoncancel);
 		}
-		domodal();
-		if(answer_input())
-			continue;
-		if(focus_input())
-			continue;
-		if(alternate_focus_input())
-			continue;
+		focus_input();
+		alternate_focus_input();
 		common_input();
+		domodal();
+		answer_input();
 	}
 	sys_update_window();
 	answer_origin = push_origin;
 	an.clear();
 	return getresult();
-}
-
-long choose_city() {
-	return scene(paint_city);
 }
 
 long choose_large_menu(const char* header, const char* cancel) {
@@ -1956,9 +1943,9 @@ long choose_generate_box(const char* header, const char* footer, int current) {
 			paint_header(footer);
 			setpos(25, 181); button(CHARGENB, 4, 5, -1, 'P'); fire(buttonparam, 2000);
 		}
+		focus_input();
+		common_input();
 		domodal();
-		if(!focus_input())
-			common_input();
 	}
 	sys_update_window();
 	return getresult();
@@ -1975,9 +1962,9 @@ static long choose_generate_box(fnevent proc) {
 		paint_generate_progress();
 		caret.x = 144; caret.y = 66; width = 160;
 		proc();
-		domodal();
-		if(!focus_input())
-			common_input();
+		focus_input();
+		common_input();
+		domodal();			
 	}
 	answer_origin = push_origin;
 	return getresult();

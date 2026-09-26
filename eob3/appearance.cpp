@@ -81,7 +81,7 @@ static bool match(const classnc& flags, classn type) {
 
 int select_avatars(unsigned char* result, racen race, gendern gender, classn type, fncfilter filter) {
 	auto ps = result;
-	for(unsigned char i = 0; i < lenghof(portraits); i++) {
+	for(unsigned char i = 0; i < lengthof(portraits); i++) {
 		if(portraits[i].gender != gender)
 			continue;
 		if(!match(portraits[i].classes, type))

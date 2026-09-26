@@ -22,6 +22,7 @@
 enum directionn : unsigned char;
 enum monstern : unsigned char;
 enum resn : unsigned char;
+enum shapen : unsigned char;
 enum trapn : unsigned char;
 
 enum celln : unsigned char {
@@ -58,6 +59,13 @@ enum wellmsgn : unsigned char {
 	MessageAtifacts, MessageCursedItems, MessageSpecialItem, MessageBoss,
 	MessageHabbits
 };
+enum roomn : unsigned char {
+	NoRoom, StairsUp, StairsDown,
+	Lair, GreatLair,
+	TrappedCorridor, PittedCorridor,
+	IllusionStairsDown,
+	LastRoom = IllusionStairsDown,
+};
 
 typedef char goala[KillAlmostAllMonsters + 1];
 
@@ -65,26 +73,34 @@ extern const char* goal_names[MessageHabbits + 1];
 extern const char* wellmsg_names[MessageHabbits + 1];
 
 struct sitei {
-	resn type; // Resources of dungeon
-	racen language; // All wellmsgn in this language (by race)
-	unsigned char level; // Dungeon level: 0 - is outdoor surface, 1+ for underground.
-	monstern habbits[2]; // Who dwelve here
-	monstern boss, minions; // Boss with minions can be present on level lair
-	itemn key; // Key open all doors
-	itemn special; // Special item find somewhere
-	unsigned char webs, barrels, eggs, graves, blood, dirt, blades, jug; // Count of special corridor features in dungeon
-	unsigned char trap; // Type of all dungeon traps
-	char cursed; // Chance to all items found be cursed
-	char magical; // Chance to all items found be magical
-	unsigned short textures[3]; // Special wall for interactions with special texture
+	resn			type; // Resources of dungeon
+	racen			language; // All wellmsgn in this language (by race)
+	unsigned char	level; // Dungeon level: 0 - is outdoor surface, 1+ for underground.
+	monstern		habbits[2]; // Who dwelve here
+	roomn			features[8]; // Features located on this dungeon level
+	monstern		boss, minions; // Boss with minions can be present on level lair
+	itemn			key; // Key open all doors
+	itemn			special; // Special item find somewhere
+	unsigned char	webs, barrels, eggs, graves, blood, dirt, blades, jug; // Count of special corridor features in dungeon
+	trapn			trap; // Type of all dungeon traps
+	char			cursed; // Chance to all items found be cursed
+	char			magical; // Chance to all items found be magical
+	unsigned short	textures[3]; // Special wall for interactions with special texture
 	constexpr explicit operator bool() const { return type != (resn)0; }
 };
+
+struct roomi {
+	shapen			shape;
+	fncorridor		proc;
+};
+extern roomi room_data[LastRoom + 1];
 
 struct dungstatei {
 	posable			up, down; // where is stairs located
 	posable			portal; // where is portal
 	posable			special; // where is special item dropped
-	posable			features[8]; // where is dungeon features locatied (if any)
+	posable			features[10]; // where is dungeon features locatied (if any)
+	short unsigned	features_count; // count of wellmsgn
 	short unsigned	messages; // count of wellmsgn
 	short unsigned	secrets_found; // count of secret rooms found (used secret button)
 	short unsigned	elements; // count of corridors

@@ -20,7 +20,7 @@
 using size_t = decltype(sizeof(0));
 #endif
 
-#define lenghof(T) (sizeof(T)/sizeof(T[0]))
+#define lengthof(T) (sizeof(T)/sizeof(T[0]))
 
 typedef int(*fncompare)(const void*, const void*);
 typedef int(*fngetnum)(const void* object);

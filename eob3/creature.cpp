@@ -183,6 +183,7 @@ creature* player;
 creature* adventurers[6];
 
 static classn class_data[FighterMageTheif + 1][3] = {
+	{Monster},
 	{Fighter},
 	{Ranger},
 	{Paladin},
@@ -209,6 +210,19 @@ void creature::add(abilityn n, int v) {
 	else if(v > 120)
 		v = 120;
 	abilities[n] = (char)v;
+}
+
+void creature::setframe(short* frames, short index) const {
+	if(monster) {
+		auto po = monsters[monster].overlays;
+		frames[0] = po[0] * 6 + index;
+		frames[1] = po[1] ? po[1] * 6 + index : 0;
+		frames[2] = po[2] ? po[2] * 6 + index : 0;
+		frames[3] = po[3] ? po[3] * 6 + index : 0;
+	} else {
+		frames[0] = index;
+		frames[1] = 0;
+	}
 }
 
 static abilityn get_primary(classn v) {
@@ -245,24 +259,16 @@ static int* get_experience_table(classn v) {
 
 int get_class_count(classn v) {
 	switch(v) {
-	case FighterCleric: case FighterMage: case FighterTheif: case MageTheif:
-		return 2;
-	case FighterMageTheif:
-		return 3;
-	default:
-		return 1;
+	case FighterCleric: case FighterMage: case FighterTheif: case MageTheif: return 2;
+	case FighterMageTheif: return 3;
+	default: return 1;
 	}
 }
 
 int get_class_index(classn type, classn v) {
-	if(v == Fighter) {
-		if(class_data[type][0] == Fighter)
-			return 0;
-	} else {
-		for(auto i = 0; i < sizeof(class_data[0]) / sizeof(class_data[0][0]); i++) {
-			if(class_data[type][i] == v)
-				return i;
-		}
+	for(auto i = 0; i < sizeof(class_data[0]) / sizeof(class_data[0][0]); i++) {
+		if(class_data[type][i] == v)
+			return i;
 	}
 	return -1;
 }
@@ -291,10 +297,10 @@ static void update_languages() {
 
 static void update_basic() {
 	memcpy(player->abilities, player->basic.abilities, ExeptionalStrenght + 1);
-	//	memcpy(player->feats, player->basic.feats, sizeof(player->basic.feats));
+	memcpy(&player->feats, &player->basic.feats, sizeof(player->feats));
 }
 
-//static int get_skill_level(featn v) {
+static int get_skill_level(abilityn v) {
 //	// For monsters and other special effects
 //	if(player->is(v))
 //		return player->getlevel();
@@ -304,14 +310,14 @@ static void update_basic() {
 //		if(bsdata<classi>::elements[ei.classes[i]].is(v))
 //			return player->levels[i];
 //	}
-//	return 0;
-//}
+	return 0;
+}
 
 static void update_basic_skills() {
 	for(auto i = ClimbWalls; i <= ReadLanguages; i = (abilityn)(i + 1)) {
-		//	auto level = imin(imax(0, get_skill_level(bsdata<abilityi>::elements[i].skill)), 17);
-		//	auto value = theif_skill_basic[level][i - ClimbWalls];
-		//	player->abilities[i] += value;
+		auto level = imin(imax(0, get_skill_level(i)), 17);
+		auto value = theif_skill_basic[level][i - ClimbWalls];
+		player->abilities[i] += value;
 	}
 }
 
@@ -537,8 +543,8 @@ static void update_summon() {
 		if(e.is(SummonedItem) && !have_boost_summon(e)) {
 			auto w = e.geti().wear;
 			e.clear();
-			//			if(w == RightHand)
-			//				change_quick_item(player, RightHand);
+			//if(w == RightHand)
+			//	change_quick_item(player, RightHand);
 		}
 	}
 }
@@ -699,6 +705,11 @@ static void apply_maximal(char* abilities, const char* maximal) {
 	}
 }
 
+static void standart_ability() {
+	for(size_t i = 0; i < 6; i++)
+		player->basic.abilities[Strenght + i] = 10;
+}
+
 void reroll_ability() {
 	char result[12] = {};
 	if(true) {
@@ -842,7 +853,7 @@ unsigned char random_avatar(racen race, gendern gender, classn type) {
 	return source[rand() % count];
 }
 
-static creature* new_character() {
+creature* new_character() {
 	for(auto& e : characters) {
 		if(e.avatar == 0xFF)
 			return &e;
@@ -851,7 +862,6 @@ static creature* new_character() {
 }
 
 void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment) {
-	player = new_character();
 	player->clear();
 	player->race = race;
 	player->gender = gender;
@@ -859,4 +869,16 @@ void create_charater(racen race, gendern gender, classn class_type, alignmentn a
 	player->alignment = alignment;
 	player->avatar = random_avatar(race, gender, class_type);
 	reroll_character();
+}
+
+void create_monster(monstern type) {
+	const auto& e = monsters[type];
+	player->clear();
+	player->race = e.race;
+	player->gender = Male;
+	player->type = Fighter;
+	player->alignment = e.alignment;
+	standart_ability();
+	reroll_hits();
+	player->update();
 }

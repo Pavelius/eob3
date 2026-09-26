@@ -31,7 +31,7 @@ struct pointc {
 	pointc operator-(int i) const { pointc v; v.set(x - i, y - i); return v; }
 	void clear() { x = y = -1; }
 	int	distance(pointc v) const;
-	void set(int nx, int ny) { x = nx; y = ny; }
+	void set(int nx, int ny);
 	pointc to(int dx, int dy) const { return {(char)(x + dx), (char)(y + dy)}; }
 };
 

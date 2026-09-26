@@ -173,9 +173,7 @@
     <ClCompile Include="bin_xspl.cpp" />
     <ClCompile Include="collection.cpp" />
     <ClCompile Include="dungeon.cpp" />
-    <ClCompile Include="dungeon_generate.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="dungeon_generate.cpp" />
     <ClCompile Include="game_generate.cpp" />
     <ClCompile Include="creature.cpp" />
     <ClCompile Include="color.cpp" />
@@ -190,6 +188,7 @@
     <ClCompile Include="midi.cpp" />
     <ClCompile Include="mid_music.cpp" />
     <ClCompile Include="monster.cpp" />
+    <ClCompile Include="pointc.cpp" />
     <ClCompile Include="pointca.cpp" />
     <ClCompile Include="res.cpp" />
     <ClCompile Include="scale.cpp" />

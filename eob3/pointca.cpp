@@ -1,4 +1,5 @@
 #include "pointca.h"
+#include "rand.h"
 
 pointca points;
 
@@ -11,4 +12,14 @@ void pointca::select(int r1, int r2) {
 				add(v);
 		}
 	}
+}
+
+pointc pointca::random() const {
+	if(!count)
+		return pointc();
+	return data[rand() % count];
+}
+
+void pointca::shuffle() {
+	zshuffle(data, count);
 }

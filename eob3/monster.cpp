@@ -7,6 +7,13 @@ monsteri monsters[LastMonster + 1] = {
 	{LEECH, Animal, {}, 4, 9, 175, TrueNeutral, {}},
 };
 
+bool is_large(resn v) {
+	switch(v) {
+	case LEECH: return true;
+	default: return false;
+	}
+}
+
 monstern get_minions(monstern v) {
 	return NoMonster;
 }

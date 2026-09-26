@@ -64,6 +64,10 @@ const char* gender_names[Female + 1] = {
 const char* race_names[Halfling + 1] = {
 	"Human", "Dwarf", "Elf", "Half-Elf", "Halfling",
 };
+const char* monster_names[LastMonster + 1] = {
+	"Nobody",
+	"Kobold", "Leech", "Dwarf", "Spider",
+};
 const char* name_names[50 * 4] = {
 	"Aldren", "Elira", "Garrick", "Mirena", "Taren", // Human names
 	"Lianna", "Corwin", "Selena", "Branor", "Alicia",

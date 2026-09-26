@@ -477,7 +477,7 @@ void button_label(int index, long button_data, const char* format, unsigned key)
 
 static void set_player_by_focus() {
 	auto p1 = (creature*)current_focus;
-	if(p1 >= characters && p1 < characters + lenghof(characters))
+	if(p1 >= characters && p1 < characters + lengthof(characters))
 		player = characters + (p1 - characters); // This can be item in hands, so need to correct player.
 }
 

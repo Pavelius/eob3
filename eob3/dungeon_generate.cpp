@@ -8,6 +8,7 @@
 #include "rand.h"
 #include "rect.h"
 #include "shape.h"
+#include "slice.h"
 
 #ifdef _DEBUG
 //#define DEBUG_DUNGEON
@@ -19,11 +20,23 @@ static posable rooms[256]; // Generation ring buffer
 static unsigned char stack_put; // Stack top
 static unsigned char stack_get; // Stack bottom
 
-#ifdef DEBUG_ROOM
 static void show_map_interactive() {
+#ifdef DEBUG_ROOM
 	show_automap(false, true, false, 0);
-}
 #endif
+}
+
+static void show_map_features() {
+#ifdef DEBUG_ROOM
+	pointca points;
+	points.add(loc->state.up);
+	if(loc->state.down)
+		points.add(loc->state.down);
+	for(auto v : loc->state.features)
+		points.add(v);
+	show_automap(false, true, false, &points);
+#endif
+}
 
 #ifdef DEBUG_DUNGEON
 static void select_pathable(pointca& result) {
@@ -40,15 +53,6 @@ static void select_pathable(pointca& result) {
 		}
 	}
 	result.count = ps - result.data;
-}
-static void show_map_features() {
-	pointca points;
-	points.add(loc->state.up);
-	if(loc->state.down)
-		points.add(loc->state.down);
-	for(auto v : loc->state.features)
-		points.add(v);
-	show_automap(false, true, false, &points);
 }
 static void show_map_pathfind() {
 	pointca points;
@@ -764,12 +768,12 @@ static void stairs_down(pointc v, directionn d, shapen shape) {
 	loc->state.down.d = d;
 }
 
-//static void create_lair(pointc v, directionn d, const shapei* ps) {
-//	apply_shape(v, d, ps, '0', monster_boss);
-//	apply_shape(v, d, ps, '1', lair_door);
-//	apply_shape(v, d, ps, '2', monster_minion);
-//	apply_shape(v, d, ps, '.', monster);
-//}
+static void create_lair(pointc v, directionn d, shapen shape) {
+	apply_shape(v, d, shape, '0', monster_boss);
+	apply_shape(v, d, shape, '1', lair_door);
+	apply_shape(v, d, shape, '2', monster_minion);
+	apply_shape(v, d, shape, '.', monster_minion);
+}
 
 static void validate_position(pointc& v, directionn d, shapen shape) {
 	if(test_shape(v, d, shape))
@@ -804,61 +808,49 @@ static void create_room(pointc v, directionn d, shapen shape, fnroom proc) {
 	apply_shape(v, d, shape, 'X', CellWall);
 	apply_shape(v, d, shape, '.', CellPassable);
 	proc(v, d, shape);
-	put_corridor(ps->translate(v, ps->points[1], d), d, false);
-#ifdef DEBUG_ROOM
+	put_corridor(shapes[shape].translate(v, shapes[shape].points[1], d), d, false);
 	show_map_interactive();
-#endif
 }
 
 static void create_room(pointc v, shapen shape, fnroom proc) {
 	create_room(v, optimal_direction(v), shape, proc);
 }
 
-static void create_room_features(pointc v, directionn d, roomi& ei) {
-	for(auto i = 0; i < lenghtof(ei.features); i++)
-		apply_shape(v, d, ei.shape, '0' + i, ei.features[i], CellPassable);
-}
+//static void create_room_features(pointc v, directionn d, const roomi& ei) {
+//	for(auto i = 0; i < lengthof(ei.features); i++)
+//		apply_shape(v, d, ei.shape, '0' + i, ei.features[i], CellPassable);
+//}
 
 static void add_features(pointc v, directionn d) {
-	auto pv = loc->state.features.add();
-	if(pv) {
-		pv->x = v.x;
-		pv->y = v.y;
-		pv->d = d;
-	}
-}
-
-static void create_room(pointc v, roomi& ei) {
-	if(!v)
+	if(loc->state.features_count >= lengthof(loc->state.features))
 		return;
-	directionn d = optimal_direction(v);
-	validate_position(v, d, ei.shape);
-	apply_shape(v, d, ei.shape, 'X', CellWall);
-	apply_shape(v, d, ei.shape, '.', ei.floor, CellPassable);
-	create_room_features(v, d, ei);
-	put_corridor(ei.shape->translate(v, ei.shape->points[1], d), d, false);
-	add_features(ei.shape->translate(v, ei.shape->points[0], d), d);
-#ifdef DEBUG_ROOM
-	show_map_features();
-#endif
+	auto pv = loc->state.features + loc->state.features_count++;
+	pv->x = v.x;
+	pv->y = v.y;
+	pv->d = d;
 }
 
-static void create_rooms(pointca& points, const variants& features) {
-	for(auto v : features) {
-		if(v.counter > 0) {
-			// Percent chance of room appear
-			if(d100() >= v.counter)
-				return;
-		}
-		v = single(v);
-		if(v.iskind<roomi>())
-			create_room(pop(points), bsdata<roomi>::elements[v.value]);
-		else if(v.iskind<listi>())
-			create_rooms(points, bsdata<listi>::elements[v.value].elements);
+//static void create_room(pointc v, const roomi& ei) {
+//	if(!v)
+//		return;
+//	directionn d = optimal_direction(v);
+//	validate_position(v, d, ei.shape);
+//	apply_shape(v, d, ei.shape, 'X', CellWall);
+//	apply_shape(v, d, ei.shape, '.', ei.floor, CellPassable);
+//	create_room_features(v, d, ei);
+//	put_corridor(shapes[ei.shape].translate(v, shapes[ei.shape].points[1], d), d, false);
+//	add_features(shapes[ei.shape].translate(v, shapes[ei.shape].points[0], d), d);
+//	show_map_features();
+//}
+
+static void create_rooms(pointca& points, const roomn* features) {
+	for(auto p = features; *p; p++) {
+		auto v = *p;
+		// create_room(pop(points), rooms[bsdata<roomi>::elements[v.value]);
 	}
 }
 
-static void create_rooms(pointc start, bool last_level, variants features) {
+static void create_rooms(pointc start, bool last_level, const roomn* features) {
 	pointca points;
 	create_points(points, 3, 3, 2);
 	if(start)
@@ -1099,7 +1091,7 @@ void dungeon_create(slice<sitei> source) {
 			if(special_item_level == j)
 				drop_special_item();
 			else
-				loc->special = 0;
+				loc->special = NoItem;
 			create_dungeon_objects();
 #ifdef DEBUG_DUNGEON
 			show_map_pathfind();

@@ -103,8 +103,8 @@ struct item {
 	bool allow(wearn v) const;
 	void clear() { type = NoItem; power = NoPower; purpose = CommonItem; count = 0; }
 	void consume() { setcount(getcount() - 1); }
-	void createpower(char magic_bonus, int chance_magical, int chance_cursed);
-	void damage(const char* interactive, int use);
+	void createpower(char magic_bonus, int chance_magical, int chance_cursed) {}
+	void damage(const char* interactive, int use) {}
 	void identify(int v) { identified = (v >= 0) ? 1 : 0; }
 	bool is(powern v) const { return power == v; }
 	bool is(purposen v) const { return purpose == v; }

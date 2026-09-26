@@ -13,6 +13,7 @@ enum groupn : unsigned char {
 	Warriors, Priests, Rogues, Wizards,
 };
 enum classn : unsigned char {
+	Monster,
 	Fighter, Ranger, Paladin, Mage, Cleric, Theif,
 	FighterCleric, FighterMage, FighterTheif,
 	MageTheif,
@@ -60,9 +61,12 @@ extern const char* class_names[FighterMageTheif + 1];
 extern const char* gender_names[Female + 1];
 extern const char* race_names[Halfling + 1];
 extern const char* name_names[50 * 4];
+extern const char* monster_names[LastMonster + 1];
 
 int get_class_count(classn v);
 int get_class_index(classn base, classn type);
+
+bool is_large(resn v);
 
 classn get_class(classn v, int index);
 
@@ -83,7 +87,7 @@ struct classnc {
 struct monsteri {
 	resn			res; // Main graphic resource
 	racen			race; // Main race of creature
-	char			overlays[3]; // Graphics ovelays with different weapons or faces.
+	char			overlays[4]; // Graphics ovelays with different weapons or faces.
 	char			hd, ac; // Combat statistic.
 	int				exp; // Experience award for killing.
 	alignmentn		alignment; // Default behaivor. Evil is aggressive.
@@ -123,12 +127,16 @@ struct creature : npci, posable, statable, wearable {
 	bool is(racen v) const { return race == v; }
 	bool isdisabled() const { return false; }
 	bool isdead() const { return hp <= -10; }
+	bool islarge() const { return is_large(monsters[monster].res); }
 	void joinparty() { /*TODO: Join party later.*/ }
+	void setframe(short* frames, short index) const;
 	void update();
 };
 extern creature characters[32]; // All characters in game
 extern creature* adventurers[6]; // Party of characters
 extern creature* player;
+
+creature* new_character();
 
 unsigned char random_avatar(racen race, gendern gender, classn type);
 unsigned char random_name(racen race, gendern gender);
@@ -144,8 +152,8 @@ int select_names(unsigned char* result, racen race, gendern gender, fncfilter fi
 bool allow(alignmentn type, classn v);
 bool allow(classn type, racen v);
 void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment);
+void create_monster(monstern type);
 bool no_party_avatar(unsigned char v);
-bool is_large(resn v);
 void reroll_ability();
 void reroll_character();
 void reroll_hits();

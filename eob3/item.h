@@ -28,7 +28,23 @@ enum itemn : unsigned char {
 	BattleAxe, Axe, Club, Dagger, Flail, Halberd, WarHammer, Mace, Spear, Staff,
 	Longsword, ShortSword, TwoHandedSword,
 	Bow, Sling,
-	CooperKey, SilverKey,
+	Robe, RedCloack, BlueCloack,
+	LeatherArmor, ScaleMail, ChainMail, BandedMail, PlateMail,
+	Helm, DwarvenHelm,
+	Shield, DwarvenShield, Boots, Bracers,
+	BlueRing, GreenRing, RedRing, Amulet, Medalion,
+	BluePotion, GreenPotion, RedPotion,
+	LargeRation, Ration,
+	MageScroll, PriestScroll, MagicMap, Wand,
+	TheifTools, GrapplingHook, HolySymbol, HolySymbolEvil, MageBook, Horn,
+	Bones, MantistHead, MonsterTeeth, SkullHead, SkullBone,
+	FlameSphere, IceSphere,
+	BlueGem, GreenGem, RedGem, PurpleGem,
+	IronKey, BronzeKey, CooperKey, BoneKey, ManistKey, SteelKey, SkullKey, MoonKey, JewelKey,
+	StoneDagger, StoneGem, StoneAmulet, StoneSphere, StoneHolySymbol, StoneCrest,
+	RedCircle,
+	ChillTouchHand, FlameBladeHand,
+	Bite1d6, Claws1d3, Claws1d4, Hag2d4, Mandibules, Slam1d4, Slam1d8, Sting1d8,
 	Arrow, Stone, Dart,
 	LastItem = Dart,
 	RandomItem, RandomSmallItem,
@@ -85,17 +101,21 @@ extern itemi item_data[LastItem + 1];
 int get_chance_identify(itemn v);
 int get_magic(featn v);
 
+bool allow(itemn type, wearn n);
+
 struct item {
-	itemn		type;
-	featn		power; // Special additional magical powers
-	purposen	purpose; // Special purpose of item (depends on mission or quest)
+	itemn		type = NoItem;
+	featn		power = NoPower; // Special additional magical powers
+	purposen	purpose = CommonItem; // Special purpose of item (depends on mission or quest)
 	union {
 		struct {
 			unsigned char identified : 1;
 			unsigned char hits : 3; // 0 - undamaged, 7 - is almost broken.
 		};
-		unsigned char count;
+		unsigned char count = 0;
 	};
+	constexpr item() = default;
+	constexpr item(itemn type) : type(type) {}
 	constexpr explicit operator bool() const { return type != 0; }
 	constexpr const itemi& geti() const { return item_data[type]; }
 	constexpr bool countable() const { return type >= Arrow; }
@@ -133,7 +153,6 @@ struct wearable {
 	void		additem(item& v);
 	slice<item> backpack() { return slice<item>(wears + Backpack, wears + LastBackpack + 1); }
 	slice<item> beltslots() { return slice<item>(wears + FirstBelt, wears + LastBelt + 1); }
-	void		equip(item& v);
 	slice<item> equipment() { return slice<item>(wears + Head, wears + Legs + 1); }
 	item*		freebelt();
 	item*		freebackpack();

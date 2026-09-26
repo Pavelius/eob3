@@ -123,7 +123,10 @@ struct creature : npci, posable, statable, wearable {
 	int getfood() const { return get(Constitution) * 20; }
 	int gethp() const { return hpm; }
 	void add(abilityn n, int v);
+	bool allow(itemn type) const;
 	void clear();
+	void equip(item& v);
+	void equip(const item& v) { item cv = v; equip(cv); }
 	bool is(classn v) const { return get_class_index(type, v) != -1; }
 	bool is(featn v) const { return feats.is(v); }
 	bool is(racen v) const { return race == v; }
@@ -156,6 +159,7 @@ bool allow(alignmentn type, classn v);
 bool allow(classn type, racen v);
 void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment);
 void create_monster(monstern type);
+void finish_character();
 bool no_party_avatar(unsigned char v);
 void reroll_ability();
 void reroll_character();

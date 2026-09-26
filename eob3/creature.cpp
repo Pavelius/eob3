@@ -225,6 +225,51 @@ void creature::setframe(short* frames, short index) const {
 	}
 }
 
+bool creature::allow(itemn type) const {
+	switch(type) {
+	case ShortSword: case Longsword:
+		return is(Theif) || is(Elf) || is(Fighter) || is(Paladin) || is(Ranger);
+	case Dagger:
+		return !is(Cleric);
+	case WarHammer: case Mace: case Club:
+		return !is(Mage);
+	case Axe:
+		return is(Theif) || is(Fighter) || is(Paladin) || is(Ranger);
+	case TwoHandedSword: case BattleAxe: case Halberd:
+		return is(Fighter) || is(Paladin) || is(Ranger);
+	case LeatherArmor:
+		return !is(Mage);
+	case ScaleMail: case ChainMail: case BandedMail: case PlateMail:
+	case Shield: case DwarvenShield:
+	case Helm: case DwarvenHelm:
+		return is(Fighter) || is(Paladin) || is(Ranger) || is(Cleric);
+	case HolySymbol: case HolySymbolEvil: case PriestScroll:
+		return is(Cleric);
+	case Wand: case IceSphere: case FlameSphere: case MageScroll: case MageBook:
+		return is(Mage);
+	case TheifTools:
+		return is(Theif);
+	default:
+		return true;
+	}
+}
+
+void creature::equip(item& v) {
+	if(!allow(v.type))
+		return;
+	for(auto i = Head; i <= Quiver; i = (wearn)(i + 1)) {
+		if(wears[i])
+			continue;
+		if(!::allow(v.type, i))
+			continue;
+		wears[i] = v;
+		v.clear();
+		last_item = &wears[i];
+		break;
+	}
+}
+
+
 static abilityn get_primary(classn v) {
 	switch(v) {
 	case Theif: return Dexterity;
@@ -867,6 +912,42 @@ creature* get_creature(void* pointer) {
 	return 0;
 }
 
+static void add_magical(itemn type) {
+}
+
+static void start_equipment() {
+	switch(get_class(player->type, 0)) {
+	case Fighter:
+	case Paladin:
+	case Ranger:
+		if(player->is(Dwarf))
+			player->equip(BattleAxe);
+		else
+			player->equip(Longsword);
+		player->equip(LeatherArmor);
+		player->equip(Shield);
+		player->equip(DwarvenHelm);
+		break;
+	case Cleric:
+		player->equip(Mace);
+		player->equip(LeatherArmor);
+		break;
+	case Mage:
+		player->equip(Dagger);
+		add_magical(Wand);
+		break;
+	default:
+		player->equip(Dagger);
+		player->equip(LeatherArmor);
+		break;
+	}
+}
+
+void finish_character() {
+	if(!player->monster)
+		start_equipment();
+}
+
 void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment) {
 	player->clear();
 	player->race = race;
@@ -875,6 +956,7 @@ void create_charater(racen race, gendern gender, classn class_type, alignmentn a
 	player->alignment = alignment;
 	player->avatar = random_avatar(race, gender, class_type);
 	reroll_character();
+	finish_character();
 }
 
 void create_monster(monstern type) {
@@ -887,4 +969,5 @@ void create_monster(monstern type) {
 	standart_ability();
 	reroll_hits();
 	player->update();
+	finish_character();
 }

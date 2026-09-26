@@ -90,6 +90,15 @@
     <ClInclude Include="dungeon.h">
       <Filter>logic</Filter>
     </ClInclude>
+    <ClInclude Include="assign.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="pointca.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="pointc.h">
+      <Filter>logic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="creature.cpp">
@@ -204,6 +213,9 @@
       <Filter>support</Filter>
     </ClCompile>
     <ClCompile Include="dungeon.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="pointca.cpp">
       <Filter>logic</Filter>
     </ClCompile>
   </ItemGroup>

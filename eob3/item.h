@@ -31,8 +31,8 @@ enum itemn : unsigned char {
 	Arrow, Stone, Dart,
 	LastItem = Dart
 };
-enum itemfn : unsigned char {
-	TwoHanded, Large, Precise, Deadly,
+enum featn : unsigned char {
+	Large, TwoHanded, Deadly, Precise,
 };
 enum powern : unsigned char {
 	NoPower, Magical, Magical2, Magical3, Magical4, Magical5, Cursed, Delusion,
@@ -50,12 +50,12 @@ enum wearn : unsigned char {
 
 extern const char* item_names[LastItem + 1];
 
-struct itemfc {
+struct featfc {
 	unsigned char data = 0;
-	itemfc() = default;
-	template<typename... Ts> constexpr itemfc(itemfn v, Ts... args) : itemfc(args...) { set(v); }
-	bool is(itemfn v) const { return (data & (1 << v)) != 0; }
-	void set(itemfn v) { data |= (1 << v); }
+	featfc() = default;
+	template<typename... Ts> constexpr featfc(featn v, Ts... args) : featfc(args...) { set(v); }
+	bool is(featn v) const { return (data & (1 << v)) != 0; }
+	void set(featn v) { data |= (1 << v); }
 };
 struct combati {
 	char		attack, number_attacks, speed;
@@ -73,7 +73,7 @@ struct itemi {
 	wearn		wear;
 	int			cost;
 	avatari		avatar;
-	itemfc		flags;
+	featfc		flags;
 	combati		combat;
 	defencei	defence;
 };
@@ -104,7 +104,7 @@ struct item {
 	void identify(int v) { identified = (v >= 0) ? 1 : 0; }
 	bool is(powern v) const { return power == v; }
 	bool is(purposen v) const { return purpose == v; }
-	bool is(itemfn v) const { return geti().flags.is(v); }
+	bool is(featn v) const { return geti().flags.is(v); }
 	bool is(wearn v) const { return geti().wear == v; }
 	bool isartifact() const { return get_magic(power) >= 4; }
 	bool iscursed() const { return (power == Cursed || power == Delusion); }

@@ -2,6 +2,7 @@
 #include "creature.h"
 #include "dice.h"
 #include "draw.h"
+#include "dungeon.h"
 #include "game.h"
 #include "math.h"
 #include "pushvalue.h"

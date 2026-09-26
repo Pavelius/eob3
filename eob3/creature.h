@@ -1,8 +1,12 @@
 #pragma once
 
 #include "item.h"
+#include "pointc.h"
 
 typedef bool (*fncfilter)(unsigned char v);
+
+enum monstern : unsigned char;
+enum spelln : unsigned char;
 
 enum groupn : unsigned char {
 	Warriors, Priests, Rogues, Wizards,
@@ -73,6 +77,7 @@ struct npci {
 	racen			race;
 	gendern			gender;
 	classn			type;
+	monstern		monster;
 	unsigned char	avatar, name_id;
 	char			levels[3];
 	const char* name() const { return (name_id == 0xFF) ? race_names[race] : name_names[name_id]; }
@@ -80,11 +85,13 @@ struct npci {
 };
 struct statable {
 	char			abilities[Hits + 1];
+	featfc			feats;
 };
-struct creature : npci, statable, wearable {
+struct creature : npci, posable, statable, wearable {
 	statable		basic;
 	unsigned		experience;
 	short			hp, hpm, hpr, food;
+	constexpr explicit operator bool() const { return hp > 0; }
 	const char* strvalue(abilityn id) const;
 	combati getattack(wearn id, bool large_enemy) const;
 	int get(abilityn v) const { return abilities[v]; }
@@ -94,6 +101,7 @@ struct creature : npci, statable, wearable {
 	void add(abilityn n, int v);
 	void clear();
 	bool is(classn v) const { return get_class_index(type, v) != -1; }
+	bool is(featn v) const { return feats.is(v); }
 	bool is(racen v) const { return race == v; }
 	bool isdisabled() const { return false; }
 	bool isdead() const { return hp <= -10; }

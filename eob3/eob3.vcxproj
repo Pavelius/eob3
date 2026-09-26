@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClInclude Include="adat.h" />
     <ClInclude Include="answers.h" />
+    <ClInclude Include="assign.h" />
     <ClInclude Include="dungeon.h" />
     <ClInclude Include="collection.h" />
     <ClInclude Include="creature.h" />
@@ -142,6 +143,8 @@
     <ClInclude Include="draw.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="pointc.h" />
+    <ClInclude Include="pointca.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="sprite_util.h" />
     <ClInclude Include="stream.h" />
@@ -181,6 +184,7 @@
     <ClCompile Include="main_util.cpp" />
     <ClCompile Include="midi.cpp" />
     <ClCompile Include="mid_music.cpp" />
+    <ClCompile Include="pointca.cpp" />
     <ClCompile Include="res.cpp" />
     <ClCompile Include="scale.cpp" />
     <ClCompile Include="sprite_util.cpp" />

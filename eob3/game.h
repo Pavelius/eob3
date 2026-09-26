@@ -11,7 +11,8 @@ typedef void(*fnapaint)(int index, long value, const char* text, unsigned key);
 enum wearn : unsigned char;
 
 enum directionn : unsigned char {
-	Center, Left, Up, Right, Down
+	Center, Left, Up, Right, Down,
+	LeftUp, RightUp, LeftDown, RightDown
 };
 enum messagen : unsigned char {
 	Cancel, Continue, Title, Yes, No, OK,

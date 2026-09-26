@@ -40,6 +40,8 @@ itemi item_data[LastItem + 1] = {
 
 static_assert(sizeof(item) == sizeof(int));
 
+item* last_item;
+
 int get_magic(powern v) {
 	switch(v) {
 	case NoPower: return 0;

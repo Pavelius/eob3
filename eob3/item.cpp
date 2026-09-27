@@ -19,18 +19,18 @@
 itemi item_data[LastItem + 1] = {
 	{}, // No item
 	{RightHand, 5, {3}, {Deadly}, {0, 1, 7, Slashing, {1, 8}}}, // BattleAxe
-	{RightHand, 5, {7}, {Deadly}, {0, 1, 6, Slashing, {1, 6}}}, // Axe
-	{RightHand, 5, {116}, {}, {}}, // Club
-	{RightHand, 2, {15}, {Precise}, {}}, // Dagger
-	{RightHand, 15, {5}, {}, {}}, // Flail
-	{RightHand, 10, {9}, {TwoHanded}, {}}, // Halberd
-	{RightHand, 5, {115}, {}, {}}, // WarHammer
-	{RightHand, 10, {4}, {}, {}}, // Mace
-	{RightHand, 2, {6}, {}, {}}, // Spear
-	{RightHand, 0, {8}, {}, {}}, // Staff
-	{RightHand, 0, {1}, {}, {}}, // Longsword
-	{RightHand, 0, {2}, {}, {}}, // ShortSword
-	{RightHand, 0, {42}, {TwoHanded}, {}}, // TwoHandedSword
+	{RightHand, 5, {7}, {Deadly}, {0, 1, 4, Slashing, {1, 6}}}, // Axe
+	{RightHand, 5, {116}, {}, {0, 1, 5, Bludgeon, {1, 6}}}, // Club
+	{RightHand, 2, {15}, {Precise}, {0, 1, 2, Piercing, {1, 4}}}, // Dagger
+	{RightHand, 15, {5}, {}, {0, 1, 7, Bludgeon, {1, 6, 1}}}, // Flail
+	{RightHand, 10, {9}, {TwoHanded, Deadly}, {0, 1, 9, Slashing, {1, 10}}}, // Halberd
+	{RightHand, 5, {115, 13}, {}, {0, 1, 4, Bludgeon, {1, 4, 2}}}, // WarHammer
+	{RightHand, 10, {4, 1}, {}, {0, 1, 7, Bludgeon, {1, 6, 1}}}, // Mace
+	{RightHand, 2, {6}, {TwoHanded}, {0, 1, 6, Piercing, {1, 6}}}, // Spear
+	{RightHand, 0, {8}, {}, {0, 1, 6, Bludgeon, {1, 6}}}, // Staff
+	{RightHand, 0, {1, 0}, {}, {0, 1, 5, Slashing, {1, 8}}}, // Longsword
+	{RightHand, 0, {2, 0}, {}, {0, 1, 4, Slashing, {1, 6}}}, // ShortSword
+	{RightHand, 0, {42, 0}, {TwoHanded}, {0, 1, 10, Slashing, {1, 10}, {3, 6}}}, // TwoHandedSword
 	{RightHand, 0, {10}, {TwoHanded}, {}}, // Bow
 	{RightHand, 0, {18}, {TwoHanded}, {}}, // Sling
 	{Body, 0, {32}, {}, {}}, // Robe

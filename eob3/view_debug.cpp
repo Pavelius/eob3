@@ -466,7 +466,7 @@ static void show_sprites(resn id, point start, point size) {
 		caret = start;
 		fore = colors::white;
 		paint_sprites(id, start, focus, per_line);
-		setpos(0, 192); text(str("index %1i", focus), -1, TextBold);
+		setpos(0, 193); text(str("index %1i of %2i", focus, maximum), -1, TextBold);
 		focus_input();
 		domodal();
 		switch(hkey) {

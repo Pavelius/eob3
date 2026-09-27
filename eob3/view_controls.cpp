@@ -223,11 +223,13 @@ static void button(rect rc) {
 	height = rc.height();
 	auto button_data = (*((int*)&caret));
 	button_hilited = ishilite();
-	if(button_hilited) {
+	if(hkey == MouseLeft && button_hilited) {
 		if(hpressed)
 			pressed_focus = button_data;
-		else if(hkey == MouseLeft && !hpressed)
+		else {
 			pressed_focus = empty_focus;
+			button_executed = true;
+		}
 	}
 	button_pressed = (pressed_focus == button_data);
 	if(button_pressed)
@@ -979,8 +981,8 @@ static void paint_sheet() {
 
 static void paint_skills() {
 	pushrect push;
-	auto push_font = font;
-	auto push_fore = fore;
+	pushfont push_font(0);
+	pushfore push_fore;
 	paint_sheet_head();
 	paint_blank();
 	header(getnm(CharacterSkills));
@@ -991,8 +993,6 @@ static void paint_skills() {
 			continue;
 		textn(ability_names[i], player->get(i), "%1i%%");
 	}
-	font = push_font;
-	fore = push_fore;
 }
 
 static void warning(const char* format, unsigned flags) {

@@ -46,7 +46,8 @@ enum abilityn : unsigned char {
 	ExeptionalStrenght,
 	AcidD1Level, AcidD2Level, PoisonLevel, DiseaseLevel, DuplicateIllusion,
 	DrainedStrenght, DrainedConstitution, DrainedLevels,
-	Hits
+	Hits,
+	LastAbility = Hits,
 };
 enum monstern : unsigned char {
 	NoMonster,
@@ -54,8 +55,8 @@ enum monstern : unsigned char {
 	LastMonster = Spider
 };
 
-extern const char* ability_names[Hits + 1];
-extern const char* ability_short[Hits + 1];
+extern const char* ability_names[LastAbility + 1];
+extern const char* ability_short[LastAbility + 1];
 extern const char* alignment_names[ChaoticEvil + 1];
 extern const char* class_names[FighterMageTheif + 1];
 extern const char* gender_names[Female + 1];
@@ -78,6 +79,7 @@ struct racenc {
 	bool is(racen v) const { return (data & (1 << v)) != 0; }
 	void set(racen v) { data |= (1 << v); }
 };
+
 struct classnc {
 	unsigned char data = 0;
 	classnc() = default;
@@ -85,6 +87,7 @@ struct classnc {
 	bool is(classn v) const { return (data & (1 << v)) != 0; }
 	void set(classn v) { data |= (1 << v); }
 };
+
 struct monsteri {
 	resn			res; // Main graphic resource
 	racen			race; // Main race of creature
@@ -96,10 +99,12 @@ struct monsteri {
 	featc			feats; // Special feats
 };
 extern monsteri monsters[LastMonster + 1];
+
 struct statable {
-	char			abilities[Hits + 1];
+	char			abilities[LastAbility + 1];
 	featc			feats;
 };
+
 struct npci {
 	alignmentn		alignment;
 	racen			race;
@@ -111,6 +116,7 @@ struct npci {
 	const char* name() const { return (name_id == 0xFF) ? race_names[race] : name_names[name_id]; }
 	int level() const { return levels[0]; }
 };
+
 struct creature : npci, posable, statable, wearable {
 	statable		basic;
 	unsigned		experience;

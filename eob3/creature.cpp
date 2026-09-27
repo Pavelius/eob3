@@ -328,7 +328,11 @@ int get_hit_die(classn type) {
 }
 
 int get_party_index(const creature* player) {
-	return 0;
+	for(auto i = 0; i < lengthof(adventurers); i++) {
+		if(adventurers[i] == player)
+			return i;
+	}
+	return -1;
 }
 
 static void update_languages() {

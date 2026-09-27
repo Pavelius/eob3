@@ -7,6 +7,8 @@ extern unsigned char bin_font6[];
 extern unsigned char bin_font8[];
 extern unsigned char bin_invent[];
 extern unsigned char bin_items[];
+extern unsigned char bin_itemgl[];
+extern unsigned char bin_itemgs[];
 extern unsigned char bin_menu[];
 extern unsigned char bin_playfld[];
 extern unsigned char bin_portm[];
@@ -17,6 +19,7 @@ sprite* res_data[LastRes + 1] = {
 	(sprite*)bin_font6, (sprite*)bin_font8,
 	0, 0,
 	0, 0,
-	(sprite*)bin_border, (sprite*)bin_chargen, (sprite*)bin_chargenb, 0, (sprite*)bin_invent, 0, 0, (sprite*)bin_items,
+	(sprite*)bin_border, (sprite*)bin_chargen, (sprite*)bin_chargenb, 0, (sprite*)bin_invent,
+	(sprite*)bin_itemgs, (sprite*)bin_itemgl, (sprite*)bin_items,
 	(sprite*)bin_menu, (sprite*)bin_playfld, (sprite*)bin_portm, (sprite*)bin_scene, 0, (sprite*)bin_xspl
 };

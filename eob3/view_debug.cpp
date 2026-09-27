@@ -479,12 +479,39 @@ static void show_sprites(resn id, point start, point size) {
 	}
 }
 
+static void show_scenes(resn id) {
+	pushrect push;
+	pushfore push_fore;
+	pushfont push_font(0);
+	int focus = 0;
+	auto maximum = res_data[id]->count;
+	while(ismodal()) {
+		if(focus < 0)
+			focus = 0;
+		else if(focus > maximum - 1)
+			focus = maximum - 1;
+		image(0, 0, res_data[PLAYFLD], 0, 0);
+		image(0, 0, res_data[BORDER], 0, 0);
+		image(8, 8, res_data[id], focus, 0);
+		fore = colors::white;
+		setpos(5, 180, 280, 6 * 3);
+		texta(str("index %1i of %2i", focus, maximum), TextBold);
+		domodal();
+		switch(hkey) {
+		case KeyRight: focus++; break;
+		case KeyLeft: focus--; break;
+		case KeyEscape: breakmodal(0); break;
+		}
+	}
+}
+
 static void show_sprites(resn id) {
 	switch(id) {
 	case ITEMS: show_sprites(ITEMS, {8, 8}, {16, 16}); break;
 	case ITEMGL: show_sprites(ITEMGL, {32, 24}, {64, 32}); break;
 	case ITEMGS: show_sprites(ITEMGS, {16, 16}, {32, 32}); break;
 	case PORTM: show_sprites(PORTM, {0, 0}, {32, 32}); break;
+	case SCENE: show_scenes(SCENE); break;
 	default: break;
 	}
 }

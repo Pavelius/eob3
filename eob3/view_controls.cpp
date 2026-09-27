@@ -1343,9 +1343,6 @@ static void paint_blue_title(const char* title) {
 	fore = push_fore;
 }
 
-static void show_scene_images() {
-}
-
 static int get_file_number(const char* url, const char* mask) {
 	char result[260]; stringbuilder sb(result); sb.clear();
 	for(io::file::find file(url); file; file.next()) {
@@ -1392,7 +1389,7 @@ void common_input() {
 		//	case Ctrl + 'D': show_dungeon_images(); break;
 	case Ctrl + 'I': execute(show_sprites_command, ITEMS); break;
 	case Ctrl + 'L': execute(show_sprites_command, ITEMGL); break;
-	case Ctrl + 'P': execute(show_scene_images); break;
+	case Ctrl + 'P': execute(show_sprites_command, SCENE); break;
 	case Ctrl + 'F': execute(show_scene_font); break;
 	case Ctrl + 'E': loc->set({20, 20}, CellExplored, 20); break;
 	}

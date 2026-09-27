@@ -27,9 +27,10 @@ static actioni city_actions[] = {
 
 static picturen get_picture(actionn v) {
 	switch(v) {
-	case Inn: return PicInn;
-	case EatFoodAndDrink: return PicTavern2;
 	case Carousing: return PicTavern2;
+	case EatFoodAndDrink: return PicTavern2;
+	case Inn: return PicInn;
+	case PickPocketsSomeone: return PicPickpockets;
 	case Tavern: return PicTavern;
 	default: return PicCity;
 	}

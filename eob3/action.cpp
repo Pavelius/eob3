@@ -13,14 +13,36 @@ static messagen get_confirm(actionn v) {
 	}
 }
 
-actioni* find_action(actioni* p, resultn result) {
-	if(!p || p->type == NoResult)
-		return 0;
-	for(p++; p->type != NoResult && p->type != Action; p++) {
-		if(p->type == result)
-			return p;
+picturen get_picture(actionn v) {
+	switch(v) {
+	case Carousing: return PicTavern2;
+	case EatFoodAndDrink: return PicTavern2;
+	case Inn: return PicInn;
+	case PickPocketsSomeone: return PicPickpockets;
+	case Tavern: return PicTavern;
+	default: return PicCity;
 	}
-	return 0;
+}
+
+soundn get_music(actionn v) {
+	switch(v) {
+	case NoAction: return MusKvirasim;
+	case Inn: return MusInn;
+	case Tavern: return MusTavern;
+	case Temple: return MusTemple;
+	default: return NoMusic;
+	}
+}
+
+bool indoor(actionn v) {
+	return v >= Tavern && v <= WizardTower;
+}
+
+bool enough(const variablei& v1, const variablei& v2) {
+	for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1))
+		if(v1.variables[i] < v2.variables[i])
+			return false;
+	return true;
 }
 
 void pass_time(unsigned minutes) {

@@ -22,6 +22,7 @@ enum messagen : unsigned char {
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
 	GeneraionInfo, GenerationPlayInfo,
 	ConfirmDeleteCharacter, ConfirmBuyHealing, ConfirmEatAndDrink, ConfirmRentRoom, ConfirmCarousing,
+	ConfirmRestParty,
 	WhatPlayerDo, WhichWayToGo,
 	PlayerIsDisabled,
 	QuestGoals, VisitBuilding,
@@ -71,6 +72,7 @@ void button_label(int index, long data, const char* format, unsigned key);
 void city_input();
 void common_input();
 bool confirm(const char* format);
+bool confirm(messagen header);
 bool confirm_message(messagen header, int value);
 void correct_answers(int maximum);
 void change_avatar();

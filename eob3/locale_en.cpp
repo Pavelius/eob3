@@ -15,6 +15,7 @@ const char* message_names[LastMessage + 1] = {
 	"Do you really want pay %1i coins for food and drink for all party?",
 	"Rent room in this inn for all party will be cost %1i coins. And no fleas or rats. Do you accept this offer?",
 	"Do you really want buy a drinks to everyone and go with all party to fully carousing? This will be cost for you totally %1i coins. Do you want this?",
+	"Do you really want to rest party all night?",
 	"What %1 do?", "Which way to go?",
 	"%1 is disabled",
 	"Current goals", "Visit %1",

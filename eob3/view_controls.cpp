@@ -1233,7 +1233,7 @@ static void paint_party_status() {
 	pushfont push_font(0);
 	paint_menu({0, 122}, 178, 52);
 	setpos(8, 126, 160, texth());
-	texta(getnm(MainCity), AlignCenter, colors::yellow);
+	texta(getnm(NoAction), AlignCenter, colors::yellow);
 	caret.y += texth() + 3;
 	//if(is_dead_line()) {
 	//	auto v = getparty(Minutes);
@@ -2102,6 +2102,10 @@ bool confirm(const char* format) {
 	an.addv(buttonparam, 1, 0, getnm(Yes), 'Y', 0);
 	an.addv(buttonparam, 0, 0, getnm(No), 'N', 0);
 	return choose_dialog(format, 8) != 0;
+}
+
+bool confirm(messagen id) {
+	return confirm(getnm(id));
 }
 
 void message_box(const char* format) {

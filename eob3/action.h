@@ -1,13 +1,15 @@
 #pragma once
 
+typedef void(*fnevent)();
+
+enum abilityn : unsigned char;
 enum classn : unsigned char;
 enum messagen : unsigned char;
+enum picturen : unsigned char;
+enum soundn : unsigned char;
 
-enum resultn : unsigned char {
-	NoResult, Action, Failed, Successed, ReturnToParent
-};
 enum actionn : unsigned char {
-	MainCity,
+	NoAction,
 	Tavern, Blacksmith, Temple, Inn, WizardTower, GoAdventure,
 	PickPocketsSomeone, EatFoodAndDrink, Gambling, Carousing,
 	RestParty, ScribleScrolls,
@@ -46,29 +48,25 @@ struct variablei {
 	constexpr bool operator!=(const variablei& v) const { for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1)) if(variables[i] == v.variables[i]) return false; return true; }
 	constexpr int get(variablen v) const { return variables[v]; }
 	constexpr void add(variablen v, int n) { variables[v] += n; }
-	constexpr bool enough(const variablei& v) const {
-		for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1))
-			if(variables[i] < v.variables[i])
-				return false;
-		return true;
-	}
 };
 extern variablei game;
 
 struct actioni {
-	struct rolli {
-
-	};
-	resultn type;
-	actionn action; // What action do.
-	variablei required; // Pass this requitment to show action. Gold coins must be payed.
-	classnc restriction; // If filled, only this classes can use action.
-	constexpr explicit operator bool() const { return type != NoResult; }
+	actionn		action; // What action do.
+	variablei	required; // Pass this requitment to show action. Gold coins must be payed.
+	classnc		restriction; // If filled, only this classes can use action.
+	fnevent		success, fail; // This action outcome procedures
+	abilityn	ability; // If fail defined, roll this ability
+	char		bonus; // Bonus to roll for ability
+	constexpr explicit operator bool() const { return action != NoAction; }
 };
 
-actioni* find_action(actioni* start, resultn result);
+picturen get_picture(actionn v);
+soundn get_music(actionn v);
 
 long choose_player_action(const char* cancel);
 bool confirm_message(messagen header, int value);
+bool enough(const variablei& v1, const variablei& v2);
+bool indoor(actionn v);
 bool pass_payment(actionn action, const variablei& required);
 void pass_time(unsigned minutes);

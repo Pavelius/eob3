@@ -5,58 +5,53 @@
 #include "pushvalue.h"
 #include "sound.h"
 
+static actionn action_outcome;
+
+static void leave_outside() {
+	action_outcome = LeaveOutside;
+}
+
+static void rest_party() {
+	pass_time(60 * 8);
+}
+
+static void rest_party_inn() {
+	if(!confirm(ConfirmRestParty))
+		return;
+	rest_party();
+	leave_outside();
+}
+
+static void eat_and_drink() {
+}
+
 static actioni tavern_actions[] = {
-	{Action, EatFoodAndDrink, {Coins, 20}, {}},
-	{Action, PickPocketsSomeone, {}, {Theif}},
-	{Action, Gambling, {}, {Theif, Fighter, Ranger, Mage}},
-	{Action, Carousing, {Coins, 200}, {}},
-	{Action, LeaveOutside},
+	{EatFoodAndDrink, {Coins, 20}, {}, eat_and_drink},
+	{PickPocketsSomeone, {}, {Theif}},
+	{Gambling, {}, {Theif, Fighter, Ranger, Mage}},
+	{Carousing, {Coins, 200}, {}},
+	{LeaveOutside, {}, {}, leave_outside},
 	{}};
 static actioni inn_actions[] = {
-	{Action, RestParty},
-	{Action, ScribleScrolls, {}, {Mage}},
+	{RestParty, {}, {}, rest_party_inn},
+	{ScribleScrolls, {}, {Mage}},
 	{}};
 static actioni city_actions[] = {
-	{Action, GoAdventure},
-	{Action, Tavern},
-	{Action, Blacksmith},
-	{Action, Temple},
-	{Action, Inn, {Coins, 30}, {}},
-	{Action, WizardTower},
+	{GoAdventure},
+	{Tavern},
+	{Blacksmith},
+	{Temple},
+	{Inn, {Coins, 30}, {}},
+	{WizardTower},
 	{}};
-
-static picturen get_picture(actionn v) {
-	switch(v) {
-	case Carousing: return PicTavern2;
-	case EatFoodAndDrink: return PicTavern2;
-	case Inn: return PicInn;
-	case PickPocketsSomeone: return PicPickpockets;
-	case Tavern: return PicTavern;
-	default: return PicCity;
-	}
-}
-
-static soundn get_music(actionn v) {
-	switch(v) {
-	case Inn: return MusInn;
-	case MainCity: return MusKvirasim;
-	case Tavern: return MusTavern;
-	case Temple: return MusTemple;
-	default: return NoMusic;
-	}
-}
 
 static actioni* get_actions(actionn v) {
 	switch(v) {
+	case NoAction: return city_actions;
 	case Tavern: return tavern_actions;
 	case Inn: return inn_actions;
-	case MainCity: return city_actions;
 	default: return 0;
 	}
-}
-
-static bool indoor(actionn v) {
-	return v >= Tavern && v <= WizardTower;
 }
 
 static int make_payment(messagen header, messagen ask, int multiply, int maximum, const char* cancel) {
@@ -75,9 +70,7 @@ static int make_payment(messagen header, messagen ask, int multiply, int maximum
 
 static actioni* choose_location(actionn city) {
 	for(auto p = get_actions(city); p && *p; p++) {
-		if(p->type != Action)
-			continue;
-		if(p->required && !game.enough(p->required))
+		if(p->required && !enough(game, p->required))
 			continue; // Can't pay or other reputation
 		if(p->action >= Tavern && p->action <= WizardTower)
 			an.add((long)p, getnm(VisitBuilding), getnm(p->action));
@@ -98,32 +91,20 @@ static bool pass_restriction(const classnc& v) {
 	return false;
 }
 
-static void rest_party() {
-	pass_time(60 * 8);
-}
-
-static resultn apply_action(actioni* p) {
+static void apply_action(actioni* p) {
 	pushvalue push(answer_picture);
-	auto result = Successed;
-	while(p) {
-		auto picture = get_picture(p->action);
-		if(picture)
-			answer_picture = picture;
-		if(!pass_payment(p->action, p->required))
-			return Failed;
-		switch(p->action) {
-		case LeaveOutside: return ReturnToParent;
-		case RestParty: rest_party(); return ReturnToParent;
-		default: break;
-		}
-		break;
-	}
-	return result;
+	auto picture = get_picture(p->action);
+	if(picture)
+		answer_picture = picture;
+	if(!pass_payment(p->action, p->required))
+		return;
+	if(p->success)
+		p->success();
 }
 
 static actioni* choose_building_action(actionn building) {
 	for(auto p = get_actions(building); p && *p; p++) {
-		if(p->required && !game.enough(p->required))
+		if(p->required && !enough(game, p->required))
 			continue; // Can't pay or other reputation
 		if(!pass_restriction(p->restriction))
 			continue; // Not pass restriction
@@ -133,7 +114,7 @@ static actioni* choose_building_action(actionn building) {
 }
 
 void play_city_actions() {
-	auto basic_location = MainCity;
+	auto basic_location = NoAction;
 	auto location = basic_location;
 	while(true) {
 		answer_picture = get_picture(location);
@@ -141,13 +122,12 @@ void play_city_actions() {
 		if(music)
 			current_music = music;
 		play_city();
+		action_outcome = NoAction;
 		if(indoor(location)) {
 			auto p = choose_building_action(location);
 			if(!p)
 				continue;
-			auto result = apply_action(p);
-			if(result == ReturnToParent)
-				location = basic_location;
+			apply_action(p);
 		} else {
 			auto p = choose_location(location);
 			if(!p)
@@ -156,5 +136,7 @@ void play_city_actions() {
 				continue;
 			location = p->action;
 		}
+		if(action_outcome == LeaveOutside)
+			location = basic_location;
 	}
 }

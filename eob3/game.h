@@ -92,5 +92,7 @@ void paint_test_mode();
 void pick_up_item();
 void play_city();
 void show_scene(fnevent before_paint, fnevent input, long focus);
+void show_scene_font();
+void show_sprites_command();
 void text_label(int index, long data, const char* format, unsigned key);
 void text_label_left(int index, long data, const char* format, unsigned key);

@@ -188,9 +188,6 @@
     <ClCompile Include="view_focus.cpp">
       <Filter>logic</Filter>
     </ClCompile>
-    <ClCompile Include="view_util.cpp">
-      <Filter>util</Filter>
-    </ClCompile>
     <ClCompile Include="item.cpp">
       <Filter>logic</Filter>
     </ClCompile>
@@ -253,6 +250,12 @@
     </ClCompile>
     <ClCompile Include="bitmap.cpp">
       <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_invent.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="view_debug.cpp">
+      <Filter>logic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

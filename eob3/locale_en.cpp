@@ -12,7 +12,7 @@ const char* message_names[LastMessage + 1] = {
 	"Do you really want to delete this character?",
 	"What %1 do?",
 	"City Iriaebor",
-	"Class", "Race", "Level", "LevelShort", "Experience", "ExperienceShort"
+	"Class", "Race", "Level", "Lev", "Experience", "Exp"
 };
 const char* direction_names[Down + 1] = {
 	"Center", "Left", "Up", "Right", "Down"
@@ -59,6 +59,7 @@ const char* alignment_names[ChaoticEvil + 1] = {
 	"Lawful Evil", "Neutral Evil", "Chaotic Evil"
 };
 const char* class_names[FighterMageTheif + 1] = {
+	"Monster",
 	"Fighter", "Ranger", "Paladin", "Mage", "Cleric", "Theif",
 	"Fighter/Cleric", "Fighter/Mage", "Fighter/Theif",
 	"Mage/Theif",

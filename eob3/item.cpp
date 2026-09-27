@@ -44,58 +44,58 @@ itemi item_data[LastItem + 1] = {
 	{Head, 0, {20, 6}, {}, {}}, // Helm
 	{Head, 0, {73}, {}, {}}, // DwarvenHelm
 	{LeftHand, 0, {23}, {}, {}}, // Shield
-	{LeftHand, 0, {}, {}, {}}, // DwarvenShield
-	{Legs, 0, {}, {}, {}}, // Boots
-	{Elbow, 0, {}, {}, {}}, // Bracers
-	{LeftRing, 0, {}, {}, {}}, // BlueRing
-	{LeftRing, 0, {}, {}, {}}, // GreenRing
-	{LeftRing, 0, {}, {}, {}}, // RedRing
-	{Neck, 0, {}, {}, {}}, // Amulet
-	{Neck, 0, {}, {}, {}}, // Medalion
-	{Drinkable, 0, {}, {}, {}}, // BluePotion
-	{Drinkable, 0, {}, {}, {}}, // GreenPotion
-	{Drinkable, 0, {}, {}, {}}, // RedPotion
-	{Edible, 0, {}, {}, {}}, // LargeRation
-	{Edible, 0, {}, {}, {}}, // Ration
-	{Readable, 0, {}, {}, {}}, // MageScroll
-	{Readable, 0, {}, {}, {}}, // PriestScroll
-	{Readable, 0, {}, {}, {}}, // MagicMap
-	{Rod, 0, {}, {}, {}}, // Wand
-	{Usable, 0, {}, {}, {}}, // TheifTools
-	{Usable, 0, {}, {}, {}}, // GrapplingHook
-	{Faithable, 0, {}, {}, {}}, // HolySymbol
-	{Faithable, 0, {}, {}, {}}, // HolySymbolEvil
-	{Readable, 0, {}, {}, {}}, // MageBook 
-	{Usable, 0, {}, {}, {}}, // Horn
-	{Backpack, 0, {}, {}, {}}, // Bones
-	{Backpack, 0, {}, {}, {}}, // MantistHead
-	{Backpack, 0, {}, {}, {}}, // MonsterTeeth
-	{Backpack, 0, {}, {}, {}}, // SkullHead
-	{Backpack, 0, {}, {}, {}}, // SkullBone
-	{Backpack, 0, {}, {}, {}}, // FlameSphere
-	{Backpack, 0, {}, {}, {}}, // IceSphere
-	{Backpack, 150, {}, {}, {}}, // BlueGem
-	{Backpack, 300, {}, {}, {}}, // GreenGem
-	{Backpack, 500, {}, {}, {}}, // RedGem
-	{Backpack, 1000, {}, {}, {}}, // PurpleGem
-	{Key, 0}, // IronKey
-	{Key, 0}, // BronzeKey
-	{Key, 0}, // CooperKey
-	{Key, 0}, // BoneKey
-	{Key, 0}, // ManistKey
-	{Key, 0}, // SteelKey
-	{Key, 0}, // SkullKey
-	{Key, 0}, // MoonKey
-	{Key, 0}, // JewelKey
-	{Usable, 0, {}, {}, {}}, // StoneDagger
-	{Usable, 0, {}, {}, {}}, // StoneGem
-	{Usable, 0, {}, {}, {}}, // StoneAmulet
-	{Usable, 0, {}, {}, {}}, // StoneSphere
-	{Usable, 0, {}, {}, {}}, // StoneHolySymbol
-	{Usable, 0, {}, {}, {}}, // StoneCrest
-	{Usable, 0, {}, {}, {}}, // RedCircle
-	{RightHand, 0, {}, {}, {}}, // ChillTouchHand
-	{RightHand, 0, {}, {}, {}}, // FlameBladeHand
+	{LeftHand, 0, {71}, {}, {}}, // DwarvenShield
+	{Legs, 0, {9}, {}, {}}, // Boots
+	{Elbow, 0, {25}, {}, {}}, // Bracers
+	{LeftRing, 0, {78}, {}, {}}, // BlueRing
+	{LeftRing, 0, {79}, {}, {}}, // GreenRing
+	{LeftRing, 0, {55}, {}, {}}, // RedRing
+	{Neck, 0, {33}, {}, {}}, // Amulet
+	{Neck, 0, {34}, {}, {}}, // Medalion
+	{Drinkable, 0, {40}, {}, {}}, // BluePotion
+	{Drinkable, 0, {41}, {}, {}}, // GreenPotion
+	{Drinkable, 0, {39}, {}, {}}, // RedPotion
+	{Edible, 0, {37}, {}, {}}, // LargeRation
+	{Edible, 0, {38}, {}, {}}, // Ration
+	{Readable, 0, {36}, {}, {}}, // MageScroll
+	{Readable, 0, {85}, {}, {}}, // PriestScroll
+	{Readable, 0, {86}, {}, {}}, // MagicMap
+	{Rod, 0, {52}, {}, {}}, // Wand
+	{Usable, 0, {54}, {}, {}}, // TheifTools
+	{Usable, 0, {117}, {}, {}}, // GrapplingHook
+	{Faithable, 0, {53}, {}, {}}, // HolySymbol
+	{Faithable, 0, {27}, {}, {}}, // HolySymbolEvil
+	{Readable, 0, {35}, {}, {}}, // MageBook 
+	{Usable, 0, {59}, {}, {}}, // Horn
+	{Backpack, 0, {43}, {}, {}}, // Bones
+	{Backpack, 0, {7}, {}, {}}, // MantistHead
+	{Backpack, 0, {56}, {}, {}}, // MonsterTeeth
+	{Backpack, 0, {89}, {}, {}}, // SkullHead
+	{Backpack, 0, {90}, {}, {}}, // SkullBone
+	{Backpack, 0, {91}, {}, {}}, // FlameSphere
+	{Backpack, 0, {100}, {}, {}}, // IceSphere
+	{Backpack, 150, {94}, {}, {}}, // BlueGem
+	{Backpack, 300, {95}, {}, {}}, // GreenGem
+	{Backpack, 500, {93}, {}, {}}, // RedGem
+	{Backpack, 1000, {96}, {}, {}}, // PurpleGem
+	{Key, 0, {47}}, // IronKey
+	{Key, 0, {46}}, // BronzeKey
+	{Key, 0, {48}}, // CooperKey
+	{Key, 0, {49}}, // BoneKey
+	{Key, 0, {50}}, // ManistKey
+	{Key, 0, {58}}, // SteelKey
+	{Key, 0, {87}}, // SkullKey
+	{Key, 0, {88}}, // MoonKey
+	{Key, 0, {102}}, // JewelKey
+	{Usable, 0, {60}, {}, {}}, // StoneDagger
+	{Usable, 0, {57}, {}, {}}, // StoneGem
+	{Neck, 0, {64}, {}, {}}, // StoneAmulet
+	{Usable, 0, {61}, {}, {}}, // StoneSphere
+	{Usable, 0, {63}, {}, {}}, // StoneHolySymbol
+	{Usable, 0, {113}, {}, {}}, // StoneCrest
+	{Usable, 0, {105}, {}, {}}, // RedCircle
+	{RightHand, 0, {80}, {}, {}}, // ChillTouchHand
+	{RightHand, 0, {82}, {}, {}}, // FlameBladeHand
 	{RightHand, 0, {}, {}, {}}, // Bite1d6
 	{RightHand, 0, {}, {}, {}}, // Claws1d3
 	{RightHand, 0, {}, {}, {}}, // Claws1d4

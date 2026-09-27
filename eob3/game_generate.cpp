@@ -119,7 +119,7 @@ static void test_city_menu() {
 
 void game_generation() {
 	game_clear();
-	// party_random_generation();
-	party_generation();
+	party_random_generation();
+	// party_generation();
 	test_city_menu();
 }

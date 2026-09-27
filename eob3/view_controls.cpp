@@ -896,23 +896,17 @@ void header_yellow(const char* format) {
 }
 
 static void header(const char* format) {
-	auto push_fore = fore;
-	auto push_stroke = fore_stroke;
-	fore_stroke = fore;
-	fore = colors::yellow;
+	auto push_stroke = fore_stroke; fore_stroke = fore;
+	pushfore push_fore(colors::yellow);
 	text(format, -1, TextBold);
 	caret.y += texth() * 2;
-	fore = push_fore;
 	fore_stroke = push_stroke;
 }
 
 static void headern(const char* format) {
-	auto push_fore = fore;
-	auto push_stroke = fore_stroke;
-	fore_stroke = fore;
-	fore = colors::yellow;
+	auto push_stroke = fore_stroke; fore_stroke = fore;
+	pushfore push_fore(colors::yellow);
 	text(format, -1, TextBold);
-	fore = push_fore;
 	fore_stroke = push_stroke;
 }
 
@@ -963,8 +957,8 @@ static void paint_level_experience() {
 
 static void paint_sheet() {
 	pushrect push;
-	auto push_font = font;
-	auto push_fore = fore;
+	pushfont push_font(0);
+	pushfore push_fore;
 	paint_sheet_head();
 	paint_blank();
 	header(getnm(Characterinfo));
@@ -981,8 +975,6 @@ static void paint_sheet() {
 	caret.x = push_block.x;
 	caret.y = push_block.y + 68;
 	paint_level_experience();
-	font = push_font;
-	fore = push_fore;
 }
 
 static void paint_skills() {
@@ -1324,66 +1316,6 @@ static void paint_blue_title(const char* title) {
 	fore = push_fore;
 }
 
-static void paint_sprites(resn id, point offset, int& focus, int per_line) {
-	auto p = res_data[id];
-	if(!p)
-		return;
-	auto index = 0;
-	auto push_line = caret;
-	auto count = per_line;
-	while(index < p->count) {
-		image(p, index, 0);
-		if(focus == index) {
-			auto push_caret = caret;
-			caret = caret - offset;
-			rectb();
-			caret = push_caret;
-		}
-		index++;
-		caret.x += width;
-		if((--count) == 0) {
-			count = per_line;
-			caret.y += height;
-			caret.x = push_line.x;
-		}
-		if((caret.y + height) > getheight())
-			break;
-	}
-}
-
-static void show_sprites(resn id, point start, point size) {
-	pushrect push;
-	pushfore push_fore;
-	pushfont push_font(0);
-	int focus = 0;
-	auto maximum = res_data[id]->count;
-	auto per_line = 320 / size.x;
-	while(ismodal()) {
-		if(focus < 0)
-			focus = 0;
-		else if(focus > maximum - 1)
-			focus = maximum - 1;
-		fore = colors::black;
-		rectf();
-		width = size.x;
-		height = size.y;
-		caret = start;
-		fore = colors::white;
-		paint_sprites(id, start, focus, per_line);
-		caret = {0, 192};
-		text(str("index %1i", focus), -1, TextBold);
-		focus_input();
-		domodal();
-		switch(hkey) {
-		case KeyRight: focus++; break;
-		case KeyLeft: focus--; break;
-		case KeyDown: focus += per_line; break;
-		case KeyUp: focus -= per_line; break;
-		case KeyEscape: breakmodal(0); break;
-		}
-	}
-}
-
 static void show_scene_images() {
 }
 
@@ -1415,17 +1347,11 @@ static int get_file_number(const char* url, const char* mask) {
 	return index;
 }
 
-void make_screenshoot() {
+static void make_screenshoot() {
 	auto index = get_file_number("screenshoots", "scr*.bmp");
 	char temp[260]; stringbuilder sb(temp);
 	sb.add("screenshoots/scr%1.5i.bmp", index);
 	bitmap_write(temp, canvas->ptr(0, 0), canvas->width, canvas->height, canvas->bpp, canvas->scanline, 0);
-}
-
-void show_scene_font();
-
-static void show_item_sprites() {
-	show_sprites(ITEMS, {8, 8}, {16, 16});
 }
 
 void common_input() {
@@ -1434,11 +1360,11 @@ void common_input() {
 	}
 #ifdef _DEBUG
 	switch(hkey) {
-	case Ctrl + 'A': show_sprites(PORTM, {0, 0}, {32, 32}); break;
-	case Ctrl + 'S': show_sprites(ITEMGS, {16, 16}, {32, 32}); break;
+	case Ctrl + 'A': execute(show_sprites_command, PORTM); break;
+	case Ctrl + 'S': execute(show_sprites_command, ITEMGS); break;
 		//	case Ctrl + 'D': show_dungeon_images(); break;
-	case Ctrl + 'I': execute(show_item_sprites); break;
-	case Ctrl + 'L': show_sprites(ITEMGL, {32, 24}, {64, 32}); break;
+	case Ctrl + 'I': execute(show_sprites_command, ITEMS); break;
+	case Ctrl + 'L': execute(show_sprites_command, ITEMGL); break;
 	case Ctrl + 'P': execute(show_scene_images); break;
 	case Ctrl + 'F': execute(show_scene_font); break;
 	case Ctrl + 'E': loc->set({20, 20}, CellExplored, 20); break;
@@ -1564,53 +1490,6 @@ void alternate_focus_input() {
 	}
 }
 
-static void clear_input() {
-	pressed_focus = empty_focus;
-	hkey = 0;
-}
-
-//bool hotkey_input(const hotkeyi* hotkeys) {
-//	for(auto p = hotkeys; *p; p++) {
-//		if(hkey != p->key)
-//			continue;
-//		clear_input();
-//		p->proc();
-//		return true;
-//	}
-//	return false;
-//}
-
-static bool answer_input() {
-	int answer_result;
-	switch(hkey) {
-	case KeyUp:
-	case 'W':
-		if(!answer_origin)
-			return false;
-		answer_result = an.indexof((void*)current_focus);
-		if(answer_result != answer_origin)
-			return false;
-		answer_origin--;
-		current_focus = (long)&an.elements.data[answer_origin];
-		break;
-	case KeyDown:
-	case 'Z':
-		if(answer_per_page == -1)
-			return false;
-		answer_result = an.indexof((void*)current_focus);
-		if(answer_result != (answer_origin + answer_per_page - 1))
-			return false;
-		if(answer_result == (an.getcount() - 1))
-			return false;
-		answer_origin++;
-		current_focus = (long)&an.elements.data[answer_origin + answer_per_page - 1];
-		break;
-	default:
-		return false;
-	}
-	return true;
-}
-
 static void paint_city_no_input() {
 	paint_background(PLAYFLD, 0);
 	paint_picture();
@@ -1650,6 +1529,37 @@ void fix_animate() {
 	need_update_animation = false;
 }
 
+static bool answer_input_after_domodal() {
+	int answer_result;
+	switch(hkey) {
+	case KeyUp:
+	case 'W':
+		if(!answer_origin)
+			return false;
+		answer_result = an.indexof((void*)current_focus);
+		if(answer_result != answer_origin)
+			return false;
+		answer_origin--;
+		current_focus = (long)&an.elements.data[answer_origin];
+		break;
+	case KeyDown:
+	case 'Z':
+		if(answer_per_page == -1)
+			return false;
+		answer_result = an.indexof((void*)current_focus);
+		if(answer_result != (answer_origin + answer_per_page - 1))
+			return false;
+		if(answer_result == (an.getcount() - 1))
+			return false;
+		answer_origin++;
+		current_focus = (long)&an.elements.data[answer_origin + answer_per_page - 1];
+		break;
+	default:
+		return false;
+	}
+	return true;
+}
+
 static long choose_answer(const char* title, const char* cancel, fnevent before_paint, fnapaint answer_paint, int padding, int per_page, fnoutput header_paint) {
 	if(!interactive) {
 		auto r = an.random();
@@ -1682,7 +1592,7 @@ static long choose_answer(const char* title, const char* cancel, fnevent before_
 		alternate_focus_input();
 		common_input();
 		domodal();
-		answer_input();
+		answer_input_after_domodal();
 	}
 	sys_update_window();
 	answer_origin = push_origin;

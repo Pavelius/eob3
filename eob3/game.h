@@ -21,11 +21,10 @@ enum messagen : unsigned char {
 	Characterinfo, CharacterSkills, PartyStatusFormat,
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
 	GeneraionInfo, GenerationPlayInfo,
-	ConfirmDeleteCharacter, ConfirmBuyHealing, ConfirmEatAndDrink,
+	ConfirmDeleteCharacter, ConfirmBuyHealing, ConfirmEatAndDrink, ConfirmRentRoom, ConfirmCarousing,
 	WhatPlayerDo, WhichWayToGo,
 	PlayerIsDisabled,
 	QuestGoals, VisitBuilding,
-	RestParty, ScribleScrolls,
 	Class, Race,
 	LastMessage = Race
 };
@@ -41,7 +40,10 @@ enum resn : unsigned char {
 enum soundn : unsigned char {
 	NoMusic,
 	MusAdept, MusAutomap, MusBinge, MusBlut, MusCamp, MusDepot, MusDiskmenu, MusFinster,
-	MusFireGhost, MusGashok, MusGenerate, MusTravel, MusHealer, MusInn, MusKvirasim,
+	MusFireGhost, MusGashok, MusGenerate, MusTravel, MusHealer, MusInn, MusKvirasim, MusLowangen,
+	MusOptions, MusWin, MusTempleOfTheives, MusCombat, MusShop, MusSmith, MusDanger, MusTavern,
+	MusTemple, MusEpic, MusTiefhus,
+	MusDialog,
 };
 enum picturen : unsigned char {
 	NoPicture,

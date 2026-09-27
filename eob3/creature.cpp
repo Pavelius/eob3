@@ -774,6 +774,12 @@ static void standart_ability() {
 		player->basic.abilities[Strenght + i] = 10;
 }
 
+static void apply_minimal(char* result, classn type) {
+	auto n = get_class_count(type);
+	for(int i = 0; i < n; i++)
+		apply_minimal(result, class_minimum[get_class(type, i)]);
+}
+
 void reroll_ability() {
 	char result[12] = {};
 	if(true) {
@@ -791,7 +797,7 @@ void reroll_ability() {
 	auto base_class = get_class(player->type, 0);
 	auto race = player->race;
 	iswap(player->basic.abilities[get_best_index(player->basic.abilities + Strenght, 6)], player->basic.abilities[primary]);
-	apply_minimal(player->basic.abilities, class_minimum[base_class]);
+	apply_minimal(player->basic.abilities, player->type);
 	apply_minimal(player->basic.abilities, race_minimum[race]);
 	apply_maximal(player->basic.abilities, race_maximum[race]);
 	player->basic.abilities[ExeptionalStrenght] = d100() + 1;

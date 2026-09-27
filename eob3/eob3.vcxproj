@@ -165,6 +165,7 @@
     <ClInclude Include="win.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="action.cpp" />
     <ClCompile Include="answers.cpp" />
     <ClCompile Include="appearance.cpp" />
     <ClCompile Include="bin_border.cpp" />

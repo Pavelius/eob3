@@ -9,64 +9,53 @@ static actioni tavern_actions[] = {
 	{Action, EatFoodAndDrink, {Coins, 20}, {}},
 	{Action, PickPocketsSomeone, {}, {Theif}},
 	{Action, Gambling, {}, {Theif, Fighter, Ranger, Mage}},
+	{Action, Carousing, {Coins, 200}, {}},
 	{Action, LeaveOutside},
+	{}};
+static actioni inn_actions[] = {
+	{Action, RestParty},
+	{Action, ScribleScrolls, {}, {Mage}},
 	{}};
 static actioni city_actions[] = {
 	{Action, GoAdventure},
 	{Action, Tavern},
 	{Action, Blacksmith},
 	{Action, Temple},
-	{Action, Inn},
+	{Action, Inn, {Coins, 30}, {}},
 	{Action, WizardTower},
 	{}};
 
 static picturen get_picture(actionn v) {
 	switch(v) {
-	case Tavern: return PicTavern;
 	case Inn: return PicInn;
 	case EatFoodAndDrink: return PicTavern2;
+	case Carousing: return PicTavern2;
+	case Tavern: return PicTavern;
 	default: return PicCity;
 	}
-}
-
-static actioni* get_actions(actionn v) {
-	switch(v) {
-	case Tavern: return tavern_actions;
-	case MainCity: return city_actions;
-	default: return 0;
-	}
-}
-
-static messagen get_confirm(actionn v) {
-	switch(v) {
-	case EatFoodAndDrink: return ConfirmEatAndDrink;
-	default: return (messagen)0;
-	}
-}
-
-static bool indoor(actionn v) {
-	return v >= Tavern && v <= WizardTower;
 }
 
 static soundn get_music(actionn v) {
 	switch(v) {
 	case Inn: return MusInn;
 	case MainCity: return MusKvirasim;
+	case Tavern: return MusTavern;
+	case Temple: return MusTemple;
 	default: return NoMusic;
 	}
 }
 
-long choose_player_action(const char* cancel) {
-	char temp[32]; stringbuilder sb(temp);
-	sb.add(message_names[WhatPlayerDo], player->name());
-	return choose_large_menu(temp, cancel);
+static actioni* get_actions(actionn v) {
+	switch(v) {
+	case Tavern: return tavern_actions;
+	case Inn: return inn_actions;
+	case MainCity: return city_actions;
+	default: return 0;
+	}
 }
 
-bool confirm_message(messagen header, int value) {
-	char temp[256]; stringbuilder sb(temp);
-	sb.add(getnm(header), value);
-	an.add(1, getnm(Agree));
-	return show_message(temp, true, getnm(Decline), 0) != 0;
+static bool indoor(actionn v) {
+	return v >= Tavern && v <= WizardTower;
 }
 
 static int make_payment(messagen header, messagen ask, int multiply, int maximum, const char* cancel) {
@@ -83,15 +72,11 @@ static int make_payment(messagen header, messagen ask, int multiply, int maximum
 	return result;
 }
 
-static const char* ask_action(actionn v) {
-	return getnm(v);
-}
-
 static actioni* choose_location(actionn city) {
 	for(auto p = get_actions(city); p && *p; p++) {
 		if(p->type != Action)
 			continue;
-		if(p->required && p->required > game)
+		if(p->required && !game.enough(p->required))
 			continue; // Can't pay or other reputation
 		if(p->action >= Tavern && p->action <= WizardTower)
 			an.add((long)p, getnm(VisitBuilding), getnm(p->action));
@@ -112,28 +97,32 @@ static bool pass_restriction(const classnc& v) {
 	return false;
 }
 
+static void rest_party() {
+	pass_time(60 * 8);
+}
+
 static resultn apply_action(actioni* p) {
-	if(p->action == LeaveOutside)
-		return ReturnToParent;
 	pushvalue push(answer_picture);
-	auto picture = get_picture(p->action);
-	if(picture)
-		answer_picture = picture;
-	// Check coins need to expend
-	if(p->required.variables[Coins]) {
-		auto message = get_confirm(p->action);
-		if(message) {
-			if(!confirm_message(message, p->required.variables[Coins]))
-				return Failed;
+	auto result = Successed;
+	while(p) {
+		auto picture = get_picture(p->action);
+		if(picture)
+			answer_picture = picture;
+		if(!pass_payment(p->action, p->required))
+			return Failed;
+		switch(p->action) {
+		case LeaveOutside: return ReturnToParent;
+		case RestParty: rest_party(); return ReturnToParent;
+		default: break;
 		}
-		game.variables[Coins] -= p->required.variables[Coins];
+		break;
 	}
-	return NoResult;
+	return result;
 }
 
 static actioni* choose_building_action(actionn building) {
 	for(auto p = get_actions(building); p && *p; p++) {
-		if(p->required && p->required > game)
+		if(p->required && !game.enough(p->required))
 			continue; // Can't pay or other reputation
 		if(!pass_restriction(p->restriction))
 			continue; // Not pass restriction
@@ -161,6 +150,8 @@ void play_city_actions() {
 		} else {
 			auto p = choose_location(location);
 			if(!p)
+				continue;
+			if(!pass_payment(p->action, p->required))
 				continue;
 			location = p->action;
 		}

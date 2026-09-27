@@ -217,6 +217,7 @@ public:
 			midiOutReset(stream);
 			unprepare(stream, header);
 		}
+		done = false;
 		data = 0;
 		size = 0;
 		position = 0;

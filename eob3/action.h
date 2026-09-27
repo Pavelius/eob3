@@ -1,6 +1,7 @@
 #pragma once
 
 enum classn : unsigned char;
+enum messagen : unsigned char;
 
 enum resultn : unsigned char {
 	NoResult, Action, Failed, Successed, ReturnToParent
@@ -9,12 +10,13 @@ enum actionn : unsigned char {
 	MainCity,
 	Tavern, Blacksmith, Temple, Inn, WizardTower, GoAdventure,
 	PickPocketsSomeone, EatFoodAndDrink, Gambling, Carousing,
+	RestParty, ScribleScrolls,
 	LeaveOutside,
 	LastAction = LeaveOutside
 };
 enum variablen : unsigned char {
-	Reputation, Coins, Blessing,
-	LastVariable = Blessing
+	Reputation, Coins, Blessing, Time,
+	LastVariable = Time
 };
 
 extern const char* action_names[LastAction + 1];
@@ -40,19 +42,33 @@ struct variablei {
 	constexpr variablei() = default;
 	template<typename... Ts> constexpr variablei(variablen v, int n, Ts... args) : variablei(args...) { add(v, n); }
 	constexpr explicit operator bool() const { for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1)) if(variables[i]) return true; return false; }
-	constexpr bool operator>(const variablei& v) const { for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1)) if(variables[i] <= v.variables[i]) return false; return true; }
-	constexpr bool operator>=(const variablei& v) const { for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1)) if(variables[i] < v.variables[i]) return false; return true; }
 	constexpr bool operator==(const variablei& v) const { for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1)) if(variables[i] != v.variables[i]) return false; return true; }
 	constexpr bool operator!=(const variablei& v) const { for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1)) if(variables[i] == v.variables[i]) return false; return true; }
-	constexpr void add(variablen v, int n) { variables[v] += n; }
 	constexpr int get(variablen v) const { return variables[v]; }
+	constexpr void add(variablen v, int n) { variables[v] += n; }
+	constexpr bool enough(const variablei& v) const {
+		for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1))
+			if(variables[i] < v.variables[i])
+				return false;
+		return true;
+	}
 };
 extern variablei game;
 
 struct actioni {
-	resultn		type;
-	actionn		action; // What action do.
-	variablei	required; // Pass this requitment to show action. Gold coins must be payed.
-	classnc		restriction; // If filled, only this classes can use action.
+	struct rolli {
+
+	};
+	resultn type;
+	actionn action; // What action do.
+	variablei required; // Pass this requitment to show action. Gold coins must be payed.
+	classnc restriction; // If filled, only this classes can use action.
 	constexpr explicit operator bool() const { return type != NoResult; }
 };
+
+actioni* find_action(actioni* start, resultn result);
+
+long choose_player_action(const char* cancel);
+bool confirm_message(messagen header, int value);
+bool pass_payment(actionn action, const variablei& required);
+void pass_time(unsigned minutes);

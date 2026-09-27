@@ -11,8 +11,6 @@ enum questfn : unsigned char {
 	QuestActive, QuestPassed, QuestPrepared,
 };
 
-extern const char* variable_names[LastVariable + 1];
-
 struct questfc {
 	unsigned char data = 0;
 	questfc() = default;
@@ -28,5 +26,6 @@ struct questi {
 	questfc			state; // Current quest state. Can be serialzed.
 };
 extern questi quests[128]; // All quest predifined data.
+extern questi* last_quest;
 
 int quest_count(questfn v);

@@ -135,6 +135,7 @@
     <ClInclude Include="adat.h" />
     <ClInclude Include="answers.h" />
     <ClInclude Include="assign.h" />
+    <ClInclude Include="console.h" />
     <ClInclude Include="dungeon.h" />
     <ClInclude Include="collection.h" />
     <ClInclude Include="creature.h" />
@@ -181,8 +182,10 @@
     <ClCompile Include="bin_xspl.cpp" />
     <ClCompile Include="bitmap.cpp" />
     <ClCompile Include="collection.cpp" />
+    <ClCompile Include="console.cpp" />
     <ClCompile Include="dungeon.cpp" />
     <ClCompile Include="dungeon_generate.cpp" />
+    <ClCompile Include="game_city.cpp" />
     <ClCompile Include="game_generate.cpp" />
     <ClCompile Include="creature.cpp" />
     <ClCompile Include="color.cpp" />
@@ -198,6 +201,7 @@
     <ClCompile Include="midi.cpp" />
     <ClCompile Include="mid_music.cpp" />
     <ClCompile Include="monster.cpp" />
+    <ClCompile Include="npc.cpp" />
     <ClCompile Include="pointc.cpp" />
     <ClCompile Include="pointca.cpp" />
     <ClCompile Include="quest.cpp" />

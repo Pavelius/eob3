@@ -1,4 +1,5 @@
 #include "answers.h"
+#include "creature.h"
 #include "draw.h"
 #include "game.h"
 #include "sound.h"
@@ -20,10 +21,24 @@ static void next_main_menu() {
 }
 
 static void main_menu() {
-	an.add((long)game_generation, message_names[StartGame]);
-	an.add((long)load_game, message_names[LoadGame]);
-	an.add((long)buttoncancel, message_names[ExitGame]);
+	an.add((long)game_generation, getnm(StartGame));
+	an.add((long)load_game, getnm(LoadGame));
+	an.add((long)buttoncancel, getnm(ExitGame));
 	next_main_menu();
+}
+
+static bool test_items() {
+	if(item_data[Robe].wear != Body)
+		return false;
+	if(item_data[Helm].avatar.pack != 20)
+		return false;
+	return true;
+}
+
+static bool auto_test() {
+	if(!test_items())
+		return false;
+	return true;
 }
 
 int main(int argc, char* argv[]) {
@@ -33,6 +48,8 @@ int main(int argc, char* argv[]) {
 	initialize_gui();
 	stringbuilder::custom = stringbuilder_custom;
 #ifdef _DEBUG
+	if(!auto_test())
+		return -1;
 	main_util();
 #endif
 	current_music = MusKvirasim;

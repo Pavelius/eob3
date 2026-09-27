@@ -22,8 +22,10 @@ enum messagen : unsigned char {
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
 	GeneraionInfo, GenerationPlayInfo,
 	ConfirmDeleteCharacter,
-	WhatPlayerDo,
-	CityName,
+	WhatPlayerDo, WhichWayToGo,
+	PlayerIsDisabled,
+	CityName, QuestGoals,
+	VisitTavern, VisitBlacksmith, VisitTemple, VisitInn, VisitWizardTower, GoAdventure,
 	Class, Race,
 	LastMessage = Race
 };
@@ -54,8 +56,15 @@ enum variablen : unsigned char {
 
 extern const char* direction_names[Down + 1];
 extern const char* message_names[LastMessage + 1];
+extern const char* variable_names[LastVariable + 1];
+
+inline const char* getnm(directionn v) { return direction_names[v]; }
+inline const char* getnm(messagen v) { return message_names[v]; }
+inline const char* getnm(variablen v) { return variable_names[v]; }
 
 extern sprite* res_data[LastRes + 1];
+extern bool interactive;
+extern int generate_player_index;
 
 struct variablei {
 	int	variables[LastVariable + 1] = {};
@@ -65,11 +74,6 @@ struct variablei {
 	constexpr int get(variablen v) const { return variables[v]; }
 };
 extern variablei game;
-
-inline const char* getnm(messagen v) { return message_names[v]; }
-
-extern bool interactive;
-extern int generate_player_index;
 
 int getv(variablen v);
 
@@ -88,6 +92,7 @@ long choose_dialog(const char* title, int padding);
 long choose_generate_box(const char* header, const char* footer, int current);
 long choose_generate_dialog(const char* header);
 long choose_large_menu(const char* header, const char* cancel);
+long choose_large_menu_no_player(const char* header, const char* cancel);
 long choose_main_menu();
 long choose_small_menu(const char* header, const char* cancel);
 void choose_spells(const char* title, const char* cancel, int spell_type);
@@ -102,11 +107,13 @@ void message_box(const char* format);
 void paint_adventure();
 void paint_small_menu();
 void paint_main_menu();
-void paint_test_mode();
 void pick_up_item();
-void play_city();
+long play_city();
+void play_city_actions();
+void printn(messagen id, ...);
 void show_scene(fnevent before_paint, fnevent input, long focus);
 void show_scene_font();
 void show_sprites_command();
+long show_message(const char* format, bool add_anaswers, const char* cancel, unsigned cancel_key);
 void text_label(int index, long data, const char* format, unsigned key);
 void text_label_left(int index, long data, const char* format, unsigned key);

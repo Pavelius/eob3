@@ -108,6 +108,9 @@
     <ClInclude Include="stringvar.h">
       <Filter>support</Filter>
     </ClInclude>
+    <ClInclude Include="console.h">
+      <Filter>support</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="creature.cpp">
@@ -270,6 +273,15 @@
       <Filter>support</Filter>
     </ClCompile>
     <ClCompile Include="information.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="console.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="npc.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="game_city.cpp">
       <Filter>logic</Filter>
     </ClCompile>
   </ItemGroup>

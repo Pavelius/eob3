@@ -5,6 +5,7 @@
 
 typedef bool (*fncfilter)(unsigned char v);
 
+enum messagen : unsigned char;
 enum monstern : unsigned char;
 enum resn : unsigned char;
 enum spelln : unsigned char;
@@ -54,15 +55,23 @@ enum monstern : unsigned char {
 	Kobold, Leech, DwarfWarrior, Spider,
 	LastMonster = Spider
 };
+enum speechn : unsigned char {
+	CantUseItem, ThisIsUndefinedObject, ThisIsObject, ThisIsNotItem, CantPutItemHere,
+	CantUseIsSettlement,
+	LastSpeech = CantUseIsSettlement
+};
 
 extern const char* ability_names[Experience + 1];
 extern const char* ability_short[Experience + 1];
 extern const char* alignment_names[ChaoticEvil + 1];
 extern const char* class_names[FighterMageTheif + 1];
 extern const char* gender_names[Female + 1];
-extern const char* race_names[Halfling + 1];
-extern const char* name_names[50 * 4];
 extern const char* monster_names[LastMonster + 1];
+extern const char* name_names[50 * 4];
+extern const char* race_names[Halfling + 1];
+extern const char* speech_names1[LastSpeech + 1];
+extern const char* speech_names2[LastSpeech + 1];
+extern const char* speech_names3[LastSpeech + 1];
 
 int get_class_count(classn v);
 int get_class_index(classn base, classn type);
@@ -115,6 +124,9 @@ struct npci {
 	char			levels[3];
 	const char* name() const { return (name_id == 0xFF) ? race_names[race] : name_names[name_id]; }
 	int level() const { return levels[0]; }
+	void say(messagen id, ...) const;
+	void say(speechn id, ...) const;
+	void sayv(const char* id, const char* format) const;
 };
 
 struct creature : npci, posable, statable, wearable {
@@ -130,12 +142,15 @@ struct creature : npci, posable, statable, wearable {
 	int gethp() const { return hpm; }
 	void add(abilityn n, int v);
 	bool allow(itemn type) const;
+	bool allow(itemn type, speechn speech) const;
 	void clear();
 	void equip(item& v);
 	void equip(const item& v) { item cv = v; equip(cv); }
+	bool is(abilityn v) const { return abilities[v] > 0; }
 	bool is(classn v) const { return get_class_index(type, v) != -1; }
 	bool is(featn v) const { return feats.is(v); }
 	bool is(racen v) const { return race == v; }
+	bool isactable() const;
 	bool isdisabled() const { return false; }
 	bool isdead() const { return hp <= -10; }
 	bool islarge() const { return is_large(monsters[monster].res); }
@@ -149,6 +164,8 @@ extern creature* player;
 
 creature* get_creature(void* pointer);
 creature* new_character();
+
+wearn get_wear(void* pointer);
 
 unsigned char random_avatar(racen race, gendern gender, classn type);
 unsigned char random_name(racen race, gendern gender);

@@ -10,8 +10,10 @@ const char* message_names[LastMessage + 1] = {
 	"Select the box of the character you wish to create or view.",
 	"Press Enter to play game.",
 	"Do you really want to delete this character?",
-	"What %1 do?",
-	"City Iriaebor",
+	"What %1 do?", "Which way to go?",
+	"%1 is disabled",
+	"City Iriaebor", "Current goals",
+	"Visit Tavern", "Visit Blacksmith", "Visit Temple", "Visit Inn", "Visit Wizard Tower", "Go Adventure",
 	"Class", "Race"
 };
 const char* direction_names[Down + 1] = {
@@ -100,6 +102,30 @@ const char* item_names[LastItem + 1] = {
 const char* monster_names[LastMonster + 1] = {
 	"Nobody",
 	"Kobold", "Leech", "Dwarf", "Spider",
+};
+const char* speech_names1[LastSpeech + 1] = {
+	"How can I use %1?",
+	"This is a %1",
+	"This is %1",
+	"I don't see any item here",
+	"Can't put %1 here",
+	"Not in the city!",
+};
+const char* speech_names2[LastSpeech + 1] = {
+	"I don't use %1.",
+	0,
+	0,
+	"And where is item?",
+	"Can't wearn %1 that way",
+	"This one usable in dungeon",
+};
+const char* speech_names3[LastSpeech + 1] = {
+	"I don't need %1.",
+	0,
+	0,
+	"Nothing examine",
+	"Wrong item place",
+	"Wrong place to use",
 };
 const char* name_names[50 * 4] = {
 	"Aldren", "Elira", "Garrick", "Mirena", "Taren", // Human names

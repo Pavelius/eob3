@@ -1,4 +1,5 @@
 #include "answers.h"
+#include "console.h"
 #include "creature.h"
 #include "dice.h"
 #include "draw.h"
@@ -26,7 +27,7 @@ static color title(64, 255, 255); // Spells header color
 
 int answer_origin, answer_per_page, answer_index;
 
-static long current_select, pressed_focus;
+static long current_select = -1, pressed_focus;
 static fnevent character_view_proc;
 static point cancel_position;
 static bool hilite_player;
@@ -34,7 +35,6 @@ static int disp_damage[6];
 static int disp_weapon[6][2];
 static unsigned animate_counter;
 static int* table_columns;
-static char console_text[4096]; stringbuilder sb(console_text);
 static slice<unsigned char> character_avatars;
 
 bool need_update_animation;
@@ -185,6 +185,21 @@ static void list_input(long index) {
 	button_pressed = (pressed_focus == index);
 }
 
+//static void button_input_no_focus(long button_data, unsigned key) {
+//	button_clear();
+//	if(!focus_valid(button_data))
+//		return;
+//	button_hilited = ishilite();
+//	auto isfocused = (current_focus == button_data);
+//	if((key && hkey == key) || (button_hilited && hpressed))
+//		pressed_focus = button_data;
+//	else if((hkey == InputKeyUp && pressed_focus == button_data) || (button_hilited && hkey == MouseLeft && !hpressed)) {
+//		pressed_focus = empty_focus;
+//		button_executed = true;
+//	}
+//	button_pressed = (pressed_focus == button_data);
+//}
+
 static void button_input(long button_data, unsigned key, unsigned key_hot = 0xFFFF0000) {
 	button_clear();
 	if(!focus_valid(button_data))
@@ -232,6 +247,20 @@ static void button(rect rc) {
 		}
 	}
 	button_pressed = (pressed_focus == button_data);
+	if(button_pressed)
+		button_press_effect();
+}
+
+static void button(rect rc, unsigned key) {
+	button_clear();
+	if(disable_input)
+		return;
+	pushrect push;
+	caret.x = rc.x1;
+	caret.y = rc.y1;
+	width = rc.width();
+	height = rc.height();
+	button_input((*((int*)&caret)), key);
 	if(button_pressed)
 		button_press_effect();
 }
@@ -566,8 +595,8 @@ static void blend_avatar(slice<color> source, unsigned char intensity = 64, unsi
 static void paint_avatar_stats() {
 	adat<color, 8> avatar_colors;
 	avatar_colors.clear();
-	//if(player->is(PoisonLevel) || player->is(DiseaseLevel))
-	//	avatar_colors.add(colors::green);
+	if(player->is(PoisonLevel) || player->is(DiseaseLevel))
+		avatar_colors.add(colors::green);
 	blend_avatar(avatar_colors, 32);
 }
 
@@ -742,7 +771,7 @@ static void paint_item(item& it, wearn id, int emphty_avatar = -1, int pallette_
 			paint_focus_rect();
 		if(ishilite()) {
 			if(hkey == MouseLeft && !hpressed) {
-				if(current_select)
+				if(focus_valid(current_select))
 					execute(focus_and_pick_up_item, button_data);
 				else if(current_focus == button_data)
 					execute(pick_up_item);
@@ -1064,7 +1093,6 @@ static void paint_character() {
 	pushrect push;
 	pushfont push_font(0);
 	pushfore push_fore(colors::black);
-	auto push_caret = caret;
 	width = 65;
 	height = 52;
 	paint_avatar_border();
@@ -1087,7 +1115,6 @@ static void paint_character() {
 	caret.y = push.caret.y + 44;
 	width = 65;
 	texta(str("%1i of %2i", player->gethp(), player->hpm), AlignCenter);
-	caret = push_caret;
 }
 
 static void paint_character(bool disabled, bool hilite) {
@@ -1100,7 +1127,7 @@ static void paint_character(bool disabled, bool hilite) {
 		paint_hilite_rect();
 }
 
-void paint_avatars() {
+static void paint_avatars() {
 	static point points[] = {{183, 1}, {255, 1}, {183, 53}, {255, 53}, {183, 105}, {255, 105}};
 	pushrect push;
 	auto push_player = player;
@@ -1117,16 +1144,16 @@ void paint_avatars() {
 			hilite_player && (player == push_player));
 	}
 	player = push_player;
-	button({289, 178, 319, 198}); fire(press_key, KeyEscape);
+	button({289, 178, 319, 198}, KeyEscape); fire(buttoncancel);
 }
 
-void paint_avatars_no_focus() {
+static void paint_avatars_no_focus() {
 	auto push_input = disable_input; disable_input = true;
 	paint_avatars();
 	disable_input = push_input;
 }
 
-void paint_avatars_no_focus_hilite() {
+static void paint_avatars_no_focus_hilite() {
 	auto push_hilite = hilite_player; hilite_player = true;
 	auto push_input = disable_input; disable_input = true;
 	paint_avatars();
@@ -1153,14 +1180,14 @@ static void get_closed_goals(char* goals) {
 }
 
 static void paint_quest_goals() {
-	//goala goals = {}; get_closed_goals(goals);
-	//rectpush push;
-	//auto push_font = font;
-	//auto push_fore = fore;
-	//paint_sheet_head();
-	//paint_blank();
+	goala goals = {}; get_closed_goals(goals);
+	pushrect push;
+	pushfont push_font(0);
+	pushfore push_fore;
+	paint_sheet_head();
+	paint_blank();
+	header(getnm(QuestGoals));
 	//if(last_quest) {
-	//	header(getnm("QuestGoals"));
 	//	width -= 2;
 	//	for(auto i = (goaln)0; i <= KillAlmostAllMonsters; i = (goaln)(i + 1)) {
 	//		if(last_quest->goals[i] <= 0 && goals[i] <= 0)
@@ -1168,8 +1195,6 @@ static void paint_quest_goals() {
 	//		textn(bsdata<goali>::elements[i].getname(), last_quest->goals[i], "%2i/%1i", goals[i]);
 	//	}
 	//}
-	//font = push_font;
-	//fore = push_fore;
 }
 
 static void field(const char* header, int title_width, int total, int value, int maximum) {
@@ -1199,7 +1224,7 @@ static void texta(const char* format, unsigned flags, color text_color) {
 
 static void party_status_text() {
 	char temp[64]; stringbuilder sb(temp);
-	sb.add(message_names[PartyStatusFormat]);
+	sb.add(getnm(PartyStatusFormat));
 	texta(temp, AlignLeft);
 }
 
@@ -1208,7 +1233,7 @@ static void paint_party_status() {
 	pushfont push_font(0);
 	paint_menu({0, 122}, 178, 52);
 	setpos(8, 126, 160, texth());
-	texta(message_names[CityName], AlignCenter, colors::yellow);
+	texta(getnm(CityName), AlignCenter, colors::yellow);
 	caret.y += texth() + 3;
 	//if(is_dead_line()) {
 	//	auto v = getparty(Minutes);
@@ -1224,7 +1249,7 @@ static void paint_party_status() {
 
 static void paint_console() {
 	pushrect push;
-	pushfont push_font;
+	pushfont push_font(0);
 	setpos(5, 180, 280, 6 * 3);
 	texta(console_text, AlignLeft);
 }
@@ -1233,7 +1258,7 @@ static void update_focus_player() {
 	player = get_creature((void*)current_focus);
 }
 
-void paint_large_menu() {
+static void paint_large_menu() {
 	paint_background(PLAYFLD, 0);
 	paint_compass(party.d);
 	paint_avatars_no_focus_hilite();
@@ -1245,7 +1270,19 @@ void paint_large_menu() {
 	cancel_position = {6, 104};
 }
 
-void paint_small_menu() {
+static void paint_large_menu_no_hilite() {
+	paint_background(PLAYFLD, 0);
+	paint_compass(party.d);
+	paint_avatars_no_focus();
+	paint_console();
+	if(!loc)
+		paint_party_status();
+	paint_menu({0, 0}, 178, 121);
+	setpos(6, 6, 165, texth() + 3);
+	cancel_position = {6, 104};
+}
+
+static void paint_small_menu() {
 	paint_background(PLAYFLD, 0);
 	paint_compass(party.d);
 	//if(loc)
@@ -1266,18 +1303,8 @@ static void paint_adventure() {
 	// paint_dungeon();
 	paint_party_sheets();
 	update_focus_player();
-	//	console_scroll(3000);
+	console_scroll(3000);
 	paint_console();
-}
-
-void play_adventure() {
-	scene(paint_adventure);
-}
-
-void paint_test_mode() {
-	paint_background(PLAYFLD, 0);
-	paint_compass(party.d);
-	paint_avatars_no_focus_hilite();
 }
 
 static void paint_adventure_no_update() {
@@ -1372,14 +1399,20 @@ void common_input() {
 #endif
 }
 
+static bool can_remove(const item& e) {
+	return true;
+}
+
 static bool can_place(const creature* player, wearn id, item* pi) {
 	if(id >= Head && id <= LastBelt) {
-		//	if(*pi && !pi->isallow(id))
-		//		return false;
-		//	if(player->wears[id] && !can_remove((item*)player->wears + id))
-		//		return false;
-		//	if(!player->isallow(*pi))
-		//		return false;
+		if(*pi && !allow(pi->type, id)) {
+			player->say(CantPutItemHere, item_names[pi->type]);
+			return false;
+		}
+		if(player->wears[id] && !can_remove(player->wears[id]))
+			return false;
+		if(!player->allow(pi->type, CantPutItemHere))
+			return false;
 	}
 	return true;
 }
@@ -1393,74 +1426,72 @@ static void update_player(creature* p1) {
 void pick_up_dungeon_item();
 
 void pick_up_item() {
+	if(!focus_valid(current_focus))
+		return;
+	auto p2 = (item*)current_focus;
 	if(!focus_valid(current_select)) {
-		if(!focus_valid(current_focus))
-			return;
-		//	if(*((int*)current_focus) == 0) {
+		if(!(*p2)) {
 		//		pick_up_dungeon_item();
 		//		return;
-		//	}
+		}
 		current_select = current_focus;
 	} else {
 		auto p1 = (item*)current_select;
-		auto p2 = (item*)current_focus;
-		current_select = 0;
-		//	auto c1 = item_owner(p1);
-		//	if(!c1)
-		//		return;
-		//	auto c2 = item_owner(p2);
-		//	if(!c2)
-		//		return;
-		//	auto w1 = item_wear(p1);
-		//	auto w2 = item_wear(p2);
-		//	if(!can_place(c1, w1, p2))
-		//		return;
-		//	if(!can_place(c1, w2, p2))
-		//		return;
-		//	if(!can_place(c2, w2, p1))
-		//		return;
-		//	if(!can_place(c2, w1, p1))
-		//		return;
-		//	if(!p2->join(*p1))
-		//		iswap(*p1, *p2);
-		//	update_player(c1);
-		//	if(c1 != c2)
-		//		update_player(c2);
+		current_select = -1;
+		auto c1 = get_creature(p1);
+		if(!c1)
+			return;
+		auto c2 = get_creature(p2);
+		if(!c2)
+			return;
+		auto w1 = get_wear(p1);
+		auto w2 = get_wear(p2);
+		if(!can_place(c1, w1, p2))
+			return;
+		if(!can_place(c1, w2, p2))
+			return;
+		if(!can_place(c2, w2, p1))
+			return;
+		if(!can_place(c2, w1, p1))
+			return;
+		//if(!p2->join(*p1))
+			iswap(*p1, *p2);
+		c1->update();
+		if(c1 != c2)
+			c2->update();
 	}
 }
 
 static void examine_item() {
 	auto pi = (item*)current_focus;
-	//auto pc = item_owner(pi);
-	//if(!pc)
-	//	return;
-	//if(!pc->isactable())
-	//	return;
-	//if(!(*pi))
-	//	pc->say(getnm("WrongItem"));
-	//else {
-	//	if(pi->isidentified())
-	//		pc->say(getnm("ExamineIdentifiedItem"), pi->getname());
-	//	else
-	//		pc->say(getnm("ExamineItem"), pi->getname());
-	//}
+	auto pc = get_creature(pi);
+	if(!pc)
+		return;
+	if(!pc->isactable())
+		return;
+	else if(!(*pi))
+		pc->say(ThisIsNotItem);
+	else if(pi->isidentified())
+		pc->say(ThisIsObject, pi->name());
+	else
+		pc->say(ThisIsUndefinedObject, pi->name());
 }
 
-static void choose_character(int index) {
+static void select_character(int index) {
 	auto p = adventurers[index];
-	if(p) {
-		player = p;
-		if(((creature*)current_focus) >= player && ((creature*)current_focus) < (player + 1))
-			return;
-		set_focus_by_player();
-	}
+	if(!p)
+		return;
+	player = p;
+	if(((creature*)current_focus) >= player && ((creature*)current_focus) < (player + 1))
+		return;
+	set_focus_by_player();
 }
 
-static bool character_input() {
+static void character_input() {
 	switch(hkey) {
 	case '1': case '2': case '3':
 	case '4': case '5': case '6':
-		choose_character(hkey - '1');
+		select_character(hkey - '1');
 		break;
 	case 'I': switch_page(paint_inventory); break;
 	case 'C': switch_page(paint_sheet); break;
@@ -1471,13 +1502,12 @@ static bool character_input() {
 	case 'Q': examine_item(); break;
 	case KeyEscape:
 		if(!character_view_proc)
-			return false;
+			break;
 		clear_page();
 		break;
 	default:
-		return false;
+		break;
 	}
-	return true;
 }
 
 void alternate_focus_input() {
@@ -1507,10 +1537,10 @@ static void paint_city() {
 	common_input();
 }
 
-void play_city() {
+long play_city() {
 	pushdialog push;
 	set_focus_by_player();
-	scene(paint_city);
+	return scene(paint_city);
 }
 
 void fix_animate() {
@@ -1602,6 +1632,10 @@ static long choose_answer(const char* title, const char* cancel, fnevent before_
 
 long choose_large_menu(const char* header, const char* cancel) {
 	return choose_answer(header, cancel, paint_large_menu, button_label, 1, -1, 0);
+}
+
+long choose_large_menu_no_player(const char* header, const char* cancel) {
+	return choose_answer(header, cancel, paint_large_menu_no_hilite, button_label, 1, -1, 0);
 }
 
 long choose_small_menu(const char* header, const char* cancel) {
@@ -1975,7 +2009,7 @@ static void paint_choose_avatars() {
 }
 
 static void delete_character() {
-	if(!confirm(message_names[ConfirmDeleteCharacter]))
+	if(!confirm(getnm(ConfirmDeleteCharacter)))
 		return;
 	if(!player)
 		return;
@@ -2020,48 +2054,45 @@ long choose_generate_dialog(const char* header) {
 	return choose_answer(header, 0, paint_generate_progress, text_label_left, 2, 10, paint_generate_header);
 }
 
-//long show_message(const char* format, bool add_anaswers, const char* cancel, unsigned cancel_key) {
-//	pushrect push;
-//	pushdialog push_dialog;
-//	auto push_picture = answer_picture;
-//	while(ismodal()) {
-//		paint_background(PLAYFLD, 0);
-//		//		paint_compass(party.d);
-//		paint_avatars_no_focus_hilite();
-//		paint_menu({0, 122}, 319, 77);
-//		caret = {6, 128};
-//		width = 308;
-//		height = 56;
-//		texta(format, TextBold);
-//		if(answer_picture)
-//			paint_picture();
-//		//else if(loc)
-//		//	paint_dungeon();
-//		caret = {4, 184};
-//		auto index = 0;
-//		height = texth() + 3;
-//		if(add_anaswers) {
-//			for(auto& e : an.elements) {
-//				width = textw(e.text) + 6;
-//				button_label(index++, e.value, e.text, e.key, buttonparam);
-//				caret.x += width;
-//				caret.x += 2;
-//			}
-//		}
-//		if(cancel) {
-//			width = textw(cancel) + 6;
-//			button_label(index++, 0, cancel, cancel_key, buttonparam);
-//		}
-//		domodal();
-//		if(focus_input())
-//			continue;
-//		if(alternate_focus_input())
-//			continue;
-//		common_input();
-//	}
-//	answer_picture = push_picture;
-//	return getresult();
-//}
+long show_message(const char* format, bool add_anaswers, const char* cancel, unsigned cancel_key) {
+	pushrect push;
+	pushdialog push_dialog;
+	pushvalue push_picure(answer_picture);
+	while(ismodal()) {
+		paint_background(PLAYFLD, 0);
+		// paint_compass(party.d);
+		paint_avatars_no_focus_hilite();
+		paint_menu({0, 122}, 319, 77);
+		setpos(6, 128, 308, 56);
+		texta(format, TextBold);
+		if(answer_picture)
+			paint_picture();
+		//else if(loc)
+		//	paint_dungeon();
+		caret = {4, 184};
+		auto index = 0;
+		height = texth() + 3;
+		if(add_anaswers) {
+			for(auto& e : an.elements) {
+				width = textw(e.text) + 6;
+				button_label(index++, e.value, e.text, e.key);
+				fire(buttonparam);
+				caret.x += width;
+				caret.x += 2;
+			}
+		}
+		if(cancel) {
+			width = textw(cancel) + 6;
+			button_label(index++, 0, cancel, cancel_key);
+			fire(buttoncancel);
+		}
+		focus_input();
+		alternate_focus_input();
+		common_input();
+		domodal();
+	}
+	return getresult();
+}
 
 bool confirm(const char* format) {
 	if(!format)

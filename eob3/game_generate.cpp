@@ -10,13 +10,13 @@ int generate_player_index;
 static racen select_race() {
 	for(auto i = Human; i <= Halfling; i = (racen)(i + 1))
 		an.add(i, race_names[i]);
-	return (racen)choose_generate_dialog(message_names[SelectRace]);
+	return (racen)choose_generate_dialog(getnm(SelectRace));
 }
 
 static gendern select_gender() {
 	an.add(Male, gender_names[Male]);
 	an.add(Female, gender_names[Female]);
-	return (gendern)choose_generate_dialog(message_names[SelectGender]);
+	return (gendern)choose_generate_dialog(getnm(SelectGender));
 }
 
 static classn select_class(racen race) {
@@ -25,7 +25,7 @@ static classn select_class(racen race) {
 			continue;
 		an.add(i, class_names[i]);
 	}
-	return (classn)choose_generate_dialog(message_names[SelectClass]);
+	return (classn)choose_generate_dialog(getnm(SelectClass));
 }
 
 static alignmentn select_alignment(classn type) {
@@ -34,7 +34,7 @@ static alignmentn select_alignment(classn type) {
 			continue;
 		an.add(i, alignment_names[i]);
 	}
-	return (alignmentn)choose_generate_dialog(message_names[SelectAlignment]);
+	return (alignmentn)choose_generate_dialog(getnm(SelectAlignment));
 }
 
 static unsigned char choose_avatar() {
@@ -67,8 +67,8 @@ static void party_generation() {
 	generate_player_index = 0;
 	game_clear();
 	while(true) {
-		const char* footer = is_party_formed() ? message_names[GeneraionInfo] : 0;
-		generate_player_index = choose_generate_box(message_names[GeneraionInfo], footer, generate_player_index);
+		const char* footer = is_party_formed() ? getnm(GeneraionInfo) : 0;
+		generate_player_index = choose_generate_box(getnm(GeneraionInfo), footer, generate_player_index);
 		if(generate_player_index == 2000) // Start game
 			break;
 		player = characters + generate_player_index;
@@ -114,7 +114,8 @@ static long choose_action(const char* cancel) {
 
 static void test_city_menu() {
 	answer_picture = PicCity;
-	next_scene(play_city);
+	player->say(WhatPlayerDo, item_names[TwoHandedSword]);
+	next_scene(play_city_actions);
 }
 
 void game_generation() {

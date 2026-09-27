@@ -17,7 +17,7 @@
 #pragma once
 
 #ifdef _MSC_VER
-#define XVA_FORMAT(V) auto format_param = (((const char*)&V) + sizeof(V));
+#define XVA_FORMAT(V) auto format_param = ((const char*)&V) + ((sizeof(V) < sizeof(void*)) ? sizeof(void*) : sizeof(V));
 #else
 #include "slice.h"
 #include <stdarg.h>
@@ -120,6 +120,7 @@ public:
 	void lower() { szlower(pb); }
 	void reset() { p = pb; }
 	void set(char* v) { p = v; p[0] = 0; }
+	void setend() { p = (char*)zend(pb); }
 	void trimr();
 	void upper() { szupper(pb); }
 	unsigned maximum() const { return (unsigned)(pe - pb - 1); }

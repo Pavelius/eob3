@@ -1,4 +1,5 @@
 #include "creature.h"
+#include "game.h"
 #include "math.h"
 #include "rand.h"
 #include "stringbuilder.h"
@@ -225,6 +226,13 @@ void creature::setframe(short* frames, short index) const {
 	}
 }
 
+bool creature::allow(itemn type, speechn id) const {
+	if(allow(type))
+		return true;
+	say(id, item_names[type]);
+	return false;
+}
+
 bool creature::allow(itemn type) const {
 	switch(type) {
 	case ShortSword: case Longsword:
@@ -269,6 +277,13 @@ void creature::equip(item& v) {
 	}
 }
 
+bool creature::isactable() const {
+	if(isdisabled()) {
+		printn(PlayerIsDisabled);
+		return false;
+	}
+	return true;
+}
 
 static abilityn get_primary(classn v) {
 	switch(v) {
@@ -350,15 +365,15 @@ static void update_basic() {
 }
 
 static int get_skill_level(abilityn v) {
-//	// For monsters and other special effects
-//	if(player->is(v))
-//		return player->getlevel();
-//	// For multiclass and characters
-//	auto& ei = player->getclass();
-//	for(auto i = 0; i < ei.count; i++) {
-//		if(bsdata<classi>::elements[ei.classes[i]].is(v))
-//			return player->levels[i];
-//	}
+	//	// For monsters and other special effects
+	//	if(player->is(v))
+	//		return player->getlevel();
+	//	// For multiclass and characters
+	//	auto& ei = player->getclass();
+	//	for(auto i = 0; i < ei.count; i++) {
+	//		if(bsdata<classi>::elements[ei.classes[i]].is(v))
+	//			return player->levels[i];
+	//	}
 	return 0;
 }
 
@@ -930,6 +945,13 @@ creature* get_creature(void* pointer) {
 	return 0;
 }
 
+wearn get_wear(void* pointer) {
+	auto p = get_creature(pointer);
+	if(p && pointer >= p->wears && pointer < p->wears + lengthof(p->wears))
+		return (wearn)((item*)pointer - p->wears);
+	return Backpack;
+}
+
 static void add_magical(itemn type) {
 }
 
@@ -938,13 +960,16 @@ static void start_equipment() {
 	case Fighter:
 	case Paladin:
 	case Ranger:
-		if(player->is(Dwarf))
+		if(player->is(Dwarf)) {
 			player->equip(BattleAxe);
-		else
+			player->equip(DwarvenShield);
+			player->equip(DwarvenHelm);
+		} else {
 			player->equip(Longsword);
+			player->equip(Shield);
+			player->equip(Helm);
+		}
 		player->equip(LeatherArmor);
-		player->equip(Shield);
-		player->equip(DwarvenHelm);
 		break;
 	case Cleric:
 		player->equip(Mace);

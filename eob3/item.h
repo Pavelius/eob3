@@ -76,6 +76,7 @@ struct featc {
 	bool is(featn v) const { return (data & (1 << v)) != 0; }
 	void set(featn v) { data |= (1 << v); }
 };
+
 struct combati {
 	char		attack, number_attacks, speed;
 	damagen		type;
@@ -87,14 +88,14 @@ struct itemi {
 		short	pack = -1, ground = -1, thrown = -1;
 	};
 	struct defencei {
-		char	ac;
+		char	ac = 0;
 	};
-	wearn		wear;
-	int			cost;
-	avatari		avatar;
-	featc		flags;
-	combati		combat;
-	defencei	defence;
+	wearn		wear = Backpack;
+	int			cost = 0;
+	avatari		avatar = {};
+	featc		flags = {};
+	combati		combat = {};
+	defencei	defence = {};
 };
 extern itemi item_data[LastItem + 1];
 

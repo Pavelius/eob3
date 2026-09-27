@@ -1,3 +1,4 @@
+#include "action.h"
 #include "answers.h"
 #include "creature.h"
 #include "draw.h"
@@ -115,6 +116,7 @@ static void test_city_menu() {
 void game_generation() {
 	game_clear();
 	party_random_generation();
+	game.variables[Coins] += 200;
 	// party_generation();
 	test_city_menu();
 }

@@ -166,17 +166,17 @@ class midiplayer {
 	}
 
 	void update() {
-		if(!done)
-			return;
-		done = false;
-		unprepare(stream, header);
-		if(position < size) {
-			// Not played all song. Post next song portion.
-			post(data + position, size - position);
-		} else {
-			data = 0;
-			size = 0;
-			position = 0;
+		if(done) {
+			done = false;
+			unprepare(stream, header);
+			if(position < size) {
+				// Not played all song. Post next song portion.
+				post(data + position, size - position);
+			} else {
+				data = 0;
+				size = 0;
+				position = 0;
+			}
 		}
 	}
 
@@ -229,8 +229,7 @@ public:
 	void play(const unsigned* data, unsigned size, unsigned short division) {
 
 		if(this->data == data) {
-			if(!data)
-				update();
+			update();
 			return; // Already play this
 		}
 

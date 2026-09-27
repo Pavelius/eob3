@@ -16,15 +16,15 @@ enum directionn : unsigned char {
 	LeftUp, RightUp, LeftDown, RightDown
 };
 enum messagen : unsigned char {
-	Cancel, Continue, Title, Yes, No, OK,
+	Cancel, Continue, Title, Yes, No, OK, Agree, Decline,
 	StartGame, LoadGame, ExitGame,
 	Characterinfo, CharacterSkills, PartyStatusFormat,
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
 	GeneraionInfo, GenerationPlayInfo,
-	ConfirmDeleteCharacter,
+	ConfirmDeleteCharacter, ConfirmBuyHealing, ConfirmEatAndDrink,
 	WhatPlayerDo, WhichWayToGo,
 	PlayerIsDisabled,
-	CityName, QuestGoals,
+	QuestGoals, VisitBuilding,
 	RestParty, ScribleScrolls,
 	Class, Race,
 	LastMessage = Race
@@ -69,6 +69,7 @@ void button_label(int index, long data, const char* format, unsigned key);
 void city_input();
 void common_input();
 bool confirm(const char* format);
+bool confirm_message(messagen header, int value);
 void correct_answers(int maximum);
 void change_avatar();
 void change_character();

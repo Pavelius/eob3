@@ -45,7 +45,7 @@ static void player_weapon(stringbuilder& sb) {
 }
 
 static void player_gold(stringbuilder& sb) {
-	sb.add("%1i", game.variables[GoldCoins]);
+	sb.add("%1i", game.variables[Coins]);
 }
 
 void stringbuilder_custom(stringbuilder& sb, const char* id) {
@@ -58,5 +58,6 @@ stringvari stringvars[] = {
 	{"Class", player_class},
 	{"Gold", player_gold},
 	{"Item", item_name},
+	{"Name", player_name},
 	{"Weapon", player_weapon},
 	{}};

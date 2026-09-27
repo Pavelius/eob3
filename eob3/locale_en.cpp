@@ -4,22 +4,26 @@
 #include "quest.h"
 
 const char* message_names[LastMessage + 1] = {
-	"Cancel", "Continue", "Title", "Yes", "No", "OK",
+	"Cancel", "Continue", "Title", "Yes", "No", "OK", "Agree", "Decline",
 	"Start a new game", "Load existing game", "Exit game",
 	"Information", "Skills", "You have %Gold gold.",
 	"Select Race", "Select Gender", "Select Class", "Select Alignment",
 	"Select the box of the character you wish to create or view.",
 	"Press Enter to play game.",
 	"Do you really want to delete this character?",
+	"Healing is not for free. Priestess want some compensation for herbs and pouches and for wasted time. Do you agree to restore all %Name's hit points and get rid of poison and disease for %1i coins?",
+	"Do you really want pay %1i coins for food and drink for all party?",
 	"What %1 do?", "Which way to go?",
 	"%1 is disabled",
-	"City Iriaebor", "Current goals",
+	"Current goals", "Visit %1",
 	"Rest Party", "Scrible scrolls",
 	"Class", "Race"
 };
 extern const char* action_names[LastAction + 1] = {
+	"City Iriaebor",
 	"Tavern", "Blacksmith", "Temple", "Inn", "Wizard Tower", "Go Adventure",
 	"Pick pockets", "Eat and Drink", "Gambling", "Carousing",
+	"Leave outside",
 };
 const char* direction_names[Down + 1] = {
 	"Center", "Left", "Up", "Right", "Down"

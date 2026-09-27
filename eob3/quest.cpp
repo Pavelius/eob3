@@ -35,7 +35,7 @@ static sitei flooded_collectors[] = {
 };
 
 questi quests[] = {
-	{0, {GoldCoins, 500, Reputation, 1}, flooded_collectors},
+	{0, {Coins, 500, Reputation, 1}, flooded_collectors},
 };
 
 int quest_count(questfn v) {

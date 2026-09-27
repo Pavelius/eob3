@@ -1233,7 +1233,7 @@ static void paint_party_status() {
 	pushfont push_font(0);
 	paint_menu({0, 122}, 178, 52);
 	setpos(8, 126, 160, texth());
-	texta(getnm(CityName), AlignCenter, colors::yellow);
+	texta(getnm(MainCity), AlignCenter, colors::yellow);
 	caret.y += texth() + 3;
 	//if(is_dead_line()) {
 	//	auto v = getparty(Minutes);
@@ -2058,6 +2058,9 @@ long show_message(const char* format, bool add_anaswers, const char* cancel, uns
 	pushrect push;
 	pushdialog push_dialog;
 	pushvalue push_picure(answer_picture);
+	an.checkkeys();
+	if(!cancel_key)
+		cancel_key = KeyEscape;
 	while(ismodal()) {
 		paint_background(PLAYFLD, 0);
 		// paint_compass(party.d);
@@ -2076,7 +2079,7 @@ long show_message(const char* format, bool add_anaswers, const char* cancel, uns
 			for(auto& e : an.elements) {
 				width = textw(e.text) + 6;
 				button_label(index++, e.value, e.text, e.key);
-				fire(buttonparam);
+				fire(e.proc, e.value);
 				caret.x += width;
 				caret.x += 2;
 			}
@@ -2091,6 +2094,7 @@ long show_message(const char* format, bool add_anaswers, const char* cancel, uns
 		common_input();
 		domodal();
 	}
+	an.clear();
 	return getresult();
 }
 

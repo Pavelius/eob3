@@ -24,8 +24,8 @@ enum messagen : unsigned char {
 	ConfirmDeleteCharacter,
 	WhatPlayerDo,
 	CityName,
-	Class, Race, Level, LevelShort, Experience, ExperienceShort,
-	LastMessage = ExperienceShort
+	Class, Race,
+	LastMessage = Race
 };
 enum resn : unsigned char {
 	FONT6, FONT8,
@@ -47,11 +47,24 @@ enum picturen : unsigned char {
 	PicCity,
 	LastPicture = PicCity
 };
+enum variablen : unsigned char {
+	Reputation, GoldCoins, Blessing,
+	LastVariable = Blessing
+};
 
 extern const char* direction_names[Down + 1];
 extern const char* message_names[LastMessage + 1];
 
 extern sprite* res_data[LastRes + 1];
+
+struct variablei {
+	int	variables[LastVariable + 1] = {};
+	constexpr variablei() = default;
+	template<typename... Ts> constexpr variablei(variablen v, int n, Ts... args) : variablei(args...) { add(v, n); }
+	constexpr void add(variablen v, int n) { variables[v] += n; }
+	constexpr int get(variablen v) const { return variables[v]; }
+};
+extern variablei game;
 
 inline const char* getnm(messagen v) { return message_names[v]; }
 

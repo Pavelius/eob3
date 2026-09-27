@@ -644,8 +644,8 @@ static void paint_avatar() {
 		return;
 	pushrect push; width = 31; height = 32;
 	auto push_alpha = alpha;
-	//	if(player->is(Invisibled))
-	//		alpha = 128;
+	if(player->is(Invisibled))
+		alpha = 128;
 	if(player->isdead())
 		image(res_data[PORTM], 0, 0);
 	else
@@ -938,9 +938,9 @@ static void paint_level_experience() {
 	pushrect push;
 	headern(getnm(Class));
 	caret.x = push.caret.x + 6 * 7;
-	headern(getnm(LevelShort));
+	headern(ability_short[Level]);
 	caret.x = push.caret.x + 6 * 11;
-	headern(getnm(ExperienceShort));
+	headern(ability_short[Experience]);
 	caret.y += texth() + 2;
 	auto push_caret = caret;
 	auto class_count = get_class_count(player->type);

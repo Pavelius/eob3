@@ -157,6 +157,7 @@
     <ClInclude Include="rect.h" />
     <ClInclude Include="slice.h" />
     <ClInclude Include="stringbuilder.h" />
+    <ClInclude Include="stringvar.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="view_focus.h" />
     <ClInclude Include="win.h" />
@@ -189,6 +190,7 @@
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="draw_text.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="information.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="item_generate.cpp" />
     <ClCompile Include="locale_en.cpp" />
@@ -208,6 +210,7 @@
     <ClCompile Include="midi_util.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="stringbuilder.cpp" />
+    <ClCompile Include="stringvar.cpp" />
     <ClCompile Include="view_controls.cpp" />
     <ClCompile Include="view_focus.cpp" />
     <ClCompile Include="view_debug.cpp" />

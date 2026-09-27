@@ -46,8 +46,8 @@ enum abilityn : unsigned char {
 	ExeptionalStrenght,
 	AcidD1Level, AcidD2Level, PoisonLevel, DiseaseLevel, DuplicateIllusion,
 	DrainedStrenght, DrainedConstitution, DrainedLevels,
-	Hits,
-	LastAbility = Hits,
+	Hits, LastAbility = Hits,
+	Level, Experience,
 };
 enum monstern : unsigned char {
 	NoMonster,
@@ -55,8 +55,8 @@ enum monstern : unsigned char {
 	LastMonster = Spider
 };
 
-extern const char* ability_names[LastAbility + 1];
-extern const char* ability_short[LastAbility + 1];
+extern const char* ability_names[Experience + 1];
+extern const char* ability_short[Experience + 1];
 extern const char* alignment_names[ChaoticEvil + 1];
 extern const char* class_names[FighterMageTheif + 1];
 extern const char* gender_names[Female + 1];

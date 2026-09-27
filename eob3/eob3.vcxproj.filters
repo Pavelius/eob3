@@ -105,6 +105,9 @@
     <ClInclude Include="quest.h">
       <Filter>logic</Filter>
     </ClInclude>
+    <ClInclude Include="stringvar.h">
+      <Filter>support</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="creature.cpp">
@@ -262,6 +265,12 @@
     </ClCompile>
     <ClCompile Include="bin_itemgs.cpp">
       <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="stringvar.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="information.cpp">
+      <Filter>logic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

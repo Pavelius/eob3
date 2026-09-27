@@ -794,11 +794,25 @@ void reroll_hits() {
 	}
 }
 
+void update_player_hits() {
+	player->hp = player->hpm;
+	player->food = player->getfood();
+}
+
+static void apply_class_ability(classn type) {
+	switch(type) {
+	case Fighter: break;
+	}
+}
+
+static void apply_class_ability() {
+}
+
 void reroll_character() {
 	player->name_id = random_name(player->race, player->gender);
 	reroll_ability();
 	reroll_hits();
-	player->update();
+	update_player();
 }
 
 void creature::update() {
@@ -948,8 +962,14 @@ static void start_equipment() {
 }
 
 void finish_character() {
-	if(!player->monster)
+	apply_class_ability();
+	update_player();
+	update_player_hits();
+	if(!player->monster) {
 		start_equipment();
+		update_player();
+		update_player_hits();
+	}
 }
 
 void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment) {

@@ -140,5 +140,6 @@ typedef void (*fnprint)(stringbuilder& sb);
 const char*	psidf(const char* p, stringbuilder& result);
 
 void default_string(stringbuilder& sb, const char* id);
+void stringbuilder_custom(stringbuilder& sb, const char* id); // Export function to overload
 
 template<class T> void fistatus(unsigned char id, stringbuilder& sb);

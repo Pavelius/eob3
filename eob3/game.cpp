@@ -4,6 +4,7 @@
 #include "sound.h"
 #include "rand.h"
 #include "timer.h"
+#include "stringvar.h"
 
 void main_util();
 
@@ -30,6 +31,7 @@ int main(int argc, char* argv[]) {
 	// start_random_seed = 1423089921;
 	srand(start_random_seed);
 	initialize_gui();
+	stringbuilder::custom = stringbuilder_custom;
 #ifdef _DEBUG
 	main_util();
 #endif

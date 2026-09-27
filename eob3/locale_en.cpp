@@ -5,19 +5,19 @@
 const char* message_names[LastMessage + 1] = {
 	"Cancel", "Continue", "Title", "Yes", "No", "OK",
 	"Start a new game", "Load existing game", "Exit game",
-	"Information", "CharacterSkills", "PartyStatusFormat",
+	"Information", "Skills", "You have %Gold gold.",
 	"Select Race", "Select Gender", "Select Class", "Select Alignment",
 	"Select the box of the character you wish to create or view.",
 	"Press Enter to play game.",
 	"Do you really want to delete this character?",
 	"What %1 do?",
 	"City Iriaebor",
-	"Class", "Race", "Level", "Lev", "Experience", "Exp"
+	"Class", "Race"
 };
 const char* direction_names[Down + 1] = {
 	"Center", "Left", "Up", "Right", "Down"
 };
-const char* ability_names[Hits + 1] = {
+const char* ability_names[Experience + 1] = {
 	"Strenght", "Dexterity", "Constitution", "Intellegence", "Wisdow", "Charisma",
 	"Save vs Paralization", "Save vs Poison", "Save vs Traps", "Save vs Magic",
 	"Climb Walls", "Hear Noise", "Move Silently", "Open Locks", "Pick Pockets", "Remove Traps", "Read Languages",
@@ -31,9 +31,10 @@ const char* ability_names[Hits + 1] = {
 	"Exeptional Strenght",
 	"AcidD1", "AcidD2", "Poison", "Disease", "Clones",
 	"DrainedStrenght", "DrainedConstitution", "DrainedLevels",
-	"Hits"
+	"Hits",
+	"Level", "Experience"
 };
-const char* ability_short[Hits + 1] = {
+const char* ability_short[Experience + 1] = {
 	"Str", "Dex", "Con", "Int", "Wis", "Cha",
 	"SvPr", "SvPo", "SvT", "SvM",
 	"CW", "HN", "MS", "OL", "PP", "RT", "RL",
@@ -47,7 +48,8 @@ const char* ability_short[Hits + 1] = {
 	"ExS",
 	"AcidD1", "AcidD2", "Poi", "Dis", "Clones",
 	"DStr", "DCon", "DrLev",
-	"HP"
+	"HP",
+	"Lev", "Exp"
 };
 extern const char* variable_names[LastVariable + 1] = {
 	"Reputation", "Gold", "Blessing"
@@ -70,6 +72,30 @@ const char* gender_names[Female + 1] = {
 };
 const char* race_names[Halfling + 1] = {
 	"Human", "Dwarf", "Elf", "Half-Elf", "Halfling",
+};
+const char* item_names[LastItem + 1] = {
+	"NoItem",
+	"Axe", "Axe", "Club", "Dagger", "Flail", "Halberd", "Warhammer", "Mace", "Spear", "Staff",
+	"Longsword", "Shortsword", "Big Sword",
+	"Bow", "Sling",
+	"Robe", "Cloack", "Cloack",
+	"Leather Armor", "Scale Mail", "Chain Mail", "Banded Mail", "Plate Mail",
+	"Helm", "Helm",
+	"Shield", "Shield", "Boots", "Bracers",
+	"Ring", "Ring", "Ring", "Amulet", "Medalion",
+	"Potion", "Potion", "Potion",
+	"Iron Ration", "Ration",
+	"Scroll", "Scroll", "Map", "Wand",
+	"Theif Tools", "Grappling Hook", "Holy Symbol", "Holy Symbol", "Tome", "Horn",
+	"Bones", "Mantist Head", "Monster Teeth", "Skull", "Bone",
+	"Sphere", "Sphere",
+	"Gem", "Gem", "Gem", "Gem",
+	"Iron Key", "Bronze Key", "Cooper Key", "Bone Key", "Manist Key", "Steel Key", "Skull Key", "Moon Key", "Jewel Key",
+	"Stone Dagger", "Stone Gem", "Stone Amulet", "Stone Sphere", "Stone Holy Symbol", "Stone Crest",
+	"Circle",
+	"Chill Touch", "Flame Blade",
+	"Bite", "Claws", "Claws", "Hag", "Mandibules", "Slam", "Slam", "Sting",
+	"Arrow", "Stone", "Dart"
 };
 const char* monster_names[LastMonster + 1] = {
 	"Nobody",

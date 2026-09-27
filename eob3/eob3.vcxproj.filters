@@ -111,6 +111,9 @@
     <ClInclude Include="console.h">
       <Filter>support</Filter>
     </ClInclude>
+    <ClInclude Include="action.h">
+      <Filter>logic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="creature.cpp">
@@ -282,6 +285,9 @@
       <Filter>logic</Filter>
     </ClCompile>
     <ClCompile Include="game_city.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="action.cpp">
       <Filter>logic</Filter>
     </ClCompile>
   </ItemGroup>

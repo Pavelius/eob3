@@ -188,17 +188,16 @@ class midiplayer {
 
 	void close() {
 		stop();
-		if(stream)
+		if(stream) {
 			midiStreamClose(stream);
-		stream = 0;
+			stream = 0;
+		}
 	}
 
 	void reset() {
 		for(auto channel = 0; channel < 16; ++channel) {
-			// CC 123 - All Notes Off
-			midiOutShortMsg( (HMIDIOUT)stream, 0xB0 | channel | (123 << 8));
-			// CC 121 - Reset All Controllers
-			midiOutShortMsg((HMIDIOUT)stream, 0xB0 | channel | (121 << 8));
+			midiOutShortMsg( (HMIDIOUT)stream, 0xB0 | channel | (123 << 8)); // CC 123 - All Notes Off
+			midiOutShortMsg((HMIDIOUT)stream, 0xB0 | channel | (121 << 8)); // CC 121 - Reset All Controllers
 		}
 	}
 
@@ -229,8 +228,9 @@ public:
 
 	void play(const unsigned* data, unsigned size, unsigned short division) {
 
-		if(this->data && this->data == data) {
-			update();
+		if(this->data == data) {
+			if(!data)
+				update();
 			return; // Already play this
 		}
 
@@ -276,8 +276,9 @@ bool music_mute;
 soundn current_music;
 
 void music_update() {
-	if(!music_mute)
-		music.play(songs[current_music].data, songs[current_music].size, songs[current_music].division);
+	if(music_mute)
+		return;
+	music.play(songs[current_music].data, songs[current_music].size, songs[current_music].division);
 }
 
 void music_stop() {

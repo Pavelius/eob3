@@ -14,9 +14,9 @@
 	limitations under the License.77
 */
 
+#include "action.h"
 #include "creature.h"
 #include "dice.h"
-#include "game.h"
 #include "math.h"
 #include "rand.h"
 #include "stringbuilder.h"

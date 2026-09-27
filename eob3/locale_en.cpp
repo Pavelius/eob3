@@ -1,3 +1,4 @@
+#include "action.h"
 #include "creature.h"
 #include "game.h"
 #include "quest.h"
@@ -13,8 +14,12 @@ const char* message_names[LastMessage + 1] = {
 	"What %1 do?", "Which way to go?",
 	"%1 is disabled",
 	"City Iriaebor", "Current goals",
-	"Visit Tavern", "Visit Blacksmith", "Visit Temple", "Visit Inn", "Visit Wizard Tower", "Go Adventure",
+	"Rest Party", "Scrible scrolls",
 	"Class", "Race"
+};
+extern const char* action_names[LastAction + 1] = {
+	"Tavern", "Blacksmith", "Temple", "Inn", "Wizard Tower", "Go Adventure",
+	"Pick pockets", "Eat and Drink", "Gambling", "Carousing",
 };
 const char* direction_names[Down + 1] = {
 	"Center", "Left", "Up", "Right", "Down"

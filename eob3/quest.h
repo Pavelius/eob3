@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game.h"
+#include "action.h"
 #include "slice.h"
 
 struct sitei;

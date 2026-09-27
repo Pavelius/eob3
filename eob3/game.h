@@ -25,7 +25,7 @@ enum messagen : unsigned char {
 	WhatPlayerDo, WhichWayToGo,
 	PlayerIsDisabled,
 	CityName, QuestGoals,
-	VisitTavern, VisitBlacksmith, VisitTemple, VisitInn, VisitWizardTower, GoAdventure,
+	RestParty, ScribleScrolls,
 	Class, Race,
 	LastMessage = Race
 };
@@ -49,31 +49,16 @@ enum picturen : unsigned char {
 	PicCity, PicTavern, PicTavern2, PicInn,
 	LastPicture = PicInn
 };
-enum variablen : unsigned char {
-	Reputation, GoldCoins, Blessing,
-	LastVariable = Blessing
-};
 
 extern const char* direction_names[Down + 1];
 extern const char* message_names[LastMessage + 1];
-extern const char* variable_names[LastVariable + 1];
 
 inline const char* getnm(directionn v) { return direction_names[v]; }
 inline const char* getnm(messagen v) { return message_names[v]; }
-inline const char* getnm(variablen v) { return variable_names[v]; }
 
 extern sprite* res_data[LastRes + 1];
 extern bool interactive;
 extern int generate_player_index;
-
-struct variablei {
-	int	variables[LastVariable + 1] = {};
-	constexpr variablei() = default;
-	template<typename... Ts> constexpr variablei(variablen v, int n, Ts... args) : variablei(args...) { add(v, n); }
-	constexpr void add(variablen v, int n) { variables[v] += n; }
-	constexpr int get(variablen v) const { return variables[v]; }
-};
-extern variablei game;
 
 int getv(variablen v);
 
@@ -87,6 +72,7 @@ bool confirm(const char* format);
 void correct_answers(int maximum);
 void change_avatar();
 void change_character();
+long choose_action(const char* cancel);
 long choose_avatar(unsigned char* source, unsigned count);
 long choose_dialog(const char* title, int padding);
 long choose_generate_box(const char* header, const char* footer, int current);

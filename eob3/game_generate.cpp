@@ -106,12 +106,6 @@ static void party_random_generation() {
 	create(0, Human, Male, Fighter, LawfulGood);
 }
 
-static long choose_action(const char* cancel) {
-	char temp[32]; stringbuilder sb(temp);
-	sb.add(message_names[WhatPlayerDo], player->name());
-	return choose_large_menu(temp, cancel);
-}
-
 static void test_city_menu() {
 	answer_picture = PicCity;
 	player->say(WhatPlayerDo, item_names[TwoHandedSword]);

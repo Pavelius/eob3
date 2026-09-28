@@ -27,7 +27,11 @@ extern const char* action_names[LastAction + 1] = {
 	"Pick pockets",
 	"Eat and Drink",
 	"All party members eat tasted food and drink wine or beer. All of you is satisfied now and no more hunger or thirty.",
-	"Gambling", "Carousing",
+	"Gambling",
+	"You sit to play a friendly card game with drunken tavern customers. Maybe today you will win. Who know? How much coins you bet?",
+	"Today you are invisible luck and get this game. You gain %1i coins.",
+	"Today you not your day. You are lose %1i coins.",
+	"Carousing",
 	"Rest Party", "Scrible scrolls",
 	"Leave outside",
 };

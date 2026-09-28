@@ -18,6 +18,7 @@ picturen get_picture(actionn v) {
 	switch(v) {
 	case Carousing: return PicTavern2;
 	case EatFoodAndDrink: return PicTavern2;
+	case Gambling: return PicGambling;
 	case Inn: return PicInn;
 	case PickPocketsSomeone: return PicPickpockets;
 	case Tavern: return PicTavern;
@@ -86,8 +87,15 @@ void for_each_party(fnevent proc) {
 	}
 }
 
-void show_message(actionn id) {
-	show_message(getnm(id), false, getnm(Continue), '\n');
+void show_message(actionn id, ...) {
+	XVA_FORMAT(id);
+	char temp[512]; stringbuilder sb(temp);
+	sb.addv(getnm(id), format_param);
+	show_message(temp, false, getnm(Continue), '\n');
+}
+
+long choose_message(actionn id, bool can_cancel) {
+	return show_message(getnm(id), true, can_cancel ? getnm(Cancel) : 0, 27);
 }
 
 static bool pass_restriction(const classnc& v) {
@@ -122,15 +130,8 @@ bool apply_action(const actioni* p) {
 		answer_picture = picture;
 	if(!pass_payment(p->action, p->required))
 		return false;
-	// If fail present, there is a test
-	if(p->fail) {
-		if(!player->roll(p->ability, p->bonus)) {
-			p->fail();
-			return false;
-		}
-	}
-	if(p->success)
-		p->success();
+	if(p->proc)
+		p->proc();
 	return true;
 }
 

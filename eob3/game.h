@@ -48,9 +48,10 @@ enum soundn : unsigned char {
 };
 enum picturen : unsigned char {
 	NoPicture,
-	PicAdaque, PicAmaldo, PicDexter, PicNord1, PicNord2,
-	PicCity, PicTavern, PicTavern2, PicInn, PicPickpockets, PicGambling, PicForge,
-	LastPicture = PicForge
+	PicAdaque, PicAmaldo, PicDexter, PicNord1, PicNord2, PicPriestessSilune, PicWitch,
+	PicCity, PicCityNight, PicTavern, PicTavern2, PicInn, PicPickpockets, PicGambling, PicForge,
+	TavHobbit,
+	LastPicture = TavHobbit
 };
 
 extern const char* direction_names[Down + 1];

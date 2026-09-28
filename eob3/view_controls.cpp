@@ -185,20 +185,20 @@ static void list_input(long index) {
 	button_pressed = (pressed_focus == index);
 }
 
-//static void button_input_no_focus(long button_data, unsigned key) {
-//	button_clear();
-//	if(!focus_valid(button_data))
-//		return;
-//	button_hilited = ishilite();
-//	auto isfocused = (current_focus == button_data);
-//	if((key && hkey == key) || (button_hilited && hpressed))
-//		pressed_focus = button_data;
-//	else if((hkey == InputKeyUp && pressed_focus == button_data) || (button_hilited && hkey == MouseLeft && !hpressed)) {
-//		pressed_focus = empty_focus;
-//		button_executed = true;
-//	}
-//	button_pressed = (pressed_focus == button_data);
-//}
+static void button_input_no_focus(long button_data, unsigned key) {
+	button_clear();
+	if(!focus_valid(button_data))
+		return;
+	button_hilited = ishilite();
+	auto isfocused = (current_focus == button_data);
+	if((key && hkey == key) || (button_hilited && hpressed))
+		pressed_focus = button_data;
+	else if((hkey == InputKeyUp && pressed_focus == button_data) || (button_hilited && hkey == MouseLeft && !hpressed)) {
+		pressed_focus = empty_focus;
+		button_executed = true;
+	}
+	button_pressed = (pressed_focus == button_data);
+}
 
 static void button_input(long button_data, unsigned key, unsigned key_hot = 0xFFFF0000) {
 	button_clear();
@@ -260,7 +260,7 @@ static void button(rect rc, unsigned key) {
 	caret.y = rc.y1;
 	width = rc.width();
 	height = rc.height();
-	button_input((*((int*)&caret)), key);
+	button_input_no_focus((*((int*)&caret)), key);
 	if(button_pressed)
 		button_press_effect();
 }

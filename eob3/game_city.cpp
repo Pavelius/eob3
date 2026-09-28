@@ -31,10 +31,30 @@ static void eat_and_drink() {
 	show_message(EatAndDrinkSuccess);
 }
 
+static void gambling() {
+	static long source[] = {20, 50, 100, 500, 1000};
+	while(true) {
+		for(auto n : source) {
+			if(game.get(Coins) >= n)
+				an.add(n, "%1i", n);
+		}
+		auto bet = choose_message(GamblingIntro, true);
+		if(!bet)
+			break;
+		if(player->roll(Charisma, -4)) {
+			game.add(Coins, bet);
+			show_message(GamblingWin, bet);
+		} else {
+			game.add(Coins, -bet);
+			show_message(GamblingLose, bet);
+		}
+	}
+}
+
 static actioni tavern_actions[] = {
 	{EatFoodAndDrink, {Coins, 20}, {}, eat_and_drink},
 	{PickPocketsSomeone, {}, {Theif}},
-	{Gambling, {}, {Theif, Fighter, Ranger, Mage}},
+	{Gambling, {}, {Theif, Fighter, Ranger, Mage}, gambling},
 	{Carousing, {Coins, 200}, {}},
 	{LeaveOutside, {}, {}, leave_outside},
 	{}};

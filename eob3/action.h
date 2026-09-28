@@ -11,7 +11,9 @@ enum soundn : unsigned char;
 enum actionn : unsigned char {
 	NoAction,
 	Tavern, Blacksmith, Temple, Inn, WizardTower, GoAdventure,
-	PickPocketsSomeone, EatFoodAndDrink, EatAndDrinkSuccess, Gambling, Carousing,
+	PickPocketsSomeone, EatFoodAndDrink, EatAndDrinkSuccess,
+	Gambling, GamblingIntro, GamblingWin, GamblingLose,
+	Carousing,
 	RestParty, ScribleScrolls,
 	LeaveOutside,
 	LastAction = LeaveOutside
@@ -54,11 +56,8 @@ struct actioni {
 	actionn		action; // What action do.
 	variablei	required; // Pass this requitment to show action. Gold coins must be payed.
 	classnc		restriction; // If filled, only this classes can use action.
-	fnevent		success, fail; // This action outcome procedures
-	abilityn	ability; // If fail defined, roll this ability
-	char		bonus; // Bonus to roll for ability
+	fnevent		proc; // This action resolve procedures
 	constexpr explicit operator bool() const { return action != NoAction; }
-	bool needroll() const { return fail != 0; }
 };
 
 picturen get_picture(actionn v);
@@ -68,13 +67,14 @@ int make_payment(messagen header, messagen ask, int multiply, int maximum, const
 
 bool apply_action(const actioni* p);
 long choose_player_action(const char* cancel);
+long choose_message(actionn id, bool can_cancel = true);
 bool confirm_message(messagen header, int value);
 bool enough(const variablei& v1, const variablei& v2);
 void for_each_party(fnevent proc);
 bool indoor(actionn v);
 bool pass_payment(actionn action, const variablei& required);
 void pass_time(unsigned minutes);
-void show_message(actionn id);
+void show_message(actionn id, ...);
 
 const actioni* choose_location(const actioni* source);
 const actioni* choose_building_action(const actioni* source);

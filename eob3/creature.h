@@ -130,7 +130,7 @@ struct creature : npci, posable, statable, wearable {
 	combati getattack(wearn id, bool large_enemy) const;
 	int get(abilityn v) const { return abilities[v]; }
 	int get(classn v) const { auto n = get_class_index(type, v); return (n == -1) ? 0 : levels[n]; }
-	int getfood() const { return get(Constitution) * 20; }
+	int getfood() const { return 6 * 10; } // Each turn make con test or decrease food.
 	int gethp() const { return hpm; }
 	void add(abilityn n, int v);
 	bool allow(itemn type) const;
@@ -146,6 +146,7 @@ struct creature : npci, posable, statable, wearable {
 	bool isdisabled() const { return false; }
 	bool isdead() const { return hp <= -10; }
 	bool islarge() const { return is_large(monsters[monster].res); }
+	bool roll(abilityn v, int bonus = 0) const;
 	void joinparty() { /*TODO: Join party later.*/ }
 	void setframe(short* frames, short index) const;
 	void update();

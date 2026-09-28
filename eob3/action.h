@@ -11,7 +11,7 @@ enum soundn : unsigned char;
 enum actionn : unsigned char {
 	NoAction,
 	Tavern, Blacksmith, Temple, Inn, WizardTower, GoAdventure,
-	PickPocketsSomeone, EatFoodAndDrink, Gambling, Carousing,
+	PickPocketsSomeone, EatFoodAndDrink, EatAndDrinkSuccess, Gambling, Carousing,
 	RestParty, ScribleScrolls,
 	LeaveOutside,
 	LastAction = LeaveOutside
@@ -22,7 +22,6 @@ enum variablen : unsigned char {
 };
 
 extern const char* action_names[LastAction + 1];
-extern const char* action_text[LastAction + 1];
 extern const char* variable_names[LastVariable + 1];
 
 extern int last_number;
@@ -59,14 +58,23 @@ struct actioni {
 	abilityn	ability; // If fail defined, roll this ability
 	char		bonus; // Bonus to roll for ability
 	constexpr explicit operator bool() const { return action != NoAction; }
+	bool needroll() const { return fail != 0; }
 };
 
 picturen get_picture(actionn v);
 soundn get_music(actionn v);
 
+int make_payment(messagen header, messagen ask, int multiply, int maximum, const char* cancel);
+
+bool apply_action(const actioni* p);
 long choose_player_action(const char* cancel);
 bool confirm_message(messagen header, int value);
 bool enough(const variablei& v1, const variablei& v2);
+void for_each_party(fnevent proc);
 bool indoor(actionn v);
 bool pass_payment(actionn action, const variablei& required);
 void pass_time(unsigned minutes);
+void show_message(actionn id);
+
+const actioni* choose_location(const actioni* source);
+const actioni* choose_building_action(const actioni* source);

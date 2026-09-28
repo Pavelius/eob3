@@ -2,6 +2,7 @@
 #include "answers.h"
 #include "creature.h"
 #include "game.h"
+#include "pushvalue.h"
 #include "stringbuilder.h"
 
 static messagen get_confirm(actionn v) {
@@ -72,4 +73,88 @@ bool confirm_message(messagen header, int value) {
 	sb.add(getnm(header), value);
 	an.add(1, getnm(Agree));
 	return show_message(temp, true, getnm(Decline), 0) != 0;
+}
+
+void for_each_party(fnevent proc) {
+	pushvalue push(player);
+	for(auto p : adventurers) {
+		if(!p)
+			continue;
+		player = p; proc();
+	}
+}
+
+void show_message(actionn id) {
+	show_message(getnm(id), false, getnm(Continue), '\n');
+}
+
+static bool pass_restriction(const classnc& v) {
+	if(!v)
+		return true;
+	auto n = get_class_count(player->type);
+	for(auto i = 0; i < n; i++) {
+		if(v.is(get_class(player->type, i)))
+			return true;
+	}
+	return false;
+}
+
+int make_payment(messagen header, messagen ask, int multiply, int maximum, const char* cancel) {
+	for(auto i = 1; i <= maximum; i++) {
+		auto need_coins = i * multiply;
+		if(game.get(Coins) >= need_coins)
+			an.add(1, getnm(ask), i, need_coins, multiply);
+	}
+	auto result = choose_large_menu(getnm(header), cancel);
+	if(!result)
+		return 0;
+	auto need_coins = result * multiply;
+	game.add(Coins, -need_coins);
+	return result;
+}
+
+bool apply_action(const actioni* p) {
+	pushvalue push(answer_picture);
+	auto picture = get_picture(p->action);
+	if(picture)
+		answer_picture = picture;
+	if(!pass_payment(p->action, p->required))
+		return false;
+	// If fail present, there is a test
+	if(p->fail) {
+		if(!player->roll(p->ability, p->bonus)) {
+			p->fail();
+			return false;
+		}
+	}
+	if(p->success)
+		p->success();
+	return true;
+}
+
+const actioni* choose_location(const actioni* source) {
+	if(!source)
+		return 0;
+	for(auto p = source; *p; p++) {
+		if(p->required && !enough(game, p->required))
+			continue; // Can't pay or other reputation
+		if(p->action >= Tavern && p->action <= WizardTower)
+			an.add((long)p, getnm(VisitBuilding), getnm(p->action));
+		else
+			an.add((long)p, getnm(p->action));
+	}
+	return (actioni*)choose_large_menu_no_player(getnm(WhichWayToGo), getnm(Cancel));
+}
+
+const actioni* choose_building_action(const actioni* source) {
+	if(!source)
+		return 0;
+	for(auto p = source; *p; p++) {
+		if(p->required && !enough(game, p->required))
+			continue; // Can't pay or other reputation
+		if(!pass_restriction(p->restriction))
+			continue; // Not pass restriction
+		an.add((long)p, getnm(p->action));
+	}
+	return (actioni*)choose_player_action(getnm(Cancel));
 }

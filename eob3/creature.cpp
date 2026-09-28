@@ -285,6 +285,16 @@ bool creature::isactable() const {
 	return true;
 }
 
+bool creature::roll(abilityn v, int bonus) const {
+	auto r = abilities[v];
+	if(v >= Strenght && v <= Charisma)
+		r = (r + bonus) * 5;
+	else
+		r += bonus * 5;
+	auto m = d100();
+	return r < m;
+}
+
 static abilityn get_primary(classn v) {
 	switch(v) {
 	case Theif: return Dexterity;

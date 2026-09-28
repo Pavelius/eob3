@@ -28,9 +28,11 @@ picturen get_picture(actionn v) {
 soundn get_music(actionn v) {
 	switch(v) {
 	case NoAction: return MusKvirasim;
+	case Blacksmith: return MusSmith;
 	case Inn: return MusInn;
 	case Tavern: return MusTavern;
 	case Temple: return MusTemple;
+	case WizardTower: return MusHealer;
 	default: return NoMusic;
 	}
 }

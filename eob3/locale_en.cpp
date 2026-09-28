@@ -32,6 +32,7 @@ extern const char* action_names[LastAction + 1] = {
 	"Today you are invisible luck and get this game. You gain %1i coins.",
 	"Today you not your day. You are lose %1i coins.",
 	"Carousing",
+	"Buy Weapons",
 	"Rest Party", "Scrible scrolls",
 	"You are so tired to do this again. You must stop and rest. Do something else that doesn’t require as much effort.",
 	"Leave outside",

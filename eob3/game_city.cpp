@@ -73,6 +73,10 @@ static actioni inn_actions[] = {
 	{RestParty, {}, {}, rest_party_inn},
 	{ScribleScrolls, {}, {Mage}, scrible_scrolls},
 	{}};
+static actioni blacksmith_actions[] = {
+	{BuyWeapons, {}, {}, rest_party_inn},
+	{LeaveOutside, {}, {}, leave_outside},
+	{}};
 static actioni city_actions[] = {
 	{GoAdventure},
 	{Tavern},
@@ -87,6 +91,7 @@ static actioni* get_actions(actionn v) {
 	case NoAction: return city_actions;
 	case Tavern: return tavern_actions;
 	case Inn: return inn_actions;
+	case Blacksmith: return blacksmith_actions;
 	default: return 0;
 	}
 }

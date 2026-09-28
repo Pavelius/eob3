@@ -66,6 +66,10 @@ enum wearn : unsigned char {
 	FirstBelt, SecondBelt, LastBelt,
 	FirstInvertory = Backpack, LastInvertory = LastBelt
 };
+enum shopn : unsigned char {
+	WeaponShop, DwarvenWeaponShop, MagicShop,
+	LastShop = MagicShop
+};
 
 extern const char* item_names[LastItem + 1];
 
@@ -149,6 +153,8 @@ struct item {
 };
 extern item* last_item;
 
+extern item shops[LastShop+1][6];
+
 struct wearable {
 	item		wears[LastBelt + 1];
 	void		additem(item& v);
@@ -162,3 +168,5 @@ struct wearable {
 };
 
 itemn random(itemn v);
+
+void addv(item* shop, item& v);

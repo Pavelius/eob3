@@ -112,6 +112,7 @@ itemi item_data[LastItem + 1] = {
 static_assert(sizeof(item) == sizeof(int));
 
 item* last_item;
+item shops[LastShop + 1][6];
 
 int get_magic(featn v) {
 	switch(v) {
@@ -151,5 +152,16 @@ bool allow(itemn type, wearn n) {
 		if(v >= Backpack && v <= LastBackpack)
 			return true;
 		return n == v;
+	}
+}
+
+void addv(item* shop, item& it) {
+	for(auto i = 0; i < lengthof(shops[0]); i++) {
+		if(!it)
+			break;
+		if(!shop[i]) {
+			shop[i] = it;
+			it.clear();
+		}
 	}
 }

@@ -19,6 +19,7 @@ static messagen get_confirm(actionn v) {
 
 picturen get_picture(actionn v) {
 	switch(v) {
+	case Blacksmith: return PicForge;
 	case Carousing: return PicTavern2;
 	case EatFoodAndDrink: return PicTavern2;
 	case Gambling: return PicGambling;

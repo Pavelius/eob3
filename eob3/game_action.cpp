@@ -3,7 +3,10 @@
 #include "creature.h"
 #include "game.h"
 #include "pushvalue.h"
+#include "rand.h"
 #include "stringbuilder.h"
+
+variablei game;
 
 static messagen get_confirm(actionn v) {
 	switch(v) {
@@ -20,7 +23,7 @@ picturen get_picture(actionn v) {
 	case EatFoodAndDrink: return PicTavern2;
 	case Gambling: return PicGambling;
 	case Inn: return PicInn;
-	case PickPocketsSomeone: return PicPickpockets;
+	case PickPocketsAction: return PicPickpockets;
 	case Tavern: return PicTavern;
 	default: return PicCity;
 	}
@@ -38,8 +41,37 @@ soundn get_music(actionn v) {
 	}
 }
 
+bool need_activity(actionn v) {
+	switch(v) {
+	case PickPocketsAction: case Gambling: case ScribleScrolls:
+		return true;
+	default:
+		return false;
+	}
+}
+
 bool indoor(actionn v) {
 	return v >= Tavern && v <= WizardTower;
+}
+
+bool check_activity() {
+	if(player->food <= 6) {
+		show_message(PlayerExhaused);
+		return false;
+	}
+	pass_time(xrand(20, 40));
+	auto roll = d20();
+	auto efforts = 10; // Maximum effort consumed
+	// AD&D standart success roll must be lesser that ability
+	if(roll < player->abilities[Constitution]) {
+		efforts -= player->abilities[Constitution] - roll;
+		if(efforts < 1)
+			efforts = 1;
+	}
+	player->food -= efforts;
+	if(player->food < 0)
+		player->food = 0;
+	return true;
 }
 
 bool enough(const variablei& v1, const variablei& v2) {
@@ -51,6 +83,10 @@ bool enough(const variablei& v1, const variablei& v2) {
 
 void pass_time(unsigned minutes) {
 	game.variables[Time] += minutes;
+}
+
+int get_hour() {
+	return (game.get(Time) / 60) % 24;
 }
 
 bool pass_payment(actionn action, const variablei& required) {
@@ -109,25 +145,21 @@ static bool pass_restriction(const classnc& v) {
 	return false;
 }
 
-int make_payment(messagen header, messagen ask, int multiply, int maximum, const char* cancel) {
-	for(auto i = 1; i <= maximum; i++) {
-		auto need_coins = i * multiply;
-		if(game.get(Coins) >= need_coins)
-			an.add(1, getnm(ask), i, need_coins, multiply);
+void setv(picturen v) {
+	if(!v)
+		return;
+	answer_picture = v;
+	// Day/Night 
+	if(answer_picture == PicCity) {
+		auto n = get_hour();
+		if(n < 7 || n > 22)
+			answer_picture = PicCityNight;
 	}
-	auto result = choose_large_menu(getnm(header), cancel);
-	if(!result)
-		return 0;
-	auto need_coins = result * multiply;
-	game.add(Coins, -need_coins);
-	return result;
 }
 
 bool apply_action(const actioni* p) {
 	pushvalue push(answer_picture);
-	auto picture = get_picture(p->action);
-	if(picture)
-		answer_picture = picture;
+	setv(get_picture(p->action));
 	if(!pass_payment(p->action, p->required))
 		return false;
 	if(p->proc)

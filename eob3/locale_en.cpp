@@ -33,7 +33,11 @@ extern const char* action_names[LastAction + 1] = {
 	"Today you not your day. You are lose %1i coins.",
 	"Carousing",
 	"Rest Party", "Scrible scrolls",
+	"You are so tired to do this again. You must stop and rest. Do something else that doesn’t require as much effort.",
 	"Leave outside",
+};
+const char* fatigue_status[4] = {
+	"Fresh", "Fatigued", "Tired", "Exhausted",
 };
 const char* direction_names[Down + 1] = {
 	"Center", "Left", "Up", "Right", "Down"

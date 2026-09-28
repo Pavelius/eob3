@@ -66,6 +66,7 @@ extern const char* ability_short[Experience + 1];
 extern const char* alignment_names[ChaoticEvil + 1];
 extern const char* class_names[FighterMageTheif + 1];
 extern const char* gender_names[Female + 1];
+extern const char* fatigue_status[4];
 extern const char* monster_names[LastMonster + 1];
 extern const char* name_names[50 * 4];
 extern const char* race_names[Halfling + 1];

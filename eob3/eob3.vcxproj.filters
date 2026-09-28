@@ -287,7 +287,7 @@
     <ClCompile Include="game_city.cpp">
       <Filter>logic</Filter>
     </ClCompile>
-    <ClCompile Include="action.cpp">
+    <ClCompile Include="game_action.cpp">
       <Filter>logic</Filter>
     </ClCompile>
   </ItemGroup>

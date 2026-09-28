@@ -11,10 +11,11 @@ enum soundn : unsigned char;
 enum actionn : unsigned char {
 	NoAction,
 	Tavern, Blacksmith, Temple, Inn, WizardTower, GoAdventure,
-	PickPocketsSomeone, EatFoodAndDrink, EatAndDrinkSuccess,
+	PickPocketsAction, EatFoodAndDrink, EatAndDrinkSuccess,
 	Gambling, GamblingIntro, GamblingWin, GamblingLose,
 	Carousing,
 	RestParty, ScribleScrolls,
+	PlayerExhaused,
 	LeaveOutside,
 	LastAction = LeaveOutside
 };
@@ -63,17 +64,20 @@ struct actioni {
 picturen get_picture(actionn v);
 soundn get_music(actionn v);
 
-int make_payment(messagen header, messagen ask, int multiply, int maximum, const char* cancel);
+int get_hour(); // Return 0..23
 
 bool apply_action(const actioni* p);
+bool check_activity();
 long choose_player_action(const char* cancel);
 long choose_message(actionn id, bool can_cancel = true);
 bool confirm_message(messagen header, int value);
 bool enough(const variablei& v1, const variablei& v2);
 void for_each_party(fnevent proc);
 bool indoor(actionn v);
+bool need_activity(actionn v);
 bool pass_payment(actionn action, const variablei& required);
 void pass_time(unsigned minutes);
+void setv(picturen v);
 void show_message(actionn id, ...);
 
 const actioni* choose_location(const actioni* source);

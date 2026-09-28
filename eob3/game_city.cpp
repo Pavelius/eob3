@@ -34,6 +34,8 @@ static void eat_and_drink() {
 static void gambling() {
 	static long source[] = {20, 50, 100, 500, 1000};
 	while(true) {
+		if(!check_activity())
+			return;
 		for(auto n : source) {
 			if(game.get(Coins) >= n)
 				an.add(n, "%1i", n);
@@ -51,16 +53,25 @@ static void gambling() {
 	}
 }
 
+static void pick_pockets() {
+}
+
+static void scrible_scrolls() {
+}
+
+static void carousing() {
+}
+
 static actioni tavern_actions[] = {
 	{EatFoodAndDrink, {Coins, 20}, {}, eat_and_drink},
-	{PickPocketsSomeone, {}, {Theif}},
+	{PickPocketsAction, {}, {Theif}, pick_pockets},
 	{Gambling, {}, {Theif, Fighter, Ranger, Mage}, gambling},
-	{Carousing, {Coins, 200}, {}},
+	{Carousing, {Coins, 200}, {}, carousing},
 	{LeaveOutside, {}, {}, leave_outside},
 	{}};
 static actioni inn_actions[] = {
 	{RestParty, {}, {}, rest_party_inn},
-	{ScribleScrolls, {}, {Mage}},
+	{ScribleScrolls, {}, {Mage}, scrible_scrolls},
 	{}};
 static actioni city_actions[] = {
 	{GoAdventure},
@@ -84,7 +95,7 @@ void play_city_actions() {
 	auto basic_location = NoAction;
 	auto location = basic_location;
 	while(true) {
-		answer_picture = get_picture(location);
+		setv(get_picture(location));
 		auto music = get_music(location);
 		if(music)
 			current_music = music;

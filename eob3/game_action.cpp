@@ -27,6 +27,8 @@ picturen get_picture(actionn v) {
 	case Inn: return PicInn;
 	case PickPocketsAction: return PicPickpockets;
 	case Tavern: return PicTavern;
+	case WizardTower: return PicMagicShop;
+	case Temple: return PicTemple;
 	default: return NoPicture;
 	}
 }

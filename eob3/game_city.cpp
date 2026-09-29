@@ -101,6 +101,12 @@ static actioni blacksmith_actions[] = {
 	{RepairWeapons, {Coins, 20}, {}, repair_weapons, allow_repair_weapons},
 	{LeaveOutside, {}, {}, leave_outside},
 	{}};
+static actioni temple_actions[] = {
+	{LeaveOutside, {}, {}, leave_outside},
+	{}};
+static actioni wizard_tower_actions[] = {
+	{LeaveOutside, {}, {}, leave_outside},
+	{}};
 static actioni city_actions[] = {
 	{GoAdventure},
 	{Tavern},
@@ -116,6 +122,8 @@ static actioni* get_actions(actionn v) {
 	case Tavern: return tavern_actions;
 	case Inn: return inn_actions;
 	case Blacksmith: return blacksmith_actions;
+	case Temple: return temple_actions;
+	case WizardTower: return wizard_tower_actions;
 	default: return 0;
 	}
 }

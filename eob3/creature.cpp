@@ -291,7 +291,7 @@ bool creature::roll(abilityn v, int bonus) const {
 	else
 		r += bonus * 5;
 	auto m = d100();
-	return r < m;
+	return m < r;
 }
 
 static abilityn get_primary(classn v) {

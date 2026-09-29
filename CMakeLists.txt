@@ -35,6 +35,7 @@ set(EOB3_SOURCES
     eob3/dungeon_generate.cpp
     eob3/game.cpp
     eob3/game_action.cpp
+    eob3/game_carousing.cpp
     eob3/game_city.cpp
     eob3/game_generate.cpp
     eob3/information.cpp

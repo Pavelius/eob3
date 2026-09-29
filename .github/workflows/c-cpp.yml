@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Configure
         run: cmake -S . -B build -A Win32
@@ -26,7 +26,7 @@ jobs:
         run: Compress-Archive -Path build/Release/eob3.exe -DestinationPath eob3-win32.zip
 
       - name: Upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: eob3-win32
           path: eob3-win32.zip
@@ -37,7 +37,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install dependencies
         run: |
@@ -54,7 +54,7 @@ jobs:
         run: tar -czf eob3-linux-x64.tar.gz -C build eob3
 
       - name: Upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: eob3-linux-x64
           path: eob3-linux-x64.tar.gz
@@ -66,13 +66,13 @@ jobs:
 
     steps:
       - name: Download Windows artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: eob3-win32
           path: release
 
       - name: Download Linux artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: eob3-linux-x64
           path: release

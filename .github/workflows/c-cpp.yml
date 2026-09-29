@@ -3,6 +3,9 @@ name: Build Release
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   windows:
     name: Windows Win32
@@ -18,11 +21,15 @@ jobs:
       - name: Build
         run: cmake --build build --config Release --parallel
 
+      - name: Package
+        shell: pwsh
+        run: Compress-Archive -Path build/Release/eob3.exe -DestinationPath eob3-win32.zip
+
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
           name: eob3-win32
-          path: build/Release/eob3.exe
+          path: eob3-win32.zip
 
   ubuntu:
     name: Ubuntu x64
@@ -43,8 +50,39 @@ jobs:
       - name: Build
         run: cmake --build build --parallel
 
+      - name: Package
+        run: tar -czf eob3-linux-x64.tar.gz -C build eob3
+
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: eob3-ubuntu-x64
-          path: build/eob3
+          name: eob3-linux-x64
+          path: eob3-linux-x64.tar.gz
+
+  release:
+    name: Publish latest release
+    needs: [windows, ubuntu]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: eob3-win32
+          path: release
+
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: eob3-linux-x64
+          path: release
+
+      - name: Update latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view latest-build >/dev/null 2>&1; then
+            gh release upload latest-build release/eob3-win32.zip release/eob3-linux-x64.tar.gz --clobber
+          else
+            gh release create latest-build release/eob3-win32.zip release/eob3-linux-x64.tar.gz --title "Latest Build" --notes "Latest successful Windows Win32 and Linux x64 builds."
+          fi

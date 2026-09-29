@@ -80,9 +80,10 @@ jobs:
       - name: Update latest release
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
-          if gh release view latest-build >/dev/null 2>&1; then
-            gh release upload latest-build release/eob3-win32.zip release/eob3-linux-x64.tar.gz --clobber
+          if gh release view latest-build --repo "$GH_REPO" >/dev/null 2>&1; then
+            gh release upload latest-build release/eob3-win32.zip release/eob3-linux-x64.tar.gz --clobber --repo "$GH_REPO"
           else
-            gh release create latest-build release/eob3-win32.zip release/eob3-linux-x64.tar.gz --title "Latest Build" --notes "Latest successful Windows Win32 and Linux x64 builds."
+            gh release create latest-build release/eob3-win32.zip release/eob3-linux-x64.tar.gz --title "Latest Build" --notes "Latest successful Windows Win32 and Linux x64 builds." --repo "$GH_REPO"
           fi

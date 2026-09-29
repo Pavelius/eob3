@@ -13,3 +13,13 @@ The rules are largely based on **AD&D 2nd Edition**, with some exceptions and ad
  - Exploration, combat, traps, secrets, and quests
  - New and modified gameplay mechanics
  - Inspired by the classic Eye of the Beholder series
+
+## Downloads
+
+The latest builds of the game are available on the **GitHub Releases** page:
+
+**[Download the latest release](https://github.com/Pavelius/eob3/releases/latest)**
+
+All previous releases and builds can be found here:
+
+**[All releases](https://github.com/Pavelius/eob3/releases)**

@@ -6,7 +6,7 @@
 const char* message_names[LastMessage + 1] = {
 	"Cancel", "Continue", "Title", "Yes", "No", "OK", "Agree", "Decline",
 	"Start a new game", "Load existing game", "Exit game",
-	"Information", "Skills", "You have %Gold gold.",
+	"Information", "Skills", "You have %Gold coins.",
 	"Select Race", "Select Gender", "Select Class", "Select Alignment",
 	"Select the box of the character you wish to create or view.",
 	"Press Enter to play game.",

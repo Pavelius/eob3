@@ -19,6 +19,8 @@
 #include "dice.h"
 #include "slice.h"
 
+const int gp = 10; // 1 gold piece = 1 silver coin
+
 enum damagen : unsigned char {
 	Bludgeon, Slashing, Piercing,
 	Magic, Fire, Cold, Acid, Shock, Poison,

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{a1244d21-559f-4808-bf6b-a42b098f01dd}</ProjectGuid>
+    <RootNamespace>eob3</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath />
+    <ExternalIncludePath />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\\eob3\\action.h" />
+    <ClInclude Include="..\\eob3\\adat.h" />
+    <ClInclude Include="..\\eob3\\answers.h" />
+    <ClInclude Include="..\\eob3\\assign.h" />
+    <ClInclude Include="..\\eob3\\console.h" />
+    <ClInclude Include="..\\eob3\\dungeon.h" />
+    <ClInclude Include="..\\eob3\\collection.h" />
+    <ClInclude Include="..\\eob3\\creature.h" />
+    <ClInclude Include="..\\eob3\\color.h" />
+    <ClInclude Include="..\\eob3\\dice.h" />
+    <ClInclude Include="..\\eob3\\draw.h" />
+    <ClInclude Include="..\\eob3\\game.h" />
+    <ClInclude Include="..\\eob3\\item.h" />
+    <ClInclude Include="..\\eob3\\pointc.h" />
+    <ClInclude Include="..\\eob3\\pointca.h" />
+    <ClInclude Include="..\\eob3\\quest.h" />
+    <ClInclude Include="..\\eob3\\shape.h" />
+    <ClInclude Include="..\\eob3\\sound.h" />
+    <ClInclude Include="..\\eob3\\sprite_util.h" />
+    <ClInclude Include="..\\eob3\\stream.h" />
+    <ClInclude Include="..\\eob3\\math.h" />
+    <ClInclude Include="..\\eob3\\point.h" />
+    <ClInclude Include="..\\eob3\\pushvalue.h" />
+    <ClInclude Include="..\\eob3\\rand.h" />
+    <ClInclude Include="..\\eob3\\rect.h" />
+    <ClInclude Include="..\\eob3\\slice.h" />
+    <ClInclude Include="..\\eob3\\stringbuilder.h" />
+    <ClInclude Include="..\\eob3\\stringvar.h" />
+    <ClInclude Include="..\\eob3\\timer.h" />
+    <ClInclude Include="..\\eob3\\view_focus.h" />
+    <ClInclude Include="..\\eob3\\win.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\\eob3\\game_action.cpp" />
+    <ClCompile Include="..\\eob3\\answers.cpp" />
+    <ClCompile Include="..\\eob3\\appearance.cpp" />
+    <ClCompile Include="..\\eob3\\bin_border.cpp" />
+    <ClCompile Include="..\\eob3\\bin_chargen.cpp" />
+    <ClCompile Include="..\\eob3\\bin_chargenb.cpp" />
+    <ClCompile Include="..\\eob3\\bin_font6.cpp" />
+    <ClCompile Include="..\\eob3\\bin_font8.cpp" />
+    <ClCompile Include="..\\eob3\\bin_invent.cpp" />
+    <ClCompile Include="..\\eob3\\bin_itemgl.cpp" />
+    <ClCompile Include="..\\eob3\\bin_itemgs.cpp" />
+    <ClCompile Include="..\\eob3\\bin_items.cpp" />
+    <ClCompile Include="..\\eob3\\bin_menu.cpp" />
+    <ClCompile Include="..\\eob3\\bin_playfld.cpp" />
+    <ClCompile Include="..\\eob3\\bin_portm.cpp" />
+    <ClCompile Include="..\\eob3\\bin_scene.cpp" />
+    <ClCompile Include="..\\eob3\\bin_xspl.cpp" />
+    <ClCompile Include="..\\eob3\\bitmap.cpp" />
+    <ClCompile Include="..\\eob3\\collection.cpp" />
+    <ClCompile Include="..\\eob3\\console.cpp" />
+    <ClCompile Include="..\\eob3\\dungeon.cpp" />
+    <ClCompile Include="..\\eob3\\dungeon_generate.cpp" />
+    <ClCompile Include="..\\eob3\\game_city.cpp" />
+    <ClCompile Include="..\\eob3\\game_generate.cpp" />
+    <ClCompile Include="..\\eob3\\creature.cpp" />
+    <ClCompile Include="..\\eob3\\color.cpp" />
+    <ClCompile Include="..\\eob3\\dice.cpp" />
+    <ClCompile Include="..\\eob3\\draw.cpp" />
+    <ClCompile Include="..\\eob3\\draw_text.cpp" />
+    <ClCompile Include="..\\eob3\\game.cpp" />
+    <ClCompile Include="..\\eob3\\information.cpp" />
+    <ClCompile Include="..\\eob3\\item.cpp" />
+    <ClCompile Include="..\\eob3\\item_generate.cpp" />
+    <ClCompile Include="..\\eob3\\locale_en.cpp" />
+    <ClCompile Include="..\\eob3\\main_util.cpp" />
+    <ClCompile Include="..\\eob3\\midi.cpp" />
+    <ClCompile Include="..\\eob3\\mid_music.cpp" />
+    <ClCompile Include="..\\eob3\\monster.cpp" />
+    <ClCompile Include="..\\eob3\\npc.cpp" />
+    <ClCompile Include="..\\eob3\\pointc.cpp" />
+    <ClCompile Include="..\\eob3\\pointca.cpp" />
+    <ClCompile Include="..\\eob3\\quest.cpp" />
+    <ClCompile Include="..\\eob3\\res.cpp" />
+    <ClCompile Include="..\\eob3\\scale.cpp" />
+    <ClCompile Include="..\\eob3\\shape.cpp" />
+    <ClCompile Include="..\\eob3\\sprite_util.cpp" />
+    <ClCompile Include="..\\eob3\\stream.cpp" />
+    <ClCompile Include="..\\eob3\\math.cpp" />
+    <ClCompile Include="..\\eob3\\midi_util.cpp" />
+    <ClCompile Include="..\\eob3\\point.cpp" />
+    <ClCompile Include="..\\eob3\\stringbuilder.cpp" />
+    <ClCompile Include="..\\eob3\\stringvar.cpp" />
+    <ClCompile Include="..\\eob3\\view_controls.cpp" />
+    <ClCompile Include="..\\eob3\\view_focus.cpp" />
+    <ClCompile Include="..\\eob3\\view_debug.cpp" />
+    <ClCompile Include="..\\eob3\\win_draw.cpp" />
+    <ClCompile Include="..\\eob3\\win_io_file.cpp" />
+    <ClCompile Include="..\\eob3\\win_time.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

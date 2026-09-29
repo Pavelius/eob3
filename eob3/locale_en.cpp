@@ -32,7 +32,7 @@ extern const char* action_names[LastAction + 1] = {
 	"You sit to play a friendly card game with drunken tavern customers. Maybe today you will win. Who know? How much coins you bet?",
 	"Today you are invisible luck and get this game. You gain %1i coins.",
 	"Today you not your day. You are lose %1i coins.",
-	"Carousing",
+	"Carousing", "Donate",
 	"Buy Weapons",
 	"\"I'm all out of weapons. Adventurers bought up everything I had. Come back next week - I might have a fresh shipment by then.\"",
 	"Repair Weapons",

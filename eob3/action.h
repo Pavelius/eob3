@@ -18,6 +18,7 @@ enum actionn : unsigned char {
 	PickPocketsAction, EatFoodAndDrink, EatAndDrinkSuccess,
 	Gambling, GamblingIntro, GamblingWin, GamblingLose,
 	Carousing,
+	Donate,
 	BuyWeapons, BuyWeaponsEmpty,
 	RepairWeapons,
 	RestParty, ScribleScrolls,

@@ -114,11 +114,11 @@ static actioni palace_actions[] = {
 static actioni city_actions[] = {
 	{GoAdventure},
 	{Tavern},
-	{Blacksmith},
+	{Blacksmith, {Reputation, 25}},
 	{Temple},
 	{Inn, {Coins, 30}, {}},
-	{WizardTower},
-	{Palace},
+	{WizardTower, {Reputation, 45}},
+	{Palace, {Reputation, 70}},
 	{}};
 
 static actioni* get_actions(actionn v) {

@@ -25,6 +25,7 @@ picturen get_picture(actionn v) {
 	case EatFoodAndDrink: return PicTavern2;
 	case Gambling: return PicGambling;
 	case Inn: return PicInn;
+	case Palace: return PicAmaldo;
 	case PickPocketsAction: return PicPickpockets;
 	case Tavern: return PicTavern;
 	case WizardTower: return PicMagicShop;
@@ -38,6 +39,7 @@ soundn get_music(actionn v) {
 	case NoAction: return MusKvirasim;
 	case Blacksmith: return MusSmith;
 	case Inn: return MusInn;
+	case Palace: return MusDialog;
 	case Tavern: return MusTavern;
 	case Temple: return MusTemple;
 	case WizardTower: return MusHealer;
@@ -46,7 +48,7 @@ soundn get_music(actionn v) {
 }
 
 bool indoor(actionn v) {
-	return v >= Tavern && v <= WizardTower;
+	return v >= Tavern && v <= Palace;
 }
 
 bool check_activity() {
@@ -212,7 +214,7 @@ const actioni* choose_location(const actioni* source) {
 			continue; // Can't pay or other reputation
 		if(p->allow && !p->allow())
 			continue;
-		if(p->action >= Tavern && p->action <= WizardTower)
+		if(p->action >= Tavern && p->action <= Palace)
 			an.add((long)p, getnm(VisitBuilding), getnm(p->action));
 		else
 			an.add((long)p, getnm(p->action));

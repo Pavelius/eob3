@@ -14,7 +14,7 @@ enum soundn : unsigned char;
 
 enum actionn : unsigned char {
 	NoAction,
-	Tavern, Blacksmith, Temple, Inn, WizardTower, GoAdventure,
+	Tavern, Blacksmith, Temple, Inn, WizardTower, Palace, GoAdventure,
 	PickPocketsAction, EatFoodAndDrink, EatAndDrinkSuccess,
 	Gambling, GamblingIntro, GamblingWin, GamblingLose,
 	Carousing,

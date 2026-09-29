@@ -24,7 +24,7 @@ const char* message_names[LastMessage + 1] = {
 };
 extern const char* action_names[LastAction + 1] = {
 	"City Iriaebor",
-	"Tavern", "Blacksmith", "Temple", "Inn", "Wizard Tower", "Go Adventure",
+	"Tavern", "Blacksmith", "Temple", "Inn", "Wizard Tower", "Palace", "Go Adventure",
 	"Pick pockets",
 	"Eat and Drink",
 	"All party members eat tasted food and drink wine or beer. All of you is satisfied now and no more hunger or thirty.",

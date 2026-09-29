@@ -113,7 +113,6 @@ class midiplayer {
 	unsigned		size = 0;
 	unsigned		position = 0;
 	MIDIHDR			header = {};
-	char			header[32] = {};
 	void*			stream = 0;
 	volatile bool	done = false;
 

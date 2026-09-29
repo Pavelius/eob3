@@ -87,6 +87,9 @@
 		<Unit filename="eob3/mid_music.cpp" />
 		<Unit filename="eob3/midi.cpp" />
 		<Unit filename="eob3/monster.cpp" />
+		<Unit filename="eob3/nix_draw3x.cpp" />
+		<Unit filename="eob3/nix_io_file.cpp" />
+		<Unit filename="eob3/nix_time.cpp" />
 		<Unit filename="eob3/npc.cpp" />
 		<Unit filename="eob3/point.cpp" />
 		<Unit filename="eob3/point.h" />

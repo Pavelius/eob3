@@ -150,7 +150,7 @@ void setv(picturen v) {
 	if(!v)
 		return;
 	answer_picture = v;
-	// Day/Night 
+	// Day/Night
 	if(answer_picture == PicCity) {
 		auto n = get_hour();
 		if(n < 7 || n > 22)
@@ -170,6 +170,17 @@ bool apply_action(const actioni* p) {
 
 bool chance(int v) {
 	return d100() < v;
+}
+
+item* choose_buy_item(shopn shop) {
+	if(!allow(shop))
+		return 0;
+	for(auto& e : shops[shop]) {
+		if(!e)
+			continue; // Can't pay or other reputation
+		an.add((long)&e, e.name());
+	}
+	return (item*)choose_large_menu(getnm(WhichWayToGo), getnm(Cancel));
 }
 
 const actioni* choose_location(const actioni* source) {

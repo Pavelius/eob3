@@ -174,6 +174,8 @@ struct wearable {
 itemn random(itemn v);
 featn random(featn v);
 
+item* choose_buy_item(shopn shop);
+
 void addv(item* shop, item& v);
 bool allow(shopn v);
 void refresh_shop(shopn id);

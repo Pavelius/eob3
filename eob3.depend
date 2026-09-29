@@ -50,13 +50,13 @@
 	"creature.h"
 	"game.h"
 
-1790665249 /home/user-331/projects/eob3/eob3/action.h
+1790679928 /home/user-331/projects/eob3/eob3/action.h
 
 1790665249 /home/user-331/projects/eob3/eob3/creature.h
 	"item.h"
 	"pointc.h"
 
-1790665568 /home/user-331/projects/eob3/eob3/item.h
+1790679927 /home/user-331/projects/eob3/eob3/item.h
 	"dice.h"
 	"slice.h"
 
@@ -182,7 +182,7 @@
 1790665249 /home/user-331/projects/eob3/eob3/stringvar.h
 	"stringbuilder.h"
 
-1790665249 source:/home/user-331/projects/eob3/eob3/game_action.cpp
+1790679898 source:/home/user-331/projects/eob3/eob3/game_action.cpp
 	"action.h"
 	"answers.h"
 	"creature.h"
@@ -316,4 +316,39 @@
 	"slice.h"
 	"stringbuilder.h"
 	"view_focus.h"
+
+1790680133 source:/home/user-331/projects/eob3/eob3/view_controls.cpp
+	"answers.h"
+	"console.h"
+	"creature.h"
+	"dice.h"
+	"draw.h"
+	"dungeon.h"
+	"game.h"
+	"math.h"
+	"pushvalue.h"
+	"quest.h"
+	"sound.h"
+	"stream.h"
+	"timer.h"
+	"view_focus.h"
+
+1788442202 source:/home/user-331/projects/eob3/eob3/nix_time.cpp
+	<time.h>
+
+1790680013 source:/home/user-331/projects/eob3/eob3/nix_io_file.cpp
+	<cstdio>
+	<unistd.h>
+	<dirent.h>
+	"stream.h"
+	"stringbuilder.h"
+
+1788442189 source:/home/user-331/projects/eob3/eob3/nix_draw3x.cpp
+	<X11/keysym.h>
+	<X11/Xlib.h>
+	<X11/Xutil.h>
+	<X11/XKBlib.h>
+	<cstdlib>
+	"draw.h"
+	"stringbuilder.h"
 

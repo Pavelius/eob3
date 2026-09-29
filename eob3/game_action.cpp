@@ -45,15 +45,6 @@ soundn get_music(actionn v) {
 	}
 }
 
-bool need_activity(actionn v) {
-	switch(v) {
-	case PickPocketsAction: case Gambling: case ScribleScrolls:
-		return true;
-	default:
-		return false;
-	}
-}
-
 bool indoor(actionn v) {
 	return v >= Tavern && v <= WizardTower;
 }
@@ -63,6 +54,10 @@ bool check_activity() {
 		show_message(PlayerExhaused);
 		return false;
 	}
+	return true;
+}
+
+void pass_activity() {
 	pass_time(xrand(20, 40));
 	auto roll = d20();
 	auto efforts = 10; // Maximum effort consumed
@@ -75,7 +70,6 @@ bool check_activity() {
 	player->food -= efforts;
 	if(player->food < 0)
 		player->food = 0;
-	return true;
 }
 
 bool enough(const variablei& v1, const variablei& v2) {

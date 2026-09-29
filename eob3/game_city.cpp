@@ -33,7 +33,7 @@ static void eat_and_drink() {
 
 static void gambling() {
 	static long source[] = {20, 50, 100, 500, 1000};
-	while(true) {
+	while(running_scene()) {
 		if(!check_activity())
 			return;
 		for(auto n : source) {
@@ -43,6 +43,7 @@ static void gambling() {
 		auto bet = choose_message(GamblingIntro, true);
 		if(!bet)
 			break;
+		pass_activity();
 		if(player->roll(Charisma, -4)) {
 			game.add(Coins, bet);
 			show_message(GamblingWin, bet);

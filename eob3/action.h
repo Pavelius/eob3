@@ -83,6 +83,7 @@ bool enough(const variablei& v1, const variablei& v2);
 void for_each_party(fnevent proc);
 bool indoor(actionn v);
 bool need_activity(actionn v);
+void pass_activity();
 bool pass_payment(actionn action, const variablei& required);
 void pass_time(unsigned minutes);
 void setv(picturen v);

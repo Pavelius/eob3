@@ -1,10 +1,7 @@
 name: C/C++ CI
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -12,11 +9,22 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: microsoft/setup-msbuild@v2
-    - run: msbuild eob3.sln /m /p:Configuration=Release /p:Platform=x86
-    - shell: pwsh
-      run: Compress-Archive Release\eob3.exe eob3-win32.zip
-    - uses: softprops/action-gh-release@v2
-      with:
-        files: eob3-win32.zip
+    
+      # Получаем исходники
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Подключаем MSBuild
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      # Собираем 32-битную Release версию
+      - name: Build
+        run: msbuild eob3.sln /m /p:Configuration=Release /p:Platform=x86
+
+      # Сохраняем готовый EXE
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: eob3-win32
+          path: Release/eob3.exe

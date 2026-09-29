@@ -1,8 +1,8 @@
 # Eye of Beholder: Adventures
 
-Eye of Beholder 3 is a classic-style dungeon-crawling RPG inspired by the legendary Eye of the Beholder games of the 1990s.
+**Eye of Beholder 3** is a classic-style dungeon-crawling RPG inspired by the legendary Eye of the Beholder games of the 1990s.
 The game features a completely new engine written from scratch in C++, while preserving the spirit and atmosphere of the original series. The gameplay has been expanded and modified with new mechanics and features rather than attempting to reproduce the original games exactly.
-The rules are largely based on AD&D 2nd Edition, with some exceptions and adjustments made to better suit the game.
+The rules are largely based on **AD&D 2nd Edition**, with some exceptions and adjustments made to better suit the game.
 
 ## Key Features
 

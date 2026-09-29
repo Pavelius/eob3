@@ -1,30 +1,50 @@
-name: C/C++ CI
+name: Build Release
 
 on:
   workflow_dispatch:
 
 jobs:
-  build:
-
+  windows:
+    name: Windows Win32
     runs-on: windows-latest
 
     steps:
-    
-      # Получаем исходники
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Подключаем MSBuild
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+      - name: Configure
+        run: cmake -S . -B build -A Win32
 
-      # Собираем 32-битную Release версию
       - name: Build
-        run: msbuild eob3.sln /m /p:Configuration=Release /p:Platform=x86
+        run: cmake --build build --config Release --parallel
 
-      # Сохраняем готовый EXE
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
           name: eob3-win32
-          path: Release/eob3.exe
+          path: build/Release/eob3.exe
+
+  ubuntu:
+    name: Ubuntu x64
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libx11-dev
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: eob3-ubuntu-x64
+          path: build/eob3

@@ -62,6 +62,32 @@ static void scrible_scrolls() {
 static void carousing() {
 }
 
+static void repair_weapons() {
+	for(auto& e : player->wears) {
+		if(!e || !e.isweapon())
+			continue;
+		if(e.hits > 1) // Repair only if state is not trade-in.
+			e.hits = 0;
+	}
+}
+
+static bool allow_repair_weapons() {
+	for(auto& e : player->wears) {
+		if(!e || !e.isweapon())
+			continue;
+		if(e.hits > 1) // Repair only if state is not trade-in.
+			return true;
+	}
+	return false;
+}
+
+static void buy_weapons() {
+	if(!allow(WeaponShop)) {
+		show_message(BuyWeaponsEmpty);
+		return;
+	}
+}
+
 static actioni tavern_actions[] = {
 	{EatFoodAndDrink, {Coins, 20}, {}, eat_and_drink},
 	{PickPocketsAction, {}, {Theif}, pick_pockets},
@@ -74,7 +100,8 @@ static actioni inn_actions[] = {
 	{ScribleScrolls, {}, {Mage}, scrible_scrolls},
 	{}};
 static actioni blacksmith_actions[] = {
-	{BuyWeapons, {}, {}, rest_party_inn},
+	{BuyWeapons, {}, {}, buy_weapons},
+	{RepairWeapons, {Coins, 20}, {}, repair_weapons, allow_repair_weapons},
 	{LeaveOutside, {}, {}, leave_outside},
 	{}};
 static actioni city_actions[] = {

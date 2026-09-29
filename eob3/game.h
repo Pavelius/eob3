@@ -49,7 +49,8 @@ enum soundn : unsigned char {
 enum picturen : unsigned char {
 	NoPicture,
 	PicAdaque, PicAmaldo, PicDexter, PicNord1, PicNord2, PicPriestessSilune, PicWitch,
-	PicCity, PicCityNight, PicTavern, PicTavern2, PicInn, PicPickpockets, PicGambling, PicForge,
+	PicCity, PicCityNight, PicDwarvenCity,
+	PicTavern, PicTavern2, PicInn, PicPickpockets, PicGambling, PicForge,
 	TavHobbit,
 	LastPicture = TavHobbit
 };
@@ -76,6 +77,7 @@ bool confirm(const char* format);
 bool confirm(messagen header);
 bool confirm_message(messagen header, int value);
 void correct_answers(int maximum);
+bool chance(int v);
 void change_avatar();
 void change_character();
 long choose_action(const char* cancel);

@@ -1,5 +1,6 @@
 #pragma once
 
+typedef bool(*fncondition)();
 typedef void(*fnevent)();
 
 enum abilityn : unsigned char;
@@ -14,7 +15,8 @@ enum actionn : unsigned char {
 	PickPocketsAction, EatFoodAndDrink, EatAndDrinkSuccess,
 	Gambling, GamblingIntro, GamblingWin, GamblingLose,
 	Carousing,
-	BuyWeapons,
+	BuyWeapons, BuyWeaponsEmpty,
+	RepairWeapons,
 	RestParty, ScribleScrolls,
 	PlayerExhaused,
 	LeaveOutside,
@@ -59,6 +61,7 @@ struct actioni {
 	variablei	required; // Pass this requitment to show action. Gold coins must be payed.
 	classnc		restriction; // If filled, only this classes can use action.
 	fnevent		proc; // This action resolve procedures
+	fncondition allow; // Allow action function. Can be null.
 	constexpr explicit operator bool() const { return action != NoAction; }
 };
 

@@ -33,6 +33,8 @@ extern const char* action_names[LastAction + 1] = {
 	"Today you not your day. You are lose %1i coins.",
 	"Carousing",
 	"Buy Weapons",
+	"\"I'm all out of weapons. Adventurers bought up everything I had. Come back next week - I might have a fresh shipment by then.\"",
+	"Repair Weapons",
 	"Rest Party", "Scrible scrolls",
 	"You are so tired to do this again. You must stop and rest. Do something else that doesn’t require as much effort.",
 	"Leave outside",

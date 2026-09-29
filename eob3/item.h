@@ -47,7 +47,7 @@ enum itemn : unsigned char {
 	Bite1d6, Claws1d3, Claws1d4, Hag2d4, Mandibules, Slam1d4, Slam1d8, Sting1d8,
 	Arrow, Stone, Dart,
 	LastItem = Dart,
-	RandomItem, RandomSmallItem,
+	RandomItem, RandomSmallItem, RandomWeapon,
 	RandomRation,
 	RandomTreasure,
 };
@@ -56,6 +56,8 @@ enum featn : unsigned char {
 	Protection, Flaming, Freezing,
 	TwoHanded, Deadly, Precise,
 	Invisibled, SeeMagical, SeeCursed,
+	LastFeat = SeeCursed,
+	SwordPower, MeleeWeaponPower, RangedWeaponPower,
 };
 enum purposen : unsigned char {
 	CommonItem, SummonedItem, ToolItem, QuestItem, NaturalItem,
@@ -108,6 +110,8 @@ int get_magic(featn v);
 
 bool allow(itemn type, wearn n);
 
+featn get_powers(itemn type);
+
 struct item {
 	itemn		type = NoItem;
 	featn		power = NoPower; // Special additional magical powers
@@ -128,7 +132,7 @@ struct item {
 	bool allow(wearn v) const;
 	void clear() { type = NoItem; power = NoPower; purpose = CommonItem; count = 0; }
 	void consume() { setcount(getcount() - 1); }
-	void createpower(char magic_bonus, int chance_magical, int chance_cursed) {}
+	void createpower(int chance_magical, int chance_cursed = 5);
 	void damage(const char* interactive, int use) {}
 	void identify(int v) { identified = (v >= 0) ? 1 : 0; }
 	bool is(featn v) const { return power == v || geti().flags.is(v); }
@@ -168,5 +172,9 @@ struct wearable {
 };
 
 itemn random(itemn v);
+featn random(featn v);
 
 void addv(item* shop, item& v);
+bool allow(shopn v);
+void refresh_shop(shopn id);
+void refresh_shops();

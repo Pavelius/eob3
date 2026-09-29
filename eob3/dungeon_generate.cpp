@@ -187,9 +187,8 @@ static void create_item(item& it, itemn type, int bonus_level = 0, int chance_id
 	it.type = type;
 	auto chance_magic = (iabs(loc->level) + bonus_level) * 5 + loc->magical;
 	auto chance_cursed = 5 + loc->cursed;
-	auto magic_bonus = get_magic_bonus(20, 30);
 	chance_identify += get_chance_identify(type);
-	it.createpower(magic_bonus, chance_magic, chance_cursed);
+	it.createpower(chance_magic, chance_cursed);
 	if(it.isartifact())
 		loc->state.add(MessageAtifacts);
 	if(it.iscursed())
@@ -871,7 +870,7 @@ static void drop_special_item() {
 	it.type = loc->special;
 	it.set(QuestItem);
 	if(d100() < 60)
-		it.createpower(xrand(2, 5), 100, 5);
+		it.createpower(100, 5);
 	pointc v;
 	if(it) {
 		pointca points;

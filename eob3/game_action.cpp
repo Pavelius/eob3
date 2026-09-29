@@ -26,7 +26,7 @@ picturen get_picture(actionn v) {
 	case Inn: return PicInn;
 	case PickPocketsAction: return PicPickpockets;
 	case Tavern: return PicTavern;
-	default: return PicCity;
+	default: return NoPicture;
 	}
 }
 
@@ -168,12 +168,18 @@ bool apply_action(const actioni* p) {
 	return true;
 }
 
+bool chance(int v) {
+	return d100() < v;
+}
+
 const actioni* choose_location(const actioni* source) {
 	if(!source)
 		return 0;
 	for(auto p = source; *p; p++) {
 		if(p->required && !enough(game, p->required))
 			continue; // Can't pay or other reputation
+		if(p->allow && !p->allow())
+			continue;
 		if(p->action >= Tavern && p->action <= WizardTower)
 			an.add((long)p, getnm(VisitBuilding), getnm(p->action));
 		else
@@ -190,6 +196,8 @@ const actioni* choose_building_action(const actioni* source) {
 			continue; // Can't pay or other reputation
 		if(!pass_restriction(p->restriction))
 			continue; // Not pass restriction
+		if(p->allow && !p->allow())
+			continue;
 		an.add((long)p, getnm(p->action));
 	}
 	return (actioni*)choose_player_action(getnm(Cancel));

@@ -112,7 +112,6 @@ itemi item_data[LastItem + 1] = {
 static_assert(sizeof(item) == sizeof(int));
 
 item* last_item;
-item shops[LastShop + 1][6];
 
 int get_magic(featn v) {
 	switch(v) {

@@ -71,6 +71,7 @@ void addv(variablen v, int i);
 void alternate_focus_input();
 void button_frame(int count, bool focused, bool pressed);
 void button_label(int index, long data, const char* format, unsigned key);
+void carousing();
 void city_input();
 void common_input();
 bool confirm(const char* format);

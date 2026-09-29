@@ -170,6 +170,7 @@
     <ClInclude Include="..\\eob3\\win.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\eob3\game_carousing.cpp" />
     <ClCompile Include="..\\eob3\\game_action.cpp" />
     <ClCompile Include="..\\eob3\\answers.cpp" />
     <ClCompile Include="..\\eob3\\appearance.cpp" />

@@ -60,9 +60,6 @@ static void pick_pockets() {
 static void scrible_scrolls() {
 }
 
-static void carousing() {
-}
-
 static void repair_weapons() {
 	for(auto& e : player->wears) {
 		if(!e || !e.isweapon())

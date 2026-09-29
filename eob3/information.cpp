@@ -32,10 +32,6 @@ static void player_name(stringbuilder& sb) {
 	sb.add(player->name());
 }
 
-static void item_name(stringbuilder& sb) {
-	sb.add(last_item->name());
-}
-
 static void player_class(stringbuilder& sb) {
 	sb.add(class_names[player->type]);
 }
@@ -57,7 +53,6 @@ void stringbuilder_custom(stringbuilder& sb, const char* id) {
 stringvari stringvars[] = {
 	{"Class", player_class},
 	{"Gold", player_gold},
-	{"Item", item_name},
 	{"Name", player_name},
 	{"Weapon", player_weapon},
 	{}};

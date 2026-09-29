@@ -3,6 +3,9 @@
 #include "rand.h"
 
 static featn sword_powers[] = {Magical, Magical2, Magical3, Magical4, Magical5};
+static itemn random_weapon[] = {
+	BattleAxe, Axe, Dagger, Halberd, WarHammer, Mace, Spear, Longsword, ShortSword, TwoHandedSword, Bow,
+};
 
 item shops[LastShop + 1][6];
 
@@ -14,8 +17,10 @@ featn get_powers(itemn type) {
 }
 
 itemn random(itemn v) {
-	// TODO: create random item type generator
-	return v;
+	switch(v) {
+	case RandomWeapon: return random(maprnd(random_weapon));
+	default: return v;
+	}
 }
 
 featn random(featn v) {
@@ -46,7 +51,7 @@ static void refresh_shop(shopn id, itemn type) {
 		if(e)
 			continue;
 		e.clear();
-		e.type = type;
+		e.type = random(type);
 		e.createpower(100, 0);
 		e.identified = 1;
 	}
@@ -70,4 +75,14 @@ bool allow(shopn v) {
 void refresh_shops() {
 	for(auto i = (shopn)0; i <= LastShop; i = (shopn)(i + 1))
 		refresh_shop(i);
+}
+
+void normalize_shop(shopn id) {
+	auto ps = shops[id];
+	for(auto& e : shops[id]) {
+		if(e)
+			*ps++ = e;
+	}
+	for(auto pe = shops[id] + lengthof(shops[id]); ps < pe; ps++)
+		ps->clear();
 }

@@ -115,7 +115,7 @@ static void test_city_menu() {
 
 void game_generation() {
 	game_clear();
-	// refresh_shops();
+	refresh_shops();
 	party_random_generation();
 	game.variables[Coins] += 200;
 	// party_generation();

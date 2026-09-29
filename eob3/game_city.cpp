@@ -82,10 +82,7 @@ static bool allow_repair_weapons() {
 }
 
 static void buy_weapons() {
-	if(!allow(WeaponShop)) {
-		show_message(BuyWeaponsEmpty);
-		return;
-	}
+	buy_item(WeaponShop, BuyWeaponsEmpty);
 }
 
 static actioni tavern_actions[] = {

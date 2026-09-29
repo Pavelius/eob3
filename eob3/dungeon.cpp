@@ -245,7 +245,6 @@ void dungeoni::add(overlayi* po, item& it) {
 			e.storage_index = po - overlays;
 			assign<item>(e, it);
 			it.clear();
-			last_item = &e;
 			break;
 		}
 	}
@@ -482,7 +481,6 @@ void dungeoni::drop(pointc v, item& it, int side) {
 		e.side = side;
 		e.d = Center;
 		it.clear();
-		last_item = &e;
 		auto index = &e - items + 1;
 		if(state.items < index)
 			state.items = index;

@@ -272,7 +272,6 @@ void creature::equip(item& v) {
 			continue;
 		wears[i] = v;
 		v.clear();
-		last_item = &wears[i];
 		break;
 	}
 }

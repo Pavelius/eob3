@@ -21,9 +21,9 @@ enum messagen : unsigned char {
 	Characterinfo, CharacterSkills, PartyStatusFormat,
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
 	GeneraionInfo, GenerationPlayInfo,
-	ConfirmDeleteCharacter, ConfirmBuyHealing, ConfirmEatAndDrink, ConfirmRentRoom, ConfirmCarousing,
+	ConfirmDeleteCharacter, ConfirmBuyHealing, ConfirmBuyItem, ConfirmEatAndDrink, ConfirmRentRoom, ConfirmCarousing,
 	ConfirmRestParty,
-	WhatPlayerDo, WhichWayToGo,
+	WhatPlayerDo, WhichWayToGo, WhatYouWantToBuy,
 	PlayerIsDisabled,
 	QuestGoals, VisitBuilding,
 	Class, Race,
@@ -103,6 +103,7 @@ void pick_up_item();
 long play_city();
 void play_city_actions();
 void printn(messagen id, ...);
+bool running_scene();
 void show_scene(fnevent before_paint, fnevent input, long focus);
 void show_scene_font();
 void show_sprites_command();

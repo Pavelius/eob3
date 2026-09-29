@@ -2098,7 +2098,7 @@ bool confirm(const char* format) {
 		return false;
 	an.clear();
 	an.addv(buttonparam, 1, 0, getnm(Yes), 'Y', 0);
-	an.addv(buttonparam, 0, 0, getnm(No), 'N', 0);
+	an.addv(buttonparam, 0, 0, getnm(No), KeyEscape, 0);
 	return choose_dialog(format, 8) != 0;
 }
 

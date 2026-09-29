@@ -3,10 +3,13 @@
 typedef bool(*fncondition)();
 typedef void(*fnevent)();
 
+struct item;
+
 enum abilityn : unsigned char;
 enum classn : unsigned char;
 enum messagen : unsigned char;
 enum picturen : unsigned char;
+enum shopn : unsigned char;
 enum soundn : unsigned char;
 
 enum actionn : unsigned char {
@@ -71,6 +74,7 @@ soundn get_music(actionn v);
 int get_hour(); // Return 0..23
 
 bool apply_action(const actioni* p);
+void buy_item(shopn shop, actionn shop_empty);
 bool check_activity();
 long choose_player_action(const char* cancel);
 long choose_message(actionn id, bool can_cancel = true);
@@ -83,6 +87,8 @@ bool pass_payment(actionn action, const variablei& required);
 void pass_time(unsigned minutes);
 void setv(picturen v);
 void show_message(actionn id, ...);
+
+item* choose_buy_item(shopn shop, actionn shop_empty);
 
 const actioni* choose_location(const actioni* source);
 const actioni* choose_building_action(const actioni* source);

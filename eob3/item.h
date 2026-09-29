@@ -146,7 +146,7 @@ struct item {
 	bool isranged() const { return geti().avatar.thrown || geti().combat.ammo != NoItem; }
 	bool isweapon() const { return geti().combat.damage.c != 0; }
 	bool join(item& it);
-	int	getcost() const;
+	int	getcost() const { return geti().cost; }
 	int	getcount() const { return countable() ? count + 1 : 1; }
 	int	getmagic() const { return get_magic(power); }
 	featn getpower() const { return power; }
@@ -155,7 +155,6 @@ struct item {
 	void setcount(int v);
 	void usecharge(const char* interactive, int chance = 35, int use = 1); // Maximum charges is always 10
 };
-extern item* last_item;
 
 extern item shops[LastShop+1][6];
 
@@ -174,9 +173,8 @@ struct wearable {
 itemn random(itemn v);
 featn random(featn v);
 
-item* choose_buy_item(shopn shop);
-
 void addv(item* shop, item& v);
 bool allow(shopn v);
+void normalize_shop(shopn id);
 void refresh_shop(shopn id);
 void refresh_shops();

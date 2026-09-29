@@ -12,11 +12,12 @@ const char* message_names[LastMessage + 1] = {
 	"Press Enter to play game.",
 	"Do you really want to delete this character?",
 	"Healing is not for free. Priestess want some compensation for herbs and pouches and for wasted time. Do you agree to restore all %Name's hit points and get rid of poison and disease for %1i coins?",
+	"This one will be cost %1i coins. Really want to buy it?",
 	"Do you really want pay %1i coins for food and drink for all party?",
 	"Rent room in this inn for all party will be cost %1i coins. And no fleas or rats. Do you accept this offer?",
 	"Do you really want buy a drinks to everyone and go with all party to fully carousing? This will be cost for you totally %1i coins. Do you want this?",
 	"Do you really want to rest party all night?",
-	"What %1 do?", "Which way to go?",
+	"What %1 do?", "Which way to go?", "Which item you buy?",
 	"%1 is disabled",
 	"Current goals", "Visit %1",
 	"Class", "Race"

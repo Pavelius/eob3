@@ -19,6 +19,7 @@ static messagen get_confirm(actionn v) {
 
 picturen get_picture(actionn v) {
 	switch(v) {
+	case NoAction: return PicCity;
 	case Blacksmith: return PicForge;
 	case Carousing: return PicTavern2;
 	case EatFoodAndDrink: return PicTavern2;
@@ -172,15 +173,39 @@ bool chance(int v) {
 	return d100() < v;
 }
 
-item* choose_buy_item(shopn shop) {
-	if(!allow(shop))
+item* choose_buy_item(shopn shop, actionn shop_empty) {
+	if(!allow(shop)) {
+		show_message(shop_empty);
 		return 0;
+	}
 	for(auto& e : shops[shop]) {
 		if(!e)
 			continue; // Can't pay or other reputation
 		an.add((long)&e, e.name());
 	}
-	return (item*)choose_large_menu(getnm(WhichWayToGo), getnm(Cancel));
+	an.sort();
+	return (item*)choose_large_menu(getnm(WhatYouWantToBuy), getnm(Cancel));
+}
+
+static bool confirm_action(messagen id, ...) {
+	XVA_FORMAT(id);
+	char temp[512]; stringbuilder sb(temp);
+	sb.addv(getnm(id), format_param);
+	return confirm(temp);
+}
+
+void buy_item(shopn shop, actionn shop_empty) {
+	while(running_scene()) {
+		auto pi = choose_buy_item(shop, shop_empty);
+		if(!pi)
+			break;
+		auto cost = pi->getcost();
+		if(!confirm_action(ConfirmBuyItem, cost))
+			continue;
+		game.add(Coins, -cost);
+		player->additem(*pi);
+		normalize_shop(shop);
+	}
 }
 
 const actioni* choose_location(const actioni* source) {

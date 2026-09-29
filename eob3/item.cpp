@@ -111,8 +111,6 @@ itemi item_data[LastItem + 1] = {
 
 static_assert(sizeof(item) == sizeof(int));
 
-item* last_item;
-
 int get_magic(featn v) {
 	switch(v) {
 	case NoPower: return 0;
@@ -161,6 +159,16 @@ void addv(item* shop, item& it) {
 		if(!shop[i]) {
 			shop[i] = it;
 			it.clear();
+		}
+	}
+}
+
+void wearable::additem(item& it) {
+	for(auto& e : backpack()) {
+		if(!e) {
+			e = it;
+			it.clear();
+			break;
 		}
 	}
 }

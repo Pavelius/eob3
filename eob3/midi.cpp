@@ -106,16 +106,14 @@ WINMMAPI MMRESULT WINAPI midiStreamOut(HMIDISTRM hms, MIDIHDR* pmh, unsigned int
 WINMMAPI MMRESULT WINAPI midiStreamClose(HMIDISTRM hms);
 WINMMAPI MMRESULT WINAPI midiOutSetVolume(HMIDIOUT hmo, DWORD dwVolume);
 
-#endif
-
 class midiplayer {
 
 	static const unsigned BufferSize = 15000; // 60000 bytes, 5000 MIDI events
-
-	MIDIHDR			header = {};
 	const unsigned*	data = 0;
 	unsigned		size = 0;
 	unsigned		position = 0;
+	MIDIHDR			header = {};
+	char			header[32] = {};
 	void*			stream = 0;
 	volatile bool	done = false;
 
@@ -268,7 +266,33 @@ public:
 		DWORD v = value | ((unsigned)value << 16);
 		midiOutSetVolume(stream, v);
 	}
+
 };
+
+#else
+
+class midiplayer {
+
+public:
+
+	midiplayer() {
+	}
+
+	~midiplayer() {
+	}
+
+	void stop() {
+	}
+
+	void play(const unsigned* data, unsigned size, unsigned short division) {
+	}
+
+	void setvolume(unsigned short value) {
+	}
+
+};
+
+#endif // _MSC_VER
 
 static midiplayer music;
 

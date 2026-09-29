@@ -9,7 +9,6 @@
 extern int answer_origin, answer_per_page, answer_index;
 
 void correct_answers(int maximum);
-void draw_font_save(const char* url, int size, unsigned char* data);
 
 static point size, curpix;
 static unsigned char font_glyphs[256 * 8];
@@ -22,7 +21,7 @@ static void read_font(const char* url) {
 		short int		charoffset[128]; // the offset of the pixel data from the beginning of the file, the index is the ascii value
 		unsigned char	height; // the height of a character in pixel
 		unsigned char	width; // the width of a character in pixel
-		unsigned char	data[1]; // the pixel data, one byte per line 
+		unsigned char	data[1]; // the pixel data, one byte per line
 	};
 	auto ph = (fnt*)loadb(url);
 	auto p = ph->data;
@@ -314,6 +313,43 @@ static void draw_font_save() {
 	//draw_font_save(temp, size.y, font_glyphs);
 }
 
+static int get_glyph_width(unsigned char* p) {
+	auto m = 0;
+	for(auto i = 0; i < 8; i++) {
+		if(!vert_empty(p, i)) {
+			if(m < i)
+				m = i;
+		}
+	}
+	if(m)
+		return m + 1 + 1; // Symbols width and spacing
+	return 8;
+}
+
+static void draw_font_save(const char* url, int size, unsigned char* data) {
+	sprite header = {};
+	header.name[0] = 'F';
+	header.name[1] = 'N';
+	header.name[2] = 'T';
+	header.width = size;
+	header.height = size;
+	header.size = sizeof(sprite) - sizeof(pma) + 256 + (256 * size);
+	io::file file(url, StreamWrite);
+	if(!file)
+		return;
+	// Calculate width
+	char font_width[256] = {};
+	for(auto i = 0; i < 256; i++)
+		font_width[i] = get_glyph_width(data + 8 * i);
+	font_width[' '] = size - 3; // Space symbol
+	font_width['\t'] = size - 3; // Space symbol
+	// Save font
+	file.write(&header, sizeof(header));
+	file.write(&font_width, sizeof(font_width));
+	for(auto i = 0; i < 256; i++)
+		file.write(data + i * 8, size);
+}
+
 void show_scene_font() {
 	auto push_font = font;
 	answer_index = 0;
@@ -365,43 +401,6 @@ void show_scene_font() {
 	}
 	font = push_font;
 	draw_font_save("art/core/fontac.fnt", size.y, font_glyphs); // Autosave font
-}
-
-static int get_glyph_width(unsigned char* p) {
-	auto m = 0;
-	for(auto i = 0; i < 8; i++) {
-		if(!vert_empty(p, i)) {
-			if(m < i)
-				m = i;
-		}
-	}
-	if(m)
-		return m + 1 + 1; // Symbols width and spacing
-	return 8;
-}
-
-static void draw_font_save(const char* url, int size, unsigned char* data) {
-	sprite header = {};
-	header.name[0] = 'F';
-	header.name[1] = 'N';
-	header.name[2] = 'T';
-	header.width = size;
-	header.height = size;
-	header.size = sizeof(sprite) - sizeof(pma) + 256 + (256 * size);
-	io::file file(url, StreamWrite);
-	if(!file)
-		return;
-	// Calculate width
-	char font_width[256] = {};
-	for(auto i = 0; i < 256; i++)
-		font_width[i] = get_glyph_width(data + 8 * i);
-	font_width[' '] = size - 3; // Space symbol
-	font_width['\t'] = size - 3; // Space symbol
-	// Save font
-	file.write(&header, sizeof(header));
-	file.write(&font_width, sizeof(font_width));
-	for(auto i = 0; i < 256; i++)
-		file.write(data + i * 8, size);
 }
 
 void convert_fonts_start() {

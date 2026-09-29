@@ -98,8 +98,6 @@ void game_generation();
 void header_yellow(const char* format);
 void initialize_gui();
 void message_box(const char* format);
-void paint_adventure();
-void paint_small_menu();
 void paint_main_menu();
 void pick_up_item();
 long play_city();

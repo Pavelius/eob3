@@ -14,12 +14,12 @@
 #include "view_focus.h"
 
 namespace colors {
-static color button(108, 108, 136); // Any button background color
+color button(108, 108, 136); // Any button background color
 static color light(148, 148, 172); // Light button border color
 static color dark(52, 52, 80); // Dark button border color
 static color hilite = button.mix(dark, 160); // Hilite button background color
 static color focus(250, 100, 100); // Focus text button color
-static color form(164, 164, 186); // Character sheet form color
+color form(164, 164, 186); // Character sheet form color
 static color info(64, 64, 64); // Character sheet text color
 static color down(81, 85, 166); // Green bar background color
 static color title(64, 255, 255); // Spells header color
@@ -1905,7 +1905,7 @@ static long choose_generate_box(fnevent proc) {
 		proc();
 		focus_input();
 		common_input();
-		domodal();			
+		domodal();
 	}
 	answer_origin = push_origin;
 	return getresult();

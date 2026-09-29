@@ -123,7 +123,7 @@ struct item {
 		};
 		unsigned char count = 0;
 	};
-	constexpr item() = default;
+	item() = default;
 	constexpr item(itemn type) : type(type) {}
 	constexpr explicit operator bool() const { return type != 0; }
 	constexpr const itemi& geti() const { return item_data[type]; }

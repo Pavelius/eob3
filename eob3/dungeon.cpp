@@ -134,6 +134,7 @@ void dungstatei::clear() {
 	memset((void*)this, 0, sizeof(*this));
 	up.clear();
 	down.clear();
+	lair.clear();
 	portal.clear();
 	special.clear();
 }

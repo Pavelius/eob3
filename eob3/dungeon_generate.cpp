@@ -448,8 +448,10 @@ static void message(pointc v, directionn d) {
 		return;
 	loc->set(v1, CellWall);
 	auto po = loc->add(v, d, CellMessage);
-	po->subtype = (unsigned char)loc->state.messages;
-	loc->state.messages++;
+	if(po) {
+		po->subtype = (unsigned char)loc->state.messages;
+		loc->state.messages++;
+	}
 }
 
 static pointc find_free_wall(pointc v, directionn d) {
@@ -788,38 +790,39 @@ static void create_lair(pointc v, directionn d, shapen shape) {
 	apply_shape(v, d, shape, '1', lair_door);
 	apply_shape(v, d, shape, '2', monster);
 	apply_shape(v, d, shape, '.', monster);
-	loc->state.lair.d = d;
+	loc->state.down = v;
+	loc->state.down.d = d;
 }
 
-static void validate_position(pointc& v, directionn d, shapen shape) {
+static bool validate_position(pointc& v, directionn d, shapen shape) {
 	if(test_shape(v, d, shape))
-		return;
+		return false;
 	for(int r = 1; r < 5; r++) {
 		if(rand() % 2) {
 			if(test_shape(v, d, shape, r, 0))
-				return;
+				return false;
 			if(test_shape(v, d, shape, -r, 0))
-				return;
+				return false;
 			if(test_shape(v, d, shape, 0, r))
-				return;
+				return false;
 			if(test_shape(v, d, shape, 0, -r))
-				return;
+				return false;
 		} else {
 			if(test_shape(v, d, shape, 0, r))
-				return;
+				return false;
 			if(test_shape(v, d, shape, 0, -r))
-				return;
+				return false;
 			if(test_shape(v, d, shape, r, 0))
-				return;
+				return false;
 			if(test_shape(v, d, shape, -r, 0))
-				return;
+				return false;
 		}
 	}
+	return true;
 }
 
 static void create_room(pointc v, directionn d, shapen shape, fnroom proc) {
-	validate_position(v, d, shape);
-	if(!v)
+	if(!validate_position(v, d, shape))
 		return;
 	apply_shape(v, d, shape, 'X', CellWall);
 	apply_shape(v, d, shape, '.', CellPassable);
@@ -1096,9 +1099,9 @@ void dungeon_create(slice<sitei> source) {
 					break;
 				control_pass++;
 			}
-			if(control_pass >= 0) {
+			if(control_pass >= 128) {
 				loc->clear();
-				continue;
+				return;
 			}
 			remove_dead_door();
 			resolve_traps();

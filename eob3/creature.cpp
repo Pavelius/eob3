@@ -1026,6 +1026,7 @@ void create_charater(racen race, gendern gender, classn class_type, alignmentn a
 void create_monster(monstern type) {
 	const auto& e = monsters[type];
 	player->clear();
+	player->monster = type;
 	player->race = e.race;
 	player->gender = Male;
 	player->type = Fighter;

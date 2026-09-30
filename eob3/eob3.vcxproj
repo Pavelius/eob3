@@ -155,7 +155,9 @@
     <ClInclude Include="quest.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="sound.h" />
-    <ClInclude Include="sprite_util.h" />
+    <ClInclude Include="sprite_util.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="stream.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="point.h" />
@@ -205,7 +207,9 @@
     <ClCompile Include="item.cpp" />
     <ClCompile Include="item_generate.cpp" />
     <ClCompile Include="locale_en.cpp" />
-    <ClCompile Include="main_util.cpp" />
+    <ClCompile Include="main_util.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="midi.cpp" />
     <ClCompile Include="mid_music.cpp" />
     <ClCompile Include="monster.cpp" />
@@ -216,10 +220,14 @@
     <ClCompile Include="res.cpp" />
     <ClCompile Include="scale.cpp" />
     <ClCompile Include="shape.cpp" />
-    <ClCompile Include="sprite_util.cpp" />
+    <ClCompile Include="sprite_util.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="stream.cpp" />
     <ClCompile Include="math.cpp" />
-    <ClCompile Include="midi_util.cpp" />
+    <ClCompile Include="midi_util.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="point.cpp" />
     <ClCompile Include="stringbuilder.cpp" />
     <ClCompile Include="stringvar.cpp" />

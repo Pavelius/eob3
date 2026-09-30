@@ -40,3 +40,4 @@ jobs:
               --title "Latest Build" \
               --notes "Latest Windows x86 build." \
               --repo "$GH_REPO"
+          fi

@@ -1050,7 +1050,7 @@ static dungeoni* new_dungeon() {
 			dungeons_count = index + 1;
 		return &e;
 	}
-	return dungeons;
+	return dungeons; // No more dungeons! Reutrn first.
 }
 
 void dungeon_create(slice<sitei> source) {
@@ -1075,7 +1075,8 @@ void dungeon_create(slice<sitei> source) {
 			if(previous)
 				start = previous->state.down;
 			auto last_level = (level == total_level_count);
-			while(true) {
+			auto control_pass = 0;
+			while(control_pass < 128) {
 				loc->clear();
 				assign<sitei>(*loc, ei);
 				// loc->quest_id = quest_id;
@@ -1093,6 +1094,11 @@ void dungeon_create(slice<sitei> source) {
 				loc->change(CellUnknown, CellWall);
 				if(is_valid_dungeon())
 					break;
+				control_pass++;
+			}
+			if(control_pass >= 0) {
+				loc->clear();
+				continue;
 			}
 			remove_dead_door();
 			resolve_traps();

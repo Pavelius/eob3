@@ -16,10 +16,6 @@ The rules are largely based on **AD&D 2nd Edition**, with some exceptions and ad
 
 ## Downloads
 
-The latest builds of the game are available on the **GitHub Releases** page:
+The latest builds of the game are available on the **[GitHub Releases](https://github.com/Pavelius/eob3/releases/latest)** page:
 
-**[Download the latest release](https://github.com/Pavelius/eob3/releases/latest)**
-
-All previous releases and builds can be found here:
-
-**[All releases](https://github.com/Pavelius/eob3/releases)**
+ - Download lastest [Windows x86 version](https://github.com/Pavelius/eob3/releases/download/latest-build/eob3-win32.zip)

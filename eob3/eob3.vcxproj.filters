@@ -302,10 +302,18 @@
     <Filter Include="platform">
       <UniqueIdentifier>{d6174847-3d35-4d08-a7f6-cec908918fde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="locale">
+      <UniqueIdentifier>{f5dffa45-c3b5-4c4a-a788-ea9f17eea7a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\CMakeLists.txt">
       <Filter>util</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Filter>locale</Filter>
+    </None>
   </ItemGroup>
 </Project>

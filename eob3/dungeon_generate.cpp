@@ -790,12 +790,12 @@ static void create_lair(pointc v, directionn d, shapen shape) {
 	apply_shape(v, d, shape, '1', lair_door);
 	apply_shape(v, d, shape, '2', monster);
 	apply_shape(v, d, shape, '.', monster);
-	loc->state.down = v;
-	loc->state.down.d = d;
+	loc->state.lair = v;
+	loc->state.lair.d = d;
 }
 
 static bool validate_position(pointc& v, directionn d, shapen shape) {
-	if(test_shape(v, d, shape))
+	if(!test_shape(v, d, shape))
 		return false;
 	for(int r = 1; r < 5; r++) {
 		if(rand() % 2) {

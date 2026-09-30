@@ -23,7 +23,7 @@ jobs:
 
       - name: Package
         shell: pwsh
-        run: Compress-Archive -Path Release/eob3.exe -DestinationPath eob3-win32.zip
+        run: Compress-Archive -Path eob3/Release/eob3.exe -DestinationPath eob3-win32.zip
         
       - name: Publish release
         env:

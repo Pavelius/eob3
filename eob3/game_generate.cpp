@@ -151,7 +151,7 @@ static void party_random_generation() {
 }
 
 static void test_city_menu() {
-	dungeon_create(quests[0].dungeon);
+	dungeon_create((questn)0, quests[0].dungeon);
 	next_scene(play_city_actions);
 }
 

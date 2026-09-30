@@ -2,6 +2,7 @@
 #include "creature.h"
 #include "draw.h"
 #include "game.h"
+#include "shape.h"
 #include "sound.h"
 #include "rand.h"
 #include "timer.h"
@@ -10,8 +11,6 @@
 void main_util();
 
 static void load_game() {
-	if(!confirm("Do you really want exit?"))
-		return;
 }
 
 static void next_main_menu() {
@@ -46,6 +45,7 @@ int main(int argc, char* argv[]) {
 	// start_random_seed = 1423089921;
 	srand(start_random_seed);
 	initialize_gui();
+	initialize_shapes();
 	stringbuilder::custom = stringbuilder_custom;
 #ifdef _DEBUG
 	if(!auto_test())

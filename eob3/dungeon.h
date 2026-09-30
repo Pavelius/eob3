@@ -21,6 +21,7 @@
 
 enum directionn : unsigned char;
 enum monstern : unsigned char;
+enum questn : unsigned char; 
 enum resn : unsigned char;
 enum shapen : unsigned char;
 enum trapn : unsigned char;
@@ -77,7 +78,7 @@ struct sitei {
 	unsigned char	level; // Dungeon level or count of levels to create.
 	monstern		habbits[2]; // Who dwelve here
 	monstern		boss; // Boss can be present on level lair
-	roomn			features[4]; // Features located on this dungeon levels.
+	roomn			feature; // Feature located on this dungeon levels.
 	itemn			key; // Key open all doors
 	itemn			special; // Special item find somewhere
 	unsigned char	webs, barrels, eggs, graves, blood, dirt, blades, jug; // Count of special corridor features in dungeon
@@ -138,8 +139,8 @@ struct dungeoni : sitei {
 	struct overlayitem : item {
 		unsigned short storage_index;
 	};
-	unsigned char	quest_id;
-	dungstatei		state;
+	questn			quest; // Dungeon belong to this quest.
+	dungstatei		state; // Al dungeon statistic and metrics
 	ground			items[512];
 	creature		monsters[256];
 	overlayi		overlays[256];
@@ -207,5 +208,5 @@ int get_side_ex(int side, directionn d);
 directionn to(directionn v, directionn d);
 directionn get_part_placement(pointc v);
 
-void dungeon_create(slice<sitei> source);
+void dungeon_create(questn quest, slice<sitei> source);
 bool filter_corridor(pointc v);

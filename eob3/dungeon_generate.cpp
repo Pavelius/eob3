@@ -11,8 +11,8 @@
 #include "slice.h"
 
 #ifdef _DEBUG
-#define DEBUG_DUNGEON
-#define DEBUG_ROOM
+// #define DEBUG_DUNGEON
+// #define DEBUG_ROOM
 #endif
 
 static directionn all_directionn[] = {Up, Down, Left, Right};
@@ -60,7 +60,7 @@ static void show_map_pathfind() {
 	loc->block(true);
 	loc->makewave(loc->state.up);
 	select_pathable(points);
-	show_automap(false, true, false, 0);// &points);
+	show_automap(false, true, false, &points);
 #endif
 }
 
@@ -658,15 +658,17 @@ static bool is_valid(pointc v) {
 	return pathmap[v.y][v.x] != 0 && pathmap[v.y][v.x] != 0xFFFF;
 }
 
-static bool is_valid_dungeon() {
+static bool is_valid_dungeon(bool last_level) {
 	if(!loc->state.up)
+		return false;
+	if(!last_level && !loc->state.down)
 		return false;
 	loc->block(true);
 	loc->makewave(loc->state.up);
-	if(loc->state.down && !is_valid(loc->state.down))
-		return false;
+	if(!last_level && !is_valid(loc->state.down))
+		return false; // If there is not last level and path to stairs down is blocked
 	if(loc->state.lair && !is_valid(loc->state.lair))
-		return false;
+		return false; // If there is lair and path to lair is blocked
 	return true;
 }
 
@@ -772,9 +774,8 @@ static void stairs_down(pointc v, directionn d, shapen shape) {
 	loc->state.down.d = d;
 }
 
-static void create_illusionary_stairs_down(pointc v, directionn d, shapen shape) {
+static void stairs_down_illusionary(pointc v, directionn d, shapen shape) {
 	apply_shape(v, d, shape, '0', CellStairsDown);
-	apply_shape(v, d, shape, '.', CellPassable);
 	apply_shape(v, d, shape, '1', CellPassable); // TODO: change to illusion walls
 	loc->state.down.d = d;
 }
@@ -846,33 +847,32 @@ static roomn random(roomn v) {
 static void create_room(pointc start, roomn type) {
 	type = random(type);
 	switch(type) {
+	case NoRoom: break;
 	case StairsUp: create_room(start, ShapeExit, stairs_up); break;
 	case StairsDown: create_room(start, ShapeExit, stairs_down); break;
 	case Lair: create_room(start, ShapeRoom, create_lair); break;
 	case GreatLair: create_room(start, ShapeLargeRoom, create_lair); break;
 	case TrappedCorridor: create_room(start, ShapePassage, create_trapped_corridor); break;
-	case IllusionaryStairsDown: create_room(start, ShapeExit, create_illusionary_stairs_down); break;
+	case IllusionaryStairsDown: break; // Already generate in create_rooms()
 	default: break;
 	}
 }
 
-static void create_rooms(pointca& points, const roomn* features) {
-	for(auto i = 0; i < lengthof(sitei::features); i++) {
-		if(features[i])
-			create_room(pop(points), features[i]);
-	}
-}
-
-static void create_rooms(pointc start, bool last_level, const roomn* features) {
+static void create_rooms(pointc start, bool last_level, roomn feature) {
 	pointca points;
 	create_points(points, 3, 3, 2);
 	if(start)
 		create_room(start, ShapeExit, stairs_up);
 	else
 		create_room(pop(points), ShapeExit, stairs_up);
-	if(!last_level)
-		create_room(pop(points), ShapeExit, stairs_down);
-	create_rooms(points, features);
+	if(!last_level) {
+		if(feature == IllusionaryStairsDown)
+			create_room(pop(points), ShapeExit, stairs_down_illusionary);
+		else
+			create_room(pop(points), ShapeExit, stairs_down);
+	}
+	create_room(pop(points), feature); // One room is predefined.
+	create_room(pop(points), RandomRoom); // Second room is random.
 }
 
 static void drop_special_item() {
@@ -1056,7 +1056,7 @@ static dungeoni* new_dungeon() {
 	return dungeons; // No more dungeons! Reutrn first.
 }
 
-void dungeon_create(slice<sitei> source) {
+void dungeon_create(questn quest, slice<sitei> source) {
 	pushvalue push(loc);
 	pushvalue push_locup(locup);
 	auto base = 1;
@@ -1085,7 +1085,7 @@ void dungeon_create(slice<sitei> source) {
 				// loc->quest_id = quest_id;
 				loc->level = level;
 				loc->cursed = 5;
-				create_rooms(start, last_level, ei.features);
+				create_rooms(start, last_level, ei.feature);
 				while(stack_get != stack_put) {
 					auto& ev = rooms[stack_get++];
 					auto result = corridor(ev, ev.d);
@@ -1095,7 +1095,7 @@ void dungeon_create(slice<sitei> source) {
 					show_map_interactive();
 				}
 				loc->change(CellUnknown, CellWall);
-				if(is_valid_dungeon())
+				if(is_valid_dungeon(last_level))
 					break;
 				control_pass++;
 			}
@@ -1123,31 +1123,3 @@ void dungeon_create(slice<sitei> source) {
 			link_dungeon(p[0], p[1]);
 	}
 }
-
-//BSDATA(corridori) = {
-//	{"Empthy", empthy},
-//	{"Boss", monster_boss},
-//	{"Cellar", cellar},
-//	{"Decoration", decoration},
-//	{"Door", lair_door},
-//	{"Dwellers", monster_dweller},
-//	{"FloorRation", rations},
-//	{"FloorStones", stones},
-//	{"FloorTrap", trap},
-//	{"FloorTreasure", floor_treasure},
-//	{"FloorLairTreasure", floor_lair_treasure},
-//	{"Message", message},
-//	{"Minions", monster_minion},
-//	{"Interact1", overlay_interact1},
-//	{"Interact2", overlay_interact2},
-//	{"Interact3", overlay_interact3},
-//	{"Passable", corridor_passable},
-//	{"Portal", portal},
-//	{"Prison", prison},
-//	{"Secret", secret},
-//	{"StairsDown", corridor_stairs_down},
-//	{"StairsUp", corridor_stairs_up},
-//	{"Treasure", treasure},
-//	{"WanderingMonster", monster},
-//};
-//BSDATAF(corridori)

@@ -1,27 +1,222 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="interface">
-      <UniqueIdentifier>{6911bf64-02fe-456d-acaf-9fa269f2987e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="logic">
-      <UniqueIdentifier>{fa032b72-7be2-4022-8dc1-d44e13c26aba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="platform">
-      <UniqueIdentifier>{cb60161d-619e-48ee-a164-a0af082807f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="resources">
-      <UniqueIdentifier>{9120a769-9bbe-4f5b-a88d-161b574a22a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="support">
-      <UniqueIdentifier>{abeee097-8f5b-445a-8c81-170e7ab01db0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="util">
-      <UniqueIdentifier>{5621061b-924c-4a23-a93b-0f542cc6a242}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="appearance.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="answers.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_border.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_chargen.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_chargenb.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_font6.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_font8.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_invent.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_itemgl.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_itemgs.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_items.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_menu.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_playfld.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_portm.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_scene.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_xspl.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bitmap.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="collection.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="color.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="console.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="creature.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="dice.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="draw.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="draw_text.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="dungeon_generate.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="game_action.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="game_city.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="game_generate.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="information.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="item_generate.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="locale_en.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="math.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="mid_music.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="midi.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="midi_util.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="monster.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="npc.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="point.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="pointc.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="pointca.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="quest.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="res.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="scale.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="shape.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="sprite_util.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="stream.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="stringbuilder.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="stringvar.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="view_controls.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="view_debug.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="view_focus.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="win_draw.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="win_io_file.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="win_time.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="main_util.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="game_carousing.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="action.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="adat.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="answers.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="assign.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="collection.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="color.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="console.h">
+      <Filter>support</Filter>
+    </ClInclude>
     <ClInclude Include="creature.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="dice.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="draw.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="dungeon.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="item.h">
       <Filter>logic</Filter>
     </ClInclude>
     <ClInclude Include="math.h">
@@ -29,6 +224,15 @@
     </ClInclude>
     <ClInclude Include="point.h">
       <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="pointc.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="pointca.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="quest.h">
+      <Filter>logic</Filter>
     </ClInclude>
     <ClInclude Include="pushvalue.h">
       <Filter>support</Filter>
@@ -39,8 +243,17 @@
     <ClInclude Include="rect.h">
       <Filter>support</Filter>
     </ClInclude>
+    <ClInclude Include="shape.h">
+      <Filter>logic</Filter>
+    </ClInclude>
     <ClInclude Include="slice.h">
       <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="sound.h">
+      <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="sprite_util.h">
+      <Filter>util</Filter>
     </ClInclude>
     <ClInclude Include="stream.h">
       <Filter>support</Filter>
@@ -48,247 +261,42 @@
     <ClInclude Include="stringbuilder.h">
       <Filter>support</Filter>
     </ClInclude>
-    <ClInclude Include="win.h">
-      <Filter>platform</Filter>
-    </ClInclude>
-    <ClInclude Include="sound.h">
-      <Filter>support</Filter>
-    </ClInclude>
-    <ClInclude Include="draw.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="color.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="answers.h">
-      <Filter>support</Filter>
-    </ClInclude>
-    <ClInclude Include="adat.h">
-      <Filter>support</Filter>
-    </ClInclude>
-    <ClInclude Include="dice.h">
+    <ClInclude Include="stringvar.h">
       <Filter>support</Filter>
     </ClInclude>
     <ClInclude Include="timer.h">
       <Filter>support</Filter>
     </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>logic</Filter>
-    </ClInclude>
     <ClInclude Include="view_focus.h">
       <Filter>logic</Filter>
     </ClInclude>
-    <ClInclude Include="item.h">
-      <Filter>logic</Filter>
-    </ClInclude>
-    <ClInclude Include="sprite_util.h">
-      <Filter>util</Filter>
-    </ClInclude>
-    <ClInclude Include="collection.h">
-      <Filter>support</Filter>
-    </ClInclude>
-    <ClInclude Include="dungeon.h">
-      <Filter>logic</Filter>
-    </ClInclude>
-    <ClInclude Include="assign.h">
-      <Filter>support</Filter>
-    </ClInclude>
-    <ClInclude Include="pointca.h">
-      <Filter>logic</Filter>
-    </ClInclude>
-    <ClInclude Include="pointc.h">
-      <Filter>logic</Filter>
-    </ClInclude>
-    <ClInclude Include="shape.h">
-      <Filter>logic</Filter>
-    </ClInclude>
-    <ClInclude Include="quest.h">
-      <Filter>logic</Filter>
-    </ClInclude>
-    <ClInclude Include="stringvar.h">
-      <Filter>support</Filter>
-    </ClInclude>
-    <ClInclude Include="console.h">
-      <Filter>support</Filter>
-    </ClInclude>
-    <ClInclude Include="action.h">
-      <Filter>logic</Filter>
+    <ClInclude Include="win.h">
+      <Filter>platform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="creature.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="math.cpp">
-      <Filter>support</Filter>
-    </ClCompile>
-    <ClCompile Include="point.cpp">
-      <Filter>support</Filter>
-    </ClCompile>
-    <ClCompile Include="stream.cpp">
-      <Filter>support</Filter>
-    </ClCompile>
-    <ClCompile Include="stringbuilder.cpp">
-      <Filter>support</Filter>
-    </ClCompile>
-    <ClCompile Include="win_io_file.cpp">
-      <Filter>platform</Filter>
-    </ClCompile>
-    <ClCompile Include="midi_util.cpp">
+    <Filter Include="logic">
+      <UniqueIdentifier>{b0d80ba3-0c31-4868-b88d-5ad5a2b1da9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="support">
+      <UniqueIdentifier>{b2f7124f-6053-4378-b1a1-bf320acdce69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{4494b63c-3ad1-40cd-87ff-d49ee543e596}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="interface">
+      <UniqueIdentifier>{ba2d663d-bf22-41cd-af22-bd8628788fa3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{3a54b158-c074-4cc8-bec7-9df45ec89801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform">
+      <UniqueIdentifier>{d6174847-3d35-4d08-a7f6-cec908918fde}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\CMakeLists.txt">
       <Filter>util</Filter>
-    </ClCompile>
-    <ClCompile Include="midi.cpp">
-      <Filter>support</Filter>
-    </ClCompile>
-    <ClCompile Include="mid_music.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="draw.cpp">
-      <Filter>interface</Filter>
-    </ClCompile>
-    <ClCompile Include="color.cpp">
-      <Filter>interface</Filter>
-    </ClCompile>
-    <ClCompile Include="win_draw.cpp">
-      <Filter>platform</Filter>
-    </ClCompile>
-    <ClCompile Include="win_time.cpp">
-      <Filter>platform</Filter>
-    </ClCompile>
-    <ClCompile Include="scale.cpp">
-      <Filter>interface</Filter>
-    </ClCompile>
-    <ClCompile Include="answers.cpp">
-      <Filter>support</Filter>
-    </ClCompile>
-    <ClCompile Include="dice.cpp">
-      <Filter>support</Filter>
-    </ClCompile>
-    <ClCompile Include="locale_en.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="res.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="draw_text.cpp">
-      <Filter>interface</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_font6.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_font8.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_menu.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_playfld.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="view_controls.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="main_util.cpp">
-      <Filter>util</Filter>
-    </ClCompile>
-    <ClCompile Include="view_focus.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="item.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="sprite_util.cpp">
-      <Filter>util</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_chargen.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_chargenb.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="game_generate.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_xspl.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="appearance.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_portm.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="collection.cpp">
-      <Filter>support</Filter>
-    </ClCompile>
-    <ClCompile Include="dungeon.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="pointca.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="dungeon_generate.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="item_generate.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="shape.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="monster.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="pointc.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="quest.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_scene.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_border.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_items.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="bitmap.cpp">
-      <Filter>interface</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_invent.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="view_debug.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_itemgl.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="bin_itemgs.cpp">
-      <Filter>resources</Filter>
-    </ClCompile>
-    <ClCompile Include="stringvar.cpp">
-      <Filter>support</Filter>
-    </ClCompile>
-    <ClCompile Include="information.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="console.cpp">
-      <Filter>support</Filter>
-    </ClCompile>
-    <ClCompile Include="npc.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="game_city.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
-    <ClCompile Include="game_action.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
+    </Text>
   </ItemGroup>
 </Project>

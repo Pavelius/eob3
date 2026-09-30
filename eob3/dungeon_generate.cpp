@@ -38,7 +38,6 @@ static void show_map_features() {
 #endif
 }
 
-#ifdef DEBUG_DUNGEON
 static void select_pathable(pointca& result) {
 	result.clear();
 	auto ps = result.begin();
@@ -54,14 +53,16 @@ static void select_pathable(pointca& result) {
 	}
 	result.count = ps - result.data;
 }
+
 static void show_map_pathfind() {
+#ifdef DEBUG_DUNGEON
 	pointca points;
 	loc->block(true);
 	loc->makewave(loc->state.up);
 	select_pathable(points);
 	show_automap(false, true, false, 0);// &points);
-}
 #endif
+}
 
 static directionn optimal_direction(pointc v) {
 	directionn d = Left;
@@ -815,38 +816,19 @@ static void create_room(pointc v, shapen shape, fnroom proc) {
 	create_room(v, optimal_direction(v), shape, proc);
 }
 
-//static void create_room_features(pointc v, directionn d, const roomi& ei) {
-//	for(auto i = 0; i < lengthof(ei.features); i++)
-//		apply_shape(v, d, ei.shape, '0' + i, ei.features[i], CellPassable);
-//}
-
-static void add_features(pointc v, directionn d) {
-	if(loc->state.features_count >= lengthof(loc->state.features))
-		return;
-	auto pv = loc->state.features + loc->state.features_count++;
-	pv->x = v.x;
-	pv->y = v.y;
-	pv->d = d;
+static void create_room(pointc start, roomn type) {
+	switch(type) {
+	case StairsUp: create_room(start, ShapeExit, stairs_up); break;
+	case StairsDown: create_room(start, ShapeExit, stairs_down); break;
+	case Lair: create_room(start, ShapeRoom, create_lair); break;
+	case GreatLair: create_room(start, ShapeLargeRoom, create_lair); break;
+	default: break;
+	}
 }
 
-//static void create_room(pointc v, const roomi& ei) {
-//	if(!v)
-//		return;
-//	directionn d = optimal_direction(v);
-//	validate_position(v, d, ei.shape);
-//	apply_shape(v, d, ei.shape, 'X', CellWall);
-//	apply_shape(v, d, ei.shape, '.', ei.floor, CellPassable);
-//	create_room_features(v, d, ei);
-//	put_corridor(shapes[ei.shape].translate(v, shapes[ei.shape].points[1], d), d, false);
-//	add_features(shapes[ei.shape].translate(v, shapes[ei.shape].points[0], d), d);
-//	show_map_features();
-//}
-
 static void create_rooms(pointca& points, const roomn* features) {
-	for(auto p = features; *p; p++) {
-		auto v = *p;
-		// create_room(pop(points), rooms[bsdata<roomi>::elements[v.value]);
-	}
+	for(auto p = features; *p; p++)
+		create_room(pop(points), *p);
 }
 
 static void create_rooms(pointc start, bool last_level, const roomn* features) {
@@ -1077,9 +1059,7 @@ void dungeon_create(slice<sitei> source) {
 					if(!result)
 						random_corridor(ev);
 					loc->state.elements++;
-#ifdef DEBUG_ROOM
 					show_map_interactive();
-#endif
 				}
 				loc->change(CellUnknown, CellWall);
 				if(is_valid_dungeon())
@@ -1092,9 +1072,7 @@ void dungeon_create(slice<sitei> source) {
 			else
 				loc->special = NoItem;
 			create_dungeon_objects();
-#ifdef DEBUG_DUNGEON
 			show_map_pathfind();
-#endif
 			loc->state.total_passable = loc->getpassables(false);
 			previous = loc;
 		}

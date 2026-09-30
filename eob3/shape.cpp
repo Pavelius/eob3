@@ -18,13 +18,22 @@ pointc shapei::find(char sym) const {
 }
 
 pointc shapei::translate(pointc c, pointc v, directionn d) const {
+	auto dx = origin.x + v.x;
+	auto dy = origin.y + v.y;
 	switch(d) {
-	case Up: return c.to(origin.x + v.x, origin.y + v.y);
-	case Down: return c.to(origin.x + v.x, -origin.y - v.y);
-	case Left: return c.to(v.y + origin.y, v.x);
-	case Right: return c.to(size.y - v.y + origin.y, origin.x + v.x);
-	default: return c;
+	case Up:    return c.to(dx, dy);
+	case Down:  return c.to(-dx, -dy);
+	case Left:  return c.to(dy, -dx);
+	case Right: return c.to(-dy, dx);
+	default:    return c;
 	}
+	//switch(d) {
+	//case Up: return c.to(origin.x + v.x, origin.y + v.y);
+	//case Down: return c.to(origin.x + v.x, -origin.y - v.y);
+	//case Left: return c.to(v.y + origin.y, v.x);
+	//case Right: return c.to(size.y - v.y + origin.y, origin.x + v.x);
+	//default: return c;
+	//}
 }
 
 void shapei::clear() {
@@ -102,8 +111,8 @@ static const char* shape_torture =
 "XXXXX";
 
 shapei shapes[ShapeTorture + 1] = {
-	{shape_large_room, {7, 9}},
-	{shape_city, {7, 9}},
+	{shape_large_room, {9, 7}},
+	{shape_city, {9, 7}},
 	{shape_room, {5, 5}},
 	{shape_small_circle_room, {9, 5}},
 	{shape_prison, {3, 3}},

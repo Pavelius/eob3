@@ -32,8 +32,8 @@ static void show_map_features() {
 	points.add(loc->state.up);
 	if(loc->state.down)
 		points.add(loc->state.down);
-	for(auto v : loc->state.features)
-		points.add(v);
+	if(loc->state.lair)
+		points.add(loc->state.lair);
 	show_automap(false, true, false, &points);
 #endif
 }
@@ -506,9 +506,11 @@ static void resolve_traps() {
 				launch_direction = d;
 			}
 			auto po = loc->add(trap_launch, launch_direction, CellTrapLauncher);
-			if(po)
+			if(po) {
+				// Only if fit overlays there is a trap. Else this is a false trap.
 				po->link = v;
-			loc->state.add(MessageTraps);
+				loc->state.add(MessageTraps);
+			}
 		}
 	}
 }
@@ -661,10 +663,8 @@ static bool is_valid_dungeon() {
 	loc->makewave(loc->state.up);
 	if(loc->state.down && !is_valid(loc->state.down))
 		return false;
-	for(auto v : loc->state.features) {
-		if(!is_valid(v))
-			return false;
-	}
+	if(loc->state.lair && !is_valid(loc->state.lair))
+		return false;
 	return true;
 }
 
@@ -697,6 +697,8 @@ static pointc pop(pointca& points) {
 
 static bool test_shape(pointc v, directionn d, shapen shape) {
 	pointc c;
+	if(!v)
+		return false;
 	auto& ei = shapes[shape];
 	for(c.y = 0; c.y < ei.size.y; c.y++) {
 		for(c.x = 0; c.x < ei.size.x; c.x++) {
@@ -714,12 +716,12 @@ static bool test_shape(pointc v, directionn d, shapen shape) {
 }
 
 static bool test_shape(pointc& v, directionn d, shapen shape, int dx, int dy) {
-	if(shape) {
-		auto v1 = v.to(dx, dy);
-		if(!test_shape(v1, d, shape))
-			return false;
-		v = v1;
-	}
+	auto v1 = v.to(dx, dy);
+	if(!v1)
+		return false;
+	if(!test_shape(v1, d, shape))
+		return false;
+	v = v1;
 	return true;
 }
 
@@ -768,11 +770,25 @@ static void stairs_down(pointc v, directionn d, shapen shape) {
 	loc->state.down.d = d;
 }
 
+static void create_illusionary_stairs_down(pointc v, directionn d, shapen shape) {
+	apply_shape(v, d, shape, '0', CellStairsDown);
+	apply_shape(v, d, shape, '.', CellPassable);
+	apply_shape(v, d, shape, '1', CellPassable); // TODO: change to illusion walls
+	loc->state.down.d = d;
+}
+
+static void create_trapped_corridor(pointc v, directionn d, shapen shape) {
+	apply_shape(v, d, shape, '.', trap);
+	apply_shape(v, d, shape, '0', floor_treasure);
+	apply_shape(v, d, shape, '1', CellPassable);
+}
+
 static void create_lair(pointc v, directionn d, shapen shape) {
 	apply_shape(v, d, shape, '0', monster_boss);
 	apply_shape(v, d, shape, '1', lair_door);
 	apply_shape(v, d, shape, '2', monster);
 	apply_shape(v, d, shape, '.', monster);
+	loc->state.lair.d = d;
 }
 
 static void validate_position(pointc& v, directionn d, shapen shape) {
@@ -802,9 +818,9 @@ static void validate_position(pointc& v, directionn d, shapen shape) {
 }
 
 static void create_room(pointc v, directionn d, shapen shape, fnroom proc) {
+	validate_position(v, d, shape);
 	if(!v)
 		return;
-	validate_position(v, d, shape);
 	apply_shape(v, d, shape, 'X', CellWall);
 	apply_shape(v, d, shape, '.', CellPassable);
 	proc(v, d, shape);
@@ -816,19 +832,32 @@ static void create_room(pointc v, shapen shape, fnroom proc) {
 	create_room(v, optimal_direction(v), shape, proc);
 }
 
+static roomn random(roomn v) {
+	static roomn random_rooms[] = {Lair, Lair, Lair, TrappedCorridor, TrappedCorridor, GreatLair};
+	switch(v) {
+	case RandomRoom: return random(maprnd(random_rooms));
+	default: return v;
+	}
+}
+
 static void create_room(pointc start, roomn type) {
+	type = random(type);
 	switch(type) {
 	case StairsUp: create_room(start, ShapeExit, stairs_up); break;
 	case StairsDown: create_room(start, ShapeExit, stairs_down); break;
 	case Lair: create_room(start, ShapeRoom, create_lair); break;
 	case GreatLair: create_room(start, ShapeLargeRoom, create_lair); break;
+	case TrappedCorridor: create_room(start, ShapePassage, create_trapped_corridor); break;
+	case IllusionaryStairsDown: create_room(start, ShapeExit, create_illusionary_stairs_down); break;
 	default: break;
 	}
 }
 
 static void create_rooms(pointca& points, const roomn* features) {
-	for(auto p = features; *p; p++)
-		create_room(pop(points), *p);
+	for(auto i = 0; i < lengthof(sitei::features); i++) {
+		if(features[i])
+			create_room(pop(points), features[i]);
+	}
 }
 
 static void create_rooms(pointc start, bool last_level, const roomn* features) {

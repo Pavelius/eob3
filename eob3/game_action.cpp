@@ -3,6 +3,7 @@
 #include "creature.h"
 #include "game.h"
 #include "pushvalue.h"
+#include "quest.h"
 #include "rand.h"
 #include "stringbuilder.h"
 
@@ -49,6 +50,31 @@ soundn get_music(actionn v) {
 
 bool indoor(actionn v) {
 	return v >= Tavern && v <= Palace;
+}
+
+void addv(variablen v, int i) {
+	game.add(v, i);
+}
+
+int getv(variablen v) {
+	return game.variables[v];
+}
+
+int quest_count(questfn v) {
+	auto result = 0;
+	for(auto& e : quests) {
+		if(e.state.is(v))
+			result++;
+	}
+	return result;
+}
+
+questi* active_quest() {
+	for(auto& e : quests) {
+		if(e.is(QuestPrepared) && !e.is(QuestPassed))
+			return &e;
+	}
+	return 0; // You win game. All quest is done.
 }
 
 bool check_activity() {

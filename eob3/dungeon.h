@@ -63,6 +63,7 @@ enum roomn : unsigned char {
 	NoRoom, StairsUp, StairsDown,
 	Lair, GreatLair, TrappedCorridor, IllusionaryStairsDown,
 	LastRoom = IllusionaryStairsDown,
+	RandomRoom
 };
 
 typedef char goala[KillAlmostAllMonsters + 1];
@@ -94,11 +95,9 @@ struct roomi {
 extern roomi room_data[LastRoom + 1];
 
 struct dungstatei {
-	posable			up, down; // where is stairs located
+	posable			up, down, lair; // where is special rooms located
 	posable			portal; // where is portal
 	posable			special; // where is special item dropped
-	posable			features[10]; // where is dungeon features locatied (if any)
-	short unsigned	features_count; // count of wellmsgn
 	short unsigned	messages; // count of wellmsgn
 	short unsigned	secrets_found; // count of secret rooms found (used secret button)
 	short unsigned	elements; // count of corridors

@@ -8,7 +8,7 @@ struct sitei;
 enum questn : unsigned char;
 
 enum questfn : unsigned char {
-	QuestActive, QuestPassed, QuestPrepared,
+	QuestPrepared, QuestPassed,
 };
 
 struct questfc {
@@ -24,8 +24,12 @@ struct questi {
 	variablei		rewards; // Reward, if quest is done.
 	slice<sitei>	dungeon; // Main quest dungeon
 	questfc			state; // Current quest state. Can be serialzed.
+	bool is(questfn v) const { return state.is(v); }
+	void set(questfn v) { return state.set(v); }
 };
 extern questi quests[128]; // All quest predifined data.
 extern questi* last_quest;
+
+questi* active_quest();
 
 int quest_count(questfn v);

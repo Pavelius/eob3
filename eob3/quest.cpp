@@ -17,9 +17,9 @@
 
 	  0		Introducion npc can tell about quest. In the end button `Agreet`.
 	  1		When use press `Agreet`.
-	  2		Adventures to quest dungeon location.
-	  3		Arrives to quest dungeon location.
-	  4		Arrives to quest dungeon location.
+	  2		Adventure to quest dungeon location.
+	  3		Succes arrive to quest dungeon location.
+	  4		Finish quest and gain reward.
 
 */
 
@@ -35,20 +35,3 @@ static sitei flooded_collectors[] = {
 questi quests[] = {
 	{0, {Coins, 500, Reputation, 1}, flooded_collectors},
 };
-
-int quest_count(questfn v) {
-	auto result = 0;
-	for(auto& e : quests) {
-		if(e.state.is(v))
-			result++;
-	}
-	return result;
-}
-
-void addv(variablen v, int i) {
-	game.add(v, i);
-}
-
-int getv(variablen v) {
-	return game.variables[v];
-}

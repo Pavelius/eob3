@@ -256,7 +256,7 @@ void dungeoni::add(monstern type, pointc v, directionn d, int side) {
 		if(e)
 			continue;
 		player = &e;
-		// create_monster(type);
+		create_monster(type);
 		e.x = v.x;
 		e.y = v.y;
 		e.d = d;

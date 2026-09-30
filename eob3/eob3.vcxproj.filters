@@ -178,6 +178,12 @@
     <ClCompile Include="game_carousing.cpp">
       <Filter>logic</Filter>
     </ClCompile>
+    <ClCompile Include="view_automap.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="screenshoot.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="action.h">
@@ -272,6 +278,9 @@
     </ClInclude>
     <ClInclude Include="win.h">
       <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="screenshoot.h">
+      <Filter>support</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

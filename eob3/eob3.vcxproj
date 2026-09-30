@@ -153,6 +153,7 @@
     <ClInclude Include="pointc.h" />
     <ClInclude Include="pointca.h" />
     <ClInclude Include="quest.h" />
+    <ClInclude Include="screenshoot.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="sprite_util.h">
@@ -219,6 +220,7 @@
     <ClCompile Include="quest.cpp" />
     <ClCompile Include="res.cpp" />
     <ClCompile Include="scale.cpp" />
+    <ClCompile Include="screenshoot.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="sprite_util.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -231,6 +233,7 @@
     <ClCompile Include="point.cpp" />
     <ClCompile Include="stringbuilder.cpp" />
     <ClCompile Include="stringvar.cpp" />
+    <ClCompile Include="view_automap.cpp" />
     <ClCompile Include="view_controls.cpp" />
     <ClCompile Include="view_focus.cpp" />
     <ClCompile Include="view_debug.cpp" />

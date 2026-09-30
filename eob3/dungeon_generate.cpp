@@ -11,8 +11,8 @@
 #include "slice.h"
 
 #ifdef _DEBUG
-//#define DEBUG_DUNGEON
-//#define DEBUG_ROOM
+#define DEBUG_DUNGEON
+#define DEBUG_ROOM
 #endif
 
 static directionn all_directionn[] = {Up, Down, Left, Right};

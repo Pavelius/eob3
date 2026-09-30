@@ -1,9 +1,11 @@
 #include "action.h"
 #include "answers.h"
 #include "creature.h"
+#include "dungeon.h"
 #include "draw.h"
 #include "game.h"
 #include "pushvalue.h"
+#include "quest.h"
 #include "rand.h"
 #include "sound.h"
 
@@ -100,6 +102,7 @@ static void start_variables() {
 		if(p)
 			start_variables(p->type);
 	}
+	game.add(Time, 10 * 60);
 }
 
 static void party_generation() {
@@ -148,8 +151,7 @@ static void party_random_generation() {
 }
 
 static void test_city_menu() {
-	answer_picture = PicCity;
-	player->say(WhatPlayerDo, item_names[TwoHandedSword]);
+	// dungeon_create(quests[0].dungeon);
 	next_scene(play_city_actions);
 }
 

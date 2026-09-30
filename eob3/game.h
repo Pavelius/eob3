@@ -3,6 +3,7 @@
 struct creature;
 struct item;
 struct sprite;
+struct pointca;
 
 typedef void(*fnevent)(); // Callback function of any command executing
 typedef void(*fnoutput)(const char* format); // Callback function of string out
@@ -105,6 +106,8 @@ long play_city();
 void play_city_actions();
 void printn(messagen id, ...);
 bool running_scene();
+void show_automap(const pointca& markers, int explore_radius);
+void show_automap(bool mshow_fog_of_war, bool mshow_secrets, bool mshow_party, const pointca* vred_markers);
 void show_scene(fnevent before_paint, fnevent input, long focus);
 void show_scene_font();
 void show_sprites_command();

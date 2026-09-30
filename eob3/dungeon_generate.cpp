@@ -660,7 +660,7 @@ static bool is_valid(pointc v) {
 
 static bool is_valid_dungeon() {
 	if(!loc->state.up)
-		return true;
+		return false;
 	loc->block(true);
 	loc->makewave(loc->state.up);
 	if(loc->state.down && !is_valid(loc->state.down))
@@ -795,30 +795,30 @@ static void create_lair(pointc v, directionn d, shapen shape) {
 }
 
 static bool validate_position(pointc& v, directionn d, shapen shape) {
-	if(!test_shape(v, d, shape))
-		return false;
+	if(test_shape(v, d, shape))
+		return true;
 	for(int r = 1; r < 5; r++) {
 		if(rand() % 2) {
 			if(test_shape(v, d, shape, r, 0))
-				return false;
+				return true;
 			if(test_shape(v, d, shape, -r, 0))
-				return false;
+				return true;
 			if(test_shape(v, d, shape, 0, r))
-				return false;
+				return true;
 			if(test_shape(v, d, shape, 0, -r))
-				return false;
+				return true;
 		} else {
 			if(test_shape(v, d, shape, 0, r))
-				return false;
+				return true;
 			if(test_shape(v, d, shape, 0, -r))
-				return false;
+				return true;
 			if(test_shape(v, d, shape, r, 0))
-				return false;
+				return true;
 			if(test_shape(v, d, shape, -r, 0))
-				return false;
+				return true;
 		}
 	}
-	return true;
+	return false;
 }
 
 static void create_room(pointc v, directionn d, shapen shape, fnroom proc) {

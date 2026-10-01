@@ -27,7 +27,7 @@ static void remove_hunger() {
 }
 
 static void eat_and_drink() {
-	for_each_party(remove_hunger);
+	all_party(remove_hunger);
 	show_message(EatAndDrinkSuccess);
 }
 

@@ -34,9 +34,12 @@ enum messagen : unsigned char {
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
 	GeneraionInfo, GenerationPlayInfo,
 	ConfirmDeleteCharacter, ConfirmBuyHealing, ConfirmBuyItem, ConfirmEatAndDrink, ConfirmRentRoom, ConfirmCarousing,
-	ConfirmRestParty,
+	ConfirmRestParty, ConfirmReturnCity, ConfirmMakeCamp,
 	WhatPlayerDo, WhichWayToGo, WhatYouWantToBuy,
+	HowYouGetHere,
 	PlayerIsDisabled,
+	PartyGoingUp, PartyGoingDown, PartyFallPit,
+	DoorOpened,
 	QuestGoals, VisitBuilding,
 	Class, Race,
 	LastMessage = Race
@@ -105,7 +108,7 @@ long choose_large_menu_no_player(const char* header, const char* cancel);
 long choose_main_menu();
 long choose_small_menu(const char* header, const char* cancel);
 void choose_spells(const char* title, const char* cancel, int spell_type);
-void enter(questn quest, int level, celln location);
+void enter_dungeon(int level, celln location);
 void fix_animate();
 void fix_attack(const creature* attacker, wearn slot, int hits);
 void fix_damage(const creature* target, int value);
@@ -119,10 +122,13 @@ void message_box(const char* format);
 void next_scene(fnevent v);
 void paint_dungeon();
 void paint_main_menu();
+void party_turn_left();
+void party_turn_right();
 void pick_up_item();
 long play_city();
 void play_city_actions();
 void play_dungeon();
+void player_manipulate();
 void printn(messagen id, ...);
 bool running_scene();
 void set_dungeon_tiles(resn type);

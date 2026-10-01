@@ -56,9 +56,11 @@ enum monstern : unsigned char {
 	LastMonster = Spider
 };
 enum speechn : unsigned char {
-	CantUseItem, ThisIsUndefinedObject, ThisIsObject, ThisIsNotItem, CantPutItemHere,
-	CantUseIsSettlement,
-	LastSpeech = CantUseIsSettlement
+	CantUseItem, CantRead, ThisIsUndefinedObject, ThisIsObject, ThisIsNotItem, CantPutItemHere,
+	MustBeUseInHand, MustBeWearing, MustBeQuver,
+	WhereIsKeyhole, ThisIsWrongKey,
+	CantUseInSettlement,
+	LastSpeech = CantUseInSettlement
 };
 
 extern const char* ability_names[Experience + 1];
@@ -137,7 +139,9 @@ struct creature : npci, posable, statable, wearable {
 	void add(abilityn n, int v);
 	bool allow(itemn type) const;
 	bool allow(itemn type, speechn speech) const;
+	bool canread() const { return true; }
 	void clear();
+	void damage(damagen type, int value) {}
 	void equip(item& v);
 	void equip(const item& v) { item cv = v; equip(cv); }
 	bool is(abilityn v) const { return abilities[v] > 0; }
@@ -148,6 +152,7 @@ struct creature : npci, posable, statable, wearable {
 	bool isdisabled() const { return false; }
 	bool isdead() const { return hp <= -10; }
 	bool islarge() const { return is_large(monsters[monster].res); }
+	void kill() {}
 	bool roll(abilityn v, int bonus = 0) const;
 	void joinparty() { /*TODO: Join party later.*/ }
 	void setframe(short* frames, short index) const;
@@ -156,6 +161,7 @@ struct creature : npci, posable, statable, wearable {
 extern creature characters[32]; // All characters in game
 extern creature* adventurers[6]; // Party of characters
 extern creature* player;
+extern creature* opponent;
 
 creature* get_creature(void* pointer);
 creature* new_character();
@@ -184,3 +190,4 @@ void reroll_ability();
 void reroll_character();
 void reroll_hits();
 void update_player();
+void use_item(creature* player, item* last_item, wearn wear);

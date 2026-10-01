@@ -545,17 +545,33 @@ static int get_compass_index(directionn d) {
 	}
 }
 
+static void move_party_left() {
+	move_party(to(party.pos, to(party.d, Left)));
+}
+
+static void move_party_right() {
+	move_party(to(party.pos, to(party.d, Right)));
+}
+
+static void move_party_up() {
+	move_party(to(party.pos, party.d));
+}
+
+static void move_party_down() {
+	move_party(to(party.pos, to(party.d, Down)));
+}
+
 static void paint_compass(directionn d) {
 	auto i = get_compass_index(d);
 	image(114, 132, res_data[COMPASS], i, 0);
 	image(79, 158, res_data[COMPASS], 4 + i, 0);
 	image(150, 158, res_data[COMPASS], 8 + i, 0);
-	button({5, 128, 24, 144}); fire(press_key, KeyHome);
-	button({24, 128, 44, 144}); fire(press_key, KeyUp);
-	button({44, 128, 64, 144}); fire(press_key, KeyPageUp);
-	button({5, 145, 24, 161}); fire(press_key, KeyLeft);
-	button({24, 145, 44, 161}); fire(press_key, KeyDown);
-	button({44, 145, 64, 161}); fire(press_key, KeyRight);
+	button({5, 128, 24, 144}, KeyHome); fire(party_turn_left);
+	button({24, 128, 44, 144}, KeyUp); fire(move_party_up);
+	button({44, 128, 64, 144}, KeyPageUp); fire(party_turn_right);
+	button({5, 145, 24, 161}, KeyLeft); fire(move_party_left);
+	button({24, 145, 44, 161}, KeyDown); fire(move_party_down);
+	button({44, 145, 64, 161}, KeyRight); fire(move_party_right);
 }
 
 static void paint_menu(point position, int object_width, int object_height) {
@@ -1295,24 +1311,19 @@ static void paint_small_menu() {
 	cancel_position = {71, 168};
 }
 
-static void paint_adventure() {
-	paint_background(PLAYFLD, 0);
-	paint_compass(party.d);
-	animation_update();
-	paint_dungeon();
-	paint_party_sheets();
-	update_focus_player();
-	console_scroll(3000);
-	paint_console();
+static item* get_item_by_focus() {
+	auto pv = (void*)current_focus;
+	auto pi = get_creature(pv);
+	if(!pi || !pi->haveitem(pv))
+		return 0;
+	return (item*)pv;
 }
 
-static void paint_adventure_no_update() {
-	paint_background(PLAYFLD, 0);
-	paint_compass(party.d);
-	paint_dungeon();
-	paint_avatars_no_focus();
-	console_scroll(3000);
-	paint_console();
+static void player_use_item() {
+	auto pi = get_item_by_focus();
+	if(!pi)
+		return;
+	use_item(player, pi, get_wear((void*)current_focus));
 }
 
 void paint_main_menu() {
@@ -1514,6 +1525,50 @@ void alternate_focus_input() {
 	case 'Z': apply_focus(KeyDown); break;
 	default: break;
 	}
+}
+
+static void adventure_input() {
+	switch(hkey) {
+	case 'M': player_manipulate(); break;
+	case 'U': player_use_item(); break;
+	default:
+		alternate_focus_input();
+		character_input();
+		break;
+	}
+	//	{'V', show_dungeon_automap},
+	//	{'D', drop_dungeon_item},
+	//	{'U', use_item},
+	//	{'E', cast_spell},
+	//	{'R', change_quick_item},
+	//	{KeyEscape, choose_dungeon_menu},
+	//#ifdef _DEBUG
+	//	{'T', test_ground},
+	//#endif
+	//	{}};
+	//	adventure_input(source);
+	//	set_player_by_focus();
+}
+
+static void paint_adventure() {
+	paint_background(PLAYFLD, 0);
+	paint_compass(party.d);
+	animation_update();
+	paint_dungeon();
+	paint_party_sheets();
+	update_focus_player();
+	adventure_input();
+	console_scroll(3000);
+	paint_console();
+}
+
+static void paint_adventure_no_update() {
+	paint_background(PLAYFLD, 0);
+	paint_compass(party.d);
+	paint_dungeon();
+	paint_avatars_no_focus();
+	console_scroll(3000);
+	paint_console();
 }
 
 static void paint_city_no_input() {
@@ -1793,7 +1848,7 @@ long choose_dialog(const char* title, int padding) {
 	point origin, size;
 	caret = {0, 0};
 	width = 320; height = 200;
-	paint_blend(colors::black, 16);
+	paint_blend(colors::black, 32);
 	fore = colors::white;
 	auto button_area = texth() + 4 + 2;
 	menu_position(title, origin, size, padding, button_area);
@@ -1814,8 +1869,8 @@ long choose_dialog(const char* title, int padding) {
 			caret.x += width;
 			caret.x += 2;
 		}
-		domodal();
 		focus_input();
+		domodal();
 	}
 	an.clear();
 	sys_update_window();
@@ -2066,7 +2121,6 @@ long show_message(const char* format, bool add_anaswers, const char* cancel, uns
 		cancel_key = KeyEscape;
 	while(ismodal()) {
 		paint_background(PLAYFLD, 0);
-		// paint_compass(party.d); // Compas don't need because message overlap it.
 		paint_avatars_no_focus_hilite();
 		paint_menu({0, 122}, 319, 77);
 		setpos(6, 128, 308, 56);

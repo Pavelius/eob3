@@ -74,6 +74,7 @@ soundn get_music(actionn v);
 
 int get_hour(); // Return 0..23
 
+void all_party(fnevent proc, bool allow_disabled = false);
 bool apply_action(const actioni* p);
 void buy_item(shopn shop, actionn shop_empty);
 bool check_activity();
@@ -81,7 +82,6 @@ long choose_player_action(const char* cancel);
 long choose_message(actionn id, bool can_cancel = true);
 bool confirm_message(messagen header, int value);
 bool enough(const variablei& v1, const variablei& v2);
-void for_each_party(fnevent proc);
 bool indoor(actionn v);
 bool need_activity(actionn v);
 void pass_activity();

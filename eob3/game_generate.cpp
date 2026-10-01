@@ -152,9 +152,10 @@ static void party_random_generation() {
 
 static void test_city_menu() {
 	auto quest = (questn)0;
+	quests[quest].set(QuestPrepared);
 	dungeon_create(quest, quests[quest].dungeon);
 	// next_scene(play_city_actions);
-	enter(quest, 1, CellStairsUp);
+	enter_dungeon(1, CellStairsUp);
 }
 
 void game_generation() {

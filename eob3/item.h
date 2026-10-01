@@ -141,6 +141,7 @@ struct item {
 	bool is(featn v) const { return power == v || geti().flags.is(v); }
 	bool is(purposen v) const { return purpose == v; }
 	bool is(wearn v) const { return geti().wear == v; }
+	bool is(itemn v) const { return type == v; }
 	bool isartifact() const { return get_magic(power) >= 4; }
 	bool iscursed() const { return (power == Cursed || power == Delusion); }
 	bool isdamaged() const { return !countable() && count >= 5; }
@@ -171,6 +172,7 @@ struct wearable {
 	item*		freebackpack();
 	void		putbelt(item& v);
 	void		shrinkbelt();
+	bool		haveitem(const void* p) const { return p >= wears && p <= wears + sizeof(wears) / sizeof(wears[0]); }
 };
 
 itemn random(itemn v);

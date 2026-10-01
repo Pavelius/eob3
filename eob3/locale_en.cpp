@@ -17,8 +17,12 @@ const char* message_names[LastMessage + 1] = {
 	"Rent room in this inn for all party will be cost %1i coins. And no fleas or rats. Do you accept this offer?",
 	"Do you really want buy a drinks to everyone and go with all party to fully carousing? This will be cost for you totally %1i coins. Do you want this?",
 	"Do you really want to rest party all night?",
+	"Do you really want return to the city?",
+	"Do you really want to make a camp and consume food?",
 	"What %1 do?", "Which way to go?", "Which item you buy?",
-	"%1 is disabled",
+	"How you get here so far?",
+	"%1 is disabled", "Party going up ...", "Party going down ...", "Party fall into the pit.",
+	"This door is opened by key",
 	"Current goals", "Visit %1",
 	"Class", "Race"
 };
@@ -132,26 +136,44 @@ const char* monster_names[LastMonster + 1] = {
 };
 const char* speech_names1[LastSpeech + 1] = {
 	"How can I use %1?",
+	"I can't read",
 	"This is a %1",
 	"This is %1",
 	"I don't see any item here",
 	"Can't put %1 here",
+	"I must take it in hand",
+	"I must wear this to use",
+	"Drop this one to quiver",
+	"Where is keyhole?",
+	"This key doesn't match",
 	"Not in the city!",
 };
 const char* speech_names2[LastSpeech + 1] = {
 	"I don't use %1.",
+	"I don't understand this",
 	0,
 	0,
 	"And where is item?",
 	"Can't wearn %1 that way",
+	"Only in hands work",
+	"It usable when wear",
+	"Ammunition usable in quiver",
+	"I don't see any keyhole here",
+	"The key don't fit in hole",
 	"This one usable in dungeon",
 };
 const char* speech_names3[LastSpeech + 1] = {
 	"I don't need %1.",
+	"I can't read this",
 	0,
 	0,
 	"Nothing examine",
 	"Wrong item place",
+	"Place in hand to use",
+	"I need dress this",
+	"Only in quiver can use it",
+	"Key need put into keyhole.",
+	"This is a wrong key",
 	"Wrong place to use",
 };
 const char* name_names[50 * 4] = {

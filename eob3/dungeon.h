@@ -232,3 +232,4 @@ dungeoni* find_dungeon(questn quest, int level);
 
 void dungeon_create(questn quest, slice<sitei> source);
 bool filter_corridor(pointc v);
+void move_party(pointc v);

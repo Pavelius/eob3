@@ -180,8 +180,9 @@ static char class_minimum[Theif + 1][6] = {
 };
 
 creature characters[32];
-creature* player;
 creature* adventurers[6];
+creature* player;
+creature* opponent;
 
 static classn class_data[FighterMageTheif + 1][3] = {
 	{Monster},
@@ -962,7 +963,7 @@ creature* get_creature(void* pointer) {
 
 wearn get_wear(void* pointer) {
 	auto p = get_creature(pointer);
-	if(p && pointer >= p->wears && pointer < p->wears + lengthof(p->wears))
+	if(p && p->haveitem(pointer))
 		return (wearn)((item*)pointer - p->wears);
 	return Backpack;
 }

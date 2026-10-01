@@ -24,6 +24,7 @@ struct questi {
 	variablei		rewards; // Reward, if quest is done.
 	slice<sitei>	dungeon; // Main quest dungeon
 	questfc			state; // Current quest state. Can be serialzed.
+	questn index() const;
 	bool is(questfn v) const { return state.is(v); }
 	void set(questfn v) { return state.set(v); }
 };

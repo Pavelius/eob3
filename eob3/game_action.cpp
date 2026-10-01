@@ -269,19 +269,32 @@ const actioni* choose_building_action(const actioni* source) {
 static void explore_area() {
 	if(!loc)
 		return;
-	loc->set(party, CellExplored);
-	loc->set(to(party, Up), CellExplored);
-	loc->set(to(party, Down), CellExplored);
-	loc->set(to(party, Left), CellExplored);
-	loc->set(to(party, Right), CellExplored);
+	loc->set(party.pos, CellExplored);
+	loc->set(to(party.pos, Up), CellExplored);
+	loc->set(to(party.pos, Down), CellExplored);
+	loc->set(to(party.pos, Left), CellExplored);
+	loc->set(to(party.pos, Right), CellExplored);
 }
 
 static void make_action() {
 	explore_area();
 }
 
+static void set_party_postition(celln v) {
+	switch(v) {
+	case CellStairsUp: party = loc->state.up; break;
+	case CellStairsDown: party = loc->state.down; break;
+	case CellPortal: party = loc->state.portal; break;
+	default: return;
+	}
+}
+
 void enter(questn quest, int level, celln location) {
-	set_dungeon_tiles(loc->type);
+	loc = find_dungeon(quest, level);
+	if(!loc)
+		return; // Dungeon not found. Stay in city.
+	set_party_postition(location);
 	make_action();
+	set_dungeon_tiles(loc->type);
 	next_scene(play_dungeon);
 }

@@ -25,7 +25,7 @@ struct pointc {
 	char x = -1, y = -1;
 	constexpr bool operator==(pointc v) const { return x == v.x && y == v.y; }
 	constexpr bool operator!=(pointc v) const { return x != v.x || y != v.y; }
-	explicit operator bool() const { return x >= 0 && y >= 0 && x < mpx && y < mpy; }
+	constexpr explicit operator bool() const { return x >= 0 && y >= 0 && x < mpx && y < mpy; }
 	pointc operator+(const pointc& v) const { return {(char)(x + v.x), (char)(y + v.y)}; }
 	pointc operator+(int i) const { pointc v; v.set(x + i, y + i); return v; }
 	pointc operator-(int i) const { pointc v; v.set(x - i, y - i); return v; }
@@ -35,14 +35,16 @@ struct pointc {
 	pointc to(int dx, int dy) const { return {(char)(x + dx), (char)(y + dy)}; }
 };
 
-struct posable : pointc {
+struct posable {
+	pointc		pos = {};
 	char		side = 0;
 	directionn	d = (directionn)0;
 	constexpr posable() = default;
-	constexpr posable(pointc v) : pointc(v), side(0), d() {}
-	constexpr posable(pointc v, directionn d) : pointc(v), side(0), d(d) {}
-	void clear() { pointc::clear(); side = 0; d = (directionn)0; }
-	void set(pointc v, directionn d) { x = v.x; y = v.y; d = d; }
+	constexpr posable(pointc v) : pos(v), side(0), d() {}
+	constexpr posable(pointc v, directionn d) : pos(v), side(0), d(d) {}
+	constexpr explicit operator bool() const { return pos.operator bool(); }
+	void clear() { pos.clear(); side = 0; d = (directionn)0; }
+	void set(pointc v, directionn d) { pos = v; d = d; }
 };
 extern posable party;
 

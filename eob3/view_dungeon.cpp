@@ -1086,7 +1086,7 @@ void paint_dungeon() {
 	// 0 - 176x120 - background
 	renderi* zorder[512];
 	auto push_clip = clipping;
-	unsigned flags = flip_flags(party, party.d);
+	unsigned flags = flip_flags(party.pos, party.d);
 	image(scrx / 2, scry / 2, map_tiles, 0, flags);
 	setclip({0, 0, scrx - 1, scry - 1});
 	renderi** pz = zorder;
@@ -1108,7 +1108,7 @@ void paint_dungeon() {
 
 void animation_update() {
 	if(loc)
-		prepare_draw(party, party.d);
+		prepare_draw(party.pos, party.d);
 }
 
 renderi* get_last_disp() {

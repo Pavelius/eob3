@@ -18,7 +18,9 @@ typedef void(*fnevent)(); // Callback function of any command executing
 typedef void(*fnoutput)(const char* format); // Callback function of string out
 typedef void(*fnapaint)(int index, long value, const char* text, unsigned key);
 
+enum celln : unsigned char;
 enum variablen : unsigned char;
+enum questn : unsigned char;
 enum wearn : unsigned char;
 
 enum directionn : unsigned char {
@@ -103,6 +105,7 @@ long choose_large_menu_no_player(const char* header, const char* cancel);
 long choose_main_menu();
 long choose_small_menu(const char* header, const char* cancel);
 void choose_spells(const char* title, const char* cancel, int spell_type);
+void enter(questn quest, int level, celln location);
 void fix_animate();
 void fix_attack(const creature* attacker, wearn slot, int hits);
 void fix_damage(const creature* target, int value);

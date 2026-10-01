@@ -169,6 +169,14 @@ directionn to(directionn v, directionn d) {
 	return rotate_direction[v - Left][d - Left];
 }
 
+dungeoni* find_dungeon(questn quest, int level) {
+	for(auto& e : dungeons) {
+		if(e && e.quest==quest && e.level==level)
+			return &e;
+	}
+	return 0;
+}
+
 void dungstatei::clear() {
 	memset((void*)this, 0, sizeof(*this));
 	up.clear();
@@ -265,7 +273,7 @@ dungeoni::overlayi* dungeoni::add(pointc v, directionn d, celln i) {
 	for(auto& e : overlays) {
 		if(!e) {
 			e.clear();
-			assign<pointc>(e, v);
+			e.pos = v;
 			e.d = d;
 			e.type = i;
 			return &e;
@@ -297,8 +305,7 @@ void dungeoni::add(monstern type, pointc v, directionn d, int side) {
 			continue;
 		player = &e;
 		create_monster(type);
-		e.x = v.x;
-		e.y = v.y;
+		e.pos = v;
 		e.d = d;
 		e.side = side;
 		state.monsters++;
@@ -310,7 +317,7 @@ void dungeoni::markoverlay(celln type, short unsigned value) const {
 	for(auto& e : overlays) {
 		if(!e || e.type != type)
 			continue;
-		auto v = to(e, e.d);
+		auto v = to(e.pos, e.d);
 		pathmap[v.y][v.x] = value;
 	}
 }
@@ -328,7 +335,7 @@ dungeoni::overlayi* dungeoni::get(pointc v, directionn d) {
 	if(!v)
 		return 0;
 	for(auto& e : overlays) {
-		if(e == v && e.d == d)
+		if(e.pos == v && e.d == d)
 			return &e;
 	}
 	return 0;
@@ -355,7 +362,7 @@ directionn dungeoni::getnear(pointc v, celln t) const {
 
 dungeoni::overlayi* dungeoni::getoverlay(pointc v, celln type) {
 	for(auto& e : overlays) {
-		if(e == v && e.type == type)
+		if(e.pos == v && e.type == type)
 			return &e;
 	}
 	return 0;
@@ -422,7 +429,7 @@ void dungeoni::removeov(pointc v) {
 	for(auto& e : overlays) {
 		if(e.d == Center)
 			continue;
-		if(to(e, e.d) == v)
+		if(to(e.pos, e.d) == v)
 			e.clear();
 	}
 }
@@ -442,7 +449,7 @@ void dungeoni::set(pointc v, celln type, directionn d) {
 
 bool dungeoni::isitem(pointc v) const {
 	for(auto& e : items) {
-		if(e && e == v)
+		if(e && e.pos == v)
 			return true;
 	}
 	return false;
@@ -450,7 +457,7 @@ bool dungeoni::isitem(pointc v) const {
 
 bool dungeoni::ismonster(pointc v) const {
 	for(auto& e : monsters) {
-		if(e && e == v)
+		if(e && e.pos == v)
 			return true;
 	}
 	return false;
@@ -458,7 +465,7 @@ bool dungeoni::ismonster(pointc v) const {
 
 bool dungeoni::isoverlay(pointc v) const {
 	for(auto& e : overlays) {
-		if(e && e == v)
+		if(e && e.pos == v)
 			return true;
 	}
 	return false;
@@ -466,7 +473,7 @@ bool dungeoni::isoverlay(pointc v) const {
 
 bool dungeoni::ismonster(pointc v, featn f) const {
 	for(auto& e : monsters) {
-		if(e && e == v && e.is(f))
+		if(e && e.pos == v && e.is(f))
 			return true;
 	}
 	return false;
@@ -516,8 +523,7 @@ void dungeoni::drop(pointc v, item& it, int side) {
 		if(e)
 			continue;
 		assign<item>(e, it);
-		e.x = v.x;
-		e.y = v.y;
+		e.pos = v;
 		e.side = side;
 		e.d = Center;
 		it.clear();
@@ -532,7 +538,7 @@ size_t dungeoni::getitems(ground** result, size_t result_maximum, pointc v) {
 	auto ps = result;
 	auto pe = ps + result_maximum;
 	for(auto& e : items) {
-		if(!e || e != v)
+		if(!e || e.pos != v)
 			continue;
 		if(ps < pe)
 			*ps++ = &e;
@@ -566,7 +572,7 @@ void dungeoni::getmonsters(creature** result, pointc index, directionn dr) {
 	for(auto& e : monsters) {
 		if(!e)
 			continue;
-		if(e != index)
+		if(e.pos != index)
 			continue;
 		if(e.islarge())
 			result[2] = &e;
@@ -613,7 +619,7 @@ void dungeoni::getoverlays(pointca& result, celln type, bool hidden) const {
 	for(auto& e : overlays) {
 		if(!e || e.type != type)
 			continue;
-		auto v = to(e, e.d);
+		auto v = to(e.pos, e.d);
 		if(hidden && is(v, CellExplored))
 			continue;
 		result.addu(v);

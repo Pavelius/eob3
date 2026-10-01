@@ -2053,7 +2053,7 @@ void play_dungeon() {
 	locup = 0;
 	if(loc->level > 1)
 		locup = loc - 1;
-	set_player_by_focus();
+	set_focus_by_player();
 	scene(paint_adventure);
 }
 

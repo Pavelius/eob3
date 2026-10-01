@@ -664,10 +664,10 @@ static bool is_valid_dungeon(bool last_level) {
 	if(!last_level && !loc->state.down)
 		return false;
 	loc->block(true);
-	loc->makewave(loc->state.up);
-	if(!last_level && !is_valid(loc->state.down))
+	loc->makewave(loc->state.up.pos);
+	if(!last_level && !is_valid(loc->state.down.pos))
 		return false; // If there is not last level and path to stairs down is blocked
-	if(loc->state.lair && !is_valid(loc->state.lair))
+	if(loc->state.lair && !is_valid(loc->state.lair.pos))
 		return false; // If there is lair and path to lair is blocked
 	return true;
 }
@@ -891,17 +891,17 @@ static void drop_special_item() {
 		for(auto& e : loc->items) {
 			if(!e || e.is(Quiver) || e.is(Edible))
 				continue;
-			points.addu(e);
+			points.addu(e.pos);
 		}
 		if(points)
 			v = points.random();
 	}
 	if(!v && loc->state.portal)
-		v = loc->state.portal;
-	if(!v && loc->state.down)
-		v = loc->state.down;
+		v = loc->state.portal.pos;
+	if(!v && loc->state.down.pos)
+		v = loc->state.down.pos;
 	if(!v && loc->state.up)
-		v = loc->state.up;
+		v = loc->state.up.pos;
 	if(v) {
 		loc->drop(v, it, xrand(0, 3));
 		loc->state.special = v;
@@ -915,10 +915,10 @@ static void link_dungeon(dungeoni& upper, dungeoni& current) {
 	unsigned short pm2[mpy][mpx];
 	// 1) Get idicies of two linked dungeons
 	current.block(true);
-	current.makewave(to(current.state.up, current.state.up.d));
+	current.makewave(to(current.state.up.pos, current.state.up.d));
 	memcpy(pm1, pathmap, sizeof(pathmap));
 	upper.block(true);
-	upper.makewave(to(upper.state.down, upper.state.down.d));
+	upper.makewave(to(upper.state.down.pos, upper.state.down.d));
 	memcpy(pm2, pathmap, sizeof(pathmap));
 	// 2) Get valid indicies
 	for(v.y = 0; v.y < mpy; v.y++) {
@@ -935,10 +935,10 @@ static void link_dungeon(dungeoni& upper, dungeoni& current) {
 			if(upper.isitem(v))
 				pm2[v.y][v.x] = 0xFFFF;
 			// There is no location right before stairs
-			if(v == to(upper.state.down, upper.state.down.d)
-				|| v == to(upper.state.up, upper.state.up.d)
-				|| v == to(current.state.up, current.state.up.d)
-				|| v == to(current.state.down, current.state.down.d))
+			if(v == to(upper.state.down.pos, upper.state.down.d)
+				|| v == to(upper.state.up.pos, upper.state.up.d)
+				|| v == to(current.state.up.pos, current.state.up.d)
+				|| v == to(current.state.down.pos, current.state.down.d))
 				pm2[v.y][v.x] = 0xFFFF;
 			// Dungeon must be passable
 			if(!pm1[v.y][v.x] || !pm2[v.y][v.x] || pm2[v.y][v.x] >= 0xFF00)
@@ -1085,12 +1085,12 @@ void dungeon_create(questn quest, slice<sitei> source) {
 				// loc->quest_id = quest_id;
 				loc->level = level;
 				loc->cursed = 5;
-				create_rooms(start, last_level, ei.feature);
+				create_rooms(start.pos, last_level, ei.feature);
 				while(stack_get != stack_put) {
 					auto& ev = rooms[stack_get++];
-					auto result = corridor(ev, ev.d);
+					auto result = corridor(ev.pos, ev.d);
 					if(!result)
-						random_corridor(ev);
+						random_corridor(ev.pos);
 					loc->state.elements++;
 					show_map_interactive();
 				}

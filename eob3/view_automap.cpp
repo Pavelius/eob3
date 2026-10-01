@@ -97,7 +97,7 @@ static void paint_party_position() {
 	auto push_caret = caret;
 	auto push_fore = fore;
 	fore = colors::red;
-	paint_arrow(gs(party.x, party.y), party.d, mpg);
+	paint_arrow(gs(party.pos.x, party.pos.y), party.d, mpg);
 	fore = push_fore;
 	caret = push_caret;
 }
@@ -422,12 +422,12 @@ static void paint_overlays() {
 	for(auto& e : loc->overlays) {
 		if(!e)
 			continue;
-		if(show_fog_of_war && !loc->is(e, CellExplored))
+		if(show_fog_of_war && !loc->is(e.pos, CellExplored))
 			continue;
 		width = height = mpg;
-		auto v = to(e, e.d);
+		auto v = to(e.pos, e.d);
 		auto p1 = gs(v.x, v.y);
-		auto p2 = gs(e.x, e.y);
+		auto p2 = gs(e.pos.x, e.pos.y);
 		caret = p1;
 		switch(e.type) {
 		case CellSecretButton:

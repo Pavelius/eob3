@@ -228,5 +228,7 @@ int get_side_ex(int side, directionn d);
 directionn to(directionn v, directionn d);
 directionn get_part_placement(pointc v);
 
+dungeoni* find_dungeon(questn quest, int level);
+
 void dungeon_create(questn quest, slice<sitei> source);
 bool filter_corridor(pointc v);

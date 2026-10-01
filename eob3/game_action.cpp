@@ -565,13 +565,13 @@ static void read_wall_messages(creature* player, dungeoni::overlayi* p) {
 	//}
 	if(p->subtype < MessageHabbits) {
 		if(loc->state.variables[p->subtype] > 0)
-			player->say(wellmsg_names[p->subtype], loc->state.variables[p->subtype]);
+			player->say(wallmsg_names[p->subtype], loc->state.variables[p->subtype]);
 		else {
 			auto n = get_miss((wellmsgn)p->subtype);
-			player->say(wellmsg_names[n]);
+			player->say(wallmsg_names[n]);
 		}
 	} else
-		player->say(wellmsg_names[p->subtype]);
+		player->say(wallmsg_names[p->subtype]);
 }
 
 static bool manipulate_overlay() {

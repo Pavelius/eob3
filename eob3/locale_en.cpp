@@ -182,11 +182,11 @@ const char* speech_names3[LastSpeech + 1] = {
 	"Wrong place to use",
 };
 const char* wallmsg_names[LastWellMessage + 1] = {
-	"Find %MessageMagicWeapons magic weapons on this level",
-	"Find %MessageMagicRings magic ring in this halls",
-	"Find %MessageSecrets hidden rooms in this place",
-	"Beware %MessageTraps deadly traps",
-	"Find %MessageLocked keys to open treasure doors",
+	"Find %1i magic weapons on this level",
+	"Find %1i magic ring in this halls",
+	"Find %1i hidden rooms in this place",
+	"Beware %1i deadly traps",
+	"Find %1i keys to open treasure doors",
 	"Mighty artifact lie somewhere in this halls",
 	"Beware cursed items",
 	"Find %DungeonSpecial somewere in this place",

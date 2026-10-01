@@ -76,7 +76,7 @@ enum roomn : unsigned char {
 typedef char goala[KillAlmostAllMonsters + 1];
 
 extern const char* goal_names[MessageHabbits + 1];
-extern const char* wellmsg_names[MessageHabbits + 1];
+extern const char* wallmsg_names[LastWellMessage + 1];
 
 struct sitei {
 	resn			type; // Resources of dungeon

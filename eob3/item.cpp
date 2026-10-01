@@ -129,6 +129,20 @@ int get_chance_identify(itemn v) {
 	return 0; // No additional bonuses
 }
 
+bool is_large(itemn type) {
+	switch(type) {
+	case Longsword: case ShortSword: case TwoHandedSword:
+	case Mace: case Flail: case Staff: case Spear:
+	case Axe: case BattleAxe: case Halberd:
+	case Shield: case DwarvenShield:
+	case LeatherArmor: case ChainMail: case PlateMail: case ScaleMail: case BandedMail: case Robe:
+	case WarHammer: case Club: case GrapplingHook:
+		return true;
+	default:
+		return false;
+	}
+}
+
 bool allow(itemn type, wearn n) {
 	auto v = item_data[type].wear;
 	switch(v) {

@@ -36,7 +36,7 @@ enum itemn : unsigned char {
 	Shield, DwarvenShield, Boots, Bracers,
 	BlueRing, GreenRing, RedRing, Amulet, Medalion,
 	BluePotion, GreenPotion, RedPotion,
-	LargeRation, Ration,
+	RationIron, Ration,
 	MageScroll, PriestScroll, MagicMap, Wand,
 	TheifTools, GrapplingHook, HolySymbol, HolySymbolEvil, MageBook, Horn,
 	Bones, MantistHead, MonsterTeeth, SkullHead, SkullBone,
@@ -50,7 +50,7 @@ enum itemn : unsigned char {
 	Arrow, Stone, Dart,
 	LastItem = Dart,
 	RandomItem, RandomSmallItem, RandomWeapon,
-	RandomRation,
+	RandomRation, RandomRing,
 	RandomTreasure,
 };
 enum featn : unsigned char {
@@ -76,6 +76,8 @@ enum shopn : unsigned char {
 };
 
 extern const char* item_names[LastItem + 1];
+
+bool is_large(itemn type);
 
 struct featc {
 	unsigned data = 0;

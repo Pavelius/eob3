@@ -57,6 +57,7 @@ enum monstern : unsigned char {
 };
 enum speechn : unsigned char {
 	CantUseItem, CantRead, ThisIsUndefinedObject, ThisIsObject, ThisIsNotItem, CantPutItemHere,
+	SomeKindOfP1,
 	MustBeUseInHand, MustBeWearing, MustBeQuver,
 	WhereIsKeyhole, ThisIsWrongKey,
 	CantUseInSettlement,

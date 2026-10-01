@@ -1057,6 +1057,7 @@ static dungeoni* new_dungeon() {
 }
 
 void dungeon_create(questn quest, slice<sitei> source) {
+	pushvalue push_player(player); // Monster generation use player variable.
 	pushvalue push(loc);
 	pushvalue push_locup(locup);
 	auto base = 1;
@@ -1082,7 +1083,7 @@ void dungeon_create(questn quest, slice<sitei> source) {
 			while(control_pass < 128) {
 				loc->clear();
 				assign<sitei>(*loc, ei);
-				// loc->quest_id = quest_id;
+				loc->quest = quest;
 				loc->level = level;
 				loc->cursed = 5;
 				create_rooms(start.pos, last_level, ei.feature);

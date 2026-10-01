@@ -3,6 +3,11 @@
 #include "rand.h"
 
 static featn sword_powers[] = {Magical, Magical2, Magical3, Magical4, Magical5};
+static itemn random_ration[] = {Ration, Ration, Ration, RationIron};
+static itemn random_ring[] = {BlueRing, GreenRing, RedRing};
+static itemn random_treasure[] = {BlueGem, BlueGem, BlueGem, BlueGem, BlueGem, GreenGem, GreenGem, GreenGem, RedGem, RedGem, PurpleGem};
+static itemn random_small_item[] = {TheifTools, MageBook, PriestScroll, MageScroll, MagicMap, RandomTreasure, Wand, RandomRing, Amulet, IceSphere, FlameSphere, SteelKey};
+static itemn random_item[] = {RandomWeapon, RandomSmallItem};
 static itemn random_weapon[] = {
 	BattleAxe, Axe, Dagger, Halberd, WarHammer, Mace, Spear, Longsword, ShortSword, TwoHandedSword, Bow,
 };
@@ -19,6 +24,11 @@ featn get_powers(itemn type) {
 itemn random(itemn v) {
 	switch(v) {
 	case RandomWeapon: return random(maprnd(random_weapon));
+	case RandomRation: return random(maprnd(random_ration));
+	case RandomRing: return random(maprnd(random_ring));
+	case RandomTreasure: return random(maprnd(random_treasure));
+	case RandomItem: return random(maprnd(random_item));
+	case RandomSmallItem: return random(maprnd(random_small_item));
 	default: return v;
 	}
 }

@@ -298,20 +298,6 @@ static dungeoni::overlayi* add_wall_decor(renderi* p, pointc index, directionn d
 	return povr;
 }
 
-static bool is_large(itemn type) {
-	switch(type) {
-	case Longsword: case ShortSword: case TwoHandedSword:
-	case Mace: case Flail: case Staff: case Spear:
-	case Axe: case BattleAxe: case Halberd:
-	case Shield: case DwarvenShield:
-	case LeatherArmor: case ChainMail: case PlateMail: case ScaleMail: case BandedMail: case Robe:
-	case WarHammer: case Club: case GrapplingHook:
-		return true;
-	default:
-		return false;
-	}
-}
-
 static void fill_item_sprite(renderi* p, const itemi* pi, int frame = 0) {
 	if(is_large(pi->index()))
 		p->rdata = res_data[ITEMGL];
@@ -1222,7 +1208,7 @@ static void thrown_step(pointc v, directionn d, int avatar_thrown, int side) {
 	remove(p, 1);
 }
 
-void thrown_item(pointc v, directionn d, int avatar_thrown, int side, int distance) {
+static void thrown_item(pointc v, directionn d, int avatar_thrown, int side, int distance) {
 	if(!v)
 		return;
 	side = thrown_side(avatar_thrown, side);

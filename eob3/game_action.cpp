@@ -529,6 +529,20 @@ static void toggle(pointc v) {
 		loc->remove(v, CellActive);
 }
 
+static void examine(creature* player, resn dungeon, celln type) {
+	switch(dungeon) {
+	case BRICK:
+		switch(type) {
+		case CellDecor1:
+		case CellDecor2:
+		case CellDecor3:
+			player->say(SomeKindOfP1, "Portal");
+			break;
+		}
+		break;
+	}
+}
+
 static bool manipulate_overlay() {
 	auto p = loc->get(player->pos, player->d);
 	if(!p)
@@ -542,7 +556,7 @@ static bool manipulate_overlay() {
 	case CellDecor1:
 	case CellDecor2:
 	case CellDecor3:
-		// player->speak(getid<celli>(p->type), getid<residi>(loc->type));
+		examine(player, loc->type, p->type);
 		break;
 	case CellSecretButton:
 		//if(change_overlay(*player, player->d)) {

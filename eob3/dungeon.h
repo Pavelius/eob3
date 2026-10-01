@@ -61,7 +61,10 @@ enum goaln : unsigned char {
 enum wellmsgn : unsigned char {
 	MessageMagicWeapons, MessageMagicRings, MessageSecrets, MessageTraps, MessageLocked,
 	MessageAtifacts, MessageCursedItems, MessageSpecialItem, MessageBoss,
-	MessageHabbits
+	MessageHabbits,
+	MessageMagicWeaponsFail, MessageMagicRingsFail, MessageSecretsFail, MessageTrapsFail, MessageLockedFail,
+	MessageAtifactsFail, MessageCursedItemsFail, MessageSpecialItemFail, MessageBossFail,
+	LastWellMessage = MessageBossFail,
 };
 enum roomn : unsigned char {
 	NoRoom, StairsUp, StairsDown,

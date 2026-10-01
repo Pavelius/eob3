@@ -28,6 +28,11 @@ void npci::say(speechn id, ...) const {
 	sayv(getnm(id), format_param);
 }
 
+void npci::say(const char* foramt, ...) const {
+	XVA_FORMAT(foramt);
+	sayv(foramt, format_param);
+}
+
 void npci::sayv(const char* format, const char* format_param) const {
 	consolens();
 	console(name());

@@ -122,7 +122,8 @@ struct npci {
 	int level() const { return levels[0]; }
 	void say(messagen id, ...) const;
 	void say(speechn id, ...) const;
-	void sayv(const char* id, const char* format) const;
+	void say(const char* foramt, ...) const;
+	void sayv(const char* format, const char* format_param) const;
 };
 
 struct creature : npci, posable, statable, wearable {

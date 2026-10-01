@@ -1,5 +1,6 @@
 #include "action.h"
 #include "creature.h"
+#include "dungeon.h"
 #include "game.h"
 #include "quest.h"
 
@@ -172,13 +173,34 @@ const char* speech_names3[LastSpeech + 1] = {
 	0,
 	"Nothing examine",
 	"Wrong item place",
-	"It’s probably a %1",
+	"It's probably a %1",
 	"Place in hand to use",
 	"I need dress this",
 	"Only in quiver can use it",
 	"Key need put into keyhole.",
 	"This is a wrong key",
 	"Wrong place to use",
+};
+const char* wallmsg_names[LastWellMessage + 1] = {
+	"Find %MessageMagicWeapons magic weapons on this level",
+	"Find %MessageMagicRings magic ring in this halls",
+	"Find %MessageSecrets hidden rooms in this place",
+	"Beware %MessageTraps deadly traps",
+	"Find %MessageLocked keys to open treasure doors",
+	"Mighty artifact lie somewhere in this halls",
+	"Beware cursed items",
+	"Find %DungeonSpecial somewere in this place",
+	"Deadly %DungeonBoss is hunt for you",
+	"%Habbitant1 and %Habbitant2 dwelve this place",
+	"You not find any magic weapons here",
+	"There is no magic ring around",
+	"This place is what it seems to be",
+	"This level is safe",
+	"This place is open for all visitors",
+	"Magic power leave this place long ago",
+	"There is a holy site",
+	"There is no something special on this level",
+	"Hey, lucky, no tought monsters live here",
 };
 const char* name_names[50 * 4] = {
 	"Aldren", "Elira", "Garrick", "Mirena", "Taren", // Human names

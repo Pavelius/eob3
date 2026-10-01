@@ -543,6 +543,37 @@ static void examine(creature* player, resn dungeon, celln type) {
 	}
 }
 
+static wellmsgn get_miss(wellmsgn type) {
+	switch(type) {
+	case MessageMagicWeapons: return MessageMagicWeaponsFail;
+	case MessageMagicRings: return MessageMagicRingsFail;
+	case MessageSecrets: return MessageSecretsFail;
+	case MessageTraps: return MessageTrapsFail;
+	case MessageLocked: return MessageLockedFail;
+	case MessageAtifacts: return MessageAtifactsFail;
+	case MessageCursedItems: return MessageCursedItemsFail;
+	case MessageSpecialItem: return MessageSpecialItemFail;
+	case MessageBoss: return MessageBossFail;
+	default: return type;
+	}
+}
+
+static void read_wall_messages(creature* player, dungeoni::overlayi* p) {
+	//if(!player->isunderstand(loc->language)) {
+	//	player->speak("CellMessage", "Unrecognized");
+	//	return;
+	//}
+	if(p->subtype < MessageHabbits) {
+		if(loc->state.variables[p->subtype] > 0)
+			player->say(wellmsg_names[p->subtype], loc->state.variables[p->subtype]);
+		else {
+			auto n = get_miss((wellmsgn)p->subtype);
+			player->say(wellmsg_names[n]);
+		}
+	} else
+		player->say(wellmsg_names[p->subtype]);
+}
+
 static bool manipulate_overlay() {
 	auto p = loc->get(player->pos, player->d);
 	if(!p)
@@ -566,7 +597,7 @@ static bool manipulate_overlay() {
 		//}
 		break;
 	case CellMessage:
-		// read_wall_messages(player, p);
+		read_wall_messages(player, p);
 		break;
 	case CellCellar:
 		//if(*pi) {

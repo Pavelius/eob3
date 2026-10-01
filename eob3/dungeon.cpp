@@ -9,6 +9,45 @@ int dungeons_count;
 
 dungeoni dungeons[250];
 
+celli cells[LastCell + 1] = {
+	{FONT6, -1, {Passable}}, // CellUnknown
+	{FONT6, -1, {Passable}}, // CellPassable
+	{FONT6, 0 * walls_frames, {LookWall}}, // CellWall
+	{FONT6, 2 * walls_frames, {LookWall, PassableActivated}}, // CellDoor
+	{FONT6, 3 * walls_frames, {LookWall, Passable, MonsterForbidden}}, // CellStairsUp
+	{FONT6, 4 * walls_frames, {LookWall, Passable, MonsterForbidden}}, // CellStairsDown
+	{FONT6, 5 * walls_frames, {LookWall}}, // CellPortal
+	{FONT6, decor_offset + 1 * decor_frames, {LookObject, Passable, FloorLevel}}, // CellButton
+	{FONT6, decor_offset + 3 * decor_frames, {LookObject, Passable, MonsterForbidden, FloorLevel}}, // CellPit
+	{DECORS, 0 * decor_frames, {LookObject}, CellWebTorned}, // CellWeb
+	{DECORS, 1 * decor_frames, {LookObject, Passable}}, // CellWebTorned
+	{DECORS, 3 * decor_frames, {LookObject}, CellBarelDestroyed}, // CellBarel
+	{DECORS, 4 * decor_frames, {LookObject, Passable}}, // CellBarelDestroyed
+	{DECORS, 5 * decor_frames, {LookObject}}, // CellEyeColumn
+	{DECORS, 12 * decor_frames, {LookObject, Passable, FloorLevel}}, // CellBloodStain
+	{DECORS, 10 * decor_frames, {LookObject, Passable, MonsterForbidden, FloorLevel}}, // CellBloodBlades
+	{DECORS, 13 * decor_frames, {LookObject, Passable, FloorLevel}}, // CellDirtyStains
+	{DECORS, 11 * decor_frames, {LookObject, Passable}}, // CellJugDestroyed
+	{DECORS, 6 * decor_frames, {LookObject}, CellCoconOpened}, // CellCocon
+	{DECORS, 7 * decor_frames, {LookObject, Passable}}, // CellCoconOpened
+	{DECORS, 8 * decor_frames, {LookObject, Passable}, CellGraveDesecrated}, // CellGrave
+	{DECORS, 9 * decor_frames, {LookObject, Passable, FloorLevel}}, // CellGraveDesecrated
+	{FONT6, decor_offset + 4 * decor_frames, {LookObject, Passable}}, // CellPitUp
+	{FONT6, decor_offset + 9 * decor_frames, {LookOverlay}}, // CellPuller
+	{FONT6, decor_offset + 7 * decor_frames, {LookOverlay}, CellPassable}, // CellSecretButton
+	{FONT6, decor_offset + 11 * decor_frames, {LookOverlay}}, // CellCellar
+	{FONT6, decor_offset + 12 * decor_frames, {LookOverlay}}, // CellMessage
+	{FONT6, decor_offset + 13 * decor_frames, {LookOverlay}}, // CellKeyHole
+	{FONT6, decor_offset + 15 * decor_frames, {LookOverlay}}, // CellTrapLauncher
+	{FONT6, decor_offset + 16 * decor_frames, {LookOverlay}}, // CellDecor1
+	{FONT6, decor_offset + 17 * decor_frames, {LookOverlay}}, // CellDecor2
+	{FONT6, decor_offset + 18 * decor_frames, {LookOverlay}}, // CellDecor3
+	{FONT6, -1, {LookOverlay}}, // CellDoorButton
+	{OVERLAYS, 0, {LookWall, Passable, MonsterForbidden}}, // CellOverlay1
+	{OVERLAYS, 1, {LookWall, Passable, MonsterForbidden}}, // CellOverlay2
+	{OVERLAYS, 2, {LookWall, Passable, MonsterForbidden}}, // CellOverlay3
+};
+
 const unsigned short Blocked = 0xFFFF;
 static directionn all_directionn[] = {Up, Right, Down, Left};
 unsigned short pathmap[mpy][mpx];

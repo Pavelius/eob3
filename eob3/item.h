@@ -104,6 +104,7 @@ struct itemi {
 	featc		flags = {};
 	combati		combat = {};
 	defencei	defence = {};
+	itemn index() const;
 };
 extern itemi item_data[LastItem + 1];
 

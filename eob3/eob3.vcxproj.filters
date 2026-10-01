@@ -184,6 +184,27 @@
     <ClCompile Include="screenshoot.cpp">
       <Filter>support</Filter>
     </ClCompile>
+    <ClCompile Include="bin_brick.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_kobold.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="view_dungeon.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_overlays.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_blue.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_dung.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_green.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="action.h">

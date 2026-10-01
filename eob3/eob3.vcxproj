@@ -173,6 +173,12 @@
     <ClInclude Include="win.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bin_blue.cpp" />
+    <ClCompile Include="bin_brick.cpp" />
+    <ClCompile Include="bin_dung.cpp" />
+    <ClCompile Include="bin_green.cpp" />
+    <ClCompile Include="bin_kobold.cpp" />
+    <ClCompile Include="bin_overlays.cpp" />
     <ClCompile Include="game_carousing.cpp" />
     <ClCompile Include="game_action.cpp" />
     <ClCompile Include="answers.cpp" />
@@ -235,6 +241,7 @@
     <ClCompile Include="stringvar.cpp" />
     <ClCompile Include="view_automap.cpp" />
     <ClCompile Include="view_controls.cpp" />
+    <ClCompile Include="view_dungeon.cpp" />
     <ClCompile Include="view_focus.cpp" />
     <ClCompile Include="view_debug.cpp" />
     <ClCompile Include="win_draw.cpp" />

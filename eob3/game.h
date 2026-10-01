@@ -1,5 +1,14 @@
 #pragma once
 
+const int walls_frames = 9;
+const int walls_count = 6;
+const int door_offset = 1 + walls_frames * walls_count;
+const int decor_offset = door_offset + 9;
+const int decor_count = 21;
+const int decor_frames = 10;
+const int scrx = 22 * 8;
+const int scry = 15 * 8;
+
 struct creature;
 struct item;
 struct sprite;
@@ -32,10 +41,10 @@ enum messagen : unsigned char {
 };
 enum resn : unsigned char {
 	FONT6, FONT8,
-	BRICK, FOREST,
+	BLUE, BRICK, DROW, DUNG, FOREST, GREEN, XANATHA,
 	KOBOLD, LEECH,
 	BORDER, CHARGEN, CHARGENB, COMPASS, INVENT,
-	ITEMGS, ITEMGL, ITEMS,
+	ITEMGS, ITEMGL, ITEMS, OVERLAYS, DECORS,
 	MENU, PLAYFLD, PORTM, SCENE, THROWN, XSPL,
 	LastRes = XSPL
 };
@@ -65,16 +74,18 @@ inline const char* getnm(messagen v) { return message_names[v]; }
 extern sprite* res_data[LastRes + 1];
 extern bool interactive;
 extern int generate_player_index;
+extern unsigned long current_cpu_time;
+extern bool need_update_animation;
 
 int getv(variablen v);
 
 void addv(variablen v, int i);
 void alternate_focus_input();
+void animation_update();
 void button_frame(int count, bool focused, bool pressed);
 void button_label(int index, long data, const char* format, unsigned key);
 void carousing();
 void city_input();
-void common_input();
 bool confirm(const char* format);
 bool confirm(messagen header);
 bool confirm_message(messagen header, int value);
@@ -95,20 +106,27 @@ void choose_spells(const char* title, const char* cancel, int spell_type);
 void fix_animate();
 void fix_attack(const creature* attacker, wearn slot, int hits);
 void fix_damage(const creature* target, int value);
+void fix_monster_damage(const creature* target);
+void fix_monster_damage_end();
 void focus_input();
 void game_generation();
 void header_yellow(const char* format);
 void initialize_gui();
 void message_box(const char* format);
+void next_scene(fnevent v);
+void paint_dungeon();
 void paint_main_menu();
 void pick_up_item();
 long play_city();
 void play_city_actions();
+void play_dungeon();
 void printn(messagen id, ...);
 bool running_scene();
+void set_dungeon_tiles(resn type);
 void show_automap(const pointca& markers, int explore_radius);
 void show_automap(bool mshow_fog_of_war, bool mshow_secrets, bool mshow_party, const pointca* vred_markers);
-void show_scene(fnevent before_paint, fnevent input, long focus);
+void show_dungeon_images();
+void show_scene(fnevent before_paint, fnevent input, long focus = -1);
 void show_scene_font();
 void show_sprites_command();
 long show_message(const char* format, bool add_anaswers, const char* cancel, unsigned cancel_key);

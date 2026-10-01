@@ -304,7 +304,6 @@ void set_light_theme();
 
 void sys_caption(const char* value);
 void sys_create_window(int x, int y, int width, int height, unsigned flags, int bpp);
-// void sys_cursor(bool enable);
 void sys_input();
 void sys_redraw();
 void sys_timer(unsigned milleseconds);

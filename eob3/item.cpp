@@ -163,6 +163,10 @@ void addv(item* shop, item& it) {
 	}
 }
 
+itemn itemi::index() const {
+	return (itemn)(this - item_data);
+}
+
 void wearable::additem(item& it) {
 	for(auto& e : backpack()) {
 		if(!e) {

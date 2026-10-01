@@ -1,13 +1,16 @@
 #include "action.h"
 #include "answers.h"
 #include "creature.h"
+#include "dungeon.h"
 #include "game.h"
 #include "pushvalue.h"
 #include "quest.h"
 #include "rand.h"
 #include "stringbuilder.h"
+#include "view_focus.h"
 
 variablei game;
+static long save_focus;
 
 static messagen get_confirm(actionn v) {
 	switch(v) {
@@ -261,4 +264,24 @@ const actioni* choose_building_action(const actioni* source) {
 		an.add((long)p, getnm(p->action));
 	}
 	return (actioni*)choose_player_action(getnm(Cancel));
+}
+
+static void explore_area() {
+	if(!loc)
+		return;
+	loc->set(party, CellExplored);
+	loc->set(to(party, Up), CellExplored);
+	loc->set(to(party, Down), CellExplored);
+	loc->set(to(party, Left), CellExplored);
+	loc->set(to(party, Right), CellExplored);
+}
+
+static void make_action() {
+	explore_area();
+}
+
+void enter(questn quest, int level, celln location) {
+	set_dungeon_tiles(loc->type);
+	make_action();
+	next_scene(play_dungeon);
 }

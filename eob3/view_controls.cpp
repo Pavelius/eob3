@@ -75,7 +75,7 @@ static void press_key() {
 void fix_damage(const creature* target, int value) {
 	auto i = get_party_index(target);
 	if(i == -1) {
-		//	fix_monster_damage(target);
+		fix_monster_damage(target);
 	} else {
 		if(disp_damage[i])
 			fix_animate(); // Try add another animation over existing. So we update right now.
@@ -89,10 +89,11 @@ void fix_attack(const creature* attacker, wearn slot, int hits) {
 	auto pind = get_party_index(attacker);
 	if(pind == -1)
 		return;
-	//// If thrown animation fix attack
+	// If thrown animation fix attack
 	auto avatar_thrown = attacker->wears[slot].geti().avatar.thrown;
-	//if(avatar_thrown)
-	//	thrown_item(party, Up, avatar_thrown, pind % 2, enemy_distance);
+	if(avatar_thrown) {
+		// thrown_item(party, Up, avatar_thrown, pind % 2, enemy_distance);
+	}
 	if(disp_weapon[pind][((slot == RightHand) ? 0 : 1)] != -1)
 		fix_animate();
 	disp_weapon[pind][((slot == RightHand) ? 0 : 1)] = hits;
@@ -336,7 +337,7 @@ static void paint_player_hit(const creature* player, wearn id) {
 	auto push_caret = caret;
 	caret.x += width / 2;
 	caret.y += height / 2;
-	// paint_player_hit(value, animate_counter + pind);
+	paint_player_hit(value, animate_counter + pind);
 	caret = push_caret;
 }
 
@@ -1283,10 +1284,10 @@ static void paint_large_menu_no_hilite() {
 static void paint_small_menu() {
 	paint_background(PLAYFLD, 0);
 	paint_compass(party.d);
-	//if(loc)
-	//	paint_dungeon();
-	//else
-	paint_picture();
+	if(loc)
+		paint_dungeon();
+	else
+		paint_picture();
 	paint_avatars_no_focus_hilite();
 	paint_console();
 	paint_small_menu({68, 124}, 110, 50);
@@ -1297,8 +1298,8 @@ static void paint_small_menu() {
 static void paint_adventure() {
 	paint_background(PLAYFLD, 0);
 	paint_compass(party.d);
-	// animation_update();
-	// paint_dungeon();
+	animation_update();
+	paint_dungeon();
 	paint_party_sheets();
 	update_focus_player();
 	console_scroll(3000);
@@ -1308,9 +1309,9 @@ static void paint_adventure() {
 static void paint_adventure_no_update() {
 	paint_background(PLAYFLD, 0);
 	paint_compass(party.d);
-	//	paint_dungeon();
+	paint_dungeon();
 	paint_avatars_no_focus();
-	// console_scroll(3000);
+	console_scroll(3000);
 	paint_console();
 }
 
@@ -1376,7 +1377,7 @@ static void make_screenshoot() {
 	bitmap_write(temp, canvas->ptr(0, 0), canvas->width, canvas->height, canvas->bpp, canvas->scanline, 0);
 }
 
-void common_input() {
+static void common_input() {
 	switch(hkey) {
 	case Ctrl + F5: execute(make_screenshoot); break;
 	}
@@ -1384,7 +1385,7 @@ void common_input() {
 	switch(hkey) {
 	case Ctrl + 'A': execute(show_sprites_command, PORTM); break;
 	case Ctrl + 'S': execute(show_sprites_command, ITEMGS); break;
-		//	case Ctrl + 'D': show_dungeon_images(); break;
+	case Ctrl + 'D': show_dungeon_images(); break;
 	case Ctrl + 'I': execute(show_sprites_command, ITEMS); break;
 	case Ctrl + 'L': execute(show_sprites_command, ITEMGL); break;
 	case Ctrl + 'P': execute(show_sprites_command, SCENE); break;
@@ -1542,15 +1543,15 @@ void fix_animate() {
 	if(!need_update_animation)
 		return;
 	animate_counter++;
-	//	if(loc)
-	//		paint_adventure_no_update();
-	//	else
-	paint_city_no_input();
+	if(loc)
+		paint_adventure_no_update();
+	else
+		paint_city_no_input();
 	sys_redraw();
 	waitcputime(animation_step);
 	memset(disp_damage, 0, sizeof(disp_damage));
 	memset(disp_weapon, 0, sizeof(disp_weapon));
-	// fix_monster_damage_end();
+	fix_monster_damage_end();
 	need_update_animation = false;
 }
 
@@ -1755,7 +1756,6 @@ void choose_spells(const char* title, const char* cancel, int spell_type) {
 
 void show_scene(fnevent scene_paint, fnevent input, long focus) {
 	pushrect push;
-	pushdialog push_dialog;
 	current_focus = focus;
 	while(ismodal()) {
 		scene_paint();
@@ -2049,6 +2049,14 @@ long choose_generate_dialog(const char* header) {
 	return choose_answer(header, 0, paint_generate_progress, text_label_left, 2, 10, paint_generate_header);
 }
 
+void play_dungeon() {
+	locup = 0;
+	if(loc->level > 1)
+		locup = loc - 1;
+	set_player_by_focus();
+	scene(paint_adventure);
+}
+
 long show_message(const char* format, bool add_anaswers, const char* cancel, unsigned cancel_key) {
 	pushrect push;
 	pushdialog push_dialog;
@@ -2058,15 +2066,15 @@ long show_message(const char* format, bool add_anaswers, const char* cancel, uns
 		cancel_key = KeyEscape;
 	while(ismodal()) {
 		paint_background(PLAYFLD, 0);
-		// paint_compass(party.d);
+		// paint_compass(party.d); // Compas don't need because message overlap it.
 		paint_avatars_no_focus_hilite();
 		paint_menu({0, 122}, 319, 77);
 		setpos(6, 128, 308, 56);
 		texta(format, TextBold);
 		if(answer_picture)
 			paint_picture();
-		//else if(loc)
-		//	paint_dungeon();
+		else if(loc)
+			paint_dungeon();
 		caret = {4, 184};
 		auto index = 0;
 		height = texth() + 3;

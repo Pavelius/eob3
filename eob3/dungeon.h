@@ -21,7 +21,7 @@
 
 enum directionn : unsigned char;
 enum monstern : unsigned char;
-enum questn : unsigned char; 
+enum questn : unsigned char;
 enum resn : unsigned char;
 enum shapen : unsigned char;
 enum trapn : unsigned char;
@@ -45,10 +45,13 @@ enum celln : unsigned char {
 	CellDoorButton,
 	// Overaly
 	CellOverlay1, CellOverlay2, CellOverlay3,
+	LastCell = CellOverlay3,
 };
 enum cellfn : unsigned char {
 	CellExplored, CellActive, CellExperience,
+	Passable, MonsterForbidden,
 	LookWall, LookOverlay, LookObject, FloorLevel,
+	PassableActivated
 };
 enum goaln : unsigned char {
 	ExploreMostArea,
@@ -88,6 +91,23 @@ struct sitei {
 	unsigned short	textures[3]; // Special wall for interactions with special texture
 	constexpr explicit operator bool() const { return type != (resn)0; }
 };
+
+struct cellfc {
+	unsigned data;
+	cellfc() = default;
+	template<typename... Ts> constexpr cellfc(cellfn v, Ts... args) : cellfc(args...) { set(v); }
+	bool is(cellfn v) const { return (data & (1 << v)) != 0; }
+	void set(cellfn v) { data |= (1 << v); }
+};
+
+struct celli {
+	resn			res;
+	short			frame;
+	cellfc			flags;
+	celln			activate;
+	bool is(cellfn v) const { return flags.is(v); }
+};
+extern celli cells[LastCell + 1];
 
 struct roomi {
 	shapen			shape;

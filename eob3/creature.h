@@ -126,6 +126,7 @@ struct creature : npci, posable, statable, wearable {
 	statable		basic;
 	unsigned		experience;
 	short			hp, hpm, hpr, food;
+	unsigned char	pallette;
 	constexpr explicit operator bool() const { return hp > 0; }
 	const char* strvalue(abilityn id) const;
 	combati getattack(wearn id, bool large_enemy) const;
@@ -176,6 +177,7 @@ bool allow(alignmentn type, classn v);
 bool allow(classn type, racen v);
 void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment);
 void create_monster(monstern type);
+void create_monster_pallette();
 void finish_character();
 bool no_party_avatar(unsigned char v);
 void reroll_ability();

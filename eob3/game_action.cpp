@@ -520,6 +520,15 @@ void move_party(pointc v) {
 	explore_area();
 }
 
+static void toggle(pointc v) {
+	if(!v)
+		return;
+	if(!loc->is(v, CellActive))
+		loc->set(v, CellActive);
+	else
+		loc->remove(v, CellActive);
+}
+
 static bool manipulate_overlay() {
 	auto p = loc->get(player->pos, player->d);
 	if(!p)
@@ -528,7 +537,7 @@ static bool manipulate_overlay() {
 	auto pi = (item*)current_focus;
 	switch(p->type) {
 	case CellDoorButton:
-		// toggle(v);
+		toggle(v);
 		break;
 	case CellDecor1:
 	case CellDecor2:
@@ -574,9 +583,13 @@ static bool manipulate_cell() {
 	auto t = loc->get(v);
 	switch(t) {
 	case CellPortal:
-		//player->speak();
-		//if(player->is(Mage))
-		//	apply_script(id, "Use", 0);
+		if(player->is(Mage)) {
+			if(player->get(Mage) > 5) {
+				// TODO: Use portal
+			} else
+				player->say(ThisIsUndefinedObject, getnm(Portal));
+		} else
+			player->say(ThisIsUndefinedObject, getnm(MagicDevice));
 		break;
 	case CellBarel:
 	case CellWeb:

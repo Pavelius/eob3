@@ -23,6 +23,7 @@ const char* message_names[LastMessage + 1] = {
 	"How you get here so far?",
 	"%1 is disabled", "Party going up ...", "Party going down ...", "Party fall into the pit.",
 	"This door is opened by key",
+	"Magic device", "Portal",
 	"Current goals", "Visit %1",
 	"Class", "Race"
 };

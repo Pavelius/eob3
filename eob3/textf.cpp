@@ -1,8 +1,7 @@
 #include "draw.h"
 #include "stringbuilder.h"
 
-static point origin, last;
-unsigned text_flags = 0;
+static point origin;
 
 static int textfbc(const char* string, int width) {
 	int symbols = -1;
@@ -35,6 +34,8 @@ static void textln() {
 
 static const char* textln(const char* p, unsigned flags, color new_fore) {
 	pushfore push_fore(new_fore);
+	if(caret.y>=clipping.y2)
+		return p;
 	while(*p) {
 		if(*p==']') {
 			p++;
@@ -42,6 +43,8 @@ static const char* textln(const char* p, unsigned flags, color new_fore) {
 		} else if(*p==10 || *p==13) {
 			p = skipcr(p);
 			textln();
+			if(caret.y>=clipping.y2)
+				break;
 		} else if(*p==0x20 || *p==9) {
 			auto p1 = skipsp(p);
 			caret.x += textw(' ') * (p - p1);
@@ -66,8 +69,7 @@ static const char* textln(const char* p, unsigned flags, color new_fore) {
 void textf(const char* format, unsigned flags) {
 	if(!font)
 		return;
-	auto push = origin;
-	origin = caret;
+	auto push = origin; origin = caret;
 	textln(format, flags, fore);
 	if(origin.x != caret.x)
 		textln();

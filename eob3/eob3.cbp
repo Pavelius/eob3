@@ -125,6 +125,7 @@
 		<Unit filename="stringbuilder.h" />
 		<Unit filename="stringvar.cpp" />
 		<Unit filename="stringvar.h" />
+		<Unit filename="textf.cpp" />
 		<Unit filename="timer.h" />
 		<Unit filename="view_automap.cpp" />
 		<Unit filename="view_controls.cpp" />

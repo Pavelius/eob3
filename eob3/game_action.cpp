@@ -559,10 +559,10 @@ static wellmsgn get_miss(wellmsgn type) {
 }
 
 static void read_wall_messages(creature* player, dungeoni::overlayi* p) {
-	//if(!player->isunderstand(loc->language)) {
-	//	player->speak("CellMessage", "Unrecognized");
-	//	return;
-	//}
+	if(!player->isunderstand(loc->language)) {
+		player->say(CantRead, language_names[loc->language]);
+		return;
+	}
 	if(p->subtype < MessageHabbits) {
 		if(loc->state.variables[p->subtype] > 0)
 			player->say(wallmsg_names[p->subtype], loc->state.variables[p->subtype]);

@@ -108,6 +108,10 @@ const char* gender_names[Female + 1] = {
 const char* race_names[Halfling + 1] = {
 	"Human", "Dwarf", "Elf", "Half-Elf", "Halfling",
 };
+const char* language_names[LastRace + 1] = {
+	"Common", "Dwarvish", "Elvish", "Elvish", "Halflings",
+	"Goblin's", "Animal's"
+};
 const char* item_names[LastItem + 1] = {
 	"NoItem",
 	"Axe", "Axe", "Club", "Dagger", "Flail", "Halberd", "Warhammer", "Mace", "Spear", "Staff",
@@ -138,7 +142,7 @@ const char* monster_names[LastMonster + 1] = {
 };
 const char* speech_names1[LastSpeech + 1] = {
 	"How can I use %1?",
-	"I can't read",
+	"I can't read %-1",
 	"This is a %1",
 	"This is %1",
 	"I don't see any item here",
@@ -153,7 +157,7 @@ const char* speech_names1[LastSpeech + 1] = {
 };
 const char* speech_names2[LastSpeech + 1] = {
 	"I don't use %1.",
-	"I don't understand this",
+	"I don't understand %-1 language",
 	0,
 	0,
 	"And where is item?",
@@ -168,7 +172,7 @@ const char* speech_names2[LastSpeech + 1] = {
 };
 const char* speech_names3[LastSpeech + 1] = {
 	"I don't need %1.",
-	"I can't read this",
+	"I can't read %-1 shit!",
 	0,
 	0,
 	"Nothing examine",

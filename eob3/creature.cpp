@@ -361,12 +361,15 @@ int get_party_index(const creature* player) {
 }
 
 static void update_languages() {
-	//player->languages = player->getrace().languages;
-	//player->understand(player->race);
-	//if(player->getrace().origin)
-	//	player->understand(player->getrace().origin);
-	//if(player->basic.abilities[Intellegence] >= 10)
-	//	player->understand((racen)0); // All creatures with 11+ untellegence known common language
+	player->languages.clear();
+	player->languages.set(player->race);
+	switch(player->race) {
+	case HalfElf: player->languages.set(Elf); break;
+	case Halfling: player->languages.set(Human); break;
+	default: break;
+	}
+	if(player->basic.abilities[Intellegence] >= 10)
+		player->languages.set(Human); // All creatures with 11+ untellegence known common language
 }
 
 static void update_basic() {

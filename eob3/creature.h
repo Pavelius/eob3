@@ -23,6 +23,7 @@ enum classn : unsigned char {
 enum racen : unsigned char {
 	Human, Dwarf, Elf, HalfElf, Halfling,
 	Goblinoid, Animal,
+	LastRace = Animal
 };
 enum alignmentn : unsigned char {
 	TrueNeutral,
@@ -71,6 +72,7 @@ extern const char* class_names[FighterMageTheif + 1];
 extern const char* gender_names[Female + 1];
 extern const char* fatigue_status[4];
 extern const char* monster_names[LastMonster + 1];
+extern const char* language_names[LastRace + 1];
 extern const char* name_names[50 * 4];
 extern const char* race_names[Halfling + 1];
 extern const char* speech_names1[LastSpeech + 1];
@@ -86,9 +88,10 @@ bool is_large(monstern v);
 classn get_class(classn v, int index);
 
 struct racenc {
-	unsigned char data = 0;
+	unsigned short data = 0;
 	racenc() = default;
 	template<typename... Ts> constexpr racenc(racen v, Ts... args) : racenc(args...) { set(v); }
+	void clear() { data = 0; }
 	bool is(racen v) const { return (data & (1 << v)) != 0; }
 	void set(racen v) { data |= (1 << v); }
 };
@@ -127,6 +130,7 @@ struct npci {
 };
 
 struct creature : npci, posable, statable, wearable {
+	racenc			languages;
 	statable		basic;
 	unsigned		experience;
 	short			hp, hpm, hpr, food;
@@ -154,6 +158,7 @@ struct creature : npci, posable, statable, wearable {
 	bool isdisabled() const { return false; }
 	bool isdead() const { return hp <= -10; }
 	bool islarge() const { return is_large(monsters[monster].res); }
+	bool isunderstand(racen v) const { return languages.is(v); }
 	void kill() {}
 	bool roll(abilityn v, int bonus = 0) const;
 	void joinparty() { /*TODO: Join party later.*/ }

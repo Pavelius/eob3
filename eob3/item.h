@@ -58,6 +58,7 @@ enum featn : unsigned char {
 	Protection, Flaming, Freezing,
 	TwoHanded, Deadly, Precise,
 	Invisibled, SeeMagical, SeeCursed,
+	Surprised, SlowMove,
 	LastFeat = SeeCursed,
 	SwordPower, MeleeWeaponPower, RangedWeaponPower,
 };

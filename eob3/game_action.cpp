@@ -352,7 +352,7 @@ void party_turn_left() {
 	update_party_position();
 }
 
-static void turnto(pointc v, directionn d, bool test_surprise) {
+void turnto(pointc v, directionn d, bool test_surprise) {
 	if(!d)
 		return;
 	if(v == party.pos) {

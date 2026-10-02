@@ -205,6 +205,9 @@
     <ClCompile Include="dungeon.cpp" />
     <ClCompile Include="dungeon_generate.cpp" />
     <ClCompile Include="game_city.cpp" />
+    <ClCompile Include="game_combat.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="game_generate.cpp" />
     <ClCompile Include="creature.cpp" />
     <ClCompile Include="color.cpp" />

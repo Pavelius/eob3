@@ -136,6 +136,7 @@ struct creature : npci, posable, statable, wearable {
 	unsigned		experience;
 	short			hp, hpm, hpr, food;
 	unsigned char	pallette;
+	char			initiative;
 	constexpr explicit operator bool() const { return hp > 0; }
 	const char* strvalue(abilityn id) const;
 	combati getattack(wearn id, bool large_enemy) const;

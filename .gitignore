@@ -6,6 +6,8 @@
 # User-specific files
 *_util.cpp
 *_util.h
+*.depend
+*.layout
 *.rsuser
 *.suo
 *.user

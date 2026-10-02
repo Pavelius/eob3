@@ -562,6 +562,10 @@ static int magic_wear_value(int magic_bonus) {
 //		script_run(v);
 //}
 
+static int get_modifier(abilityn v) {
+	return 1;
+}
+
 static void update_wear() {
 	for(auto& e : player->equipment()) {
 		if(!e)
@@ -569,10 +573,12 @@ static void update_wear() {
 		auto& ei = e.geti();
 		if(ei.wear == LeftHand) {
 			if(player->wears[RightHand] && player->wears[RightHand].is(TwoHanded))
-				continue; // RULE: Two handed weapon
+				continue; // RULE: Two handed weapon ignore left hand bonuses
 		}
-		//if(ei.wearing)
-		//	script_run(ei.wearing);
+		player->abilities[AC] += ei.defence.ac;
+		// Dwarven shield and helm improve magical save
+		if(e.type==DwarvenHelm || e.type==DwarvenShield)
+			player->abilities[SaveVsMagic] += get_modifier(SaveVsMagic);
 		//if((ei.wear >= Head && ei.wear <= Legs) // If wearable equipment only!
 		//	&& ei.wear != LeftHand && ei.wear != RightHand) {
 		//	auto power = e.getpower();

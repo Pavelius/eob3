@@ -99,6 +99,7 @@ struct itemi {
 	};
 	struct defencei {
 		char	ac = 0;
+		char	deflect = 0;
 	};
 	wearn		wear = Backpack;
 	int			cost = 0;

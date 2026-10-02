@@ -106,7 +106,7 @@ itemi item_data[LastItem + 1] = {
 	{RightHand, 0, {51}, {}, {}}, // Sting1d8
 	{Quiver, 0, {16, 5}, {}, {}}, // Arrow
 	{Quiver, 0, {19, 2}, {}, {}}, // Stone
-	{Quiver, 0, {14,0}, {}, {}}, // Dart
+	{Quiver, 0, {14, 0}, {}, {}}, // Dart
 };
 
 static_assert(sizeof(item) == sizeof(int));
@@ -151,7 +151,7 @@ bool allow(itemn type, wearn n) {
 		return n == LeftRing
 			|| n == RightRing;
 	case LeftHand:
-		return type==Dagger
+		return type == Dagger
 			|| n == LeftHand
 			|| n == Rod
 			|| n == Readable

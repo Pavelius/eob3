@@ -28,7 +28,7 @@ struct info {
 }
 #pragma pack(pop)
 
-static bool format_info(const unsigned char* input, int size, int& width, int& height, int& bpp) {
+static bool format_info(const unsigned char* input, unsigned size, int& width, int& height, int& bpp) {
 	if(size < sizeof(header))
 		return false;
 	if(input[1] != 0x4D || input[0] != 0x42)

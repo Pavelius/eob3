@@ -316,7 +316,7 @@ static void make_action() {
 }
 
 static void update_party_position() {
-	for(auto i = 0; i < lengthof(adventurers); i++) {
+	for(size_t i = 0; i < lengthof(adventurers); i++) {
 		if(!adventurers[i])
 			continue;
 		adventurers[i]->side = i;
@@ -414,7 +414,7 @@ static void monsters_talk(messagen id) {
 	//	add_menu(v, true);
 	char temp[260]; stringbuilder sb(temp);
 	sb.add(getnm(id));
-	auto result = show_message(temp, true, 0, 0);
+	show_message(temp, true, 0, 0);
 }
 
 static bool monsters_talk() {
@@ -571,7 +571,10 @@ static void examine(creature* player, resn dungeon, celln type) {
 		case CellDecor3:
 			player->say(SomeKindOfP1, "Portal");
 			break;
+		default: break;
 		}
+		break;
+	default:
 		break;
 	}
 }
@@ -612,7 +615,7 @@ static bool manipulate_overlay() {
 	if(!p)
 		return false;
 	auto v = to(player->pos, player->d);
-	auto pi = (item*)current_focus;
+	// auto pi = (item*)current_focus;
 	switch(p->type) {
 	case CellDoorButton:
 		toggle(v);

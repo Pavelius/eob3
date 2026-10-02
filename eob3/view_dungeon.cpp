@@ -30,7 +30,7 @@ struct renderi : point {
 };
 };
 static renderi renders[512];
-static int renders_count;
+static size_t renders_count;
 static celln render_mirror1, render_mirror2;
 static resn render_door_type, render_dungeon;
 static int render_flipped_wall;
@@ -156,7 +156,7 @@ static int get_tile_alternate(celln id) {
 renderi* get_disp(const void* target) {
 	if(!target)
 		return 0;
-	for(auto i = 0; i < renders_count; i++) {
+	for(size_t i = 0; i < renders_count; i++) {
 		if(renders[i].target == target)
 			return renders + i;
 	}
@@ -823,7 +823,7 @@ static void create_monsters(int i, pointc index, directionn dr, bool flip) {
 		default:
 			break;
 		}
-		for(int i = 0; i < lengthof(p->flags); i++)
+		for(size_t i = 0; i < lengthof(p->flags); i++)
 			p->flags[i] = flags;
 	}
 }
@@ -879,7 +879,7 @@ static void prepare_draw(pointc index, directionn dr) {
 		pointc index = indecies[i];
 		bool mr = ((index.x + index.y + party.d) & 1) != 0;
 		if(!index) {
-			create_wall(i, {-1, -1}, get_tile(CellWall, mr), CellWall, !mr);
+			create_wall(i, {}, get_tile(CellWall, mr), CellWall, !mr);
 			continue;
 		}
 		auto tile = loc->get(index);
@@ -963,7 +963,7 @@ void fix_monster_damage(const creature* target) {
 }
 
 void fix_monster_damage_end() {
-	for(auto i = 0; i < renders_count; i++) {
+	for(size_t i = 0; i < renders_count; i++) {
 		if(loc->have((creature*)renders[i].target)) {
 			for(auto& f : renders[i].flags)
 				f &= ~ImageColor;
@@ -1076,7 +1076,7 @@ void paint_dungeon() {
 	image(scrx / 2, scry / 2, map_tiles, 0, flags);
 	setclip({0, 0, scrx - 1, scry - 1});
 	renderi** pz = zorder;
-	for(auto i = 0; i < renders_count; i++)
+	for(size_t i = 0; i < renders_count; i++)
 		*pz++ = renders + i;
 	qsort(zorder, pz - zorder, sizeof(zorder[0]), compare_drawable);
 	for(auto p1 = zorder; p1 < pz; p1++) {
@@ -1097,13 +1097,13 @@ void animation_update() {
 		prepare_draw(party.pos, party.d);
 }
 
-renderi* get_last_disp() {
+/*renderi* get_last_disp() {
 	for(auto i = 0; i < renders_count; i++) {
 		if(!renders[i].rdata)
 			return renders + i;
 	}
 	return 0;
-}
+}*/
 
 static int get_index_pos(pointc index) {
 	for(int i = 0; i < 18; i++) {

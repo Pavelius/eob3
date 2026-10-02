@@ -458,18 +458,18 @@ static pointc find_free_wall(pointc v, directionn d) {
 	while(true) {
 		auto v1 = to(v, d);
 		if(!v1)
-			return {-1, -1};
+			return {};
 		switch(loc->get(v1)) {
 		case CellWall:
 			if(loc->isoverlay(v, d))
-				return {-1, -1};
+				return {};
 			return v;
 		case CellPassable:
 		case CellButton:
 		case CellPit:
 			break;
 		default:
-			return {-1, -1};
+			return {};
 		}
 		v = v1;
 	}

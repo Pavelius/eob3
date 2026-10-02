@@ -14,7 +14,7 @@ pointc shapei::find(char sym) const {
 				return v;
 		}
 	}
-	return {-1, -1};
+	return {};
 }
 
 pointc shapei::translate(pointc c, pointc v, directionn d) const {

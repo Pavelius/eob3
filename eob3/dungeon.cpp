@@ -151,10 +151,10 @@ int get_side_ex(int side, directionn d) {
 
 pointc to(pointc v, directionn d) {
 	switch(d) {
-	case Up: return {v.x, (char)(v.y - 1)};
-	case Down: return {v.x, (char)(v.y + 1)};
-	case Left: return {(char)(v.x - 1), v.y};
-	case Right: return {(char)(v.x + 1), v.y};
+	case Up: return {v.x, (unsigned char)(v.y - 1)};
+	case Down: return {v.x, (unsigned char)(v.y + 1)};
+	case Left: return {(unsigned char)(v.x - 1), v.y};
+	case Right: return {(unsigned char)(v.x + 1), v.y};
 	default: return v;
 	}
 }

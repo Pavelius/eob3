@@ -24,7 +24,6 @@ static void read_font(const char* url) {
 		unsigned char	data[1]; // the pixel data, one byte per line
 	};
 	auto ph = (fnt*)loadb(url);
-	auto p = ph->data;
 	size.x = ph->width;
 	size.y = ph->height;
 	memset(font_glyphs, 0, sizeof(font_glyphs));

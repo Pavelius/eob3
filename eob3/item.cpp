@@ -65,7 +65,7 @@ itemi item_data[LastItem + 1] = {
 	{Usable, 0, {117, 14}, {}, {}}, // GrapplingHook
 	{Faithable, 0, {53, 20}, {}, {}}, // HolySymbol
 	{Faithable, 0, {27, 20}, {}, {}}, // HolySymbolEvil
-	{Readable, 0, {35, 11}, {}, {}}, // MageBook 
+	{Readable, 0, {35, 11}, {}, {}}, // MageBook
 	{Usable, 0, {59, 22}, {}, {}}, // Horn
 	{Backpack, 0, {43, 7}, {}, {}}, // Bones
 	{Backpack, 0, {51, 7}, {}, {}}, // MantistHead
@@ -167,7 +167,7 @@ bool allow(itemn type, wearn n) {
 }
 
 void addv(item* shop, item& it) {
-	for(auto i = 0; i < lengthof(shops[0]); i++) {
+	for(size_t i = 0; i < lengthof(shops[0]); i++) {
 		if(!it)
 			break;
 		if(!shop[i]) {

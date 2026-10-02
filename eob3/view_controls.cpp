@@ -189,7 +189,6 @@ static void button_input_no_focus(long button_data, unsigned key) {
 	if(!focus_valid(button_data))
 		return;
 	button_hilited = ishilite();
-	auto isfocused = (current_focus == button_data);
 	if((key && hkey == key) || (button_hilited && hpressed))
 		pressed_focus = button_data;
 	else if((hkey == InputKeyUp && pressed_focus == button_data) || (button_hilited && hkey == MouseLeft && !hpressed)) {
@@ -703,6 +702,7 @@ static void paint_avatar() {
 			auto push_caret = caret;
 			caret.x += 16; caret.y += 16;
 			paint_player_damage(v, (animate_counter + pind) % 2);
+			caret = push_caret;
 		}
 	}
 	button({push.caret.x, push.caret.y, push.caret.x + 31, push.caret.y + 32});
@@ -986,7 +986,6 @@ static void paint_level_experience() {
 	caret.x = push.caret.x + 6 * 11;
 	headern(ability_short[Experience]);
 	caret.y += texth() + 2;
-	auto push_caret = caret;
 	auto class_count = get_class_count(player->type);
 	auto exp = player->experience / class_count;
 	for(int i = 0; i < class_count; i++) {
@@ -1720,8 +1719,8 @@ static int get_total_use(char* source_value) {
 void choose_spells(const char* title, const char* cancel, int spell_type) {
 	pushrect push;
 	pushdialog push_dialog;
-	auto level = 0;
-	auto last_level = level;
+	// auto level = 0;
+	// auto last_level = level;
 	//auto spells_known = get_spells_known(player);
 	//if(!spells_known)
 	//	return;
@@ -1985,7 +1984,7 @@ static void paint_avatar_list() {
 
 static void paint_ability(abilityn i, int header_width) {
 	auto caret_x = caret.x;
-	auto value = player->get(i);
+	// auto value = player->get(i);
 	auto name = ability_short[i];
 	text(name, -1, TextBold);
 	caret.x += header_width;

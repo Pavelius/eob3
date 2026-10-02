@@ -28,7 +28,7 @@ const char* message_names[LastMessage + 1] = {
 	"Current goals", "Visit %1",
 	"Class", "Race"
 };
-extern const char* action_names[LastAction + 1] = {
+const char* action_names[LastAction + 1] = {
 	"City Iriaebor",
 	"Tavern", "Blacksmith", "Temple", "Inn", "Wizard Tower", "Palace", "Go Adventure",
 	"Pick pockets",
@@ -86,7 +86,7 @@ const char* ability_short[Experience + 1] = {
 	"HP",
 	"Lev", "Exp"
 };
-extern const char* variable_names[LastVariable + 1] = {
+const char* variable_names[LastVariable + 1] = {
 	"Reputation", "Gold", "Blessing", "Time",
 };
 const char* alignment_names[ChaoticEvil + 1] = {
@@ -220,7 +220,7 @@ const char* name_names[50 * 4] = {
 	"Shayla", "Corren", "Isolde", "Damian", "Calista",
 	"Rendal", "Sylvia", "Eldren", "Ariana", "Talren",
 	"Brianna", "Kylen", "Rosalyn", "Beric", "Lavinia",
-	"Caelith", "Aelwen", "Thaelar", "Sylira", "Elarion", // Elvish names 
+	"Caelith", "Aelwen", "Thaelar", "Sylira", "Elarion", // Elvish names
 	"Vaelissa", "Faenor", "Lethiel", "Aerandir", "Naerissa",
 	"Caladrel", "Ilyrana", "Therion", "Saelith", "Vaeril",
 	"Elanwe", "Lorandir", "Maelyra", "Aethrin", "Thalira",

@@ -336,7 +336,7 @@ int get_class_count(classn v) {
 }
 
 int get_class_index(classn type, classn v) {
-	for(auto i = 0; i < sizeof(class_data[0]) / sizeof(class_data[0][0]); i++) {
+	for(size_t i = 0; i < sizeof(class_data[0]) / sizeof(class_data[0][0]); i++) {
 		if(class_data[type][i] == v)
 			return i;
 	}
@@ -353,7 +353,7 @@ int get_hit_die(classn type) {
 }
 
 int get_party_index(const creature* player) {
-	for(auto i = 0; i < lengthof(adventurers); i++) {
+	for(size_t i = 0; i < lengthof(adventurers); i++) {
 		if(adventurers[i] == player)
 			return i;
 	}
@@ -624,7 +624,7 @@ static bool have_boost_summon(const item& it) {
 static void update_summon() {
 	for(auto& e : player->wears) {
 		if(e.is(SummonedItem) && !have_boost_summon(e)) {
-			auto w = e.geti().wear;
+			// auto w = e.geti().wear;
 			e.clear();
 			//if(w == RightHand)
 			//	change_quick_item(player, RightHand);
@@ -813,7 +813,6 @@ void reroll_ability() {
 	for(size_t i = 0; i < 6; i++)
 		player->basic.abilities[Strenght + i] = result[i];
 	auto primary = get_primary(player->type);
-	auto base_class = get_class(player->type, 0);
 	auto race = player->race;
 	iswap(player->basic.abilities[get_best_index(player->basic.abilities + Strenght, 6)], player->basic.abilities[primary]);
 	apply_minimal(player->basic.abilities, player->type);
@@ -842,6 +841,7 @@ void update_player_hits() {
 static void apply_class_ability(classn type) {
 	switch(type) {
 	case Fighter: break;
+	default: break;
 	}
 }
 

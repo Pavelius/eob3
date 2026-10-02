@@ -105,9 +105,9 @@ static void paint_party_position() {
 }
 
 static celln tget(int x, int y) {
-	if(show_fog_of_war && !loc->is({(char)x, (char)y}, CellExplored))
+	if(show_fog_of_war && !loc->is({(unsigned char)x, (unsigned char)y}, CellExplored))
 		return CellWall;
-	auto t = loc->get({(char)x, (char)y});
+	auto t = loc->get({(unsigned char)x, (unsigned char)y});
 	switch(t) {
 	case CellUnknown:
 	case CellPortal:
@@ -225,14 +225,14 @@ static void fill_line(directionn d, int dx, int size, color border) {
 	fore = push_fore;
 }
 
-static void rectf(int sx, int sy) {
+/*static void rectf(int sx, int sy) {
 	auto push_width = width;
 	auto push_height = height;
 	width = sx; height = sy;
 	rectf();
 	width = push_width;
 	height = push_height;
-}
+}*/
 
 static void paint_background() {
 	pushrect push;
@@ -269,8 +269,8 @@ static void paint_automap() {
 		for(v.x = -1; v.x < mpx + 1; v.x++) {
 			if(show_fog_of_war) {
 				if(!v) {
-					auto x1 = (char)imax(0, imin((int)v.x, mpx - 1));
-					auto y1 = (char)imax(0, imin((int)v.y, mpy - 1));
+					auto x1 = (unsigned char)imax(0, imin((int)v.x, mpx - 1));
+					auto y1 = (unsigned char)imax(0, imin((int)v.y, mpy - 1));
 					if(!loc->is({x1, y1}, CellExplored))
 						continue;
 				} else {

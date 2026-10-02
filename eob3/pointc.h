@@ -22,17 +22,17 @@ const int mpx = 38;
 const int mpy = 23;
 
 struct pointc {
-	char x = -1, y = -1;
+	unsigned char x = 0xFF, y = 0xFF;
 	constexpr bool operator==(pointc v) const { return x == v.x && y == v.y; }
 	constexpr bool operator!=(pointc v) const { return x != v.x || y != v.y; }
-	constexpr explicit operator bool() const { return x >= 0 && y >= 0 && x < mpx && y < mpy; }
-	pointc operator+(const pointc& v) const { return {(char)(x + v.x), (char)(y + v.y)}; }
+	constexpr explicit operator bool() const { return x < mpx && y < mpy; }
+	pointc operator+(const pointc& v) const { return {static_cast<unsigned char>(x + v.x), static_cast<unsigned char>(y + v.y)}; }
 	pointc operator+(int i) const { pointc v; v.set(x + i, y + i); return v; }
 	pointc operator-(int i) const { pointc v; v.set(x - i, y - i); return v; }
 	void clear() { x = y = -1; }
 	int	distance(pointc v) const;
 	void set(int nx, int ny);
-	pointc to(int dx, int dy) const { return {(char)(x + dx), (char)(y + dy)}; }
+	pointc to(int dx, int dy) const { return {(unsigned char)(x + dx), (unsigned char)(y + dy)}; }
 };
 
 struct posable {

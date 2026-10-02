@@ -61,6 +61,7 @@ enum speechn : unsigned char {
 	SomeKindOfP1,
 	MustBeUseInHand, MustBeWearing, MustBeQuver,
 	WhereIsKeyhole, ThisIsWrongKey,
+	SecrectButtonFound,
 	CantUseInSettlement,
 	LastSpeech = CantUseInSettlement
 };
@@ -143,6 +144,7 @@ struct creature : npci, posable, statable, wearable {
 	int getfood() const { return 6 * 10; } // Each turn make con test or decrease food.
 	int gethp() const { return hpm; }
 	void add(abilityn n, int v);
+	void addexp(unsigned v) { experience += v; }
 	bool allow(itemn type) const;
 	bool allow(itemn type, speechn speech) const;
 	bool canread() const { return true; }

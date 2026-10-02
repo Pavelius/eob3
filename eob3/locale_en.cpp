@@ -153,6 +153,7 @@ const char* speech_names1[LastSpeech + 1] = {
 	"Drop this one to quiver",
 	"Where is keyhole?",
 	"This key doesn't match",
+	"Aha! Doors to treasure!",
 	"Not in the city!",
 };
 const char* speech_names2[LastSpeech + 1] = {
@@ -168,6 +169,7 @@ const char* speech_names2[LastSpeech + 1] = {
 	"Ammunition usable in quiver",
 	"I don't see any keyhole here",
 	"The key don't fit in hole",
+	"I know it! A secret door!",
 	"This one usable in dungeon",
 };
 const char* speech_names3[LastSpeech + 1] = {
@@ -183,6 +185,7 @@ const char* speech_names3[LastSpeech + 1] = {
 	"Only in quiver can use it",
 	"Key need put into keyhole.",
 	"This is a wrong key",
+	"Secret door, lead to treasure!",
 	"Wrong place to use",
 };
 const char* wallmsg_names[LastWellMessage + 1] = {

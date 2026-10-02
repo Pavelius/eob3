@@ -84,6 +84,7 @@ extern unsigned long current_cpu_time;
 extern bool need_update_animation;
 
 int getv(variablen v);
+int party_count();
 
 void addv(variablen v, int i);
 void alternate_focus_input();
@@ -123,6 +124,7 @@ void message_box(const char* format);
 void next_scene(fnevent v);
 void paint_dungeon();
 void paint_main_menu();
+void party_addexp(int value);
 void party_turn_left();
 void party_turn_right();
 void pick_up_item();

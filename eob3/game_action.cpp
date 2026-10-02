@@ -277,6 +277,26 @@ static void pass_round() {
 	pass_time(1);
 }
 
+int party_count() {
+	auto n = 0;
+	for(auto p : adventurers) {
+		if(p && !p->isdisabled())
+			n++;
+	}
+	return n;
+}
+
+void party_addexp(int value) {
+	auto n = party_count();
+	if(!n)
+		return;
+	value = (value + n - 1) / n;
+	for(auto p : adventurers) {
+		if(p && !p->isdisabled())
+			p->addexp(value);
+	}
+}
+
 static dungeoni* find_dungeon(int level) {
 	return find_dungeon(loc->quest, level);
 }
@@ -520,6 +540,21 @@ void move_party(pointc v) {
 	explore_area();
 }
 
+static bool change_overlay(pointc v, directionn d) {
+	auto p = loc->get(v, d);
+	if(!p)
+		return false;
+	auto x = to(v, d);
+	if(!x)
+		return false;
+	auto n = cells[p->type].activate;
+	if(!n)
+		return false;
+	loc->set(x, n);
+	loc->removeov(x);
+	return true;
+}
+
 static void toggle(pointc v) {
 	if(!v)
 		return;
@@ -590,11 +625,11 @@ static bool manipulate_overlay() {
 		examine(player, loc->type, p->type);
 		break;
 	case CellSecretButton:
-		//if(change_overlay(*player, player->d)) {
+		if(change_overlay(player->pos, player->d)) {
 		//	party_addexp(400);
-		//	player->speak("CellSecrectButton", "Accept");
-		//	loc->state.secrets_found++;
-		//}
+			player->say(SecrectButtonFound);
+			loc->state.secrets_found++;
+		}
 		break;
 	case CellMessage:
 		read_wall_messages(player, p);

@@ -965,8 +965,10 @@ creature* new_character() {
 }
 
 creature* get_creature(void* pointer) {
-	if(pointer >= characters && pointer < characters + lengthof(characters))
-		return characters + ((creature*)pointer - characters);
+	if(pointer >= characters && pointer < characters + lengthof(characters)) {
+		size_t index = ((unsigned char*)pointer - (unsigned char*)characters) / sizeof(characters[0]);
+		return characters + index;
+	}
 	return 0;
 }
 

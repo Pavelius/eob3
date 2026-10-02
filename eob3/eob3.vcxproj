@@ -181,6 +181,7 @@
     <ClCompile Include="bin_kobold.cpp" />
     <ClCompile Include="bin_leech.cpp" />
     <ClCompile Include="bin_overlays.cpp" />
+    <ClCompile Include="draw_textf.cpp" />
     <ClCompile Include="game_carousing.cpp" />
     <ClCompile Include="game_action.cpp" />
     <ClCompile Include="answers.cpp" />

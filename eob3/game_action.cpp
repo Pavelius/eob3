@@ -319,7 +319,7 @@ static void update_party_position() {
 	for(size_t i = 0; i < lengthof(adventurers); i++) {
 		if(!adventurers[i])
 			continue;
-		adventurers[i]->side = i;
+		adventurers[i]->side = (char)i;
 		adventurers[i]->pos = party.pos;
 		adventurers[i]->d = party.d;
 	}

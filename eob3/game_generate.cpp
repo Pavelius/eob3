@@ -1,5 +1,6 @@
 #include "action.h"
 #include "answers.h"
+#include "console.h"
 #include "creature.h"
 #include "dungeon.h"
 #include "draw.h"
@@ -155,6 +156,7 @@ static void test_city_menu() {
 	quests[quest].set(QuestPrepared);
 	dungeon_create(quest, quests[quest].dungeon);
 	// next_scene(play_city_actions);
+	// consolen("This is a [long] text display [+plus] or [-minuses], maybe [~grayed] of simple format output strings.", language_names[Elf]);
 	enter_dungeon(1, CellStairsUp);
 }
 

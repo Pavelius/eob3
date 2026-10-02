@@ -214,6 +214,9 @@
     <ClCompile Include="game_combat.cpp">
       <Filter>logic</Filter>
     </ClCompile>
+    <ClCompile Include="draw_textf.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="action.h">

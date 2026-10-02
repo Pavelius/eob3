@@ -183,7 +183,7 @@
 1790665249 /home/user-331/projects/eob3/eob3/stringvar.h
 	"stringbuilder.h"
 
-1790923977 source:/home/user-331/projects/eob3/eob3/game_action.cpp
+1790924640 source:/home/user-331/projects/eob3/eob3/game_action.cpp
 	"action.h"
 	"answers.h"
 	"console.h"
@@ -352,7 +352,7 @@
 	"stream.h"
 	"stringbuilder.h"
 
-1788442189 source:/home/user-331/projects/eob3/eob3/nix_draw3x.cpp
+1790928104 source:/home/user-331/projects/eob3/eob3/nix_draw3x.cpp
 	<X11/keysym.h>
 	<X11/Xlib.h>
 	<X11/Xutil.h>

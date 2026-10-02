@@ -22,7 +22,7 @@
 #include "draw.h"
 #include "stringbuilder.h"
 
-// #define SCALE_FACTOR 1
+#define SCALE_FACTOR 3
 
 const unsigned nix_event_mask = ExposureMask
 | ButtonPressMask
@@ -246,8 +246,8 @@ static bool handle(XEvent& e) {
 		hmouse.x = e.xmotion.x;
 		hmouse.y = e.xmotion.y;
 #ifdef SCALE_FACTOR
-		hot.mouse.x /= SCALE_FACTOR;
-		hot.mouse.y /= SCALE_FACTOR;
+		hmouse.x /= SCALE_FACTOR;
+		hmouse.y /= SCALE_FACTOR;
 #endif // SCALE_FACTOR
 		break;
 	case VisibilityNotify:

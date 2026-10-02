@@ -113,6 +113,8 @@
 		<Unit filename="rect.h" />
 		<Unit filename="res.cpp" />
 		<Unit filename="scale.cpp" />
+		<Unit filename="screenshoot.cpp" />
+		<Unit filename="screenshoot.h" />
 		<Unit filename="shape.cpp" />
 		<Unit filename="shape.h" />
 		<Unit filename="slice.h" />
@@ -124,8 +126,10 @@
 		<Unit filename="stringvar.cpp" />
 		<Unit filename="stringvar.h" />
 		<Unit filename="timer.h" />
+		<Unit filename="view_automap.cpp" />
 		<Unit filename="view_controls.cpp" />
 		<Unit filename="view_debug.cpp" />
+		<Unit filename="view_dungeon.cpp" />
 		<Unit filename="view_focus.cpp" />
 		<Unit filename="view_focus.h" />
 		<Extensions />

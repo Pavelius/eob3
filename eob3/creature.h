@@ -58,7 +58,7 @@ enum monstern : unsigned char {
 };
 enum speechn : unsigned char {
 	CantUseItem, CantRead, ThisIsUndefinedObject, ThisIsObject, ThisIsNotItem, CantPutItemHere,
-	SomeKindOfP1,
+	SomeKindOfP1, ItemNotFit, NothingToGrab,
 	MustBeUseInHand, MustBeWearing, MustBeQuver,
 	WhereIsKeyhole, ThisIsWrongKey,
 	SecrectButtonFound,
@@ -177,6 +177,8 @@ creature* get_creature(void* pointer);
 creature* new_character();
 
 wearn get_wear(void* pointer);
+
+item* get_item(void* pointer);
 
 unsigned char random_avatar(racen race, gendern gender, classn type);
 unsigned char random_name(racen race, gendern gender);

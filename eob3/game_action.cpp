@@ -562,21 +562,26 @@ static void toggle(pointc v) {
 		loc->remove(v, CellActive);
 }
 
+static bool is(classn classes, classn type) {
+	return get_class_index(classes, type) != -1;
+}
+
+static messagen get_skilled(resn dungeon, celln type, racen race, classn classes) {
+	if(dungeon == BRICK && type == CellDecor3 && is(classes, Theif))
+		return LookUnknownTheifSign;
+	return (messagen)0;
+}
+
 static void examine(creature* player, resn dungeon, celln type) {
-	switch(dungeon) {
-	case BRICK:
-		switch(type) {
-		case CellDecor1:
-		case CellDecor2:
-		case CellDecor3:
-			player->say(SomeKindOfP1, "Portal");
-			break;
-		default: break;
-		}
-		break;
-	default:
-		break;
-	}
+	static messagen unskilled_examine[XANATHA - BRICK + 1][CellDecor3 - CellDecor1 + 1] = {
+		{LookUnknown, LookDrainageGate, LookUnknownTheifSign}, // BRICK
+	};
+	auto m = get_skilled(dungeon, type, player->race, player->type);
+	if(!m)
+		m = unskilled_examine[dungeon - BRICK][type - CellDecor1];
+	if(!m)
+		return;
+	player->say(m);
 }
 
 static wellmsgn get_miss(wellmsgn type) {
@@ -615,7 +620,7 @@ static bool manipulate_overlay() {
 	if(!p)
 		return false;
 	auto v = to(player->pos, player->d);
-	// auto pi = (item*)current_focus;
+	auto pi = (item*)get_item((void*)current_focus);
 	switch(p->type) {
 	case CellDoorButton:
 		toggle(v);
@@ -636,24 +641,28 @@ static bool manipulate_overlay() {
 		read_wall_messages(player, p);
 		break;
 	case CellCellar:
-		//if(*pi) {
-		//	// Put item to cellar
-		//	if(!pi->geti().is(Small))
-		//		player->speak(getid<celli>(p->type), "NotFit");
-		//	else
-		//		loc->add(p, *pi);
-		//} else {
-		//	// Get item from cellar
-		//	item* items[1];
-		//	if(loc->getitems(items, lenghtof(items), p)) {
-		//		*pi = *items[0];
-		//		items[0]->clear();
-		//	} else
-		//		player->speak(getid<celli>(p->type), "Empthy");
-		//}
+		if(!pi)
+			break;
+		if(*pi) {
+			// Put item to cellar
+			if(!is_small(pi->type))
+				player->say(ItemNotFit);
+			else
+				loc->add(p, *pi);
+		} else {
+			// Get item from cellar
+			item* items[1];
+			if(loc->getitems(items, lengthof(items), p)) {
+				*pi = *items[0];
+				items[0]->clear();
+			} else
+				player->say(NothingToGrab);
+		}
+		break;
+	case CellTrapLauncher:
+		player->say(LookStrangeDevice);
 		break;
 	default:
-		// player->speak(getid<celli>(p->type), "About");
 		break;
 	}
 	return true;

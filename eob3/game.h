@@ -40,7 +40,8 @@ enum messagen : unsigned char {
 	PlayerIsDisabled,
 	PartyGoingUp, PartyGoingDown, PartyFallPit,
 	DoorOpened,
-	MagicDevice, Portal, TrapLauncher, Hole, DrainageGate, StockPipe, Button, Cellar,
+	MagicDevice, Portal, TrapLauncher,
+	LookUnknown, LookDrainageGate, LookStrangeDevice, LookUnknownTheifSign, Button, Cellar,
 	QuestGoals, VisitBuilding,
 	Class, Race,
 	LastMessage = Race

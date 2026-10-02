@@ -979,6 +979,18 @@ wearn get_wear(void* pointer) {
 	return Backpack;
 }
 
+item* get_item(void* pointer) {
+	if(pointer >= characters && pointer < characters + lengthof(characters)) {
+		size_t index = ((unsigned char*)pointer - (unsigned char*)characters) / sizeof(characters[0]);
+		auto p = characters + index;
+		if(p != pointer && p->haveitem(pointer)) {
+			size_t index = ((unsigned char*)pointer - (unsigned char*)p->wears) / sizeof(p->wears[0]);
+			return p->wears + index;
+		}
+	}
+	return 0;
+}
+
 static void add_magical(itemn type) {
 }
 

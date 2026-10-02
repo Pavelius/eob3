@@ -79,6 +79,7 @@ enum shopn : unsigned char {
 extern const char* item_names[LastItem + 1];
 
 bool is_large(itemn type);
+bool is_small(itemn type);
 
 struct featc {
 	unsigned data = 0;

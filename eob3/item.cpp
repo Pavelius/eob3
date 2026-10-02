@@ -143,6 +143,21 @@ bool is_large(itemn type) {
 	}
 }
 
+bool is_small(itemn type) {
+	switch(type) {
+	case TheifTools:
+	case MageBook: case PriestScroll: case MageScroll: case MagicMap:
+	case BlueGem: case GreenGem: case RedGem: case PurpleGem:
+	case Wand: case BlueRing: case RedRing: case GreenRing: case Amulet:
+	case IceSphere: case FlameSphere:
+	case IronKey: case BronzeKey: case CooperKey: case BoneKey: case SteelKey: case SkullKey: case MoonKey: case JewelKey:
+	case Ration: case RationIron: case Stone: case Arrow: case Dart:
+		return true;
+	default:
+		return false;
+	}
+}
+
 bool allow(itemn type, wearn n) {
 	auto v = item_data[type].wear;
 	switch(v) {

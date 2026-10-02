@@ -51,12 +51,12 @@ void paint_cross(int offset) {
 	line(caret.x + width - offset - 2, caret.y);
 }
 
-static void paint_bold(int x, int y) {
+/*static void paint_bold(int x, int y) {
 	pixel(x, y);
 	pixel(x + 1, y);
 	pixel(x, y + 1);
 	pixel(x + 1, y + 1);
-}
+}*/
 
 void paint_arrow(point camera, directionn direct, int mpg) {
 	auto x1 = camera.x;
@@ -89,6 +89,8 @@ void paint_arrow(point camera, directionn direct, int mpg) {
 		line(caret.x, y2);
 		pixel(caret.x - 1, caret.y - 1);
 		pixel(caret.x + 1, caret.y - 1);
+		break;
+	default:
 		break;
 	}
 }
@@ -215,6 +217,8 @@ static void fill_line(directionn d, int dx, int size, color border) {
 		caret.x = pos.x + (mpg - size) / 2;
 		caret.y = pos.y + mpg - 1 + dx;
 		line(caret.x + size, caret.y);
+		break;
+	default:
 		break;
 	}
 	caret = pos;

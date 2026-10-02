@@ -56,12 +56,12 @@ static char walls_front[18] = {
 	9, 9, 9,
 	0, 0, 0,
 };
-static int wall_sizes[18] = {
+/*static int wall_sizes[18] = {
 	48, 48, 48, 48, 48, 48, 48,
 	80, 80, 80, 80, 80,
 	128, 128, 128,
 	176, 176, 176
-};
+};*/
 static short item_distances[][2] = {
 	{1000, 0},
 	{1000, 0},

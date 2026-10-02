@@ -423,8 +423,6 @@ static bool monsters_talk() {
 	auto pm = opponent->monster;
 	if(!pm)
 		return false;
-	if(!last_quest)
-		return false;
 	//auto pn = speech_get_na(pm->id, last_quest->id);
 	//if(!pn)
 	//	pn = speech_get_na(pm->id, rm);

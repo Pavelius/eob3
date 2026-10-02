@@ -626,7 +626,7 @@ static bool manipulate_overlay() {
 		break;
 	case CellSecretButton:
 		if(change_overlay(player->pos, player->d)) {
-		//	party_addexp(400);
+			party_addexp(400);
 			player->say(SecrectButtonFound);
 			loc->state.secrets_found++;
 		}

@@ -833,6 +833,20 @@ void reroll_hits() {
 	}
 }
 
+static void reroll_monster_hits() {
+	player->hpr = 0;
+	auto level = player->level();
+	if(!level)
+		player->hpr = d6();
+	else {
+		for(char i = 0; i < level; i++) {
+			auto die = get_hit_die(get_class(player->type, i));
+			auto value = 1 + rand() % die;
+			player->hpr += value;
+		}
+	}
+}
+
 void update_player_hits() {
 	player->hp = player->hpm;
 	player->food = player->getfood();
@@ -1092,10 +1106,11 @@ void create_monster(monstern type) {
 	player->monster = type;
 	player->race = e.race;
 	player->gender = Male;
-	player->type = Fighter;
+	player->type = Monster;
 	player->alignment = e.alignment;
+	player->levels[0] = e.hd;
 	standart_ability();
-	reroll_hits();
+	reroll_monster_hits();
 	player->update();
 	finish_character();
 }

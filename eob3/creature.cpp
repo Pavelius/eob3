@@ -171,6 +171,7 @@ static char race_maximum[Halfling + 1][6] = {
 	{18, 18, 18, 18, 17, 18},
 };
 static char class_minimum[Theif + 1][6] = {
+	{0, 0, 0, 0, 0, 0}, // Monster
 	{9, 0, 0, 0, 0, 0}, // Fighter
 	{13, 13, 14, 0, 14, 0}, // Ranger
 	{12, 0, 9, 0, 13, 17}, // Paladin
@@ -403,7 +404,7 @@ static int get_maximum_hits() {
 	auto m = player->level();
 	auto a = player->get(Constitution);
 	auto h = maptbl(hit_points_adjustment, a);
-	if(h > 2 && !player->is(Fighter))
+	if(h > 2 && !(player->is(Fighter) || player->is(Paladin) || player->is(Ranger)))
 		h = 2;
 	auto r = player->get(Hits) + h * m + player->hpr / imax(1, (int)n);
 	if(r < m)
@@ -455,10 +456,10 @@ static void update_ability(abilityn v, int level, int per_level, int minimal) {
 }
 
 static void update_abilities() {
-	player->add(Strenght, -player->abilities[DrainedStrenght]);
-	auto n = -(player->abilities[DrainedStrenght] + player->abilities[DrainedLevels]);
+	auto n = -player->abilities[DrainedLevels];
 	player->add(AttackMelee, n);
 	player->add(AttackRange, n);
+	player->add(Strenght, -player->abilities[DrainedStrenght]);
 	player->add(Constitution, -player->abilities[DrainedConstitution]);
 	auto s = -player->abilities[DrainedLevels] * 5;
 	player->add(SaveVsParalization, s);
@@ -893,8 +894,8 @@ combati creature::getattack(wearn id, bool large_enemy) const {
 	if(large_enemy && result.large)
 		result.damage = result.large;
 	auto isranged = wears[id].isranged();
-	result.attack += player->get(isranged ? AttackRange : AttackMelee);
-	result.damage.b += player->get(isranged ? DamageRange : DamageMelee);
+	result.attack += get(isranged ? AttackRange : AttackMelee);
+	result.damage.b += get(isranged ? DamageRange : DamageMelee);
 	// RULE: Single player fighter have bonus speñialization
 	if(specialized(weapon)) {
 		if(isranged)
@@ -954,7 +955,7 @@ const char* creature::strvalue(abilityn id) const {
 	case ReactionBonus: return str("%+1i", get(id));
 	case Strenght:
 		if(get(id) == 18) {
-			auto exeptional = player->get(ExeptionalStrenght);
+			auto exeptional = get(ExeptionalStrenght);
 			if(exeptional == 100)
 				return "18/00";
 			else
@@ -979,7 +980,7 @@ int creature::gethitpenalty(int bonus) const {
 
 static bool no_party_name(unsigned char v) {
 	for(auto i = 0; i < 4; i++) {
-		if(characters[i].avatar == v)
+		if(characters[i].name_id == v)
 			return false;
 	}
 	return true;

@@ -165,7 +165,7 @@ struct creature : npci, posable, statable, wearable {
 	bool is(racen v) const { return race == v; }
 	bool is(const item & weapon, featn v) const { return is(v) || weapon.power == v; }
 	bool isactable() const;
-	bool isdisabled() const { return false; }
+	bool isdisabled() const { return hp <= 0; }
 	bool isdead() const { return hp <= -10; }
 	bool islarge() const { return is_large(monsters[monster].res); }
 	bool isready() const { return !isdisabled() && !is(Paralizing); }

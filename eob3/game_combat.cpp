@@ -154,7 +154,7 @@ static void hit_equipment(creature* player) {
 }
 
 static void single_attack(creature* defender, wearn slot, int bonus, int multiplier) {
-	if(!defender)
+	if(!defender || defender->isdisabled())
 		return;
 	auto& weapon = player->wears[slot];
 	if(!weapon.isweapon())

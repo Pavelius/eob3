@@ -35,7 +35,8 @@ enum featn : unsigned char {
 };
 enum damagen : unsigned char {
 	Bludgeon, Slashing, Piercing,
-	Fire, Cold, Acid, Shock, Magic,
+	FireDamage, ColdDamage, AcidDamage, ShockDamage,
+	MindDamage, PoisonDamage, IllDamage,
 };
 enum itemn : unsigned char {
 	NoItem,

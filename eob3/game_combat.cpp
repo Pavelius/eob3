@@ -13,6 +13,27 @@ static int enemy_distance;
 
 void turnto(pointc v, directionn d, bool test_surprise);
 
+static featn get_resist(damagen v) {
+	switch(v) {
+	case FireDamage: return ResistFire;
+	case ColdDamage: return ResistCold;
+	case Bludgeon: return ResistBludgeon;
+	case Piercing: return ResistPiercing;
+	case Slashing: return ResistSlashing;
+	default: return (featn)0;
+	}
+}
+
+static int get_hit_points(celln t) {
+	switch(t) {
+	case CellWeb: return 4; // Easy to hit. Affected by fire spells.
+	case CellCocon: return 5;
+	case CellBarel: return 7; // Tought to hit. Crushed by acid spells.
+	case CellEyeColumn: return 10;
+	default: return 0;
+	}
+}
+
 static size_t shrink_creatures(creature** dest, creature** units, size_t count) {
 	auto ps = dest;
 	auto pb = units;
@@ -318,16 +339,6 @@ static void make_full_attack(creature* enemy, int bonus, int multiplier) {
 	fix_monster_attack_end(player);
 }
 
-static int get_hit_points(celln t) {
-	switch(t) {
-	case CellWeb: return 4; // Easy to hit. Affected by fire spells.
-	case CellCocon: return 5;
-	case CellBarel: return 7; // Tought to hit. Crushed by acid spells.
-	case CellEyeColumn: return 10;
-	default: return 0;
-	}
-}
-
 bool make_object_attack(pointc v) {
 	if(!player || !player->isready())
 		return false;
@@ -394,17 +405,6 @@ static featn get_immunity(damagen v) {
 	}
 }
 
-static featn get_resist(damagen v) {
-	switch(v) {
-	case Fire: return ResistFire;
-	case Cold: return ResistCold;
-	case Bludgeon: return ResistBludgeon;
-	case Piercing: return ResistPiercing;
-	case Slashing: return ResistSlashing;
-	default: return (featn)0;
-	}
-}
-
 static void drop_loot(creature* player) {
 	for(auto& it : player->wears) {
 		if(!it || it.is(NaturalItem) || it.is(SummonedItem))
@@ -437,7 +437,7 @@ void creature::kill() {
 	clear();
 }
 
-void creature::damage(damagen type, int value, int magic_bonus, bool need_fix) {
+void creature::damage(damagen type, int value, int magic_bonus) {
 	auto resist = get_resist(type);
 	auto immunity = get_immunity(type);
 	if(immunity && is(immunity) && (magic_bonus <= 1))
@@ -446,9 +446,10 @@ void creature::damage(damagen type, int value, int magic_bonus, bool need_fix) {
 		value = value / 2;
 	if(value <= 0)
 		return;
-	// case Poison: consolen(getnm(FeelPoison), name()); break;
-	if(need_fix)
-		fix_damage(this, value);
+	switch(type) {
+	case PoisonDamage: consolen(getnm(FeelPoison), name()); break;
+	default: fix_damage(this, value); break;
+	}		
 	if(hp_aid > 0) {
 		if(hp_aid >= value) {
 			hp_aid -= value;

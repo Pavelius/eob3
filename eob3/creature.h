@@ -154,7 +154,7 @@ struct creature : npci, posable, statable, wearable {
 	bool allow(itemn type, speechn speech) const;
 	bool canread() const { return true; }
 	void clear();
-	void damage(damagen type, int value, int magic_bonus = 0, bool need_fix = true);
+	void damage(damagen type, int value, int magic_bonus = 0);
 	void equip(item& v);
 	void equip(const item& v) { item cv = v; equip(cv); }
 	void heal(int hits) {}

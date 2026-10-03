@@ -74,9 +74,9 @@ static void press_key() {
 
 void fix_damage(const creature* target, int value) {
 	auto i = get_party_index(target);
-	if(i == -1) {
+	if(i == -1)
 		fix_monster_damage(target);
-	} else {
+	else {
 		if(disp_damage[i])
 			fix_animate(); // Try add another animation over existing. So we update right now.
 		disp_damage[i] = value;
@@ -687,7 +687,7 @@ static void paint_avatar() {
 		return;
 	pushrect push; width = 31; height = 32;
 	auto push_alpha = alpha;
-	if(player->is(Invisibled))
+	if(player->is(Invisible))
 		alpha = 128;
 	if(player->isdead())
 		image(res_data[PORTM], 0, 0);

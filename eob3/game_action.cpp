@@ -749,6 +749,8 @@ static bool monsters_nearbe() {
 	return false;
 }
 
+bool make_object_attack(pointc v);
+
 void use_item(creature* player, item* last_item, wearn wear) {
 	if(!player->isactable())
 		return;
@@ -759,8 +761,8 @@ void use_item(creature* player, item* last_item, wearn wear) {
 		if(wear != LeftHand && wear != RightHand)
 			player->say(MustBeUseInHand);
 		else if(last_item->isweapon()) {
-//			if(!make_object_attack(to(party.pos, party.d)))
-//				make_attacks(false);
+			if(!make_object_attack(to(party.pos, party.d)))
+				make_attacks(false);
 			pass_round();
 		}
 		break;

@@ -632,4 +632,6 @@ void dungeoni::broke(pointc v) {
 	if(!broken_cell)
 		broken_cell = CellPassable;
 	set(v, broken_cell);
+	animation_update();
+	// TODO: When broke cell something happening
 }

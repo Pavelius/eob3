@@ -861,13 +861,15 @@ void creature::update() {
 	player = push;
 }
 
-static bool specialized(itemn type, racen race) {
+bool creature::specialized(const item& weapon) const {
+	if(type != Fighter)
+		return false;
+	auto t = weapon.type;
 	switch(race) {
-	case Dwarf: return type == BattleAxe || type == Mace;
-	case Elf: return type == Longsword || type == ShortSword;
-	case HalfElf: return type == Longsword || type == ShortSword;
-	case Halfling: return type == ShortSword || type == Dagger;
-	default: return type == Longsword || type == TwoHandedSword;
+	case Dwarf: return t == BattleAxe || t == Mace;
+	case HalfElf: case Elf: return t == Longsword || t == ShortSword;
+	case Halfling: return t == ShortSword || t == Dagger;
+	default: return t == Longsword || t == TwoHandedSword;
 	}
 }
 
@@ -880,7 +882,7 @@ combati creature::getattack(wearn id, bool large_enemy) const {
 	result.attack += player->get(isranged ? AttackRange : AttackMelee);
 	result.damage.b += player->get(isranged ? DamageRange : DamageMelee);
 	// RULE: Single player fighter have bonus speñialization
-	if(type == Fighter && specialized(weapon, race)) {
+	if(specialized(weapon)) {
 		if(isranged)
 			result.attack += 2;
 		else {
@@ -895,6 +897,32 @@ combati creature::getattack(wearn id, bool large_enemy) const {
 	result.attack += magic;
 	result.damage.b += magic;
 	return result;
+}
+
+int creature::expaward() const {
+	auto r = level();
+	if(!monster)
+		return r * 100;
+	if(monsters[monster].exp)
+		return monsters[monster].exp;
+	if(get(AC) >= 10)
+		r += 1;
+	if(is(ResistBludgeon) || is(ResistPiercing) || is(ResistSlashing))
+		r += 1;
+	if(is(ImmuneNormalWeapon))
+		r += 1;
+	if(is(Undead))
+		r++;
+	if(is(Paralizing))
+		r += 1;
+	if(basic.abilities[ResistMagic] >= 50)
+		r += 1;
+	if(basic.abilities[ResistMagic] >= 90)
+		r += 1;
+	auto exp = maptbl(hd_experience, r);
+	if(r > 13)
+		exp += (r - 13) * 1000;
+	return exp;
 }
 
 static const char* str(const dice& v) {
@@ -922,6 +950,17 @@ const char* creature::strvalue(abilityn id) const {
 	default:
 		return str("%1i", get(id));
 	}
+}
+
+int creature::gethitpenalty(int bonus) const {
+	if(is(Precise))
+		return 0;
+	auto dex = abilities[Dexterity];
+	auto bon = maptbl(reaction_adjustment, dex);
+	bonus += bon;
+	if(bonus > 0)
+		bonus = 0;
+	return bonus;
 }
 
 static bool no_party_name(unsigned char v) {

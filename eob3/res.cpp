@@ -21,6 +21,7 @@ extern unsigned char bin_overlays[];
 extern unsigned char bin_playfld[];
 extern unsigned char bin_portm[];
 extern unsigned char bin_scene[];
+extern unsigned char bin_thrown[];
 extern unsigned char bin_xspl[];
 
 extern unsigned char bin_kobold[];
@@ -32,5 +33,5 @@ sprite* res_data[LastRes + 1] = {
 	RS(kobold), RS(leech),
 	RS(border), RS(chargen), RS(chargenb), 0, RS(invent),
 	RS(itemgs), RS(itemgl), RS(items), RS(overlays), RS(decors),
-	RS(menu), RS(playfld), RS(portm), RS(scene), 0, RS(xspl)
+	RS(menu), RS(playfld), RS(portm), RS(scene), RS(thrown), RS(xspl)
 };

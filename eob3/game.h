@@ -39,7 +39,7 @@ enum messagen : unsigned char {
 	HowYouGetHere,
 	PlayerIsDisabled,
 	PartyGoingUp, PartyGoingDown, PartyFallPit,
-	DoorOpened,
+	DoorOpened, SneakAttack, FeelPoison,
 	MagicDevice, Portal, TrapLauncher,
 	LookUnknown, LookDrainageGate, LookStrangeDevice, LookUnknownTheifSign, Button, Cellar,
 	QuestGoals, VisitBuilding,
@@ -115,12 +115,15 @@ void enter_dungeon(int level, celln location);
 void fix_animate();
 void fix_attack(const creature* attacker, wearn slot, int hits);
 void fix_damage(const creature* target, int value);
+void fix_monster_attack(const creature* target);
+void fix_monster_attack_end(const creature* target);
 void fix_monster_damage(const creature* target);
 void fix_monster_damage_end();
 void focus_input();
 void game_generation();
 void header_yellow(const char* format);
 void initialize_gui();
+void make_attacks(bool melee_combat);
 void message_box(const char* format);
 void next_scene(fnevent v);
 void paint_dungeon();

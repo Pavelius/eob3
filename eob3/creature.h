@@ -22,7 +22,7 @@ enum classn : unsigned char {
 };
 enum racen : unsigned char {
 	Human, Dwarf, Elf, HalfElf, Halfling,
-	Goblinoid, Animal,
+	Goblinoid, Demon, Animal,
 	LastRace = Animal
 };
 enum alignmentn : unsigned char {
@@ -62,6 +62,7 @@ enum speechn : unsigned char {
 	MustBeUseInHand, MustBeWearing, MustBeQuver,
 	WhereIsKeyhole, ThisIsWrongKey,
 	SecrectButtonFound,
+	IAmScarry,
 	CantUseInSettlement,
 	LastSpeech = CantUseInSettlement
 };
@@ -134,37 +135,47 @@ struct creature : npci, posable, statable, wearable {
 	racenc			languages;
 	statable		basic;
 	unsigned		experience;
-	short			hp, hpm, hpr, food;
+	short			hp, hpm, hpr, hp_aid, food;
 	unsigned char	pallette;
 	char			initiative;
 	constexpr explicit operator bool() const { return hp > 0; }
 	const char* strvalue(abilityn id) const;
 	combati getattack(wearn id, bool large_enemy) const;
+	int expaward() const;
 	int get(abilityn v) const { return abilities[v]; }
 	int get(classn v) const { auto n = get_class_index(type, v); return (n == -1) ? 0 : levels[n]; }
 	int getfood() const { return 6 * 10; } // Each turn make con test or decrease food.
+	int gethitpenalty(int bonus) const;
 	int gethp() const { return hpm; }
 	void add(abilityn n, int v);
+	void add(featn feat, unsigned duration) {}
 	void addexp(unsigned v) { experience += v; }
 	bool allow(itemn type) const;
 	bool allow(itemn type, speechn speech) const;
 	bool canread() const { return true; }
 	void clear();
-	void damage(damagen type, int value) {}
+	void damage(damagen type, int value, int magic_bonus = 0, bool need_fix = true);
 	void equip(item& v);
 	void equip(const item& v) { item cv = v; equip(cv); }
+	void heal(int hits) {}
 	bool is(abilityn v) const { return abilities[v] > 0; }
+	bool is(alignmentn v) const { return alignment == v; }
 	bool is(classn v) const { return get_class_index(type, v) != -1; }
 	bool is(featn v) const { return feats.is(v); }
 	bool is(racen v) const { return race == v; }
+	bool is(const item & weapon, featn v) const { return is(v) || weapon.power == v; }
 	bool isactable() const;
 	bool isdisabled() const { return false; }
 	bool isdead() const { return hp <= -10; }
 	bool islarge() const { return is_large(monsters[monster].res); }
+	bool isready() const { return !isdisabled() && !is(Paralizing); }
 	bool isunderstand(racen v) const { return languages.is(v); }
-	void kill() {}
+	bool specialized(const item& weapon) const;
+	void kill();
 	bool roll(abilityn v, int bonus = 0) const;
 	void joinparty() { /*TODO: Join party later.*/ }
+	void remove(featn v) { feats.remove(v); }
+	void set(featn v) { feats.set(v); }
 	void setframe(short* frames, short index) const;
 	void update();
 };

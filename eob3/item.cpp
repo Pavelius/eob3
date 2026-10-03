@@ -158,6 +158,10 @@ bool is_small(itemn type) {
 	}
 }
 
+bool is_natural(itemn type) {
+	return type >= ChillTouchHand && type <= Sting1d8;
+}
+
 bool allow(itemn type, wearn n) {
 	auto v = item_data[type].wear;
 	switch(v) {

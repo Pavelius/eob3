@@ -217,6 +217,9 @@
     <ClCompile Include="draw_textf.cpp">
       <Filter>interface</Filter>
     </ClCompile>
+    <ClCompile Include="bin_thrown.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="action.h">

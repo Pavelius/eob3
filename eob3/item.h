@@ -21,9 +21,21 @@
 
 const int gp = 10; // 1 gold piece = 1 silver coin
 
+enum featn : unsigned char {
+	NoPower, Magical, Magical2, Magical3, Magical4, Magical5, Cursed, Delusion,
+	Protection, Flaming, Freezing,
+	HumanControl, GoblinoidControl,
+	TwoHanded, Deadly, Disease, Poison, Precise, DrainEnergy, DrainStrenght, DispelEvil, Holy, Vampiric, Vorpal,
+	ImmuneIllusion, ImmuneNormalWeapon,
+	ResistFire, ResistCold, ResistBludgeon, ResistPiercing, ResistSlashing,
+	Blinked, Blurred, Displaced, Invisible, Paralizing, SeeMagical, SeeCursed,
+	Surprised, Panic, Moved, SlowMove, Undead,
+	LastFeat = Undead,
+	SwordPower, MeleeWeaponPower, RangedWeaponPower,
+};
 enum damagen : unsigned char {
 	Bludgeon, Slashing, Piercing,
-	Magic, Fire, Cold, Acid, Shock, Poison,
+	Fire, Cold, Acid, Shock, Magic,
 };
 enum itemn : unsigned char {
 	NoItem,
@@ -53,15 +65,6 @@ enum itemn : unsigned char {
 	RandomRation, RandomRing,
 	RandomTreasure,
 };
-enum featn : unsigned char {
-	NoPower, Magical, Magical2, Magical3, Magical4, Magical5, Cursed, Delusion,
-	Protection, Flaming, Freezing,
-	TwoHanded, Deadly, Precise,
-	Invisibled, SeeMagical, SeeCursed,
-	Surprised, SlowMove,
-	LastFeat = SeeCursed,
-	SwordPower, MeleeWeaponPower, RangedWeaponPower,
-};
 enum purposen : unsigned char {
 	CommonItem, SummonedItem, ToolItem, QuestItem, NaturalItem,
 };
@@ -79,6 +82,7 @@ enum shopn : unsigned char {
 extern const char* item_names[LastItem + 1];
 
 bool is_large(itemn type);
+bool is_natural(itemn type);
 bool is_small(itemn type);
 
 struct featc {
@@ -86,6 +90,7 @@ struct featc {
 	featc() = default;
 	template<typename... Ts> constexpr featc(featn v, Ts... args) : featc(args...) { set(v); }
 	bool is(featn v) const { return (data & (1 << v)) != 0; }
+	void remove(featn v) { data &= ~(1 << v); }
 	void set(featn v) { data |= (1 << v); }
 };
 
@@ -155,13 +160,14 @@ struct item {
 	bool isranged() const { return geti().avatar.thrown || geti().combat.ammo != NoItem; }
 	bool isweapon() const { return geti().combat.damage.c != 0; }
 	bool join(item& it);
+	bool natural() const { return is_natural(type); }
 	int	getcost() const { return geti().cost; }
 	int	getcount() const { return countable() ? count + 1 : 1; }
 	int	getmagic() const { return get_magic(power); }
 	featn getpower() const { return power; }
 	void set(featn v) { power = v; }
 	void set(purposen v) { purpose = v; }
-	void setcount(int v);
+	void setcount(int v) {}
 	void usecharge(const char* interactive, int chance = 35, int use = 1); // Maximum charges is always 10
 };
 

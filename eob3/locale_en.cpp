@@ -23,7 +23,7 @@ const char* message_names[LastMessage + 1] = {
 	"What %1 do?", "Which way to go?", "Which item you buy?",
 	"How you get here so far?",
 	"%1 is disabled", "Party going up ...", "Party going down ...", "Party fall into the pit.",
-	"This door is opened by key",
+	"This door is opened by key", "%Player sneack attack enemy", "%1 feel poison",
 	"Magic device", "Portal", "Trap launcher",
 	"I don't know waht is this",
 	"Looks lika a old drainage gate",
@@ -161,6 +161,7 @@ const char* speech_names1[LastSpeech + 1] = {
 	"Where is keyhole?",
 	"This key doesn't match",
 	"Aha! Doors to treasure!",
+	"I am scarry!",
 	"Not in the city!",
 };
 const char* speech_names2[LastSpeech + 1] = {
@@ -179,6 +180,7 @@ const char* speech_names2[LastSpeech + 1] = {
 	"I don't see any keyhole here",
 	"The key don't fit in hole",
 	"I know, it's a secret door",
+	"Leave me alone!",
 	"This one usable in dungeon",
 };
 const char* speech_names3[LastSpeech + 1] = {
@@ -197,6 +199,7 @@ const char* speech_names3[LastSpeech + 1] = {
 	"Key need put into keyhole.",
 	"This is a wrong key",
 	"Secret door, lead to treasure!",
+	"Help me! Help!",
 	"Wrong place to use",
 };
 const char* wallmsg_names[LastWellMessage + 1] = {

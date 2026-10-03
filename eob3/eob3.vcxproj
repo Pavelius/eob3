@@ -184,7 +184,7 @@
     <ClCompile Include="bin_thrown.cpp" />
     <ClCompile Include="draw_textf.cpp" />
     <ClCompile Include="game_carousing.cpp" />
-    <ClCompile Include="game_action.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="answers.cpp" />
     <ClCompile Include="appearance.cpp" />
     <ClCompile Include="bin_border.cpp" />
@@ -214,7 +214,7 @@
     <ClCompile Include="dice.cpp" />
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="draw_text.cpp" />
-    <ClCompile Include="game.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="information.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="item_generate.cpp" />

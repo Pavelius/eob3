@@ -79,10 +79,10 @@
     <ClCompile Include="dungeon_generate.cpp">
       <Filter>logic</Filter>
     </ClCompile>
-    <ClCompile Include="game.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>logic</Filter>
     </ClCompile>
-    <ClCompile Include="game_action.cpp">
+    <ClCompile Include="game.cpp">
       <Filter>logic</Filter>
     </ClCompile>
     <ClCompile Include="game_city.cpp">

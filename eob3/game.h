@@ -43,6 +43,7 @@ enum messagen : unsigned char {
 	MagicDevice, Portal, TrapLauncher,
 	LookUnknown, LookDrainageGate, LookStrangeDevice, LookUnknownTheifSign, Button, Cellar,
 	QuestGoals, VisitBuilding,
+	Ambush, Attack, CalmDown, Hunt, Talk, Lie, Bribe,
 	Class, Race,
 	LastMessage = Race
 };
@@ -86,6 +87,7 @@ extern bool need_update_animation;
 
 int getv(variablen v);
 int party_count();
+int roll_dice(int v);
 
 void addv(variablen v, int i);
 void alternate_focus_input();

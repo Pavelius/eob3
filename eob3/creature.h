@@ -5,6 +5,8 @@
 
 typedef bool (*fncfilter)(unsigned char v);
 
+const int encounter_table_maximum = 19;
+
 enum messagen : unsigned char;
 enum monstern : unsigned char;
 enum resn : unsigned char;
@@ -56,6 +58,9 @@ enum monstern : unsigned char {
 	Kobold, Leech, DwarfWarrior, Spider,
 	LastMonster = Spider
 };
+enum reactions : unsigned char {
+	Indifferent, Friendly, Careful, Hostile,
+};
 enum speechn : unsigned char {
 	CantUseItem, CantRead, ThisIsUndefinedObject, ThisIsObject, ThisIsNotItem, CantPutItemHere,
 	SomeKindOfP1, ItemNotFit, NothingToGrab,
@@ -84,8 +89,10 @@ extern const char* speech_names3[LastSpeech + 1];
 int get_class_count(classn v);
 int get_class_index(classn base, classn type);
 
+bool is_chaotic(alignmentn v);
 bool is_large(resn v);
 bool is_large(monstern v);
+bool is_lawful(alignmentn v);
 
 classn get_class(classn v, int index);
 
@@ -138,6 +145,7 @@ struct creature : npci, posable, statable, wearable {
 	short			hp, hpm, hpr, hp_aid, food;
 	unsigned char	pallette;
 	char			initiative;
+	reactions		reaction;
 	constexpr explicit operator bool() const { return hp > 0; }
 	const char* strvalue(abilityn id) const;
 	combati getattack(wearn id, bool large_enemy) const;
@@ -185,6 +193,7 @@ extern creature* player;
 extern creature* opponent;
 
 creature* get_creature(void* pointer);
+creature* get_leader(creature** source);
 creature* new_character();
 
 wearn get_wear(void* pointer);
@@ -199,16 +208,20 @@ racen get_race(monstern v);
 
 int get_hit_die(classn type);
 int get_party_index(const creature* player);
+int party_median(creature** source, abilityn v);
 int select_avatars(unsigned char* result, racen race, gendern gender, classn type, fncfilter filter);
 int select_names(unsigned char* result, racen race, gendern gender, fncfilter filter);
 
 bool allow(alignmentn type, classn v);
 bool allow(classn type, racen v);
+void check_reaction(creature** creatures, int bonus);
 void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment);
 void create_monster(monstern type);
 void create_monster_pallette();
 void finish_character();
 bool no_party_avatar(unsigned char v);
+void party_set(creature** source, featn v, bool apply = true);
+void party_set(creature** source, reactions v);
 void reroll_ability();
 void reroll_character();
 void reroll_hits();

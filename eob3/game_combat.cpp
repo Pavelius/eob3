@@ -24,6 +24,13 @@ static featn get_resist(damagen v) {
 	}
 }
 
+static featn get_immunity(damagen v) {
+	switch(v) {
+	case Bludgeon: case Slashing: case Piercing: return ImmuneNormalWeapon;
+	default: return (featn)0;
+	}
+}
+
 static int get_hit_points(celln t) {
 	switch(t) {
 	case CellWeb: return 4; // Easy to hit. Affected by fire spells.
@@ -225,7 +232,7 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 			if(weapon.is(Deadly))
 				multiplier += 1;
 		}
-		attack.damage.m = multiplier;
+		attack.damage.m += multiplier;
 		hits = attack.damage.roll();
 		// Weapon of specific damage type
 		switch(power) {
@@ -310,7 +317,7 @@ static void single_main_attack(wearn wear, creature* enemy, int bonus, int multi
 		single_attack(enemy, wear, bonus, multiplier);
 }
 
-static void make_full_attack(creature* enemy, int bonus, int multiplier) {
+static void make_full_attack(creature* enemy, int bonus) {
 	if(!enemy)
 		return;
 	fix_monster_attack(player);
@@ -321,6 +328,7 @@ static void make_full_attack(creature* enemy, int bonus, int multiplier) {
 		wp2.clear();
 	if(!wp3.isweapon())
 		wp3.clear();
+	auto multiplier = 1;
 	// RULE: backstabbing attack depend on surprise check and invisibility. Chance is move silently.
 	if((enemy->is(Surprised) || player->is(Invisible) || player->initiative < enemy->initiative) && !enemy->is(Undead)) {
 		auto theif_bakstab = player->get(Backstab);
@@ -399,13 +407,6 @@ static bool ai_use_spells() {
 //		return;
 //	move_closer(creatures, party.d);
 //}
-
-static featn get_immunity(damagen v) {
-	switch(v) {
-	case Bludgeon: case Slashing: case Piercing: return ImmuneNormalWeapon;
-	default: return (featn)0;
-	}
-}
 
 static void drop_loot(creature* player) {
 	for(auto& it : player->wears) {
@@ -509,11 +510,11 @@ void make_attacks(bool melee_combat) {
 				auto left_side = (get_side(player->side, d) % 2) == 0;
 				if(player->islarge())
 					left_side = (rand() % 2);
-				make_full_attack(get_opponent(left_side, false), 0, 1);
+				make_full_attack(get_opponent(left_side, false), 0);
 			}
 		} else {
 			auto left_side = (player->side % 2) == 0;
-			make_full_attack(get_opponent(left_side, true), 0, 1);
+			make_full_attack(get_opponent(left_side, true), 0);
 		}
 		animation_update();
 		fix_animate();

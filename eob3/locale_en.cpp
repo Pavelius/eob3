@@ -32,6 +32,7 @@ const char* message_names[LastMessage + 1] = {
 	"This sign is mark something",
 	"Button", "Cellar",
 	"Current goals", "Visit %1",
+	"Ambush", "Attack", "CalmDown", "Hunt", "Talk", "Lie", "Bribe",
 	"Class", "Race"
 };
 const char* action_names[LastAction + 1] = {

@@ -200,6 +200,20 @@ static classn class_data[FighterMageTheif + 1][3] = {
 	{Fighter, Mage, Theif},
 };
 
+bool is_chaotic(alignmentn v) {
+	switch(v) {
+	case ChaoticEvil: case ChaoticGood: case ChaoticNeutral: return true;
+	default: return false;
+	}
+}
+
+bool is_lawful(alignmentn v) {
+	switch(v) {
+	case LawfulEvil: case LawfulGood: case LawfulNeutral: return true;
+	default: return false;
+	}
+}
+
 void creature::clear() {
 	memset((void*)this, 0, sizeof(*this));
 	name_id = 0xFF;
@@ -1046,6 +1060,124 @@ item* get_item(void* pointer) {
 }
 
 static void add_magical(itemn type) {
+}
+
+void set_reaction(creature** creatures, reactions v) {
+	for(auto i = 0; i < 6; i++) {
+		if(creatures[i])
+			creatures[i]->reaction = v;
+	}
+}
+
+creature* get_leader(creature** creatures) {
+	creature* result = 0;
+	for(auto i = 0; i < 6; i++) {
+		if(!creatures[i] || creatures[i]->isdisabled())
+			continue;
+		if(!result)
+			result = creatures[i];
+		else if(result->level() < creatures[i]->level())
+			result = creatures[i];
+	}
+	return result;
+}
+
+reactions get_reaction(creature** creatures) {
+	for(auto i = 0; i < 6; i++) {
+		if(creatures[i] && creatures[i]->reaction != Indifferent)
+			return creatures[i]->reaction;
+	}
+	return Indifferent;
+}
+
+static reactions* encounter_table(alignmentn monster_alignment) {
+	static reactions hostile_players[encounter_table_maximum] = {
+		Friendly, Friendly,
+		Careful, Careful, Careful, Careful, Careful, Careful,
+		Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile,
+	};
+	static reactions indifferent_players[encounter_table_maximum] = {
+		Friendly, Friendly, Friendly, Friendly,
+		Careful, Careful, Careful, Careful, Careful, Careful, Careful, Careful, Careful,
+		Hostile, Hostile, Hostile, Hostile, Hostile, Hostile,
+	};
+	static reactions friendly_players[encounter_table_maximum] = {
+		Friendly, Friendly, Friendly, Friendly, Friendly, Friendly,
+		Careful, Careful, Careful, Careful, Careful, Careful, Careful, Careful, Careful, Careful,
+		Hostile, Hostile, Hostile,
+	};
+	switch(monster_alignment) {
+	case LawfulGood:
+	case NeutralGood:
+		return friendly_players;
+	case ChaoticGood:
+	case LawfulNeutral:
+	case TrueNeutral:
+		return indifferent_players;
+	default:
+		return hostile_players;
+	}
+}
+
+static reactions roll_reaction(alignmentn monster_alignment, int bonus) {
+	auto t = encounter_table(monster_alignment);
+	if(is_lawful(monster_alignment))
+		bonus += 1;
+	else if(is_chaotic(monster_alignment))
+		bonus -= 1;
+	auto n = (rand() % encounter_table_maximum) - bonus;
+	if(n < 0)
+		n = 0;
+	else if(n > (encounter_table_maximum - 1))
+		n = encounter_table_maximum - 1;
+	return t[n];
+}
+
+void check_reaction(creature** creatures, int bonus) {
+	auto v = get_reaction(creatures);
+	if(v == Indifferent) {
+		auto charisma = party_median(adventurers, Charisma) + bonus;
+		auto alignment = LawfulEvil;
+		auto leader = get_leader(creatures);
+		if(leader)
+			alignment = leader->alignment;
+		v = roll_reaction(alignment, maptbl(cha_reaction_adjustment, charisma));
+		if(v == Indifferent)
+			v = Careful;
+		set_reaction(creatures, v);
+	}
+}
+
+void party_set(creature** source, featn v, bool apply) {
+	for(auto i = 0; i < 6; i++) {
+		if(!source[i])
+			continue;
+		if(apply)
+			source[i]->set(v);
+		else
+			source[i]->remove(v);
+	}
+}
+
+void party_set(creature** source, reactions v) {
+	for(auto i = 0; i < 6; i++) {
+		if(source[i])
+			source[i]->reaction = v;
+	}
+}
+
+int party_median(creature** creatures, abilityn v) {
+	auto count = 0;
+	auto value = 0;
+	for(int i = 0; i < 6; i++) {
+		if(!creatures[i] || !creatures[i]->isready())
+			continue;
+		value += creatures[i]->abilities[v];
+		count++;
+	}
+	if(!count)
+		return 0;
+	return value / count;
 }
 
 static void start_equipment() {

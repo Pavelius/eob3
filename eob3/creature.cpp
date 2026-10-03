@@ -522,16 +522,16 @@ static void update_depended_abilities() {
 		player->abilities[Speed] += player->wears[RightHand].geti().combat.speed;
 	else if(player->wears[LeftHand])
 		player->abilities[Speed] += player->wears[LeftHand].geti().combat.speed;
-	//else if(player->is(Large))
-	//	player->abilities[Speed] += 6;
+	else if(player->islarge())
+		player->abilities[Speed] += 6;
 	else
 		player->abilities[Speed] += 3;
-	//if(player->is(FeelPain))
-	//	player->add(AttackMelee, -4);
-	//if(player->is(Blinded)) {
-	//	player->add(AttackMelee, -4);
-	//	player->add(AttackRange, -4);
-	//}
+//	if(player->is(FeelPain))
+//		player->add(AttackMelee, -4);
+	if(player->is(Blind)) {
+		player->add(AttackMelee, -4);
+		player->add(AttackRange, -4);
+	}
 }
 
 static void update_bonus_saves() {
@@ -1105,11 +1105,13 @@ void create_monster(monstern type) {
 	const auto& e = monsters[type];
 	player->clear();
 	player->monster = type;
+	player->alignment = e.alignment;
 	player->race = e.race;
 	player->gender = Male;
 	player->type = Monster;
-	player->alignment = e.alignment;
 	player->levels[0] = e.hd;
+	player->basic.abilities[AC] += (10 - e.ac);
+	player->feats = e.feats;
 	standart_ability();
 	reroll_monster_hits();
 	player->update();

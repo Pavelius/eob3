@@ -28,7 +28,7 @@ enum featn : unsigned char {
 	TwoHanded, Deadly, Disease, Poison, Precise, DrainEnergy, DrainStrenght, DispelEvil, Holy, Vampiric, Vorpal,
 	ImmuneIllusion, ImmuneNormalWeapon,
 	ResistFire, ResistCold, ResistBludgeon, ResistPiercing, ResistSlashing,
-	Blinked, Blurred, Displaced, Invisible, Paralizing, SeeMagical, SeeCursed,
+	Blinked, Blind, Blurred, Displaced, Invisible, Paralizing, SeeMagical, SeeCursed,
 	Surprised, Panic, Moved, SlowMove, Undead,
 	LastFeat = Undead,
 	SwordPower, MeleeWeaponPower, RangedWeaponPower,

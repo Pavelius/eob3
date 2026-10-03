@@ -209,3 +209,26 @@ void wearable::additem(item& it) {
 		}
 	}
 }
+
+bool item::allow(wearn v) const {
+	auto n = geti().wear;
+	switch(v) {
+	case LeftRing:
+	case RightRing:
+		return n == LeftRing
+			|| n == RightRing;
+	case LeftHand:
+		return (n == RightHand && is(Precise))
+			|| n == LeftHand
+			|| n == Rod
+			|| n == Readable
+			|| n == Faithable
+			|| n == Drinkable;
+	case FirstBelt: case SecondBelt: case LastBelt:
+		return n == RightHand;
+	default:
+		if(v >= Backpack && v <= LastBackpack)
+			return true;
+		return n == v;
+	}
+}

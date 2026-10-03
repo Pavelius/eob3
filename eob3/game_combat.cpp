@@ -178,6 +178,8 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 		chance_critical++;
 	// Magical weapon stats
 	auto magic_bonus = get_magic(power);
+	bonus += attack.attack;
+	bonus += magic_bonus;
 	// Other stats
 	auto ac = defender->get(AC);
 	if(!isrange) {
@@ -438,6 +440,8 @@ void creature::kill() {
 }
 
 void creature::damage(damagen type, int value, int magic_bonus) {
+	if(value <= 0)
+		return;
 	auto resist = get_resist(type);
 	auto immunity = get_immunity(type);
 	if(immunity && is(immunity) && (magic_bonus <= 1))

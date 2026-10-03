@@ -301,6 +301,62 @@ static dungeoni* find_dungeon(int level) {
 	return find_dungeon(loc->quest, level);
 }
 
+static item* find_item_to_get(pointc v, directionn d, int side) {
+	dungeoni::ground* items[64];
+	if(!loc)
+		return 0;
+	auto count = loc->getitems(items, lengthof(items), v);
+	if(!count)
+		return 0;
+	int sides[5];
+	sides[0] = side;
+	sides[1] = get_side(side, Left);
+	sides[2] = get_side(side, Up);
+	sides[3] = get_side(side, Down);
+	sides[4] = get_side(side, Right);
+	for(size_t r = 0; r < lengthof(sides); r++) {
+		auto s = sides[r];
+		for(size_t i = 0; i < count; i++) {
+			if(items[i]->side == s)
+				return items[i];
+		}
+	}
+	return 0;
+}
+
+static int get_side(const creature* p) {
+	for(auto i = 0; i < 6; i++) {
+		if(adventurers[i] == p) {
+			if(i == 4)
+				return 2;
+			else if(i == 5)
+				return 3;
+			return i;
+		}
+	}
+	return -1;
+}
+
+void pick_up_dungeon_item() {
+	auto pi = (item*)current_focus;
+	auto pn = get_creature(pi);
+	if(!pn || *pi)
+		return;
+	auto gpi = find_item_to_get(party.pos, party.d, get_side(pn));
+	if(!gpi)
+		return;
+	auto slot = get_wear(pi);
+	if(!gpi->allow(slot))
+		return;
+	if(slot >= Head && slot <= LastBelt) {
+		if(!pn->allow(gpi->type))
+			return;
+	}
+	*pi = *gpi;
+	gpi->clear();
+	consolen(getnm(PlayerPickUpItem), pi->name());
+}
+
 static void explore_area() {
 	if(!loc)
 		return;

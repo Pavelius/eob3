@@ -37,7 +37,7 @@ enum messagen : unsigned char {
 	ConfirmRestParty, ConfirmReturnCity, ConfirmMakeCamp,
 	WhatPlayerDo, WhichWayToGo, WhatYouWantToBuy,
 	HowYouGetHere,
-	PlayerIsDisabled,
+	PlayerIsDisabled, PlayerPickUpItem,
 	PartyGoingUp, PartyGoingDown, PartyFallPit,
 	DoorOpened, SneakAttack, FeelPoison,
 	MagicDevice, Portal, TrapLauncher,

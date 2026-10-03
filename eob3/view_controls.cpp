@@ -1437,8 +1437,8 @@ void pick_up_item() {
 	auto p2 = (item*)current_focus;
 	if(!focus_valid(current_select)) {
 		if(!(*p2)) {
-		//		pick_up_dungeon_item();
-		//		return;
+			pick_up_dungeon_item();
+			return;
 		}
 		current_select = current_focus;
 	} else {

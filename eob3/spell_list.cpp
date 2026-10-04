@@ -93,17 +93,28 @@ static void shield(int level) {
 	apply(shield_effect, 5 * level);
 }
 
+static bool if_mending_item() {
+	return last_item->type != Edible && last_item->type != Rod && last_item->type != Readable && last_item->type != Drinkable
+		&& last_item->hits > 0;
+}
+static void mending(int level) {
+	last_item->hits = 0;
+}
+
 //Friends levels(0 1)
 //feats Enemy Group SummaryEffect
 //filter IfIntelligence ImmuneCharm - 1
 //instant Indifferent MonstersReaction Roll2d4 ReactionCheck + 101
+
 //Identify levels(0 1)
 //feats Ally You
 //filter_item IfItemIdentified - 1
 //instant IdentifyItem
+
 //MagicMissile levels(0 1) avatar_thrown(5)
 //feats Enemy
 //instant Roll1d4p1x1d4p1s3p2c9 Magic + 101
+
 //Mending levels(0 1)
 //feats Ally You
 //filter_item IfItemEdible - 1 IfItemCharged - 1 IfItemDamaged
@@ -122,6 +133,7 @@ spelli spells[] = {
 	{{0, 1}, AllEnemy, burning_hands},
 	{{0, 1}, SummonWeapon, chill_touch},
 	{{0, 1}, You, comprehend_languages},
+	{{0, 1}, AllyItems, mending, if_mending_item},
 	{{0, 1}, Ally, shield},
 	{{0, 1}, Enemy, shocking_grasp},
 };

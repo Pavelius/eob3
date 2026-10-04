@@ -175,7 +175,9 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 	if(ammo) {
 		if(!player->wears[Quiver].is(ammo))
 			return; // No Ammo!
-		attack.damage.b += item_data[ammo].combat.damage.b;
+		auto arrow_magic = get_magic(player->wears[Quiver].power);
+		attack.damage.b += item_data[ammo].combat.damage.b + arrow_magic;
+		attack.attack += item_data[ammo].combat.attack + arrow_magic;
 		if(player->wears[Quiver].is(Precise))
 			chance_critical++;
 		// Use ammo
@@ -392,7 +394,7 @@ bool make_object_attack(pointc v) {
 static bool ai_use_spells() {
 	//auto ps = ai_choose_spell();
 	//if(!ps)
-		return false;
+	return false;
 	//cast_spell(ps, player->getlevel(), 35, true, true, 0, 0);
 	//return true;
 }
@@ -454,7 +456,7 @@ void creature::damage(damagen type, int value, int magic_bonus) {
 	switch(type) {
 	case PoisonDamage: consolen(getnm(FeelPoison), name()); break;
 	default: fix_damage(this, value); break;
-	}		
+	}
 	if(hp_aid > 0) {
 		if(hp_aid >= value) {
 			hp_aid -= value;

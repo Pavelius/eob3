@@ -127,25 +127,19 @@ bool allow(itemn type, wearn n);
 featn get_powers(itemn type);
 
 struct item {
-	itemn		type = NoItem;
-	featn		power = NoPower; // Special additional magical powers
-	purposen	purpose = CommonItem; // Special purpose of item (depends on mission or quest)
-	union {
-		struct {
-			unsigned char identified : 1;
-			unsigned char hits : 3; // 0 - undamaged, 7 - is almost broken.
-		};
-		unsigned char count = 0;
-	};
+	itemn			type = NoItem;
+	featn			power = NoPower; // Special additional magical powers
+	purposen		purpose = CommonItem; // Special purpose of item (depends on mission or quest)
+	unsigned char	identified : 1 = 0;
+	unsigned char	hits : 3 = 0; // 0 - undamaged, 7 - is almost broken.
 	item() = default;
 	constexpr item(itemn type) : type(type) {}
 	constexpr explicit operator bool() const { return type != 0; }
 	constexpr const itemi& geti() const { return item_data[type]; }
-	constexpr bool countable() const { return type >= Arrow; }
 	const char*	name() const { return item_names[type]; }
 	bool allow(wearn v) const;
-	void clear() { type = NoItem; power = NoPower; purpose = CommonItem; count = 0; }
-	void consume() { setcount(getcount() - 1); }
+	void clear() { type = NoItem; power = NoPower; purpose = CommonItem; hits = 0; identified = 0; }
+	void consume() {}
 	void createpower(int chance_magical, int chance_cursed = 5);
 	void damage(const char* interactive, int use) {}
 	void identify(int v) { identified = (v >= 0) ? 1 : 0; }
@@ -155,21 +149,20 @@ struct item {
 	bool is(itemn v) const { return type == v; }
 	bool isartifact() const { return get_magic(power) >= 4; }
 	bool iscursed() const { return (power == Cursed || power == Delusion); }
-	bool isdamaged() const { return !countable() && count >= 5; }
+	bool isdamaged() const { return hits >= 5; }
 	bool isidentified() const { return identified != 0; }
 	bool ismagical() const { return power != NoPower; }
 	bool isranged() const { return geti().avatar.thrown || geti().combat.ammo != NoItem; }
 	bool isweapon() const { return geti().combat.damage.c != 0; }
-	bool join(item& it);
 	bool natural() const { return is_natural(type); }
+	int	getcount() const { return 1; }
 	int	getcost() const { return geti().cost; }
-	int	getcount() const { return countable() ? count + 1 : 1; }
 	int	getmagic() const { return get_magic(power); }
 	featn getpower() const { return power; }
 	void set(featn v) { power = v; }
 	void set(purposen v) { purpose = v; }
 	void setcount(int v) {}
-	void usecharge(const char* interactive, int chance = 35, int use = 1); // Maximum charges is always 10
+	void usecharge(const char* interactive, int chance = 35);
 };
 
 extern item shops[LastShop+1][6];

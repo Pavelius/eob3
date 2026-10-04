@@ -2,6 +2,8 @@
 
 #include "color.h"
 
+const unsigned maximum_spells = 120;
+
 enum abilityn : unsigned char;
 enum celln : unsigned char;
 enum damagen : unsigned char;
@@ -35,8 +37,9 @@ struct spelli {
 	spellfn			type; // Effect type 
 	fninstant		instant; // When spell use
 	fncondition		test; // Target test
-	color			hilite; // Active color border hilite
+	color			lighting; // Active color border hilite
 };
+extern spelli spells[maximum_spells];
 
 struct targetref {
 	unsigned char	type = 0xFF; // 0..250 is dungeon index for monsters, 0xFE is character.
@@ -44,6 +47,8 @@ struct targetref {
 	targetref() = default;
 	targetref(const creature* p);
 	constexpr explicit operator bool() const { return type != 0xFF; }
+	constexpr bool operator ==(const targetref& v) const { return type == v.type && v.index == v.index; }
+	constexpr bool operator !=(const targetref& v) const { return type != v.type || v.index != v.index; }
 	operator creature*() const;
 	void clear() { type = 0xFF; index = 0; }
 };
@@ -55,8 +60,12 @@ struct spellboost {
 	fnevent			proc; // Boost wearing function
 	featn			feat; // Additional feat
 };
-extern spellboost	spellboosts[256];
+extern spellboost spellboosts[256];
 extern unsigned char spellboost_count;
+
+struct spellbook {
+	char			spells[maximum_spells];
+};
 
 void apply(fnevent proc, unsigned duration, featn feat = (featn)0);
 void apply(damagen type, int value, abilityn save, bool save_ignore = false);

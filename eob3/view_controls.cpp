@@ -616,17 +616,18 @@ static void paint_avatar_stats() {
 
 static void paint_avatar_border() {
 	adat<color, 8> avatar_colors;
-	//referencei target = player;
-	//for(auto& e : bsdata<boosti>()) {
-	//	if(e.target != target)
-	//		continue;
-	//	if(e.type == BoostSpell) {
-	//		auto ps = bsdata<spelli>::elements + e.param;
-	//		if(!ps->lighting)
-	//			continue;
-	//		avatar_colors.add(ps->lighting);
-	//	}
-	//}
+	// Formig possible border colors from active spells.
+	targetref target = player;
+	for(size_t i = 0; i < spellboost_count; i++) {
+		auto& e = spellboosts[i];
+		if(e.target != target)
+			continue;
+		auto ps = spells + e.spell;
+		if(ps->lighting == color())
+			continue;
+		avatar_colors.add(ps->lighting);
+	}
+	// Show border colors.
 	if(avatar_colors) {
 		auto push_fore = fore;
 		auto index = (get_frame_tick() / 256) % avatar_colors.getcount();
@@ -1461,7 +1462,7 @@ void pick_up_item() {
 		if(!can_place(c2, w1, p1))
 			return;
 		//if(!p2->join(*p1))
-			iswap(*p1, *p2);
+		iswap(*p1, *p2);
 		c1->update();
 		if(c1 != c2)
 			c2->update();

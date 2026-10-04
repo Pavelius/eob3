@@ -2,6 +2,7 @@
 
 #include "item.h"
 #include "pointc.h"
+#include "spell.h"
 
 typedef bool (*fncfilter)(unsigned char v);
 
@@ -138,7 +139,7 @@ struct npci {
 	void sayv(const char* format, const char* format_param) const;
 };
 
-struct creature : npci, posable, statable, wearable {
+struct creature : npci, posable, statable, wearable, spellbook {
 	racenc			languages;
 	statable		basic;
 	unsigned		experience;

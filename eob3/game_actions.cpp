@@ -2,6 +2,7 @@
 #include "answers.h"
 #include "creature.h"
 #include "game.h"
+#include "perference.h"
 #include "pushvalue.h"
 #include "sound.h"
 
@@ -183,10 +184,23 @@ static void exit_game() {
 	next_scene(empthy_exit_game);
 }
 
+static void game_music_stop() {
+	if(!music_enable)
+		music_stop();
+}
+
+static void game_perferences() {
+	static perferencei source[] = {
+		{Music, music_enable, game_music_stop},
+		{}};
+	show_perferences(getnm(Settings), source);
+}
+
 static void game_options() {
 	static actioni actions[] = {
 		{LoadGame, {}, {}, load_game},
 		{SaveGame, {}, {}, save_game},
+		{Settings, {}, {}, game_perferences},
 		{ExitGame, {}, {}, exit_game},
 		{}};
 	open_options(actions);

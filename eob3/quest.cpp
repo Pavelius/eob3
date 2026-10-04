@@ -33,5 +33,5 @@ static sitei flooded_collectors[] = {
 };
 
 questi quests[] = {
-	{0, {Coins, 500, Reputation, 1}, flooded_collectors},
+	{0, MusBinge, {Coins, 500, Reputation, 1}, flooded_collectors},
 };

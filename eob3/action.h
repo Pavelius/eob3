@@ -22,7 +22,7 @@ enum actionn : unsigned char {
 	BuyWeapons, BuyWeaponsEmpty,
 	RepairWeapons,
 	RestParty, ScribleScrolls, MemorizeSpells, PrayForSpells,
-	GameOptions, StartGame, LoadGame, SaveGame, ExitGame,
+	GameOptions, StartGame, LoadGame, SaveGame, ExitGame, Settings,
 	PlayerExhaused,
 	LeaveOutside,
 	LastAction = LeaveOutside

@@ -5,7 +5,8 @@
 #include "quest.h"
 
 const char* message_names[LastMessage + 1] = {
-	"Cancel", "Continue", "Title", "Yes", "No", "OK", "Agree", "Decline",
+	"Cancel", "Continue", "Title", "Yes", "No", "OK", "Agree", "Decline", "On", "Off",
+	"Music", "Sound",
 	"Information", "Skills", "You have %Gold coins.",
 	"Select Race", "Select Gender", "Select Class", "Select Alignment",
 	"Select the box of the character you wish to create or view.",
@@ -51,7 +52,7 @@ const char* action_names[LastAction + 1] = {
 	"\"I'm all out of weapons. Adventurers bought up everything I had. Come back next week - I might have a fresh shipment by then.\"",
 	"Repair Weapons",
 	"Rest Party", "Scrible scrolls", "Memorize Spells", "Pray for Spells",
-	"Game options", "Start a new game", "Load game", "Save game", "Exit game",
+	"Game options", "Start a new game", "Load game", "Save game", "Exit game", "Perferences",
 	"You are so tired to do this again. You must stop and rest. Do something else that doesn’t require as much effort.",
 	"Leave outside",
 };

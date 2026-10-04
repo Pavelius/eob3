@@ -4,9 +4,11 @@
 #include "creature.h"
 #include "dungeon.h"
 #include "game.h"
+#include "perference.h"
 #include "pushvalue.h"
 #include "quest.h"
 #include "rand.h"
+#include "sound.h"
 #include "stringbuilder.h"
 #include "view_focus.h"
 
@@ -287,6 +289,28 @@ void open_options(const actioni* actions) {
 		if(!p)
 			break;
 		apply_action(p);
+	}
+}
+
+void show_perferences(const char* header, const perferencei* actions) {
+	pushfocus push;
+	current_focus = empty_focus;
+	while(running_scene()) {
+		an.clear();
+		for(auto p = actions; *p; p++) {
+			auto value = p->value.get();
+			if(p->value.type==valuei::Bool)
+				an.add((long)p, "%1 %2", getnm(p->id), getnm(value ? On : Off));
+			else
+				an.add((long)p, "%1: %2i", getnm(p->id), value);
+		}
+		auto p = (perferencei*)choose_large_menu(header, getnm(Cancel));
+		if(!p)
+			break;
+		if(p->value.type == valuei::Bool)
+			p->value.set(p->value.get() ? 0 : 1);
+		if(p->proc)
+			p->proc();
 	}
 }
 
@@ -986,6 +1010,7 @@ void enter_dungeon(int level, celln location) {
 	loc = find_dungeon(p->index(), level);
 	if(!loc)
 		return; // Dungeon not found. Stay in city.
+	current_music = quests[loc->quest].music;
 	party_set(location);
 	make_action();
 	set_dungeon_tiles(loc->type);

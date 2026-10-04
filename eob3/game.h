@@ -13,6 +13,7 @@ struct creature;
 struct item;
 struct sprite;
 struct pointca;
+struct perferencei;
 
 typedef void(*fnevent)(); // Callback function of any command executing
 typedef void(*fnoutput)(const char* format); // Callback function of string out
@@ -28,7 +29,8 @@ enum directionn : unsigned char {
 	LeftUp, RightUp, LeftDown, RightDown
 };
 enum messagen : unsigned char {
-	Cancel, Continue, Title, Yes, No, OK, Agree, Decline,
+	Cancel, Continue, Title, Yes, No, OK, Agree, Decline, On, Off,
+	Music, Sound,
 	Characterinfo, CharacterSkills, PartyStatusFormat,
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
 	GeneraionInfo, GenerationPlayInfo,
@@ -148,6 +150,7 @@ void show_dungeon_options();
 void show_scene(fnevent before_paint, fnevent input, long focus = -1);
 void show_scene_font();
 void show_sprites_command();
+void show_perferences(const char* header, const perferencei* actions);
 long show_message(const char* format, bool add_anaswers, const char* cancel, unsigned cancel_key);
 void text_label(int index, long data, const char* format, unsigned key);
 void text_label_left(int index, long data, const char* format, unsigned key);

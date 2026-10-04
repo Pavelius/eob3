@@ -9,7 +9,7 @@ struct soundi {
 };
 extern soundi songs[];
 
-extern bool music_mute;
+extern bool music_enable;
 extern soundn current_music;
 
 void music_setvolume(short unsigned v);

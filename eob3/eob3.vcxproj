@@ -154,6 +154,7 @@
     <ClInclude Include="pointca.h" />
     <ClInclude Include="quest.h" />
     <ClInclude Include="screenshoot.h" />
+    <ClInclude Include="perference.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="spell.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="mid_music.cpp" />
     <ClCompile Include="monster.cpp" />
     <ClCompile Include="npc.cpp" />
+    <ClCompile Include="perference.cpp" />
     <ClCompile Include="pointc.cpp" />
     <ClCompile Include="pointca.cpp" />
     <ClCompile Include="quest.cpp" />

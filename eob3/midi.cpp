@@ -295,11 +295,11 @@ public:
 
 static midiplayer music;
 
-bool music_mute;
+bool music_enable = true;
 soundn current_music;
 
 void music_update() {
-	if(music_mute)
+	if(!music_enable)
 		return;
 	music.play(songs[current_music].data, songs[current_music].size, songs[current_music].division);
 }

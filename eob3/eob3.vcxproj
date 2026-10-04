@@ -156,6 +156,7 @@
     <ClInclude Include="screenshoot.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="sound.h" />
+    <ClInclude Include="spell.h" />
     <ClInclude Include="sprite_util.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClInclude>
@@ -214,6 +215,7 @@
     <ClCompile Include="dice.cpp" />
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="draw_text.cpp" />
+    <ClCompile Include="game_talk.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="information.cpp" />
     <ClCompile Include="item.cpp" />
@@ -233,6 +235,7 @@
     <ClCompile Include="scale.cpp" />
     <ClCompile Include="screenshoot.cpp" />
     <ClCompile Include="shape.cpp" />
+    <ClCompile Include="spell.cpp" />
     <ClCompile Include="sprite_util.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>

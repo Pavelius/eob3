@@ -236,6 +236,7 @@
     <ClCompile Include="screenshoot.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="spell.cpp" />
+    <ClCompile Include="spell_list.cpp" />
     <ClCompile Include="sprite_util.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>

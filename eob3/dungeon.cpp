@@ -186,6 +186,10 @@ void dungstatei::clear() {
 	special.clear();
 }
 
+unsigned char dungeoni::index() const {
+	return this - dungeons;
+}
+
 void dungeoni::makewave(pointc start) {
 	if(!start)
 		return;

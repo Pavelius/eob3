@@ -206,6 +206,8 @@ unsigned char random_name(racen race, gendern gender);
 monstern get_minions(monstern v);
 racen get_race(monstern v);
 
+bool is_character(const creature* p);
+
 int get_hit_die(classn type);
 int get_party_index(const creature* player);
 int party_median(creature** source, abilityn v);

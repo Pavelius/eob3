@@ -23,7 +23,7 @@ const int gp = 10; // 1 gold piece = 1 silver coin
 
 enum featn : unsigned char {
 	NoPower, Magical, Magical2, Magical3, Magical4, Magical5, Cursed, Delusion,
-	Protection, Flaming, Freezing,
+	Protection, ProtectionFromEvil, Flaming, Freezing,
 	HumanControl, GoblinoidControl,
 	TwoHanded, Deadly, Disease, Poison, Precise, DrainEnergy, DrainStrenght, DispelEvil, Holy, Vampiric, Vorpal,
 	ImmuneIllusion, ImmuneNormalWeapon,

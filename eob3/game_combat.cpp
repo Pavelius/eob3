@@ -130,7 +130,7 @@ static creature* get_opponent(bool left, bool enemies) {
 static void drain_attack(creature* defender, const item& weapon, featn type, abilityn ability, int save_bonus) {
 	if(!player->is(weapon, type))
 		return;
-	if(player->is(Undead) && defender->is(Protection))
+	if(player->is(Undead) && defender->is(ProtectionFromEvil))
 		return;
 	if(defender->roll(SaveVsMagic, save_bonus))
 		return;

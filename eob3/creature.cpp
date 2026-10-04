@@ -1180,6 +1180,10 @@ int party_median(creature** creatures, abilityn v) {
 	return value / count;
 }
 
+bool is_character(const creature* p) {
+	return p >= characters && p <= characters + lengthof(characters);
+}
+
 static void start_equipment() {
 	switch(get_class(player->type, 0)) {
 	case Fighter:

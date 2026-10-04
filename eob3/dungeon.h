@@ -196,6 +196,7 @@ struct dungeoni : sitei {
 	int				getpassables(bool explored) const;
 	bool			have(const overlayi* p) const { return p >= overlays && p <= overlays + sizeof(overlays) / sizeof(overlays[0]); }
 	bool			have(const creature* p) const { return p >= monsters && p <= monsters + sizeof(monsters) / sizeof(monsters[0]); }
+	unsigned char	index() const;
 	bool			is(pointc v, cellfn i) const;
 	bool			is(pointc v, celln t1, celln t2) const;
 	bool			is(goaln v) const { return (rewards & (1 << v)) != 0; }

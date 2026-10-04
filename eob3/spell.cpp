@@ -1,22 +1,62 @@
+#include "action.h"
 #include "creature.h"
+#include "dungeon.h"
 #include "game.h"
 #include "spell.h"
 
-static int roll(int c, int d, int m) {
-	for(auto i = 0; i < c; i++)
-		m += roll_dice(d);
-	return m;
+spellboost spellboosts[256];
+unsigned char spellboost_count;
+
+static spelln current_spell;
+
+static unsigned char get_dungeon(const void* target) {
+	if(target >= dungeons && target <= dungeons + lengthof(dungeons)) {
+		return (unsigned char)(((char*)target - (char*)dungeons) / sizeof(dungeons[0]));
+	} else
+		return 0xFF;
 }
 
-static bool if_wounded() {
-	return player->hp < player->hpm;
+targetref::targetref(const creature* p) {
+	if(is_character(p)) {
+		index = 0xFE;
+		type = p - characters;
+	} else {
+		index = get_dungeon(p);
+		type = p - dungeons[index].monsters;
+	}
 }
 
-static void cure_wounds(int level) {
-	auto n = roll(1, 8, 0) + level;
-	player->heal(n);
+targetref::operator creature*() const {
+	if(type == 0xFF)
+		return 0;
+	else if(type == 0xFE)
+		return characters + index;
+	return dungeons[type].monsters + index;
 }
 
-spelli spells[] = {
-	{"Cure light wound", {1}, cure_wounds, if_wounded},
-};
+void apply(fnevent proc, unsigned duration, featn feat) {
+	auto p = spellboosts + (spellboost_count++);
+	memset(p, 0, sizeof(*p));
+	p->spell = current_spell;
+	p->target = player;
+	p->proc = proc;
+	p->feat = feat;
+	p->stop = getv(Time) + duration;
+}
+
+void apply(damagen type, int value) {
+	player->damage(type, value, 5);
+}
+
+void apply(damagen type, int value, abilityn save, bool save_ignore) {
+	if(player->roll(save)) {
+		if(save_ignore)
+			return;
+		value = value / 2;
+	}
+	apply(type, value);
+}
+
+void summon(itemn type, unsigned duration) {
+
+}

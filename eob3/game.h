@@ -33,7 +33,7 @@ enum messagen : unsigned char {
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
 	GeneraionInfo, GenerationPlayInfo,
 	ConfirmDeleteCharacter, ConfirmBuyHealing, ConfirmBuyItem, ConfirmEatAndDrink, ConfirmRentRoom, ConfirmCarousing,
-	ConfirmRestParty, ConfirmReturnCity, ConfirmMakeCamp,
+	ConfirmRestParty, ConfirmReturnCity, ConfirmMakeCamp, ConfirmExitGame,
 	WhatPlayerDo, WhichWayToGo, WhatYouWantToBuy, CastOnWho,
 	NoSpellsAvailable, SpellsAvailable,
 	HowYouGetHere,

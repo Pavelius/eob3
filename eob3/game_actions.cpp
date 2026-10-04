@@ -173,7 +173,14 @@ static void load_game() {
 static void save_game() {
 }
 
+static void empthy_exit_game() {
+	// Before game exit
+}
+
 static void exit_game() {
+	if(!confirm(ConfirmExitGame))
+		return;
+	next_scene(empthy_exit_game);
 }
 
 static void game_options() {
@@ -187,7 +194,7 @@ static void game_options() {
 
 void show_dungeon_options() {
 	static actioni actions[] = {
-		{MemorizeSpells, {}, {Mage}},
+		{MemorizeSpells, {}, {Mage}, memorize_spells},
 		{PrayForSpells, {}, {Cleric}, pray_for_spells},
 		{GameOptions, {}, {}, game_options},
 		{}};

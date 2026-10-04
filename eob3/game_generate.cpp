@@ -140,7 +140,7 @@ static void party_generation() {
 
 static void create(int index, racen race, gendern gender, classn type, alignmentn alignment) {
 	player = characters + index;
-	create_charater(race, gender, type, alignment);
+	create_character(race, gender, type, alignment);
 	adventurers[index] = player;
 }
 

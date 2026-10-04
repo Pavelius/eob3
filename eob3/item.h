@@ -21,10 +21,12 @@
 
 const int gp = 10; // 1 gold piece = 1 silver coin
 
+enum spelln : unsigned char;
+
 enum featn : unsigned char {
 	NoPower, Magical, Magical2, Magical3, Magical4, Magical5, Cursed, Delusion,
-	Protection, ProtectionFromEvil, Flaming, Freezing,
-	HumanControl, GoblinoidControl,
+	Protection, Flaming, Freezing,
+	ControlHuman, ControlGoblinoid, ControlEvil,
 	TwoHanded, Deadly, Disease, Poison, Precise, DrainEnergy, DrainStrenght, DispelEvil, Holy, Vampiric, Vorpal,
 	ImmuneIllusion, ImmuneNormalWeapon,
 	ResistFire, ResistCold, ResistBludgeon, ResistPiercing, ResistSlashing,
@@ -36,7 +38,7 @@ enum featn : unsigned char {
 enum damagen : unsigned char {
 	Bludgeon, Slashing, Piercing,
 	FireDamage, ColdDamage, AcidDamage, ShockDamage,
-	MindDamage, PoisonDamage, IllDamage,
+	MindDamage, ForceDamage, PoisonDamage, IllDamage,
 };
 enum itemn : unsigned char {
 	NoItem,
@@ -138,6 +140,8 @@ struct item {
 	constexpr const itemi& geti() const { return item_data[type]; }
 	const char*	name() const { return item_names[type]; }
 	bool allow(wearn v) const;
+	bool allow(spelln v, int level);
+	bool apply(spelln v, int level, bool run);
 	void clear() { type = NoItem; power = NoPower; purpose = CommonItem; hits = 0; identified = 0; }
 	void consume() {}
 	void createpower(int chance_magical, int chance_cursed = 5);

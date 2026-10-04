@@ -15,23 +15,26 @@
 */
 
 #include "adat.h"
-#include "slice.h"
 
-typedef unsigned char (*fncgroup)(unsigned char v);
-typedef bool (*fncfilter)(unsigned char v);
+typedef void* (*fnvgroup)(void* v);
+typedef bool (*fnvfilter)(const void* v);
 
-struct collection : adat<unsigned char, 256> {
-	void group(fncgroup proc);
+struct collectiona : adat<void*, 256> {
+	void group(fnvgroup proc);
 	void distinct();
-	void match(fncfilter proc, bool keep);
-	void select(unsigned char v1, unsigned char v2);
-	void select(unsigned char v1, unsigned char v2, fncfilter proc, bool keep);
+	void match(fnvfilter proc, bool keep);
 	void shuffle();
-	void sort(fncompare proc) { qsort(data, count, sizeof(data[0]), proc); }
 	void top(int number);
-	template<typename T> slice<T> records() const { return slice<T>((T*)data, (T*)data+count); }
-	unsigned char pick();
-	unsigned char picklast();
-	unsigned char random() const;
+	int total(fnvfilter proc, bool keep) const;
+	template<typename T> slice<T*> records() const { return slice<T*>((T**)data, (T**)data + count); }
+	void* random() const;
+	void select(void* source, int count, unsigned size, fnvfilter proc);
 };
-extern collection records;
+extern collectiona targets;
+
+template<typename T>
+struct collection : collectiona {
+	auto begin() { return (T**)data; }
+	auto end() { return (T**)(data + count); }
+	auto random() { return (T*) collectiona::random(); }
+};

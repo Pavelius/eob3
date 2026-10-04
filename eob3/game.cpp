@@ -264,7 +264,7 @@ const actioni* choose_location(const actioni* source) {
 	return (actioni*)choose_large_menu_no_player(getnm(WhichWayToGo), getnm(Cancel));
 }
 
-const actioni* choose_building_action(const actioni* source) {
+const actioni* choose_action(const actioni* source) {
 	if(!source)
 		return 0;
 	for(auto p = source; *p; p++) {
@@ -277,6 +277,17 @@ const actioni* choose_building_action(const actioni* source) {
 		an.add((long)p, getnm(p->action));
 	}
 	return (actioni*)choose_player_action(getnm(Cancel));
+}
+
+void open_options(const actioni* actions) {
+	pushfocus push;
+	current_focus = empty_focus;
+	while(running_scene()) {
+		auto p = choose_action(actions);
+		if(!p)
+			break;
+		apply_action(p);
+	}
 }
 
 static void pass_round() {

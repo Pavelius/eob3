@@ -150,20 +150,28 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	constexpr explicit operator bool() const { return hp > 0; }
 	const char* strvalue(abilityn id) const;
 	combati getattack(wearn id, bool large_enemy) const;
+	static bool allow(spelln spell, int level);
 	int expaward() const;
 	int get(abilityn v) const { return abilities[v]; }
 	int get(classn v) const { auto n = get_class_index(type, v); return (n == -1) ? 0 : levels[n]; }
 	int getfood() const { return 6 * 10; } // Each turn make con test or decrease food.
 	int gethitpenalty(int bonus) const;
 	int gethp() const { return hpm; }
+	int level() const { return npci::level(); }
+	int level(spelln spell) const;
 	void add(abilityn n, int v);
 	void add(featn feat, unsigned duration) {}
 	void addexp(unsigned v) { experience += v; }
 	bool allow(itemn type) const;
 	bool allow(itemn type, speechn speech) const;
+	bool apply(spelln spell, int level, bool run);
 	bool canread() const { return true; }
+	bool cast(spelln spell, bool run);
+	bool charmable() const { return get(Intellegence) >= 4; }
 	void clear();
-	void damage(damagen type, int value, int magic_bonus = 0);
+	void damage(damagen type, int value, bool magic_weapon);
+	void damage(damagen type, int value) { damage(type, value, true); }
+	void damage(damagen type, int value, abilityn save, bool save_negate);
 	void equip(item& v);
 	void equip(const item& v) { item cv = v; equip(cv); }
 	void heal(int hits) {}
@@ -187,6 +195,10 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	void set(featn v) { feats.set(v); }
 	void setframe(short* frames, short index) const;
 	void update();
+private:
+	void apply(spelln spell, fnevent value, unsigned duration);
+	void apply(spelln spell, featn value, unsigned duration);
+	void apply(spelln spell, itemn value, unsigned duration);
 };
 extern creature characters[32]; // All characters in game
 extern creature* adventurers[6]; // Party of characters
@@ -218,7 +230,7 @@ int select_names(unsigned char* result, racen race, gendern gender, fncfilter fi
 bool allow(alignmentn type, classn v);
 bool allow(classn type, racen v);
 void check_reaction(creature** creatures, int bonus);
-void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment);
+void create_character(racen race, gendern gender, classn class_type, alignmentn alignment);
 void create_monster(monstern type);
 void create_monster_pallette();
 void finish_character();

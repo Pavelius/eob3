@@ -130,7 +130,7 @@ static creature* get_opponent(bool left, bool enemies) {
 static void drain_attack(creature* defender, const item& weapon, featn type, abilityn ability, int save_bonus) {
 	if(!player->is(weapon, type))
 		return;
-	if(player->is(Undead) && defender->is(ProtectionFromEvil))
+	if(player->is(Undead) && defender->is(ControlEvil))
 		return;
 	if(defender->roll(SaveVsMagic, save_bonus))
 		return;
@@ -209,7 +209,7 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 	// RULE: Ranger special hunter skill
 	if(player->is(Ranger) && defender->is(Goblinoid))
 		bonus += 4;
-	if((power == GoblinoidControl && defender->race == Goblinoid)
+	if((power == ControlGoblinoid && defender->race == Goblinoid)
 		|| (player->is(weapon, Holy) && defender->is(Undead))) {
 		bonus += 3;
 		multiplier += 1;
@@ -442,12 +442,12 @@ void creature::kill() {
 	clear();
 }
 
-void creature::damage(damagen type, int value, int magic_bonus) {
+void creature::damage(damagen type, int value, bool magic_wepon) {
 	if(value <= 0)
 		return;
 	auto resist = get_resist(type);
 	auto immunity = get_immunity(type);
-	if(immunity && is(immunity) && (magic_bonus <= 1))
+	if(immunity && is(immunity) && !magic_wepon)
 		value = 0;
 	else if(resist && is(resist))
 		value = value / 2;

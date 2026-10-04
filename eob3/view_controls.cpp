@@ -47,8 +47,8 @@ pushfont::pushfont(int size) : pushfont() {
 	::font = res_data[size ? FONT8 : FONT6];
 }
 
-struct pushdialog : pushfocus {
-};
+//struct pushdialog : pushfocus {
+//};
 
 static unsigned get_frame_tick() {
 	return current_cpu_time / 10;
@@ -573,6 +573,11 @@ static void paint_compass(directionn d) {
 	button({44, 145, 64, 161}, KeyRight); fire(move_party_right);
 }
 
+static void paint_compass_no_input(directionn d) {
+	pushvalue push(disable_input, true);
+	paint_compass(d);
+}
+
 static void paint_menu(point position, int object_width, int object_height) {
 	pushrect push;
 	caret = position;
@@ -618,11 +623,11 @@ static void paint_avatar_border() {
 	adat<color, 8> avatar_colors;
 	// Formig possible border colors from active spells.
 	targetref target = player;
-	for(size_t i = 0; i < spellboost_count; i++) {
-		auto& e = spellboosts[i];
+	for(size_t i = 0; i < boost_count; i++) {
+		auto& e = boosts[i];
 		if(e.target != target)
 			continue;
-		auto ps = spells + e.spell;
+		auto ps = spell_data + e.spell;
 		if(ps->lighting == color())
 			continue;
 		avatar_colors.add(ps->lighting);
@@ -1155,11 +1160,15 @@ static void paint_avatars() {
 		player = adventurers[i];
 		if(!player)
 			continue;
-		paint_character(player->isdisabled() /* || player->is(Paralized)*/,
+		paint_character(player->isdisabled() || player->is(Paralizing),
 			hilite_player && (player == push_player));
 	}
 	player = push_player;
-	button({289, 178, 319, 198}, KeyEscape); fire(buttoncancel);
+	button({289, 178, 319, 198}, KeyEscape);
+	if(loc)
+		fire(show_dungeon_options);
+	else
+		fire(buttoncancel);
 }
 
 static void paint_avatars_no_focus() {
@@ -1275,7 +1284,7 @@ static void update_focus_player() {
 
 static void paint_large_menu() {
 	paint_background(PLAYFLD, 0);
-	paint_compass(party.d);
+	paint_compass_no_input(party.d);
 	paint_avatars_no_focus_hilite();
 	paint_console();
 	if(!loc)
@@ -1589,7 +1598,7 @@ static void paint_city() {
 }
 
 long play_city() {
-	pushdialog push;
+	pushfocus push;
 	set_focus_by_player();
 	return scene(paint_city);
 }
@@ -1648,7 +1657,6 @@ static long choose_answer(const char* title, const char* cancel, fnevent before_
 		return r;
 	}
 	pushrect push;
-	pushdialog push_dialog;
 	auto push_origin = answer_origin;
 	answer_origin = 0;
 	answer_per_page = per_page;
@@ -1705,6 +1713,7 @@ long choose_small_menu(const char* header, const char* cancel, int* columns) {
 }
 
 long choose_main_menu() {
+	current_focus = empty_focus;
 	return choose_answer(0, 0, paint_main_menu, text_label, 1, -1, 0);
 }
 
@@ -1717,96 +1726,110 @@ static int get_total_use(char* source_value) {
 	return result;
 }
 
+static void add_spells(int spell_index, int level, const spella* source) {
+	an.clear();
+	for(auto i = (spelln)0; i <= LastSpell; i = (spelln)(i + 1)) {
+		auto spell_level = spell_data[i].levels[spell_index];
+		if(spell_level != level)
+			continue;
+		if(!source->is(i))
+			continue;
+		an.add(i, spell_data[i].name());
+	}
+	if(an)
+		current_focus = an.elements[0].value;
+}
+
 void choose_spells(const char* title, const char* cancel, int spell_type) {
 	pushrect push;
-	pushdialog push_dialog;
-	// auto level = 0;
-	// auto last_level = level;
-	//auto spells_known = get_spells_known(player);
-	//if(!spells_known)
-	//	return;
-	//add_spells(spell_type, level + 1, spells_known);
-	//if(an)
-	//	current_focus = (void*)an.elements[0].value;
-	//while(ismodal()) {
-	//	if(level != last_level) {
-	//		last_level = level;
-	//		add_spells(spell_type, level + 1, spells_known);
-	//		current_focus = bsdata<abilityi>::elements + Spell1 + level;
-	//	}
-	//	auto available_spells = player->abilities[Spell1 + level];
-	//	auto source_value = get_spells_prepared(player);
-	//	auto total_use = get_total_use(source_value);
-	//	paint_background(PLAYFLD, 0);
-	//	paint_avatars_no_focus_hilite();
-	//	paint_console();
-	//	paint_menu({0, 0}, 178, 174);
-	//	caret = {6, 6};
-	//	width = 165;
-	//	height = texth() + 3;
-	//	paint_blue_title(title);
-	//	width = 16;
-	//	auto push_caret = caret;
-	//	if(current_focus >= bsdata<abilityi>::elements + Spell1 && current_focus <= bsdata<abilityi>::elements + Spell9) {
-	//		auto new_level = (abilityi*)current_focus - (bsdata<abilityi>::elements + Spell1);
-	//		if(new_level != level)
-	//			execute(cbsetint, new_level, 0, &level);
-	//	}
-	//	for(int i = 0; i < 9; i++) {
-	//		if(paint_button(str("%1i", i + 1), bsdata<abilityi>::elements + Spell1 + i, '1' + i, TextBold, level == i))
-	//			execute(cbsetint, i, 0, &level);
-	//		caret.x += width + 2;
-	//	}
-	//	caret = push_caret;
-	//	caret.y += texth() + 8;
-	//	width = 165;
-	//	if(!an)
-	//		paint_blue_title(getnm("NoSpellsAvailable"));
-	//	else
-	//		paint_blue_title(str(getnm("SpellsAvailable"), total_use, available_spells));
-	//	caret.y += 2;
-	//	auto index = 0;
-	//	auto current_spell_index = -1;
-	//	for(auto& e : an.elements) {
-	//		auto spell_index = getbsi((spelli*)e.value);
-	//		text_label_left(index, e.value, e.text, e.key, update_buttonparam);
-	//		if(e.value == current_focus)
-	//			current_spell_index = spell_index;
-	//		label_control(str("%1i", source_value[spell_index]), e.value, TextBold | AlignRight);
-	//		caret.y += texth() + 1;
-	//		index++;
-	//	}
-	//	if(cancel) {
-	//		width = textw(cancel) + 6;
-	//		caret = {6, 158};
-	//		button_label(1000, 0, cancel, KeyEscape, update_buttonparam);
-	//	}
-	//	domodal();
-	//	switch(hkey) {
-	//	case KeyUp:
-	//		if(an.elements && an.elements[0].value == current_focus)
-	//			current_focus = bsdata<abilityi>::elements + level + Spell1;
-	//		else
-	//			apply_focus(hkey);
-	//		break;
-	//	case KeyDown:
-	//		apply_focus(hkey);
-	//		break;
-	//	case KeyRight:
-	//		if(current_spell_index != -1 && total_use < available_spells)
-	//			source_value[current_spell_index]++;
+	pushfocus push_focus;
+	const auto ids_level = 2000;
+	auto level = 0;
+	auto last_level = level;
+	auto book = get_spellbook(player);
+	if(!book)
+		return;
+	add_spells(spell_type, level + 1, book);
+	while(ismodal()) {
+		if(level != last_level) {
+			last_level = level;
+			add_spells(spell_type, level + 1, book);
+			current_focus = ids_level + level;
+		}
+		auto available_spells = 1; // player->abilities[Spell1 + level];
+		auto total_use = 0; // get_total_use(source_value);
+		paint_background(PLAYFLD, 0);
+		paint_avatars_no_focus_hilite();
+		paint_console();
+		paint_menu({0, 0}, 178, 174);
+		setpos(6, 6, 165, texth() + 3);
+		paint_blue_title(title);
+		width = 16;
+		auto push_caret = caret;
+		if(current_focus >= ids_level && current_focus < ids_level + 9) {
+			auto new_level = current_focus - ids_level;
+			if(new_level != level)
+				execute(cbsetint, new_level, &level);
+		}
+		for(int i = 0; i < 9; i++) {
+			paint_button(str("%1i", i + 1), ids_level + i, '1' + i, TextBold, level == i);
+			fire(cbsetint, i, &level);
+			caret.x += width + 2;
+		}
+		caret = push_caret;
+		caret.y += texth() + 8;
+		width = 165;
+		if(!an)
+			paint_blue_title(getnm(NoSpellsAvailable));
+		else
+			paint_blue_title(str(getnm(SpellsAvailable), total_use, available_spells));
+		caret.y += 2;
+		auto index = 0;
+		auto current_spell_index = -1;
+		for(auto& e : an.elements) {
+			auto spell = (spelln)e.value;
+			if(spell > LastSpell)
+				continue;
+			text_label_left(index, e.value, e.text, e.key);
+			if(e.value == current_focus)
+				current_spell_index = spell;
+			auto memorized = book->spells[spell];
+			label_control(str("%1i", memorized), e.value, TextBold | AlignRight);
+			caret.y += texth() + 1;
+			index++;
+		}
+		if(cancel) {
+			width = textw(cancel) + 6;
+			caret = {6, 158};
+			button_label(1000, 0, cancel, KeyEscape);
+			fire(buttoncancel);
+		}
+		domodal();
+		switch(hkey) {
+		case KeyUp:
+			if(an.elements && an.elements[0].value == current_focus)
+				current_focus = ids_level + level;
+			else
+				apply_focus(hkey);
+			break;
+		case KeyDown:
+			apply_focus(hkey);
+			break;
+		case KeyRight:
+			if(current_spell_index != -1 && total_use < available_spells)
+				book->spells[current_spell_index]++;
+//			else if(an.findvalue(current_focus) == -1)
+//				apply_focus(hkey);
+			break;
+		case KeyLeft:
+			if(current_spell_index != -1 && book->spells[current_spell_index] > 0)
+				book->spells[current_spell_index]--;
 	//		else if(an.findvalue(current_focus) == -1)
 	//			apply_focus(hkey);
-	//		break;
-	//	case KeyLeft:
-	//		if(current_spell_index != -1 && source_value[current_spell_index] > 0)
-	//			source_value[current_spell_index]--;
-	//		else if(an.findvalue(current_focus) == -1)
-	//			apply_focus(hkey);
-	//		break;
-	//	}
-	//	common_input();
-	//}
+			break;
+		}
+		common_input();
+	}
 }
 
 void show_scene(fnevent scene_paint, fnevent input, long focus) {
@@ -1844,7 +1867,7 @@ static void menu_position(const char* format, point& origin, point& size, int pa
 long choose_dialog(const char* title, int padding) {
 	pushrect push;
 	pushfore push_fore;
-	pushdialog push_dialog;
+	pushfocus push_dialog;
 	point origin, size;
 	caret = {0, 0};
 	width = 320; height = 200;
@@ -1926,7 +1949,7 @@ static void paint_generate_progress() {
 long choose_generate_box(const char* header, const char* footer, int current) {
 	pushrect push;
 	pushfore push_fore;
-	pushdialog push_dialog;
+	pushfocus push_dialog;
 	current_focus = current;
 	while(ismodal()) {
 		paint_background(CHARGEN, 0);
@@ -1948,7 +1971,7 @@ long choose_generate_box(const char* header, const char* footer, int current) {
 static long choose_generate_box(fnevent proc) {
 	pushrect push;
 	pushfore push_fore;
-	pushdialog push_dialog;
+	pushfocus push_dialog;
 	auto push_origin = answer_origin;
 	answer_per_page = 4;
 	answer_index = 0;
@@ -2114,8 +2137,9 @@ void play_dungeon() {
 
 long show_message(const char* format, bool add_anaswers, const char* cancel, unsigned cancel_key) {
 	pushrect push;
-	pushdialog push_dialog;
+	pushfocus push_dialog;
 	pushvalue push_picure(answer_picture);
+	current_focus = empty_focus;
 	an.checkkeys();
 	if(!cancel_key)
 		cancel_key = KeyEscape;

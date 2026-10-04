@@ -83,6 +83,14 @@ static void buy_weapons() {
 	buy_item(WeaponShop, BuyWeaponsEmpty);
 }
 
+static void pray_for_spells() {
+	choose_spells(getnm(PrayForSpells), getnm(Cancel), 0);
+}
+
+static void memorize_spells() {
+	choose_spells(getnm(MemorizeSpells), getnm(Cancel), 0);
+}
+
 static actioni tavern_actions[] = {
 	{EatFoodAndDrink, {Coins, 20}, {}, eat_and_drink},
 	{PickPocketsAction, {}, {Theif}, pick_pockets},
@@ -142,7 +150,7 @@ void play_city_actions() {
 		play_city();
 		action_outcome = NoAction;
 		if(indoor(location)) {
-			auto p = choose_building_action(get_actions(location));
+			auto p = choose_action(get_actions(location));
 			if(!p)
 				continue;
 			apply_action(p);
@@ -157,4 +165,31 @@ void play_city_actions() {
 		if(action_outcome == LeaveOutside)
 			location = basic_location;
 	}
+}
+
+static void load_game() {
+}
+
+static void save_game() {
+}
+
+static void exit_game() {
+}
+
+static void game_options() {
+	static actioni actions[] = {
+		{LoadGame, {}, {}, load_game},
+		{SaveGame, {}, {}, save_game},
+		{ExitGame, {}, {}, exit_game},
+		{}};
+	open_options(actions);
+}
+
+void show_dungeon_options() {
+	static actioni actions[] = {
+		{MemorizeSpells, {}, {Mage}},
+		{PrayForSpells, {}, {Cleric}, pray_for_spells},
+		{GameOptions, {}, {}, game_options},
+		{}};
+	open_options(actions);
 }

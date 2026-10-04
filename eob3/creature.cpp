@@ -1226,7 +1226,7 @@ void finish_character() {
 	}
 }
 
-void create_charater(racen race, gendern gender, classn class_type, alignmentn alignment) {
+void create_character(racen race, gendern gender, classn class_type, alignmentn alignment) {
 	player->clear();
 	player->race = race;
 	player->gender = gender;

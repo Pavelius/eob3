@@ -7,6 +7,7 @@ extern unsigned char bin_border[];
 extern unsigned char bin_brick[];
 extern unsigned char bin_chargen[];
 extern unsigned char bin_chargenb[];
+extern unsigned char bin_compass[];
 extern unsigned char bin_decors[];
 extern unsigned char bin_dung[];
 extern unsigned char bin_font6[];
@@ -31,7 +32,7 @@ sprite* res_data[LastRes + 1] = {
 	RS(font6), RS(font8),
 	RS(blue), RS(brick), 0, RS(dung), 0, RS(green), 0,
 	RS(kobold), RS(leech),
-	RS(border), RS(chargen), RS(chargenb), 0, RS(invent),
+	RS(border), RS(chargen), RS(chargenb), RS(compass), RS(invent),
 	RS(itemgs), RS(itemgl), RS(items), RS(overlays), RS(decors),
 	RS(menu), RS(playfld), RS(portm), RS(scene), RS(thrown), RS(xspl)
 };

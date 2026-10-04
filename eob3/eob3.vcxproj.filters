@@ -52,9 +52,6 @@
     <ClCompile Include="bitmap.cpp">
       <Filter>interface</Filter>
     </ClCompile>
-    <ClCompile Include="collection.cpp">
-      <Filter>support</Filter>
-    </ClCompile>
     <ClCompile Include="color.cpp">
       <Filter>interface</Filter>
     </ClCompile>
@@ -85,7 +82,7 @@
     <ClCompile Include="game.cpp">
       <Filter>logic</Filter>
     </ClCompile>
-    <ClCompile Include="game_city.cpp">
+    <ClCompile Include="game_actions.cpp">
       <Filter>logic</Filter>
     </ClCompile>
     <ClCompile Include="game_generate.cpp">
@@ -229,6 +226,12 @@
     <ClCompile Include="spell_list.cpp">
       <Filter>logic</Filter>
     </ClCompile>
+    <ClCompile Include="collectiona.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_compass.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="action.h">
@@ -241,9 +244,6 @@
       <Filter>support</Filter>
     </ClInclude>
     <ClInclude Include="assign.h">
-      <Filter>support</Filter>
-    </ClInclude>
-    <ClInclude Include="collection.h">
       <Filter>support</Filter>
     </ClInclude>
     <ClInclude Include="color.h">
@@ -329,6 +329,9 @@
     </ClInclude>
     <ClInclude Include="spell.h">
       <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="collectiona.h">
+      <Filter>support</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

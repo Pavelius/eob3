@@ -141,9 +141,9 @@
     <ClInclude Include="adat.h" />
     <ClInclude Include="answers.h" />
     <ClInclude Include="assign.h" />
+    <ClInclude Include="collectiona.h" />
     <ClInclude Include="console.h" />
     <ClInclude Include="dungeon.h" />
-    <ClInclude Include="collection.h" />
     <ClInclude Include="creature.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="dice.h" />
@@ -176,6 +176,7 @@
   <ItemGroup>
     <ClCompile Include="bin_blue.cpp" />
     <ClCompile Include="bin_brick.cpp" />
+    <ClCompile Include="bin_compass.cpp" />
     <ClCompile Include="bin_decors.cpp" />
     <ClCompile Include="bin_dung.cpp" />
     <ClCompile Include="bin_green.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="bin_leech.cpp" />
     <ClCompile Include="bin_overlays.cpp" />
     <ClCompile Include="bin_thrown.cpp" />
+    <ClCompile Include="collectiona.cpp" />
     <ClCompile Include="draw_textf.cpp" />
     <ClCompile Include="game_carousing.cpp" />
     <ClCompile Include="game.cpp" />
@@ -203,11 +205,10 @@
     <ClCompile Include="bin_scene.cpp" />
     <ClCompile Include="bin_xspl.cpp" />
     <ClCompile Include="bitmap.cpp" />
-    <ClCompile Include="collection.cpp" />
     <ClCompile Include="console.cpp" />
     <ClCompile Include="dungeon.cpp" />
     <ClCompile Include="dungeon_generate.cpp" />
-    <ClCompile Include="game_city.cpp" />
+    <ClCompile Include="game_actions.cpp" />
     <ClCompile Include="game_combat.cpp" />
     <ClCompile Include="game_generate.cpp" />
     <ClCompile Include="creature.cpp" />

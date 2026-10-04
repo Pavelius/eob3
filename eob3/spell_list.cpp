@@ -8,20 +8,12 @@
 const int Round = 1;
 const int Hours = Round * 60;
 
-item* last_item;
+creature* caster;
 
-static int roll(int c, int d, int m = 0) {
+static int rolld(int c, int d, int m = 0) {
 	for(auto i = 0; i < c; i++)
 		m += roll_dice(d);
 	return m;
-}
-
-static bool if_wounded() {
-	return player->hp < player->hpm && player->hp > -10;
-}
-
-static void cure_light_wounds(int level) {
-	player->heal(roll(1, 8, 0));
 }
 
 static void bless_effect() {
@@ -34,106 +26,149 @@ static void bless_effect() {
 	player->add(SaveVsPoison, 1);
 	player->add(SaveVsTraps, 1);
 }
-static void bless(int level) {
-	apply(bless_effect, 5 + level);
-}
-
-static void detect_evil(int level) {
-	apply(0, 2 * level, SeeCursed);
-}
-
-static void detect_magic(int level) {
-	apply(0, 2 * level, SeeMagical);
-}
-
-static void protection_from_evil(int level) {
-	apply(0, 5 + level, ProtectionFromEvil);
-}
-
-static bool if_edible() {
-	return last_item->is(Edible);
-}
-
-static void purify_food(int level) {
-	last_item->hits = 0;
-}
 
 static void armor_effect() {
 	if(player->abilities[AC] < 4)
 		player->abilities[AC] = 4;
 }
-static void armor(int level) {
-	apply(armor_effect, Hours * 8);
-}
-
-static void burning_hands(int level) {
-	apply(FireDamage, roll(1, 3, imin(10, level) * 2), SaveVsMagic);
-}
-
-static void chill_touch(int level) {
-	summon(ChillTouchHand, 3 + level);
-}
 
 static void comprehend_languages_effect() {
 	player->languages.data = -1;
-}
-static void comprehend_languages(int level) {
-	apply(comprehend_languages_effect, 5 + 5 * level);
-}
-
-static void shocking_grasp(int level) {
-	apply(ShockDamage, roll(1, 8, level));
 }
 
 static void shield_effect() {
 	if(player->abilities[AC] < 7)
 		player->abilities[AC] += 7;
 }
-static void shield(int level) {
-	apply(shield_effect, 5 * level);
+
+bool creature::apply(spelln spell, int level, bool run) {
+	switch(spell) {
+	case Armor:
+		if(abilities[AC] >= 4)
+			return false;
+		if(run)
+			apply(spell, armor_effect, 8 * Hours);
+		break;
+	case Bless:
+		if(run)
+			apply(spell, bless_effect, 5 + level);
+		break;
+	case BurningHands:
+		if(run)
+			damage(FireDamage, rolld(1, 3, imin(10, level) * 2), SaveVsMagic, false);
+		break;
+	case ChillTouch:
+		if(run)
+			apply(spell, ChillTouchHand, 3 + level);
+		break;
+	case CureLightWound:
+		if(hp >= hpm || isdead())
+			return false;
+		if(run)
+			heal(rolld(1, 8, 0));
+		break;
+	case ComprehendLanguages:
+		if(languages.data == -1)
+			return false;
+		if(run)
+			apply(spell, comprehend_languages_effect, 5 + 5 * level);
+		break;
+	case DetectEvil:
+		if(run)
+			apply(spell, SeeCursed, 2 * level);
+		break;
+	case DetectMagic:
+		if(run)
+			apply(spell, SeeMagical, 2 * level);
+		break;
+	case Friends:
+		if(charmable())
+			return false;
+		if(run) {
+			reaction = Indifferent;
+			// TODO: Need to make reaction roll
+		}
+		break;
+	case MagicMissile:
+		if(run) {
+			auto count = 1 + (level - 1) / 2;
+			damage(ForceDamage, rolld(count, 4, count));
+		}
+		break;
+	case ProtectionFromEvil:
+		if(run)
+			apply(spell, ControlEvil, 5 + level);
+		break;
+	case ShockingGrasp:
+		if(run)
+			apply(spell, ShockDamage, rolld(1, 8, level));
+		break;
+	case ShieldSpell:
+		if(abilities[AC] >= 7)
+			return false;
+		if(run)
+			apply(spell, shield_effect, 5 * level);
+		break;
+	default:
+		return false;
+	}
+	return true;
 }
 
-static bool if_mending_item() {
-	return last_item->type != Edible && last_item->type != Rod && last_item->type != Readable && last_item->type != Drinkable
-		&& last_item->hits > 0;
+bool item::apply(spelln spell, int level, bool run) {
+	switch(spell) {
+	case Mending:
+		if(!hits)
+			return false;
+		if(type == Edible || type == Rod || type == Readable || type == Drinkable)
+			return false;
+		if(run)
+			hits = 0;
+		break;
+	case PurifyFood:
+		if(!hits)
+			return false;
+		if(type != Edible)
+			return false;
+		if(run)
+			hits = 0;
+		break;
+	case Identify:
+		if(identified)
+			return false;
+		if(run)
+			identified = 1;
+		break;
+	default:
+		return false;
+	}
+	return true;
 }
-static void mending(int level) {
-	last_item->hits = 0;
+
+int get_thrown(spelln spell) {
+	switch(spell) {
+	case MagicMissile: return 5;
+	default: return -1;
+	}
 }
 
-//Friends levels(0 1)
-//feats Enemy Group SummaryEffect
-//filter IfIntelligence ImmuneCharm - 1
-//instant Indifferent MonstersReaction Roll2d4 ReactionCheck + 101
-
-//Identify levels(0 1)
-//feats Ally You
-//filter_item IfItemIdentified - 1
-//instant IdentifyItem
-
-//MagicMissile levels(0 1) avatar_thrown(5)
-//feats Enemy
-//instant Roll1d4p1x1d4p1s3p2c9 Magic + 101
-
-//Mending levels(0 1)
-//feats Ally You
-//filter_item IfItemEdible - 1 IfItemCharged - 1 IfItemDamaged
-//instant DamageItem - 1 EffectCount + 1
-
-spelli spells[] = {
+spelli spell_data[LastSpell + 1] = {
 	// Level 1 Cleric spells
-	{{1}, Ally, bless},
-	{{1}, Ally, cure_light_wounds, if_wounded},
-	{{1, 2}, You, detect_evil},
-	{{1, 1}, You, detect_magic},
-	{{1, 1}, Ally, protection_from_evil, 0, color(150, 0, 24)},
-	{{1}, AllAllyItems, purify_food, if_edible},
+	{{1}, Ally, Bless},
+	{{1}, Ally, CureLightWound},
+	{{1, 2}, You, DetectEvil},
+	{{1, 1}, You, DetectMagic},
+	{{1, 1}, Ally, ProtectionFromEvil, color(150, 0, 24)},
+	{{1}, AllAllyItems, PurifyFood},
 	// Level 1 Mage spells
-	{{0, 1}, You, armor, 0, color(50, 205, 50)},
-	{{0, 1}, AllEnemy, burning_hands},
-	{{0, 1}, SummonWeapon, chill_touch},
-	{{0, 1}, You, comprehend_languages},
-	{{0, 1}, AllyItems, mending, if_mending_item},
-	{{0, 1}, Ally, shield},
-	{{0, 1}, Enemy, shocking_grasp},
+	{{0, 1}, You, Armor, color(50, 205, 50)},
+	{{0, 1}, AllEnemy, BurningHands},
+	{{0, 1}, SummonWeapon, ChillTouch},
+	{{0, 1}, You, ComprehendLanguages},
+	{{0, 1}, You, Friends},
+	{{0, 1}, AllAllyItems, Identify},
+	{{0, 1}, ShootEnemy, MagicMissile},
+	{{0, 1}, AllAllyItems, Mending},
+	{{0, 1}, Ally, ShieldSpell},
+	{{0, 1}, Enemy, ShockingGrasp},
 };

@@ -1,13 +1,18 @@
 #include "action.h"
+#include "answers.h"
+#include "collectiona.h"
 #include "creature.h"
 #include "dungeon.h"
 #include "game.h"
+#include "pushvalue.h"
 #include "spell.h"
 
-spellboost spellboosts[256];
-unsigned char spellboost_count;
+spella			spellbooks[32];
+boost			boosts[256];
+unsigned char	boost_count;
 
-static spelln current_spell;
+static collection<creature> creatures;
+static collection<item> items;
 
 static unsigned char get_dungeon(const void* target) {
 	if(target >= dungeons && target <= dungeons + lengthof(dungeons)) {
@@ -34,29 +39,175 @@ targetref::operator creature*() const {
 	return dungeons[type].monsters + index;
 }
 
-void apply(fnevent proc, unsigned duration, featn feat) {
-	auto p = spellboosts + (spellboost_count++);
+static boost* add_boost(spelln spell, creature* player, unsigned duration) {
+	auto p = boosts + (boost_count++);
 	memset(p, 0, sizeof(*p));
-	p->spell = current_spell;
+	p->spell = spell;
 	p->target = player;
-	p->proc = proc;
-	p->feat = feat;
 	p->stop = getv(Time) + duration;
+	return p;
 }
 
-void apply(damagen type, int value) {
-	player->damage(type, value, 5);
-}
-
-void apply(damagen type, int value, abilityn save, bool save_ignore) {
-	if(player->roll(save)) {
+void creature::damage(damagen type, int value, abilityn save, bool save_ignore) {
+	if(roll(save)) {
 		if(save_ignore)
 			return;
 		value = value / 2;
 	}
-	apply(type, value);
+	damage(type, value, true);
 }
 
-void summon(itemn type, unsigned duration) {
+static bool add_items(creature* target, spelln spell, int level) {
+	for(auto& e : target->wears) {
+		if(!e)
+			continue;
+		if(!e.allow(spell, level))
+			continue;
+		items.add(&e);
+	}
+	return items.operator bool();
+}
 
+static bool add_party_items(spelln spell, int level) {
+	for(auto p : adventurers) {
+		if(!p)
+			continue;
+		add_items(p, spell, level);
+	}
+	return items.operator bool();
+}
+
+static bool add_creature(creature* player, spelln spell, int level) {
+	if(!player)
+		return false;
+	if(!player->allow(spell, level))
+		return false;
+	creatures.add(player);
+	return true;
+}
+
+static bool add_creatures(creature** source, spelln spell, int level) {
+	for(auto i = 0; i < lengthof(adventurers); i++)
+		add_creature(source[i], spell, level);
+	return creatures.operator bool();
+}
+
+static bool add_party(spelln spell, int level) {
+	return add_creatures(adventurers, spell, level);
+}
+
+static bool add_monsters(spelln spell, int level, int distance) {
+	if(!loc)
+		return false;
+	auto position = to(party.pos, party.d);
+	while(distance > 0)
+		position = to(position, party.d);
+	creature* monsters[6]; loc->getmonsters(monsters, position, party.d);
+	return add_creatures(monsters, spell, level);
+}
+
+static bool spell_targets(creature* caster, spelln spell, int level) {
+	creatures.clear();
+	items.clear();
+	switch(spell_data[spell].type) {
+	case You: return add_creature(caster, spell, level);
+	case Ally: case AllAlly: return add_party(spell, level);
+	case AllAllyItems: return add_party_items(spell, level);
+	case AllEnemy: case Enemy: return add_party_items(spell, level);
+	default: return false;
+	}
+}
+
+static creature* choose_player(bool interactive) {
+	if(!interactive)
+		return creatures.random();
+	for(auto p : creatures)
+		an.add((long)p, p->name());
+	return (creature*)choose_small_menu(getnm(CastOnWho), 0);
+}
+
+static void apply_targets(spelln spell, int level) {
+	for(auto p : creatures)
+		p->apply(spell, level, true);
+	for(auto p : items)
+		p->apply(spell, level, true);
+}
+
+int creature::level(spelln spell) const {
+	if(player->monster)
+		return player->levels[0];
+	auto priest_level = player->get(Cleric);
+	auto mage_level = player->get(Mage);
+	auto result_level = 0;
+	if(spell_data[spell].levels[0]) {
+		if(priest_level)
+			result_level = priest_level;
+	}
+	if(spell_data[spell].levels[1]) {
+		if(mage_level && mage_level < result_level)
+			result_level = mage_level;
+	}
+	return result_level;
+}
+
+static bool spell_cast(spelln spell, bool run, int level, bool random_choose) {
+	if(!spell_targets(caster, spell, level))
+		return false;
+	switch(spell_data[spell].type) {
+	case Ally:
+		creatures[0] = choose_player(!random_choose);
+		creatures.count = 1;
+		break;
+	}
+	apply_targets(spell, level);
+	return true;
+}
+
+bool creature::cast(spelln spell, bool run) {
+	pushvalue push(caster, this);
+	return spell_cast(spell, run, level(spell), false);
+}
+
+bool creature::allow(spelln spell, int level) {
+	switch(spell_data[spell].type) {
+	case SummonWeapon:
+		return true;
+	case AllAlly: case Ally: case You:
+	case Enemy: case AllEnemy:
+		return true;
+	default:
+		return false;
+	}
+}
+
+void creature::apply(spelln spell, fnevent value, unsigned duration) {
+	auto p = add_boost(spell, this, duration);
+	p->proc = value;
+}
+
+void creature::apply(spelln spell, featn value, unsigned duration) {
+	auto p = add_boost(spell, this, duration);
+	p->feat = value;
+}
+
+void creature::apply(spelln spell, itemn value, unsigned duration) {
+	auto p = add_boost(spell, this, duration);
+	p->summon = value;
+}
+
+bool item::allow(spelln spell, int level) {
+	switch(spell_data[spell].type) {
+	case AllAllyItems:
+		return true;
+	default:
+		return false;
+	}
+}
+
+spella* get_spellbook(const creature* target) {
+	if(!target)
+		return 0;
+	if(target>=characters && target<=characters + lengthof(characters))
+		return spellbooks + (target - characters);
+	return 0;
 }

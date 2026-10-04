@@ -1,3 +1,4 @@
+#include "action.h"
 #include "answers.h"
 #include "creature.h"
 #include "draw.h"

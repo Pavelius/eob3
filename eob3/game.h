@@ -29,13 +29,13 @@ enum directionn : unsigned char {
 };
 enum messagen : unsigned char {
 	Cancel, Continue, Title, Yes, No, OK, Agree, Decline,
-	StartGame, LoadGame, ExitGame,
 	Characterinfo, CharacterSkills, PartyStatusFormat,
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
 	GeneraionInfo, GenerationPlayInfo,
 	ConfirmDeleteCharacter, ConfirmBuyHealing, ConfirmBuyItem, ConfirmEatAndDrink, ConfirmRentRoom, ConfirmCarousing,
 	ConfirmRestParty, ConfirmReturnCity, ConfirmMakeCamp,
-	WhatPlayerDo, WhichWayToGo, WhatYouWantToBuy,
+	WhatPlayerDo, WhichWayToGo, WhatYouWantToBuy, CastOnWho,
+	NoSpellsAvailable, SpellsAvailable,
 	HowYouGetHere,
 	PlayerIsDisabled, PlayerPickUpItem,
 	PartyGoingUp, PartyGoingDown, PartyFallPit,
@@ -144,6 +144,7 @@ void set_dungeon_tiles(resn type);
 void show_automap(const pointca& markers, int explore_radius);
 void show_automap(bool mshow_fog_of_war, bool mshow_secrets, bool mshow_party, const pointca* vred_markers);
 void show_dungeon_images();
+void show_dungeon_options();
 void show_scene(fnevent before_paint, fnevent input, long focus = -1);
 void show_scene_font();
 void show_sprites_command();

@@ -6,7 +6,6 @@
 
 const char* message_names[LastMessage + 1] = {
 	"Cancel", "Continue", "Title", "Yes", "No", "OK", "Agree", "Decline",
-	"Start a new game", "Load existing game", "Exit game",
 	"Information", "Skills", "You have %Gold coins.",
 	"Select Race", "Select Gender", "Select Class", "Select Alignment",
 	"Select the box of the character you wish to create or view.",
@@ -20,7 +19,8 @@ const char* message_names[LastMessage + 1] = {
 	"Do you really want to rest party all night?",
 	"Do you really want return to the city?",
 	"Do you really want to make a camp and consume food?",
-	"What %1 do?", "Which way to go?", "Which item you buy?",
+	"What %1 do?", "Which way to go?", "Which item you buy?", "Cast on who?",
+	"No spells available", "Memorized %1i of %2i spells",
 	"How you get here so far?",
 	"%1 is disabled", "%Player pick up %1",
 	"Party going up ...", "Party going down ...", "Party fall into the pit.",
@@ -49,7 +49,8 @@ const char* action_names[LastAction + 1] = {
 	"Buy Weapons",
 	"\"I'm all out of weapons. Adventurers bought up everything I had. Come back next week - I might have a fresh shipment by then.\"",
 	"Repair Weapons",
-	"Rest Party", "Scrible scrolls",
+	"Rest Party", "Scrible scrolls", "Memorize Spells", "Pray for Spells",
+	"Game options", "Start a new game", "Load game", "Save game", "Exit game",
 	"You are so tired to do this again. You must stop and rest. Do something else that doesn’t require as much effort.",
 	"Leave outside",
 };
@@ -224,6 +225,10 @@ const char* wallmsg_names[LastWellMessage + 1] = {
 	"There is a holy site",
 	"There is no something special on this level",
 	"Hey, lucky, no tought monsters live here",
+};
+extern const char* spell_names[LastSpell + 1] = {
+	"Bless", "Cure Light Wound", "Detect Evil", "Detect Magic", "Protection From Evil", "Purify Food",
+	"Armor", "Burning Hands", "Chill Touch", "Comprehend languages", "Friends", "Identify", "Magic Missile", "Mending", "Shield", "Shocking Grasp",
 };
 const char* name_names[50 * 4] = {
 	"Aldren", "Elira", "Garrick", "Mirena", "Taren", // Human names

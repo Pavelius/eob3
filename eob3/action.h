@@ -21,7 +21,8 @@ enum actionn : unsigned char {
 	Donate,
 	BuyWeapons, BuyWeaponsEmpty,
 	RepairWeapons,
-	RestParty, ScribleScrolls,
+	RestParty, ScribleScrolls, MemorizeSpells, PrayForSpells,
+	GameOptions, StartGame, LoadGame, SaveGame, ExitGame,
 	PlayerExhaused,
 	LeaveOutside,
 	LastAction = LeaveOutside
@@ -84,6 +85,7 @@ bool confirm_message(messagen header, int value);
 bool enough(const variablei& v1, const variablei& v2);
 bool indoor(actionn v);
 bool need_activity(actionn v);
+void open_options(const actioni* actions);
 void pass_activity();
 bool pass_payment(actionn action, const variablei& required);
 void pass_time(unsigned minutes);
@@ -93,4 +95,4 @@ void show_message(actionn id, ...);
 item* choose_buy_item(shopn shop, actionn shop_empty);
 
 const actioni* choose_location(const actioni* source);
-const actioni* choose_building_action(const actioni* source);
+const actioni* choose_action(const actioni* source);

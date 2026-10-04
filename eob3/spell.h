@@ -2,44 +2,39 @@
 
 #include "color.h"
 
-const unsigned maximum_spells = 120;
-
 enum abilityn : unsigned char;
 enum celln : unsigned char;
 enum damagen : unsigned char;
 enum featn : unsigned char;
-enum spelln : unsigned char;
 
 struct creature;
 struct item;
 
-typedef bool(*fncondition)();
 typedef void(*fnevent)();
-typedef void(*fninstant)(int value);
+
+enum spelln : unsigned char {
+	Bless, CureLightWound, DetectEvil, DetectMagic, ProtectionFromEvil, PurifyFood,
+	Armor, BurningHands, ChillTouch, ComprehendLanguages, Friends, Identify, MagicMissile, Mending, ShieldSpell, ShockingGrasp,
+	LastSpell = ShockingGrasp,
+};
 
 enum spellfn : unsigned char {
 	You, Ally, AllAlly,
-	Enemy, AllEnemy,
-	AllyItems, AllAllyItems,
+	Enemy, AllEnemy, ShootEnemy,
+	AllAllyItems,
 	SummonWeapon,
 };
 
-/*struct spellfc {
-	unsigned data = 0;
-	spellfc() = default;
-	template<typename... Ts> constexpr spellfc(spellfn v, Ts... args) : spellfc(args...) { set(v); }
-	bool is(spellfn v) const { return (data & (1 << v)) != 0; }
-	void set(spellfn v) { data |= (1 << v); }
-};*/
+extern const char* spell_names[LastSpell + 1];
 
 struct spelli {
 	char			levels[2]; // 0 - priest, 1 - mage, 2 - other
 	spellfn			type; // Effect type 
-	fninstant		instant; // When spell use
-	fncondition		test; // Target test
+	spelln			index; // Spell (for presentation)
 	color			lighting; // Active color border hilite
+	const char*		name() const { return spell_names[index]; }
 };
-extern spelli spells[maximum_spells];
+extern spelli spell_data[LastSpell + 1];
 
 struct targetref {
 	unsigned char	type = 0xFF; // 0..250 is dungeon index for monsters, 0xFE is character.
@@ -53,23 +48,34 @@ struct targetref {
 	void clear() { type = 0xFF; index = 0; }
 };
 
-struct spellboost {
+struct boost {
 	spelln			spell; // Spell index
-	targetref		target;
+	targetref		target; // Spell target
 	unsigned		stop; // Stop when time will be this.
 	fnevent			proc; // Boost wearing function
 	featn			feat; // Additional feat
+	itemn			summon; // Additional summoned weapon
 };
-extern spellboost spellboosts[256];
-extern unsigned char spellboost_count;
+extern boost boosts[256];
+extern unsigned char boost_count;
 
 struct spellbook {
-	char			spells[maximum_spells];
+	char			spells[LastSpell + 1];
 };
 
-void apply(fnevent proc, unsigned duration, featn feat = (featn)0);
-void apply(damagen type, int value, abilityn save, bool save_ignore = false);
-void apply(damagen type, int value);
-bool cast(spelln spell);
-bool cast(spelln spell, creature* target);
-void summon(itemn type, unsigned duration);
+struct spella : spellbook {
+	unsigned		data[(LastSpell + 31) / 32];
+	bool			is(spelln v) const { return (data[v / 32] & (1 << (v % 32))) != 0; }
+	void			remove(spelln v) { data[v / 32] &= ~(1 << (v % 32)); }
+	void			set(spelln v) { data[v / 32] |= 1 << (v % 32); }
+};
+extern spella spellbooks[32]; // Size exacly equal sizeof(characters)
+
+extern creature* caster;
+
+spella* get_spellbook(const creature* target);
+
+int get_thrown(spelln spell); // If differ from -1 spell is range.
+
+bool cast(spelln spell, bool run);
+bool cast(spelln spell, int level, bool random_choose);

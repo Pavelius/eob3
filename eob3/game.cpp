@@ -299,10 +299,10 @@ void show_perferences(const char* header, const perferencei* actions) {
 		an.clear();
 		for(auto p = actions; *p; p++) {
 			auto value = p->value.get();
+			auto format = "%1: %2i";
 			if(p->value.type==valuei::Bool)
-				an.add((long)p, "%1 %2", getnm(p->id), getnm(value ? On : Off));
-			else
-				an.add((long)p, "%1: %2i", getnm(p->id), value);
+				format = "%1 %3";
+			an.add((long)p, format, getnm(p->id), value, getnm(value ? On : Off));
 		}
 		auto p = (perferencei*)choose_large_menu(header, getnm(Cancel));
 		if(!p)

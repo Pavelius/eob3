@@ -158,6 +158,8 @@ static bool spell_cast(spelln spell, bool run, int level, bool random_choose) {
 		creatures[0] = choose_player(!random_choose);
 		creatures.count = 1;
 		break;
+	default:
+		break;
 	}
 	apply_targets(spell, level);
 	return true;

@@ -1531,12 +1531,12 @@ static void adventure_input() {
 	switch(hkey) {
 	case 'M': player_manipulate(); break;
 	case 'U': player_use_item(); break;
+	case 'V': show_dungeon_automap(); break;
 	default:
 		alternate_focus_input();
 		character_input();
 		break;
 	}
-	//	{'V', show_dungeon_automap},
 	//	{'D', drop_dungeon_item},
 	//	{'U', use_item},
 	//	{'E', cast_spell},
@@ -1740,6 +1740,14 @@ static int get_total_use(const spella* book) {
 	return result;
 }
 
+static bool answer_value(long value) {
+	for(auto& e : an) {
+		if(e.value==value)
+			return true;
+	}
+	return false;
+}
+
 void choose_spells(const char* title, const char* cancel, int spell_type) {
 	pushrect push;
 	pushfocus push_focus;
@@ -1818,14 +1826,14 @@ void choose_spells(const char* title, const char* cancel, int spell_type) {
 		case KeyRight:
 			if(current_spell_index != -1 && total_use < available_spells)
 				book->spells[current_spell_index]++;
-			//			else if(an.findvalue(current_focus) == -1)
-			//				apply_focus(hkey);
+			else if(!answer_value(current_focus))
+				apply_focus(hkey);
 			break;
 		case KeyLeft:
 			if(current_spell_index != -1 && book->spells[current_spell_index] > 0)
 				book->spells[current_spell_index]--;
-			//		else if(an.findvalue(current_focus) == -1)
-			//			apply_focus(hkey);
+			else if(!answer_value(current_focus))
+				apply_focus(hkey);
 			break;
 		default:
 			break;

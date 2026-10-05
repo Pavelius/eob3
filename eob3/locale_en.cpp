@@ -22,7 +22,7 @@ const char* message_names[LastMessage + 1] = {
 	"Do you really want to make a camp and consume food?",
 	"Do you really want to exit game and lost any unsaved progress?",
 	"What %1 do?", "Which way to go?", "Which item you buy?", "Cast on who?",
-	"No spells available", "Memorized %1i of %2i spells",
+	"No spells available", "Avaliable %1i of %2i spells",
 	"How you get here so far?",
 	"%1 is disabled", "%Player pick up %1",
 	"Party going up ...", "Party going down ...", "Party fall into the pit.", "%1 became a %2i level %1",

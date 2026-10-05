@@ -181,6 +181,31 @@ static char class_minimum[Theif + 1][6] = {
 	{0, 9, 0, 0, 0, 0}, // Theif
 };
 
+static char spell_progression[4][21][9] = {
+	// Priest
+	{{},
+	{1}, // 1
+	{2},
+	{2, 1},
+	{3, 2},
+	{3, 3, 1}, // 5
+	{3, 3, 2},
+	{3, 3, 2},
+	{3, 3, 3},
+	{4, 4, 3},
+	{4, 4, 3}, // 10
+	{5, 4, 4},
+	{6, 5, 5},
+	{6, 6, 6},
+	{6, 6, 6},
+	{6, 6, 6},
+	{7, 7, 7},
+	{7, 7, 7},
+	{8, 8, 8},
+	{9, 9, 9},
+	{9, 9, 9}},
+};
+
 creature characters[32];
 creature* adventurers[6];
 creature* player;
@@ -331,6 +356,16 @@ static groupn get_group(classn v) {
 
 classn get_class(classn v, int index) {
 	return class_data[v][index];
+}
+
+static int get_caster(classn v) {
+	switch(v) {
+	case Cleric: return 0;
+	case Mage: return 1;
+	case Paladin: return 2;
+	case Ranger: return 3;
+	default: return -1;
+	}
 }
 
 static unsigned* get_experience_table(classn v) {
@@ -541,8 +576,8 @@ static void update_depended_abilities() {
 		player->abilities[Speed] += 6;
 	else
 		player->abilities[Speed] += 3;
-//	if(player->is(FeelPain))
-//		player->add(AttackMelee, -4);
+	//	if(player->is(FeelPain))
+	//		player->add(AttackMelee, -4);
 	if(player->is(Blind)) {
 		player->add(AttackMelee, -4);
 		player->add(AttackRange, -4);
@@ -593,7 +628,7 @@ static void update_wear() {
 		}
 		player->abilities[AC] += ei.defence.ac;
 		// Dwarven shield and helm improve magical save
-		if(e.type==DwarvenHelm || e.type==DwarvenShield)
+		if(e.type == DwarvenHelm || e.type == DwarvenShield)
 			player->abilities[SaveVsMagic] += get_modifier(SaveVsMagic);
 		//if((ei.wear >= Head && ei.wear <= Legs) // If wearable equipment only!
 		//	&& ei.wear != LeftHand && ei.wear != RightHand) {
@@ -868,6 +903,15 @@ void update_player_hits() {
 	player->food = player->getfood();
 }
 
+static void apply_spell_progression(creature* player, classn type, int level) {
+	auto spell_index = get_caster(type);
+	if(spell_index == -1)
+		return;
+	auto pn = spell_progression[spell_index][level];
+	for(auto i = 0; i < 9; i++)
+		player->basic.abilities[Spell1 + i] = pn[i];
+}
+
 static void apply_class_ability(creature* player, classn type, int level) {
 	switch(type) {
 	case Fighter: break;
@@ -882,6 +926,7 @@ static void apply_class_ability(creature* player, classn type, int level) {
 		break;
 	default: break;
 	}
+	apply_spell_progression(player, type, level);
 }
 
 static void apply_class_ability() {

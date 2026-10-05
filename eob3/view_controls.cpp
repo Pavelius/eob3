@@ -477,28 +477,19 @@ static void text_label_menu_table(int index, long button_data, const char* forma
 	fore = push_fore;
 }
 
-void text_label_left(int index, long data, const char* format, unsigned key) {
-	auto push_fore = fore;
-	focusing(data);
-	button_input(data, key);
-	fore = colors::white;
-	if(current_focus == data)
-		fore = colors::focus;
-	if(button_pressed)
-		fore = fore.darken();
-	texta(format, TextBold);
-	fore = push_fore;
-}
-
 static void label_control(const char* format, long data, unsigned flags) {
-	auto push_fore = fore;
-	fore = colors::white;
+	pushfore push(colors::white);
 	if(current_focus == data)
 		fore = colors::focus;
 	if(button_pressed)
 		fore = fore.darken();
 	texta(format, flags);
-	fore = push_fore;
+}
+
+void text_label_left(int index, long data, const char* format, unsigned key) {
+	focusing(data);
+	button_input(data, key);
+	label_control(format, data, TextBold);
 }
 
 void button_label(int index, long button_data, const char* format, unsigned key) {
@@ -1738,6 +1729,15 @@ static void add_spells(int spell_index, int level, const spella* source) {
 	}
 	if(an)
 		current_focus = an.elements[0].value;
+	an.checkkeys();
+	an.sort();
+}
+
+static int get_total_use(const spella* book) {
+	auto result = 0;
+	for(auto& e : an)
+		result += book->spells[e.value];
+	return result;
 }
 
 void choose_spells(const char* title, const char* cancel, int spell_type) {
@@ -1756,8 +1756,8 @@ void choose_spells(const char* title, const char* cancel, int spell_type) {
 			add_spells(spell_type, level + 1, book);
 			current_focus = ids_level + level;
 		}
-		auto available_spells = 1; // player->abilities[Spell1 + level];
-		auto total_use = 0; // get_total_use(source_value);
+		auto available_spells = player->abilities[Spell1 + level];
+		auto total_use = get_total_use(book);
 		paint_background(PLAYFLD, 0);
 		paint_avatars_no_focus_hilite();
 		paint_console();
@@ -1790,7 +1790,7 @@ void choose_spells(const char* title, const char* cancel, int spell_type) {
 			auto spell = (spelln)e.value;
 			if(spell > LastSpell)
 				continue;
-			text_label_left(index, e.value, e.text, e.key);
+			text_label_left(index, e.value, e.text, 'A' + index);
 			if(e.value == current_focus)
 				current_spell_index = spell;
 			auto memorized = book->spells[spell];
@@ -1801,8 +1801,8 @@ void choose_spells(const char* title, const char* cancel, int spell_type) {
 		if(cancel) {
 			width = textw(cancel) + 6;
 			caret = {6, 158};
-			button_label(1000, 0, cancel, KeyEscape);
-			fire(buttoncancel);
+			button_label(1000, ids_level - 1, cancel, KeyEscape);
+			fire(buttonparam);
 		}
 		domodal();
 		switch(hkey) {
@@ -1818,18 +1818,21 @@ void choose_spells(const char* title, const char* cancel, int spell_type) {
 		case KeyRight:
 			if(current_spell_index != -1 && total_use < available_spells)
 				book->spells[current_spell_index]++;
-//			else if(an.findvalue(current_focus) == -1)
-//				apply_focus(hkey);
+			//			else if(an.findvalue(current_focus) == -1)
+			//				apply_focus(hkey);
 			break;
 		case KeyLeft:
 			if(current_spell_index != -1 && book->spells[current_spell_index] > 0)
 				book->spells[current_spell_index]--;
-	//		else if(an.findvalue(current_focus) == -1)
-	//			apply_focus(hkey);
+			//		else if(an.findvalue(current_focus) == -1)
+			//			apply_focus(hkey);
+			break;
+		default:
 			break;
 		}
 		common_input();
 	}
+	an.clear();
 }
 
 void show_scene(fnevent scene_paint, fnevent input, long focus) {

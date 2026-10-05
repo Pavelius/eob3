@@ -25,7 +25,7 @@ const char* message_names[LastMessage + 1] = {
 	"No spells available", "Memorized %1i of %2i spells",
 	"How you get here so far?",
 	"%1 is disabled", "%Player pick up %1",
-	"Party going up ...", "Party going down ...", "Party fall into the pit.",
+	"Party going up ...", "Party going down ...", "Party fall into the pit.", "%1 became a %2i level %1",
 	"This door is opened by key", "%Player sneack attack enemy", "%1 feel poison",
 	"Magic device", "Portal", "Trap launcher",
 	"I don't know waht is this",

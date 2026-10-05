@@ -211,3 +211,15 @@ spella* get_spellbook(const creature* target) {
 		return spellbooks + (target - characters);
 	return 0;
 }
+
+void learn_spells(creature* player, int level, int spell_type) {
+	auto pb = get_spellbook(player);
+	if(!pb)
+		return;
+	for(auto i = (spelln)0; i <= LastSpell; i = (spelln)(i+1)) {
+		auto& e = spell_data[i];
+		if(e.levels[spell_type] != level)
+			continue;
+		pb->set(i);
+	}
+}

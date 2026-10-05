@@ -199,6 +199,7 @@ private:
 	void apply(spelln spell, fnevent value, unsigned duration);
 	void apply(spelln spell, featn value, unsigned duration);
 	void apply(spelln spell, itemn value, unsigned duration);
+	void checklevel();
 };
 extern creature characters[32]; // All characters in game
 extern creature* adventurers[6]; // Party of characters
@@ -234,6 +235,7 @@ void create_character(racen race, gendern gender, classn class_type, alignmentn 
 void create_monster(monstern type);
 void create_monster_pallette();
 void finish_character();
+void learn_spells(creature* player, int level, int spell_type);
 bool no_party_avatar(unsigned char v);
 void party_set(creature** source, featn v, bool apply = true);
 void party_set(creature** source, reactions v);

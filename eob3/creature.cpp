@@ -1,4 +1,5 @@
 #include "creature.h"
+#include "console.h"
 #include "game.h"
 #include "math.h"
 #include "rand.h"
@@ -134,25 +135,25 @@ static char theif_skill_basic[][7] = {
 	{99, 55, 99, 99, 99, 99, 80}, // 17
 };
 
-static int experience_paladin[21] = {
+static unsigned experience_paladin[21] = {
 	0, 0, 2250, 4500, 9000, 18000, 36000, 75000, 150000, 300000,
 	600000, 900000, 1200000, 1500000, 1800000, 2100000, 2400000, 2700000, 3000000, 3300000,
 	3600000
 };
-static int experience_warrior[21] = {
+static unsigned  experience_warrior[21] = {
 	0, 0, 2000, 4000, 8000, 16000, 32000, 64000, 125000, 250000,
 	500000, 750000, 1000000, 1250000, 1500000, 1750000, 2000000, 2250000, 2500000, 2750000,
 	3000000
 };
-static int experience_wizard[21] = {
+static unsigned  experience_wizard[21] = {
 	0, 0, 2500, 5000, 10000, 20000, 40000, 60000, 90000, 135000,
 	250000, 375000, 750000, 1125000, 1500000, 1875000, 2250000, 2625000, 3000000, 3375000, 3750000
 };
-static int experience_priest[21] = {
+static unsigned experience_priest[21] = {
 	0, 0, 1500, 3000, 6000, 13000, 27500, 55000, 110000, 225000,
 	450000, 675000, 900000, 1125000, 1350000, 1575000, 1800000, 2025000, 2250000, 2475000, 2700000
 };
-static int experience_rogue[21] = {
+static unsigned experience_rogue[21] = {
 	0, 0, 1250, 2500, 5000, 10000, 20000, 40000, 70000, 110000,
 	160000, 220000, 440000, 660000, 880000, 1100000, 1320000, 1540000, 1760000, 1980000, 2200000
 };
@@ -332,7 +333,7 @@ classn get_class(classn v, int index) {
 	return class_data[v][index];
 }
 
-static int* get_experience_table(classn v) {
+static unsigned* get_experience_table(classn v) {
 	switch(v) {
 	case Cleric: return experience_priest; // Cleric
 	case Fighter: return experience_warrior; // Fighter
@@ -867,14 +868,55 @@ void update_player_hits() {
 	player->food = player->getfood();
 }
 
-static void apply_class_ability(classn type) {
+static void apply_class_ability(creature* player, classn type, int level) {
 	switch(type) {
 	case Fighter: break;
+	case Cleric:
+		switch(level) {
+		case 1: learn_spells(player, 1, 0); break;
+		case 3: learn_spells(player, 2, 0); break;
+		case 5: learn_spells(player, 3, 0); break;
+		case 7: learn_spells(player, 4, 0); break;
+		default: break;
+		}
+		break;
 	default: break;
 	}
 }
 
 static void apply_class_ability() {
+	if(player->monster)
+		return;
+	auto class_count = get_class_count(player->type);
+	for(auto i = 0; i < class_count; i++) {
+		auto type = get_class(player->type, i);
+		apply_class_ability(player, type, 1);
+	}
+}
+
+void creature::checklevel() {
+	auto class_count = get_class_count(this->type);
+	auto experience = this->experience / class_count;
+	auto need_update = false;
+	auto levelup_occurs = false;
+	do {
+		levelup_occurs = false;
+		for(auto i = 0; i < class_count; i++) {
+			auto type = get_class(this->type, i);
+			auto tbl = get_experience_table(type);
+			auto lev = levels[i];
+			if(experience >= tbl[lev + 1]) {
+				levels[i]++;
+				hpr += 1 + (rand() % get_hit_die(type));
+				apply_class_ability(this, type, levels[i]);
+				consolen(getnm(RaiseLevelSuccess), name(), levels[i], class_names[type]);
+				need_update = true;
+				levelup_occurs = true;
+			}
+		}
+	} while(levelup_occurs);
+	if(need_update)
+		update();
 }
 
 void reroll_character() {

@@ -40,7 +40,7 @@ enum messagen : unsigned char {
 	NoSpellsAvailable, SpellsAvailable,
 	HowYouGetHere,
 	PlayerIsDisabled, PlayerPickUpItem,
-	PartyGoingUp, PartyGoingDown, PartyFallPit,
+	PartyGoingUp, PartyGoingDown, PartyFallPit, RaiseLevelSuccess,
 	DoorOpened, SneakAttack, FeelPoison,
 	MagicDevice, Portal, TrapLauncher,
 	LookUnknown, LookDrainageGate, LookStrangeDevice, LookUnknownTheifSign, Button, Cellar,

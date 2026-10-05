@@ -1742,7 +1742,7 @@ static int get_total_use(const spella* book) {
 
 static bool answer_value(long value) {
 	for(auto& e : an) {
-		if(e.value==value)
+		if(e.value == value)
 			return true;
 	}
 	return false;
@@ -1812,11 +1812,10 @@ void choose_spells(const char* title, const char* cancel, int spell_type) {
 			button_label(1000, ids_level - 1, cancel, KeyEscape);
 			fire(buttonparam);
 		}
-		domodal();
 		switch(hkey) {
 		case KeyUp:
 			if(an.elements && an.elements[0].value == current_focus)
-				current_focus = ids_level + level;
+				execute(cbsetlong, ids_level + level, &current_focus);
 			else
 				apply_focus(hkey);
 			break;
@@ -1825,13 +1824,13 @@ void choose_spells(const char* title, const char* cancel, int spell_type) {
 			break;
 		case KeyRight:
 			if(current_spell_index != -1 && total_use < available_spells)
-				book->spells[current_spell_index]++;
+				execute(cbsetuc, book->spells[current_spell_index] + 1, &book->spells[current_spell_index]);
 			else if(!answer_value(current_focus))
 				apply_focus(hkey);
 			break;
 		case KeyLeft:
 			if(current_spell_index != -1 && book->spells[current_spell_index] > 0)
-				book->spells[current_spell_index]--;
+				execute(cbsetuc, book->spells[current_spell_index] - 1, &book->spells[current_spell_index]);
 			else if(!answer_value(current_focus))
 				apply_focus(hkey);
 			break;
@@ -1839,6 +1838,7 @@ void choose_spells(const char* title, const char* cancel, int spell_type) {
 			break;
 		}
 		common_input();
+		domodal();
 	}
 	an.clear();
 }

@@ -1275,6 +1275,22 @@ void party_set(creature** source, reactions v) {
 	}
 }
 
+bool party_have(classn type) {
+	for(auto p : adventurers) {
+		if(p && !p->isdisabled() && p->is(type))
+			return true;
+	}
+	return false;
+}
+
+bool party_have(alignmentn type) {
+	for(auto p : adventurers) {
+		if(p && !p->isdisabled() && p->is(type))
+			return true;
+	}
+	return false;
+}
+
 int party_median(creature** creatures, abilityn v) {
 	auto count = 0;
 	auto value = 0;

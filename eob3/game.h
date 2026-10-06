@@ -19,6 +19,7 @@ typedef void(*fnevent)(); // Callback function of any command executing
 typedef void(*fnoutput)(const char* format); // Callback function of string out
 typedef void(*fnapaint)(int index, long value, const char* text, unsigned key);
 
+enum alignmentn : unsigned char;
 enum celln : unsigned char;
 enum variablen : unsigned char;
 enum questn : unsigned char;
@@ -39,13 +40,13 @@ enum messagen : unsigned char {
 	WhatPlayerDo, WhichWayToGo, WhatYouWantToBuy, CastOnWho,
 	NoSpellsAvailable, SpellsAvailable,
 	HowYouGetHere,
+	AnimalStayStill,
 	PlayerIsDisabled, PlayerPickUpItem,
 	PartyGoingUp, PartyGoingDown, PartyFallPit, RaiseLevelSuccess,
 	DoorOpened, SneakAttack, FeelPoison,
 	MagicDevice, Portal, TrapLauncher,
 	LookUnknown, LookDrainageGate, LookStrangeDevice, LookUnknownTheifSign, Button, Cellar,
 	QuestGoals, VisitBuilding,
-	Ambush, Attack, CalmDown, Hunt, Talk, Lie, Bribe,
 	Class, Race,
 	LastMessage = Race
 };
@@ -129,10 +130,13 @@ void header_yellow(const char* format);
 void initialize_gui();
 void make_attacks(bool melee_combat);
 void message_box(const char* format);
+void monsters_talk_carefully();
+void monsters_talk_friendly();
 void next_scene(fnevent v);
 void paint_dungeon();
 void paint_main_menu();
 void party_addexp(int value);
+void party_addexp(int value, alignmentn alignment);
 void party_turn_left();
 void party_turn_right();
 void pick_up_item();

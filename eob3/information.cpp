@@ -32,6 +32,10 @@ static void player_name(stringbuilder& sb) {
 	sb.add(player->name());
 }
 
+static void opponent_name(stringbuilder& sb) {
+	sb.add(opponent->name());
+}
+
 static void player_class(stringbuilder& sb) {
 	sb.add(class_names[player->type]);
 }
@@ -54,5 +58,6 @@ stringvari stringvars[] = {
 	{"Class", player_class},
 	{"Gold", player_gold},
 	{"Name", player_name},
+	{"Opponent", opponent_name},
 	{"Weapon", player_weapon},
 	{}};

@@ -167,7 +167,7 @@ spelli spell_data[LastSpell + 1] = {
 	{{0, 1}, You, ComprehendLanguages},
 	{{0, 1}, You, Friends},
 	{{0, 1}, AllAllyItems, Identify},
-	{{0, 1}, ShootEnemy, MagicMissile},
+	{{0, 1}, Enemy, MagicMissile},
 	{{0, 1}, AllAllyItems, Mending},
 	{{0, 1}, Ally, ShieldSpell},
 	{{0, 1}, Enemy, ShockingGrasp},

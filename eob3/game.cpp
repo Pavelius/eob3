@@ -250,25 +250,9 @@ void buy_item(shopn shop, actionn shop_empty) {
 	}
 }
 
-const actioni* choose_location(const actioni* source) {
+static void ask_actions(const actioni* source) {
 	if(!source)
-		return 0;
-	for(auto p = source; *p; p++) {
-		if(p->required && !enough(game, p->required))
-			continue; // Can't pay or other reputation
-		if(p->allow && !p->allow())
-			continue;
-		if(p->action >= Tavern && p->action <= Palace)
-			an.add((long)p, getnm(VisitBuilding), getnm(p->action));
-		else
-			an.add((long)p, getnm(p->action));
-	}
-	return (actioni*)choose_large_menu_no_player(getnm(WhichWayToGo), getnm(Cancel));
-}
-
-const actioni* choose_action(const actioni* source) {
-	if(!source)
-		return 0;
+		return;
 	for(auto p = source; *p; p++) {
 		if(p->required && !enough(game, p->required))
 			continue; // Can't pay or other reputation
@@ -276,8 +260,24 @@ const actioni* choose_action(const actioni* source) {
 			continue; // Not pass restriction
 		if(p->allow && !p->allow())
 			continue;
-		an.add((long)p, getnm(p->action));
+		if(p->action >= Tavern && p->action <= Palace)
+			an.add((long)p, getnm(VisitBuilding), getnm(p->action));
+		else
+			an.add((long)p, getnm(p->action));
 	}
+}
+
+const actioni* choose_location(const actioni* source) {
+	if(!source)
+		return 0;
+	ask_actions(source);
+	return (actioni*)choose_large_menu_no_player(getnm(WhichWayToGo), getnm(Cancel));
+}
+
+const actioni* choose_action(const actioni* source) {
+	if(!source)
+		return 0;
+	ask_actions(source);
 	return (actioni*)choose_player_action(getnm(Cancel));
 }
 
@@ -334,6 +334,13 @@ void party_addexp(int value) {
 	value = (value + n - 1) / n;
 	for(auto p : adventurers) {
 		if(p && !p->isdisabled())
+			p->addexp(value);
+	}
+}
+
+void party_addexp(int value, alignmentn alignment) {
+	for(auto p : adventurers) {
+		if(p && !p->isdisabled() && p->is(alignment))
 			p->addexp(value);
 	}
 }
@@ -422,6 +429,11 @@ static void update_party_position() {
 	}
 }
 
+static void dungeon_drop(itemn type) {
+	item it(type);
+	loc->drop(opponent->pos, it, get_side(opponent->side, party.d));
+}
+
 static void party_set(creature** source, directionn d) {
 	for(auto i = 0; i < lengthof(adventurers); i++) {
 		if(!source[i])
@@ -504,47 +516,34 @@ static void leave_dungeon() {
 static void drop_unique_loot(creature* player) {
 }
 
-static void monsters_talk(messagen id) {
-	auto monster = opponent->monster;
-	if(!monster)
-		return;
-	//auto pe = bsdata<listi>::find(ids(last_quest->id, rm));
-	//if(!pe && opponent->isanimal())
-	//	pe = bsdata<listi>::find(ids("Animal", rm));
-	//if(!pe)
-	//	pe = bsdata<listi>::find(ids("Negotiation", rm));
-	//if(!pe)
-	//	return;
-	//for(auto v : pe->elements)
-	//	add_menu(v, true);
-	char temp[260]; stringbuilder sb(temp);
-	sb.add(getnm(id));
-	show_message(temp, true, 0, 0);
+static messagen get_speech(messagen id, racen race) {
+	switch(race) {
+	case Animal: return AnimalStayStill;
+	default: return id;
+	}
 }
 
-static bool monsters_talk() {
-	if(!opponent)
+static const actioni* choose_talk(messagen id, const actioni* actions) {
+	if(!opponent || !opponent->monster || !actions)
+		return 0;
+	ask_actions(actions);
+	id = get_speech(id, opponent->race);
+	char temp[260]; stringbuilder sb(temp);
+	sb.add(getnm(id));
+	return (actioni*)show_message(temp, true, 0, 0);
+}
+
+static bool monsters_talk(const actioni* actions) {
+	if(!opponent || !opponent->monster)
 		return false;
-	auto pm = opponent->monster;
-	if(!pm)
-		return false;
-	//auto pn = speech_get_na(pm->id, last_quest->id);
-	//if(!pn)
-	//	pn = speech_get_na(pm->id, rm);
-	//if(!pn) {
-	//	if(opponent->isanimal())
-	//		pn = speech_get_na("Animal", rm);
-	//	else
-	//		pn = speech_get_na("Intellegence", rm);
-	//}
-	//if(!pn)
-	//	return false;
-	//picture.clear();
 	answer_picture = NoPicture;
 	fix_animate();
 	animation_update();
-	monsters_talk(HowYouGetHere);
-	return false;
+	auto result = choose_talk(HowYouGetHere, actions);
+	if(!result)
+		return false;
+	apply_action(result);
+	return true;
 }
 
 static void monsters_flee() {
@@ -557,7 +556,7 @@ static void monsters_flee() {
 	if(!points)
 		return;
 	auto v = points.random();
-	creature* creatures[6]; loc->getmonsters(creatures, to(party.pos, party.d));
+	creature* creatures[6]; loc->getmonsters(creatures, opponent->pos);
 	for(auto p : creatures) {
 		if(p) {
 			p->pos = v;
@@ -566,20 +565,20 @@ static void monsters_flee() {
 	}
 }
 
-static void monsters_kill(int bonus) {
-	if(!loc)
+static void monsters_kill() {
+	if(!loc || !opponent)
 		return;
-	creature* creatures[6]; loc->getmonsters(creatures, to(party.pos, party.d));
+	creature* creatures[6]; loc->getmonsters(creatures, opponent->pos);
 	for(auto p : creatures) {
 		if(p && *p)
 			p->kill();
 	}
 }
 
-static void monsters_leave(int bonus) {
-	if(!loc)
+static void monsters_leave() {
+	if(!loc || !opponent)
 		return;
-	creature* creatures[6]; loc->getmonsters(creatures, to(party.pos, party.d));
+	creature* creatures[6]; loc->getmonsters(creatures, opponent->pos);
 	for(auto p : creatures) {
 		if(p && *p) {
 			drop_unique_loot(p);
@@ -587,6 +586,11 @@ static void monsters_leave(int bonus) {
 			p->clear();
 		}
 	}
+}
+
+static void animal_hunt() {
+	monsters_kill();
+	dungeon_drop(Ration);
 }
 
 static bool party_move_interact(pointc v) {
@@ -646,13 +650,13 @@ static void reaction_check(int bonus) {
 		case Careful:
 			party_set(creatures, Surprised, false);
 			party_set(adventurers, Surprised, false);
-			monsters_talk();
+			monsters_talk(talk_carefully);
 			loc->getmonsters(creatures, to(party.pos, party.d));
 			break;
 		case Friendly:
 			party_set(creatures, Surprised, false);
 			party_set(adventurers, Surprised, false);
-			monsters_talk();
+			monsters_talk(talk_friendly);
 			loc->getmonsters(creatures, to(party.pos, party.d));
 			break;
 		case Indifferent:
@@ -898,6 +902,11 @@ static bool monsters_nearbe() {
 	return false;
 }
 
+static void ambush_enemy() {
+	party_addexp(100);
+	make_attacks(true);
+}
+
 bool make_object_attack(pointc v);
 
 void use_item(creature* player, item* last_item, wearn wear) {
@@ -1016,3 +1025,24 @@ void enter_dungeon(int level, celln location) {
 	set_dungeon_tiles(loc->type);
 	next_scene(play_dungeon);
 }
+
+static bool is_animal() {
+	return opponent->is(Animal);
+}
+
+static bool is_personality() {
+	return !is_animal();
+}
+
+actioni talk_carefully[] = {
+	{Lie, {}, {}, 0, is_personality},
+	{CalmDown, {}, Ranger, monsters_leave, is_animal},
+	{Bribe, {}, {}, 0, is_personality},
+	{Attack},
+	{}};
+
+actioni talk_friendly[] = {
+	{Talk, {}, {}, 0, is_personality},
+	{Hunt, {}, Ranger, monsters_kill, is_animal},
+	{Ambush, {}, {}, ambush_enemy},
+	{}};

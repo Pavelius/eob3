@@ -20,7 +20,7 @@ enum spelln : unsigned char {
 
 enum spellfn : unsigned char {
 	You, Ally, AllAlly,
-	Enemy, AllEnemy, ShootEnemy,
+	Enemy, AllEnemy,
 	AllAllyItems,
 	SummonWeapon,
 };

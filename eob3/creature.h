@@ -131,7 +131,7 @@ struct npci {
 	monstern		monster;
 	unsigned char	avatar, name_id;
 	char			levels[3];
-	const char* name() const { return (name_id == 0xFF) ? race_names[race] : name_names[name_id]; }
+	const char* name() const { return monster ? monster_names[monster] : name_names[name_id]; }
 	int level() const { return levels[0]; }
 	void say(messagen id, ...) const;
 	void say(speechn id, ...) const;
@@ -237,6 +237,8 @@ void create_monster_pallette();
 void finish_character();
 void learn_spells(creature* player, int level, int spell_type);
 bool no_party_avatar(unsigned char v);
+bool party_have(alignmentn type);
+bool party_have(classn type);
 void party_set(creature** source, featn v, bool apply = true);
 void party_set(creature** source, reactions v);
 void reroll_ability();

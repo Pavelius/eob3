@@ -217,7 +217,6 @@
     <ClCompile Include="dice.cpp" />
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="draw_text.cpp" />
-    <ClCompile Include="game_talk.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="information.cpp" />
     <ClCompile Include="item.cpp" />

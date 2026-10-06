@@ -24,6 +24,7 @@ const char* message_names[LastMessage + 1] = {
 	"What %1 do?", "Which way to go?", "Which item you buy?", "Cast on who?",
 	"No spells available", "Avaliable %1i of %2i spells",
 	"How you get here so far?",
+	"%Opponent stay still and carefully watching you.",
 	"%1 is disabled", "%Player pick up %1",
 	"Party going up ...", "Party going down ...", "Party fall into the pit.", "%1 became a %2i level %1",
 	"This door is opened by key", "%Player sneack attack enemy", "%1 feel poison",
@@ -34,7 +35,6 @@ const char* message_names[LastMessage + 1] = {
 	"This sign is mark something",
 	"Button", "Cellar",
 	"Current goals", "Visit %1",
-	"Ambush", "Attack", "CalmDown", "Hunt", "Talk", "Lie", "Bribe",
 	"Class", "Race"
 };
 const char* action_names[LastAction + 1] = {
@@ -53,6 +53,7 @@ const char* action_names[LastAction + 1] = {
 	"Repair Weapons",
 	"Rest Party", "Scrible scrolls", "Memorize Spells", "Pray for Spells",
 	"Game options", "Start a new game", "Load game", "Save game", "Exit game", "Perferences",
+	"Ambush", "Attack", "CalmDown", "Hunt", "Talk", "Lie", "Bribe",
 	"You are so tired to do this again. You must stop and rest. Do something else that doesn’t require as much effort.",
 	"Leave outside",
 };

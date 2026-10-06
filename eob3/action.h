@@ -23,6 +23,7 @@ enum actionn : unsigned char {
 	RepairWeapons,
 	RestParty, ScribleScrolls, MemorizeSpells, PrayForSpells,
 	GameOptions, StartGame, LoadGame, SaveGame, ExitGame, Settings,
+	Ambush, Attack, CalmDown, Hunt, Talk, Lie, Bribe,
 	PlayerExhaused,
 	LeaveOutside,
 	LastAction = LeaveOutside
@@ -69,6 +70,9 @@ struct actioni {
 	fncondition allow; // Allow action function. Can be null.
 	constexpr explicit operator bool() const { return action != NoAction; }
 };
+
+extern actioni talk_carefully[];
+extern actioni talk_friendly[];
 
 picturen get_picture(actionn v);
 soundn get_music(actionn v);

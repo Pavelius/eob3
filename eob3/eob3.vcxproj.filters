@@ -220,9 +220,6 @@
     <ClCompile Include="spell.cpp">
       <Filter>logic</Filter>
     </ClCompile>
-    <ClCompile Include="game_talk.cpp">
-      <Filter>logic</Filter>
-    </ClCompile>
     <ClCompile Include="spell_list.cpp">
       <Filter>logic</Filter>
     </ClCompile>

@@ -259,14 +259,23 @@ static void monsters_move(pointc v, directionn d) {
 		reaction_check(0);
 		return;
 	}
-	if(!n || loc->ismonster(n) || !loc->ispassable(n) || loc->isforbidden(n))
+	if(!n || !loc->ispassable(n) || loc->isforbidden(n))
 		return;
-	for(auto& e : loc->monsters) {
-		if(e.pos != v)
-			continue;
-		e.d = d;
-		e.pos = n;
-		e.set(Moved);
+	if(loc->ismonster(n)) {
+		for(auto& e : loc->monsters) {
+			if(e.pos == v) {
+				e.d = d;
+				e.set(Moved);
+			}
+		}
+	} else {
+		for(auto& e : loc->monsters) {
+			if(e.pos == v) {
+				e.d = d;
+				e.pos = n;
+				e.set(Moved);
+			}
+		}
 	}
 }
 

@@ -2,6 +2,7 @@
 #include "answers.h"
 #include "console.h"
 #include "creature.h"
+#include "collectiona.h"
 #include "dungeon.h"
 #include "game.h"
 #include "perference.h"
@@ -14,6 +15,7 @@
 
 variablei game;
 static long save_focus;
+static item* valuable_item;
 
 static messagen get_confirm(actionn v) {
 	switch(v) {
@@ -51,6 +53,17 @@ soundn get_music(actionn v) {
 	case Temple: return MusTemple;
 	case WizardTower: return MusHealer;
 	default: return NoMusic;
+	}
+}
+
+static bool is_valuable(item& e) {
+	switch(e.type) {
+	case PurpleGem: case RedGem: case BlueGem: case GreenGem:
+		return true;
+	case BlueRing: case GreenRing: case RedRing:
+		return e.identified != 0 && !e.power;
+	default:
+		return false;
 	}
 }
 
@@ -300,7 +313,7 @@ void show_perferences(const char* header, const perferencei* actions) {
 		for(auto p = actions; *p; p++) {
 			auto value = p->value.get();
 			auto format = "%1: %2i";
-			if(p->value.type==valuei::Bool)
+			if(p->value.type == valuei::Bool)
 				format = "%1 %3";
 			an.add((long)p, format, getnm(p->id), value, getnm(value ? On : Off));
 		}
@@ -528,30 +541,35 @@ static void leave_dungeon() {
 static void drop_unique_loot(creature* player) {
 }
 
-static messagen get_speech(messagen id, racen race) {
-	switch(race) {
-	case Animal: return AnimalStayStill;
-	default: return id;
-	}
-}
-
-static const actioni* choose_talk(messagen id, const actioni* actions) {
-	if(!opponent || !opponent->monster || !actions)
+static long monsters_talk(messagen id, messagen id2 = (messagen)0, messagen id3 = (messagen)0) {
+	if(!opponent || !opponent->monster)
 		return 0;
-	ask_actions(actions);
-	id = get_speech(id, opponent->race);
-	char temp[260]; stringbuilder sb(temp);
-	sb.add(getnm(id));
-	return (actioni*)show_message(temp, true, 0, 0);
+	char temp[320]; stringbuilder sb(temp);
+	if(opponent->race == Animal) {
+		sb.add(getnm(AnimalStayStill));
+	} else {
+		sb.add("\"");
+		sb.add(getnm(id));
+		if(id2)
+			sb.adds(getnm(id2));
+		if(id3)
+			sb.adds(getnm(id3));
+		sb.add("\"");
+	}
+	if(!an)
+		return show_message(temp, false, getnm(Continue), 0);
+	else
+		return show_message(temp, true, 0, 0);
 }
 
-static bool monsters_talk(const actioni* actions) {
+static bool monsters_talk(const actioni* actions, messagen id, messagen id2 = (messagen)0, messagen id3 = (messagen)0) {
 	if(!opponent || !opponent->monster)
 		return false;
 	answer_picture = NoPicture;
 	fix_animate();
 	animation_update();
-	auto result = choose_talk(HowYouGetHere, actions);
+	ask_actions(actions);
+	auto result = (actioni*)monsters_talk(id, id2, id3);
 	if(!result)
 		return false;
 	apply_action(result);
@@ -647,44 +665,48 @@ static void get_opponents(creature** result) {
 	loc->getmonsters(result, to(party.pos, party.d));
 }
 
+static item* party_valuable() {
+	collection<item> result;
+	for(auto p : adventurers) {
+		if(!p)
+			continue;
+		for(auto& e : p->backpack()) {
+			if(e && is_valuable(e))
+				result.add(&e);
+		}
+	}
+	return result.random();
+}
+
 static void reaction_check(int bonus) {
 	if(!loc)
 		return;
 	auto push_opponent = opponent;
 	creature* opponents[party_size];
+	get_opponents(opponents);
+	check_reaction(opponents, bonus);
 	while(true) {
 		get_opponents(opponents);
 		opponent = get_leader(opponents);
 		if(!opponent)
 			break;
-		check_reaction(opponents, bonus);
-		auto last_reaction = opponent->reaction;
-		auto prev_reaction = last_reaction;
+		auto reaction = opponent->reaction;
+		valuable_item = party_valuable();
 		party_set(opponents, Moved);
 		party_set(opponents, to(party.d, Down));
-		switch(last_reaction) {
-		case Careful:
+		if(reaction == Careful) {
 			party_set(opponents, Surprised, false);
 			party_set(adventurers, Surprised, false);
-			monsters_talk(talk_carefully);
-			break;
-		case Friendly:
+			monsters_talk(talk_carefully, WhoIsYou, HowYouGetHere);
+		} else if(reaction == Friendly) {
 			party_set(opponents, Surprised, false);
 			party_set(adventurers, Surprised, false);
-			monsters_talk(talk_friendly);
-			break;
-		case Indifferent:
-			break;
-		default:
+			monsters_talk(talk_friendly, WelcomeFriends);
+		} else if(reaction == Hostile) {
 			make_attacks(true);
 			break;
-		}
-		if(prev_reaction != last_reaction) {
-			get_opponents(opponents);
-			party_set(opponents, last_reaction);
-			continue;
-		}
-		break;
+		} else
+			break;
 	}
 	opponent = push_opponent;
 }
@@ -954,8 +976,8 @@ void use_item(creature* player, item* last_item, wearn wear) {
 	case Drinkable:
 		if(!allow_use(player, last_item))
 			break;
-//		drink_effect(pn, last_item->getpower(), xrand(5, 20) * 10, last_item->iscursed() ? -1 : 1);
-//		consolen(getnm("DrinkPotionAct"));
+		//		drink_effect(pn, last_item->getpower(), xrand(5, 20) * 10, last_item->iscursed() ? -1 : 1);
+		//		consolen(getnm("DrinkPotionAct"));
 		last_item->clear();
 		pass_round();
 		break;
@@ -965,7 +987,7 @@ void use_item(creature* player, item* last_item, wearn wear) {
 		if(!dungeon_use())
 			break;
 		if(last_item->isdamaged()) {
-//			player->say("MakeCamp", "RottenFood");
+			//			player->say("MakeCamp", "RottenFood");
 			break;
 		}
 		if(monsters_nearbe())
@@ -984,25 +1006,25 @@ void use_item(creature* player, item* last_item, wearn wear) {
 		if(!player->canread())
 			player->say(CantRead);
 		else {
-//			if(read_effect(pn, last_item->getpower(), 50, xrand(5, 20) * 10))
-//				last_item->clear();
+			//			if(read_effect(pn, last_item->getpower(), 50, xrand(5, 20) * 10))
+			//				last_item->clear();
 		}
 		break;
 	case Rod:
 		if(!allow_use(player, last_item))
 			break;
 		if(wear != LeftHand) {
-//			player->speak("MustBeWearing", "LeftHand");
+			//			player->speak("MustBeWearing", "LeftHand");
 			break;
 		}
-//		if(use_rod(pn, last_item, last_item->getpower()))
-//			pass_round();
+		//		if(use_rod(pn, last_item, last_item->getpower()))
+		//			pass_round();
 		break;
 	case Faithable:
 		if(!allow_use(player, last_item))
 			break;
 		if(wear != LeftHand) {
-//			player->speak("MustBeWearing", "LeftHand");
+			//			player->speak("MustBeWearing", "LeftHand");
 			break;
 		}
 		//if(faith_effect(last_item->getmagic())) {
@@ -1054,15 +1076,36 @@ static bool is_personality() {
 	return !is_animal();
 }
 
+static bool is_bribeable() {
+	if(is_animal())
+		return false;
+	return valuable_item != 0;
+}
+
+static void lie() {
+	if(!party_median(adventurers, Charisma)) {
+		monsters_talk(YouLiers);
+		party_set(adventurers, Surprised);
+		make_attacks(true);
+	} else {
+		creature* opponents[party_size]; get_opponents(opponents);
+		party_set(opponents, Friendly);
+	}
+}
+
+static void talk_help() {
+	monsters_leave();
+}
+
 actioni talk_carefully[] = {
-	{Lie, {}, {}, 0, is_personality},
+	{Lie, {}, {}, lie, is_personality},
 	{CalmDown, {}, Ranger, monsters_leave, is_animal},
-	{Bribe, {}, {}, 0, is_personality},
+	{Bribe, {}, {}, 0, is_bribeable},
 	{Attack, {}, {}, attack_enemy},
 	{}};
 
 actioni talk_friendly[] = {
-	{Talk, {}, {}, 0, is_personality},
+	{Talk, {}, {}, talk_help, is_personality},
 	{Hunt, {}, Ranger, monsters_kill, is_animal},
 	{Ambush, {}, {}, ambush_enemy},
 	{}};

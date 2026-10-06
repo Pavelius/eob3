@@ -39,7 +39,7 @@ enum messagen : unsigned char {
 	ConfirmRestParty, ConfirmReturnCity, ConfirmMakeCamp, ConfirmExitGame,
 	WhatPlayerDo, WhichWayToGo, WhatYouWantToBuy, CastOnWho,
 	NoSpellsAvailable, SpellsAvailable,
-	HowYouGetHere,
+	WelcomeFriends, WhoIsYou, HowYouGetHere, YouLiers,
 	AnimalStayStill,
 	PlayerIsDisabled, PlayerPickUpItem,
 	PartyGoingUp, PartyGoingDown, PartyFallPit, RaiseLevelSuccess,

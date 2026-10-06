@@ -348,12 +348,21 @@ bool creature::isactable() const {
 	return true;
 }
 
-bool creature::roll(abilityn v, int bonus) const {
-	auto r = abilities[v];
-	if(v >= Strenght && v <= Charisma)
-		r = (r + bonus) * 5;
+static int roll_chance(abilityn n, int value, int bonus) {
+	if(n >= Strenght && n <= Charisma)
+		return (value + bonus) * 5;
 	else
-		r += bonus * 5;
+		return value + bonus * 5;
+}
+
+bool creature::roll(abilityn v, int bonus) const {
+	auto r = roll_chance(v, abilities[v], bonus);
+	auto m = d100();
+	return m < r;
+}
+
+bool party_roll(abilityn v, int bonus) {
+	auto r = roll_chance(v, party_median(adventurers, v), bonus);
 	auto m = d100();
 	return m < r;
 }
@@ -1202,18 +1211,18 @@ reactions get_reaction(creature** creatures) {
 static reactions* encounter_table(alignmentn monster_alignment) {
 	static reactions hostile_players[encounter_table_maximum] = {
 		Friendly, Friendly,
-		Careful, Careful, Careful, Careful, Careful, Careful,
-		Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile,
+		Careful, Careful, Careful, Careful, Careful,
+		Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile,
 	};
 	static reactions indifferent_players[encounter_table_maximum] = {
 		Friendly, Friendly, Friendly, Friendly,
-		Careful, Careful, Careful, Careful, Careful, Careful, Careful, Careful, Careful,
-		Hostile, Hostile, Hostile, Hostile, Hostile, Hostile,
+		Careful, Careful, Careful, Careful, Careful, Careful, Careful, Careful,
+		Hostile, Hostile, Hostile, Hostile, Hostile, Hostile, Hostile,
 	};
 	static reactions friendly_players[encounter_table_maximum] = {
 		Friendly, Friendly, Friendly, Friendly, Friendly, Friendly,
-		Careful, Careful, Careful, Careful, Careful, Careful, Careful, Careful, Careful, Careful,
-		Hostile, Hostile, Hostile,
+		Careful, Careful, Careful, Careful, Careful, Careful, Careful, Careful, Careful,
+		Hostile, Hostile, Hostile, Hostile,
 	};
 	switch(monster_alignment) {
 	case LawfulGood:

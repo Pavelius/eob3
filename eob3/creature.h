@@ -240,6 +240,7 @@ void learn_spells(creature* player, int level, int spell_type);
 bool no_party_avatar(unsigned char v);
 bool party_have(creature** source, alignmentn type);
 bool party_have(creature** source, classn type);
+bool party_roll(abilityn v, int bonus);
 void party_set(creature** source, featn v, bool apply = true);
 void party_set(creature** source, reactions v);
 void reroll_ability();

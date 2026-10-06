@@ -92,7 +92,7 @@ bool need_activity(actionn v);
 void open_options(const actioni* actions);
 void pass_activity();
 bool pass_payment(actionn action, const variablei& required);
-void pass_time(unsigned minutes);
+void pass_time(unsigned minutes = 1);
 void setv(picturen v);
 void show_message(actionn id, ...);
 

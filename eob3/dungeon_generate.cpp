@@ -278,19 +278,36 @@ static void monster(pointc v, directionn d, monstern type, int count) {
 	}
 }
 
+static directionn look_direction(pointc v, directionn d) {
+	if(loc->ispassable(to(v, d)))
+		return d;
+	directionn sides[] = {Left, Right, Down};
+	if(chance(50))
+		iswap(sides[0], sides[0]);
+	for(auto d1 : sides) {
+		auto d2 = to(d, d1);
+		if(d2 == Center)
+			continue;
+		auto v1 = to(v, d2);
+		if(loc->ispassable(v1))
+			return d2;
+	}
+	return d;
+}
+
 static void monster(pointc v, directionn d) {
 	auto n = (d100() < 30) ? 1 : 0;
-	monster(v, d, loc->habbits[n], xrand(1, 4));
+	monster(v, look_direction(v, d), loc->habbits[n], xrand(1, 4));
 }
 
 static void monster_tough(pointc v, directionn d) {
-	monster(v, d, loc->habbits[1], xrand(1, 4));
+	monster(v, look_direction(v, d), loc->habbits[1], xrand(1, 4));
 }
 
 static void monster_boss(pointc v, directionn d) {
 	loc->set(v, CellPassable);
 	auto type = loc->boss ? loc->boss : loc->habbits[1];
-	loc->add(type, v, d, 0);
+	loc->add(type, v, look_direction(v, d), 0);
 }
 
 static void overlay_interact(pointc v, directionn d, celln tile) {

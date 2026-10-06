@@ -148,6 +148,7 @@ void play_city_actions();
 void play_dungeon();
 void player_manipulate();
 void printn(messagen id, ...);
+void reaction_check(int bonus);
 bool running_scene();
 void set_dungeon_tiles(resn type);
 void show_automap(const pointca& markers, int explore_radius);

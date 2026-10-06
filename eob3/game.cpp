@@ -5,6 +5,7 @@
 #include "collectiona.h"
 #include "dungeon.h"
 #include "game.h"
+#include "math.h"
 #include "perference.h"
 #include "pushvalue.h"
 #include "quest.h"
@@ -150,8 +151,149 @@ bool enough(const variablei& v1, const variablei& v2) {
 	return true;
 }
 
+static bool can_see_party(pointc v, directionn d) {
+	for(auto i = 0; i < 3; i++) {
+		v = to(v, d);
+		if(!v || !loc->ispassable(v))
+			return false;
+		if(v == party.pos)
+			return true;
+	}
+	return false;
+}
+
+static directionn random_free_look(pointc v, directionn d, bool monster_forbidden) {
+	directionn source[] = {Up, Left, Right, Down};
+	if(d100() < 50) // Monster move until reach in wall. Then usually turn. Rare turn back.
+		iswap(source[1], source[2]);
+	for(auto nd : source) {
+		auto d1 = to(d, nd);
+		auto v1 = to(v, d1);
+		if(!v1)
+			continue;
+		if(monster_forbidden && loc->isforbidden(v1))
+			continue;
+		if(loc->ispassable(v1))
+			return d1;
+	}
+	return Center;
+}
+
+static void update_party_position() {
+	for(size_t i = 0; i < lengthof(adventurers); i++) {
+		if(!adventurers[i])
+			continue;
+		adventurers[i]->side = (char)i;
+		adventurers[i]->pos = party.pos;
+		adventurers[i]->d = party.d;
+	}
+}
+
+static void party_set(creature** source, directionn d) {
+	for(auto i = 0; i < lengthof(adventurers); i++) {
+		if(!source[i])
+			continue;
+		adventurers[i]->d = d;
+	}
+}
+
+static void party_set(pointc v) {
+	party.pos = v;
+	update_party_position();
+}
+
+static void party_set(posable v) {
+	party = v;
+	party.pos = to(party.pos, party.d);
+	update_party_position();
+}
+
+static void party_set(pointc v, directionn d) {
+	party.pos = v;
+	party.d = d;
+	update_party_position();
+}
+
+void turnto(pointc v, directionn d, bool test_surprise) {
+	if(!d)
+		return;
+	if(v == party.pos) {
+		if(test_surprise) {
+			if(party.d != d) {
+				creature* monsters[6]; loc->getmonsters(monsters, to(v, d));
+				// surprise_roll(characters, party_sneaky(monsters));
+			}
+		}
+		party_set(v, d);
+	} else {
+		creature* monsters[6] = {}; loc->getmonsters(monsters, v, party.d);
+		for(int i = 0; i < 6; i++) {
+			auto p = monsters[i];
+			if(!p || p->isdisabled())
+				continue;
+			if(test_surprise) {
+				if(p->d != d) {
+					// surprise_roll(monsters, party_sneaky(characters));
+					test_surprise = false;
+				}
+			}
+			p->d = d;
+		}
+	}
+}
+
+static void monsters_stop(pointc v) {
+	if(!v || !loc)
+		return;
+	for(auto& e : loc->monsters) {
+		if(e.pos == v)
+			e.set(Moved);
+	}
+}
+
+static void monsters_move(pointc v, directionn d) {
+	auto n = to(v, d);
+	if(n == party.pos) {
+		monsters_stop(v);
+		turnto(party.pos, to(d, Down), true);
+		reaction_check(0);
+		return;
+	}
+	if(!n || loc->ismonster(n) || !loc->ispassable(n) || loc->isforbidden(n))
+		return;
+	for(auto& e : loc->monsters) {
+		if(e.pos != v)
+			continue;
+		e.d = d;
+		e.pos = n;
+		e.set(Moved);
+	}
+}
+
+static void monsters_movement() {
+	if(!loc)
+		return;
+	for(auto& e : loc->monsters) {
+		if(!e || e.isdisabled() || e.is(Moved))
+			continue;
+		if(can_see_party(e.pos, e.d))
+			monsters_move(e.pos, e.d);
+		else if(e.roll(Dexterity)) {
+			auto d = random_free_look(e.pos, e.d, true);
+			if(d != Center)
+				monsters_move(e.pos, d);
+		} else
+			monsters_stop(e.pos);
+	}
+}
+
+static void pass_time_activity() {
+	monsters_movement();
+}
+
 void pass_time(unsigned minutes) {
 	game.variables[Time] += minutes;
+	pass_time_activity();
 }
 
 int get_hour() {
@@ -341,10 +483,6 @@ void show_perferences(const char* header, const perferencei* actions) {
 	}
 }
 
-static void pass_round() {
-	pass_time(1);
-}
-
 int party_count() {
 	auto n = 0;
 	for(auto p : adventurers) {
@@ -458,44 +596,9 @@ static void make_action() {
 	explore_area();
 }
 
-static void update_party_position() {
-	for(size_t i = 0; i < lengthof(adventurers); i++) {
-		if(!adventurers[i])
-			continue;
-		adventurers[i]->side = (char)i;
-		adventurers[i]->pos = party.pos;
-		adventurers[i]->d = party.d;
-	}
-}
-
 static void dungeon_drop(itemn type) {
 	item it(type);
 	loc->drop(opponent->pos, it, get_side(opponent->side, party.d));
-}
-
-static void party_set(creature** source, directionn d) {
-	for(auto i = 0; i < lengthof(adventurers); i++) {
-		if(!source[i])
-			continue;
-		adventurers[i]->d = d;
-	}
-}
-
-static void party_set(pointc v) {
-	party.pos = v;
-	update_party_position();
-}
-
-static void party_set(posable v) {
-	party = v;
-	party.pos = to(party.pos, party.d);
-	update_party_position();
-}
-
-static void party_set(pointc v, directionn d) {
-	party.pos = v;
-	party.d = d;
-	update_party_position();
 }
 
 void party_turn_right() {
@@ -506,34 +609,6 @@ void party_turn_right() {
 void party_turn_left() {
 	party.d = to(party.d, Left);
 	update_party_position();
-}
-
-void turnto(pointc v, directionn d, bool test_surprise) {
-	if(!d)
-		return;
-	if(v == party.pos) {
-		if(test_surprise) {
-			if(party.d != d) {
-				creature* monsters[6]; loc->getmonsters(monsters, to(v, d));
-				// surprise_roll(characters, party_sneaky(monsters));
-			}
-		}
-		party_set(v, d);
-	} else {
-		creature* monsters[6] = {}; loc->getmonsters(monsters, v, party.d);
-		for(int i = 0; i < 6; i++) {
-			auto p = monsters[i];
-			if(!p || p->isdisabled())
-				continue;
-			if(test_surprise) {
-				if(p->d != d) {
-					// surprise_roll(monsters, party_sneaky(characters));
-					test_surprise = false;
-				}
-			}
-			p->d = d;
-		}
-	}
 }
 
 static bool is_passable(pointc v) {
@@ -672,7 +747,7 @@ static bool party_move_interact(pointc v) {
 		consolen(getnm(PartyFallPit));
 		enter_dungeon(loc->level, CellUnknown);
 		animation_update();
-		pass_round();
+		pass_time();
 		break;
 	case CellOverlay1:
 	case CellOverlay2:
@@ -702,7 +777,7 @@ static item* party_valuable() {
 	return result.random();
 }
 
-static void reaction_check(int bonus) {
+void reaction_check(int bonus) {
 	if(!loc)
 		return;
 	auto push_opponent = opponent;
@@ -741,13 +816,13 @@ void move_party(pointc v) {
 	if(loc->ismonster(v)) {
 		turnto(v, to(party.d, Down), true);
 		reaction_check(0);
-		pass_round();
+		pass_time();
 		return;
 	}
 	if(party_move_interact(v))
 		return;
 	party_set(v);
-	pass_round();
+	pass_time();
 	explore_area();
 }
 
@@ -987,7 +1062,7 @@ void use_item(creature* player, item* last_item, wearn wear) {
 		else if(last_item->isweapon()) {
 			if(!make_object_attack(to(party.pos, party.d)))
 				make_attacks(false);
-			pass_round();
+			pass_time();
 		}
 		break;
 	case Body: case Neck: case Elbow: case Legs: case Head:
@@ -1003,7 +1078,7 @@ void use_item(creature* player, item* last_item, wearn wear) {
 		//		drink_effect(pn, last_item->getpower(), xrand(5, 20) * 10, last_item->iscursed() ? -1 : 1);
 		//		consolen(getnm("DrinkPotionAct"));
 		last_item->clear();
-		pass_round();
+		pass_time();
 		break;
 	case Edible:
 		if(!allow_use(player, last_item))

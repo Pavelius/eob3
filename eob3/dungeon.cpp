@@ -79,27 +79,6 @@ static celln get_wall(celln v) {
 	}
 }
 
-static bool is_no_monsters(celln v) {
-	switch(v) {
-	case CellWall: return true;
-	default: return false;
-	}
-}
-
-static bool is_passable(celln v) {
-	switch(v) {
-	case CellWall: return true;
-	default: return false;
-	}
-}
-
-static bool need_activate(celln v) {
-	switch(v) {
-	case CellButton: return true;
-	default: return false;
-	}
-}
-
 static celln get_broken(celln v) {
 	switch(v) {
 	case CellBarel: return CellBarelDestroyed;
@@ -171,7 +150,7 @@ directionn to(directionn v, directionn d) {
 
 dungeoni* find_dungeon(questn quest, int level) {
 	for(auto& e : dungeons) {
-		if(e && e.quest==quest && e.level==level)
+		if(e && e.quest == quest && e.level == level)
 			return &e;
 	}
 	return 0;
@@ -487,16 +466,15 @@ bool dungeoni::ispassable(pointc v) const {
 	if(!v)
 		return false;
 	auto n = get(v);
-	if(need_activate(n))
+	if(cells[n].is(PassableActivated))
 		return is(v, CellActive);
-	return is_passable(n);
+	return cells[n].is(Passable);
 }
 
 bool dungeoni::isforbidden(pointc v) const {
 	if(!v)
-		return false;
-	auto n = get(v);
-	return is_no_monsters(n);
+		return true;
+	return cells[get(v)].is(MonsterForbidden);
 }
 
 int dungeoni::around(pointc v, celln t1, celln t2) const {

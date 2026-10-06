@@ -57,7 +57,7 @@ void stringbuilder_custom(stringbuilder& sb, const char* id) {
 stringvari stringvars[] = {
 	{"Class", player_class},
 	{"Gold", player_gold},
-	{"Name", player_name},
 	{"Opponent", opponent_name},
+	{"Player", player_name},
 	{"Weapon", player_weapon},
 	{}};

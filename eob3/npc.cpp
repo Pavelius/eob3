@@ -35,9 +35,8 @@ void npci::say(const char* foramt, ...) const {
 
 void npci::sayv(const char* format, const char* format_param) const {
 	consolens();
-	console("[~");
 	console(name());
-	console("] \"");
+	console(" \"");
 	consolev(format, format_param);
 	console("\"");
 }

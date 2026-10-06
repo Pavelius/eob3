@@ -756,14 +756,14 @@ static bool is(classn classes, classn type) {
 }
 
 static messagen get_skilled(resn dungeon, celln type, racen race, classn classes) {
-	if(dungeon == BRICK && type == CellDecor3 && is(classes, Theif))
+	if(dungeon == BRICK && type == CellDecor1 && is(classes, Theif))
 		return LookUnknownTheifSign;
 	return (messagen)0;
 }
 
 static void examine(creature* player, resn dungeon, celln type) {
 	static messagen unskilled_examine[XANATHA - BRICK + 1][CellDecor3 - CellDecor1 + 1] = {
-		{LookUnknown, LookDrainageGate, LookUnknownTheifSign}, // BRICK
+		{LookUnknownTheifSign, LookDrainageGate, LookUnknown}, // BRICK
 	};
 	auto m = get_skilled(dungeon, type, player->race, player->type);
 	if(!m)

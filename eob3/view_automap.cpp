@@ -4,6 +4,7 @@
 #include "math.h"
 #include "pointca.h"
 #include "screenshoot.h"
+#include "view_focus.h"
 
 static color cpass(196, 132, 72);
 static color cegg(119, 141, 97);
@@ -265,8 +266,9 @@ static void paint_automap() {
 	pushrect push;
 	auto push_fore = fore;
 	celln nb[8]; pointc v;
-	for(v.y = -1; v.y < mpy + 1; v.y++) {
-		for(v.x = -1; v.x < mpx + 1; v.x++) {
+	for(auto y = -1; y < mpy + 1; y++) {
+		for(auto x = -1; x < mpx + 1; x++) {
+			v.x = x; v.y = y;
 			if(show_fog_of_war) {
 				if(!v) {
 					auto x1 = (unsigned char)imax(0, imin((int)v.x, mpx - 1));
@@ -480,6 +482,7 @@ static void input_automap() {
 }
 
 void show_automap(const pointca& markers, int explore_radius) {
+	pushfocus push;
 	show_fog_of_war = true;
 	show_secrets = false;
 	show_party = true;
@@ -496,6 +499,7 @@ void show_automap(const pointca& markers, int explore_radius) {
 }
 
 void show_automap(bool mshow_fog_of_war, bool mshow_secrets, bool mshow_party, const pointca* vred_markers) {
+	pushfocus push;
 	show_fog_of_war = mshow_fog_of_war;
 	show_secrets = mshow_secrets;
 	show_party = mshow_party;
@@ -504,5 +508,6 @@ void show_automap(bool mshow_fog_of_war, bool mshow_secrets, bool mshow_party, c
 }
 
 void show_dungeon_automap() {
+	pushfocus push;
 	show_automap(true, false, true, 0);
 }

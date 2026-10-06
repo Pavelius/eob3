@@ -1266,7 +1266,7 @@ static void paint_console() {
 	pushrect push;
 	pushfont push_font(0);
 	setpos(5, 180, 280, 6 * 3);
-	textf(console_text);
+	texta(console_text, AlignLeft);
 }
 
 static void update_focus_player() {

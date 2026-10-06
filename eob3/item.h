@@ -189,6 +189,7 @@ featn random(featn v);
 
 void addv(item* shop, item& v);
 bool allow(shopn v);
+bool is_identified(const void* object);
 void normalize_shop(shopn id);
 void refresh_shop(shopn id);
 void refresh_shops();

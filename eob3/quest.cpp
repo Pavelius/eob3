@@ -31,6 +31,9 @@ static sitei flooded_collectors[] = {
 	{BRICK, Human, 2, {Kobold, Leech}, NoMonster, TrappedCorridor},
 	{BRICK, Human, 1, {Kobold, Leech}, NoMonster, GreatLair},
 };
+static sitei unknown_forest[] = {
+	{FOREST, Goblinoid, 2, {Kobold, Leech}, NoMonster, Lair},
+};
 
 questi quests[] = {
 	{0, MusBinge, {Coins, 500, Reputation, 1}, flooded_collectors},

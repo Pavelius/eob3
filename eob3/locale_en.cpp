@@ -23,11 +23,12 @@ const char* message_names[LastMessage + 1] = {
 	"Do you really want to exit game and lost any unsaved progress?",
 	"What %1 do?", "Which way to go?", "Which item you buy?", "Cast on who?",
 	"No spells available", "Avaliable %1i of %2i spells",
-	"Welcome, friends", "Who is you?", "How you get here?", "You are liers!",
+	"Welcome, friends", "Who is you?", "What happen?", "How you get here?", "You are liers!",
 	"I don't know waht is this",
 	"Looks lika a old drainage gate",
 	"Strange mechanic device",
 	"This sign is mark something",
+	"The sign point to exit in north part of this place",
 	"%Opponent stay still and carefully watching you.",
 	"%1 is disabled", "%Player pick up %1",
 	"Party going up ...", "Party going down ...", "Party fall into the pit.", "%1 became a %2i level %1",
@@ -228,6 +229,13 @@ const char* wallmsg_names[LastWellMessage + 1] = {
 	"There is a holy site",
 	"There is no something special on this level",
 	"Hey, lucky, no tought monsters live here",
+};
+const char* quest_rumor[(LastQuest + 1) * 5] = {
+	"Big leeches lurk in the still water. If the surface ripples, they have already scented prey.",
+	"Something whispers in our minds beyond the old sluice. We do not go there. Even our bravest come back changed.",
+	"There are three marks on the lever. Turn it the wrong way, and the water will flood the leech nests. Or your tunnel. Heh-heh.",
+	"There are fresh scratches on the wall in the lower passage. They lead upward, as if something huge were crawling across the stone.",
+	"Can you hear the bell beneath the water? It is no bell. It is calling to whatever sleeps deep beneath the city."
 };
 extern const char* spell_names[LastSpell + 1] = {
 	"Bless", "Cure Light Wound", "Detect Evil", "Detect Magic", "Protection From Evil", "Purify Food",

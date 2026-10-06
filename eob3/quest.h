@@ -5,12 +5,18 @@
 
 struct sitei;
 
-enum questn : unsigned char;
+enum questn : unsigned char {
+	FloodedCollectors, FintPathToForest,
+	LastQuest = FintPathToForest,
+};
+
 enum soundn : unsigned char;
 
 enum questfn : unsigned char {
 	QuestPrepared, QuestPassed,
 };
+
+extern const char* quest_rumor[(LastQuest + 1) * 5];
 
 struct questfc {
 	unsigned char data = 0;
@@ -26,12 +32,13 @@ struct questi {
 	variablei		rewards; // Reward, if quest is done.
 	slice<sitei>	dungeon; // Main quest dungeon
 	questfc			state; // Current quest state. Can be serialzed.
+	unsigned char	rumor; // Maximum rumor is 5.
 	questn index() const;
+	bool identify() const { return rumor >= 5; }
 	bool is(questfn v) const { return state.is(v); }
 	void set(questfn v) { return state.set(v); }
 };
-extern questi quests[128]; // All quest predifined data.
-extern questi* last_quest;
+extern questi quests[LastQuest + 1]; // All quest predifined data.
 
 questi* active_quest();
 

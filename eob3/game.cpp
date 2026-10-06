@@ -94,6 +94,20 @@ int quest_count(questfn v) {
 	return result;
 }
 
+static void party_items(collection<item>& result, fnvisible filter, bool keep) {
+	for(auto p : adventurers) {
+		if(!p)
+			continue;
+		for(auto& e : p->backpack()) {
+			if(!e)
+				continue;
+			if(filter && filter(&e) != keep)
+				continue;
+			result.add(&e);
+		}
+	}
+}
+
 questi* active_quest() {
 	for(auto& e : quests) {
 		if(e.is(QuestPrepared) && !e.is(QuestPassed))
@@ -541,6 +555,16 @@ static void leave_dungeon() {
 static void drop_unique_loot(creature* player) {
 }
 
+static void monsters_talk(const char* format, ...) {
+	if(!opponent || !opponent->monster)
+		return;
+	XVA_FORMAT(format);
+	char temp[512]; stringbuilder sb(temp);
+	sb.add("\"");
+	sb.addv(format, format_param);
+	show_message(temp, false, getnm(Continue), 0);
+}
+
 static long monsters_talk(messagen id, messagen id2 = (messagen)0, messagen id3 = (messagen)0) {
 	if(!opponent || !opponent->monster)
 		return 0;
@@ -757,7 +781,7 @@ static bool is(classn classes, classn type) {
 
 static messagen get_skilled(resn dungeon, celln type, racen race, classn classes) {
 	if(dungeon == BRICK && type == CellDecor1 && is(classes, Theif))
-		return LookUnknownTheifSign;
+		return LookTheifSign;
 	return (messagen)0;
 }
 
@@ -1093,8 +1117,52 @@ static void lie() {
 	}
 }
 
-static void talk_help() {
+static bool talk_rumor() {
+	auto p = active_quest();
+	if(!p || p->identify())
+		return false;
+	monsters_talk(quest_rumor[p->rumor++]);
 	monsters_leave();
+	return true;
+}
+
+static bool is_magical(const void* object) {
+	auto p = (item*)object;
+	return !p->identified && p->power;
+}
+
+static bool talk_identify_item() {
+	collection<item> source;
+	party_items(source, is_magical, true);
+	if(!source)
+		return false;
+	return true;
+}
+
+static bool talk_cursed_item() {
+	return false;
+}
+
+static bool talk_gift_item() {
+	return false;
+}
+
+static void talk_help() {
+	// 1 - There is a big chance to speak about rumor
+	if(chance(60) && talk_rumor())
+		return;
+	// 2 - Random chance to get help (include rumor)
+	fncondition source[] = {
+		talk_gift_item,
+		talk_cursed_item, talk_identify_item, talk_rumor,
+	};
+	zshuffle(source, lengthof(source));
+	for(auto proc : source) {
+		if(proc())
+			return;
+	}
+	// 3 - After all give general advise
+	
 }
 
 actioni talk_carefully[] = {

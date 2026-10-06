@@ -162,6 +162,10 @@ bool is_natural(itemn type) {
 	return type >= ChillTouchHand && type <= Sting1d8;
 }
 
+bool is_identified(const void* object) {
+	return ((item*)object)->identified != 0;
+}
+
 bool allow(itemn type, wearn n) {
 	auto v = item_data[type].wear;
 	switch(v) {

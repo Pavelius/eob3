@@ -345,6 +345,18 @@ void party_addexp(int value, alignmentn alignment) {
 	}
 }
 
+void party_addexp_good(int value) {
+	party_addexp(value, LawfulGood);
+	party_addexp(value, NeutralGood);
+	party_addexp(value, ChaoticGood);
+}
+
+void party_addexp_evil(int value) {
+	party_addexp(value, LawfulEvil);
+	party_addexp(value, NeutralEvil);
+	party_addexp(value, ChaoticEvil);
+}
+
 static dungeoni* find_dungeon(int level) {
 	return find_dungeon(loc->quest, level);
 }
@@ -631,43 +643,45 @@ static bool party_move_interact(pointc v) {
 	return true;
 }
 
+static void get_opponents(creature** result) {
+	loc->getmonsters(result, to(party.pos, party.d));
+}
+
 static void reaction_check(int bonus) {
 	if(!loc)
 		return;
 	auto push_opponent = opponent;
-	creature* creatures[6] = {};
+	creature* opponents[party_size];
 	while(true) {
-		loc->getmonsters(creatures, to(party.pos, party.d));
-		opponent = get_leader(creatures);
+		get_opponents(opponents);
+		opponent = get_leader(opponents);
 		if(!opponent)
 			break;
-		check_reaction(creatures, bonus);
+		check_reaction(opponents, bonus);
 		auto last_reaction = opponent->reaction;
 		auto prev_reaction = last_reaction;
-		party_set(creatures, Moved);
-		party_set(creatures, to(party.d, Down));
+		party_set(opponents, Moved);
+		party_set(opponents, to(party.d, Down));
 		switch(last_reaction) {
 		case Careful:
-			party_set(creatures, Surprised, false);
+			party_set(opponents, Surprised, false);
 			party_set(adventurers, Surprised, false);
 			monsters_talk(talk_carefully);
-			loc->getmonsters(creatures, to(party.pos, party.d));
 			break;
 		case Friendly:
-			party_set(creatures, Surprised, false);
+			party_set(opponents, Surprised, false);
 			party_set(adventurers, Surprised, false);
 			monsters_talk(talk_friendly);
-			loc->getmonsters(creatures, to(party.pos, party.d));
 			break;
 		case Indifferent:
 			break;
 		default:
 			make_attacks(true);
-			loc->getmonsters(creatures, to(party.pos, party.d));
 			break;
 		}
 		if(prev_reaction != last_reaction) {
-			party_set(creatures, last_reaction);
+			get_opponents(opponents);
+			party_set(opponents, last_reaction);
 			continue;
 		}
 		break;
@@ -903,7 +917,13 @@ static bool monsters_nearbe() {
 }
 
 static void ambush_enemy() {
-	party_addexp(100);
+	creature* opponents[party_size]; get_opponents(opponents);
+	party_addexp_evil(25);
+	party_set(opponents, Surprised);
+	make_attacks(true);
+}
+
+static void attack_enemy() {
 	make_attacks(true);
 }
 
@@ -1038,7 +1058,7 @@ actioni talk_carefully[] = {
 	{Lie, {}, {}, 0, is_personality},
 	{CalmDown, {}, Ranger, monsters_leave, is_animal},
 	{Bribe, {}, {}, 0, is_personality},
-	{Attack},
+	{Attack, {}, {}, attack_enemy},
 	{}};
 
 actioni talk_friendly[] = {

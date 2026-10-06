@@ -425,7 +425,7 @@ int get_hit_die(classn type) {
 	}
 }
 
-int get_party_index(const creature* player) {
+int party_index(const creature* player) {
 	for(size_t i = 0; i < lengthof(adventurers); i++) {
 		if(adventurers[i] == player)
 			return i;
@@ -1275,29 +1275,31 @@ void party_set(creature** source, reactions v) {
 	}
 }
 
-bool party_have(classn type) {
-	for(auto p : adventurers) {
+bool party_have(creature** source, classn type) {
+	for(size_t i = 0; i < lengthof(adventurers); i++) {
+		auto p = source[i];
 		if(p && !p->isdisabled() && p->is(type))
 			return true;
 	}
 	return false;
 }
 
-bool party_have(alignmentn type) {
-	for(auto p : adventurers) {
+bool party_have(creature** source, alignmentn type) {
+	for(size_t i = 0; i < lengthof(adventurers); i++) {
+		auto p = source[i];
 		if(p && !p->isdisabled() && p->is(type))
 			return true;
 	}
 	return false;
 }
 
-int party_median(creature** creatures, abilityn v) {
+int party_median(creature** source, abilityn v) {
 	auto count = 0;
 	auto value = 0;
-	for(int i = 0; i < 6; i++) {
-		if(!creatures[i] || !creatures[i]->isready())
+	for(size_t i = 0; i < lengthof(adventurers); i++) {
+		if(!source[i] || !source[i]->isready())
 			continue;
-		value += creatures[i]->abilities[v];
+		value += source[i]->abilities[v];
 		count++;
 	}
 	if(!count)

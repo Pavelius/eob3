@@ -73,7 +73,7 @@ static void press_key() {
 }
 
 void fix_damage(const creature* target, int value) {
-	auto i = get_party_index(target);
+	auto i = party_index(target);
 	if(i == -1)
 		fix_monster_damage(target);
 	else {
@@ -86,7 +86,7 @@ void fix_damage(const creature* target, int value) {
 
 // If hits == -1 the attack is missed
 void fix_attack(const creature* attacker, wearn slot, int hits) {
-	auto pind = get_party_index(attacker);
+	auto pind = party_index(attacker);
 	if(pind == -1)
 		return;
 	// If thrown animation fix attack
@@ -327,7 +327,7 @@ static void paint_player_hit(int hits, unsigned counter) {
 static void paint_player_hit(const creature* player, wearn id) {
 	if(!player)
 		return;
-	auto pind = get_party_index(player);
+	auto pind = party_index(player);
 	if(pind == -1)
 		return;
 	auto value = disp_weapon[pind][id == RightHand ? 0 : 1];
@@ -692,7 +692,7 @@ static void paint_avatar() {
 		image(res_data[PORTM], player->avatar, 0);
 	alpha = push_alpha;
 	paint_avatar_stats();
-	auto pind = get_party_index(player);
+	auto pind = party_index(player);
 	if(pind != -1) {
 		auto v = disp_damage[pind];
 		if(v) {
@@ -835,7 +835,7 @@ static void paint_ring(item& it, wearn id) {
 }
 
 static void prev_character() {
-	auto index = get_party_index(player);
+	auto index = party_index(player);
 	if(index <= 0)
 		return;
 	if(adventurers[index - 1]) {
@@ -845,7 +845,7 @@ static void prev_character() {
 }
 
 static void next_character() {
-	auto index = get_party_index(player);
+	auto index = party_index(player);
 	if(index < 0 || index >= 5)
 		return;
 	if(adventurers[index + 1]) {

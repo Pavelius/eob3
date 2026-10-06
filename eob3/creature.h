@@ -7,6 +7,7 @@
 typedef bool (*fncfilter)(unsigned char v);
 
 const int encounter_table_maximum = 19;
+const int party_size = 6;
 
 enum messagen : unsigned char;
 enum monstern : unsigned char;
@@ -202,7 +203,7 @@ private:
 	void checklevel();
 };
 extern creature characters[32]; // All characters in game
-extern creature* adventurers[6]; // Party of characters
+extern creature* adventurers[party_size]; // Party of characters
 extern creature* player;
 extern creature* opponent;
 
@@ -223,7 +224,7 @@ racen get_race(monstern v);
 bool is_character(const creature* p);
 
 int get_hit_die(classn type);
-int get_party_index(const creature* player);
+int party_index(const creature* player);
 int party_median(creature** source, abilityn v);
 int select_avatars(unsigned char* result, racen race, gendern gender, classn type, fncfilter filter);
 int select_names(unsigned char* result, racen race, gendern gender, fncfilter filter);
@@ -237,8 +238,8 @@ void create_monster_pallette();
 void finish_character();
 void learn_spells(creature* player, int level, int spell_type);
 bool no_party_avatar(unsigned char v);
-bool party_have(alignmentn type);
-bool party_have(classn type);
+bool party_have(creature** source, alignmentn type);
+bool party_have(creature** source, classn type);
 void party_set(creature** source, featn v, bool apply = true);
 void party_set(creature** source, reactions v);
 void reroll_ability();

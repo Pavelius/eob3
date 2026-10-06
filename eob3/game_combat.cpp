@@ -97,10 +97,11 @@ static void select_combatants(creature** result, bool enemies) {
 	for(auto p : combatants) {
 		if(p->isdisabled())
 			continue;
-		auto ismonster = p->monster != NoMonster;
+		auto ismonster = (p->monster != NoMonster);
 		if(ismonster != enemies)
 			continue;
 		if(ismonster) {
+			p->reaction = Hostile;
 			auto side = get_side(p->side, party.d);
 			if(!result[side])
 				result[side] = p;

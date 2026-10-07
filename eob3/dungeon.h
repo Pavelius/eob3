@@ -57,6 +57,7 @@ enum goaln : unsigned char {
 	ExploreMostArea,
 	FindAllSecrets, TakeSpecialItem, OpenAllLockedDoors, DisableAllTraps,
 	KillBoss, KillBossMinions, KillAlmostAllMonsters,
+	LastGoal = KillAlmostAllMonsters
 };
 enum wellmsgn : unsigned char {
 	MessageMagicWeapons, MessageMagicRings, MessageSecrets, MessageTraps, MessageLocked,
@@ -73,9 +74,7 @@ enum roomn : unsigned char {
 	RandomRoom
 };
 
-typedef char goala[KillAlmostAllMonsters + 1];
-
-extern const char* goal_names[MessageHabbits + 1];
+extern const char* goal_names[LastGoal + 1];
 extern const char* wallmsg_names[LastWellMessage + 1];
 
 struct sitei {
@@ -101,6 +100,22 @@ struct cellfc {
 	template<typename... Ts> constexpr cellfc(cellfn v, Ts... args) : cellfc(args...) { set(v); }
 	bool is(cellfn v) const { return (data & (1 << v)) != 0; }
 	void set(cellfn v) { data |= (1 << v); }
+};
+
+class goalfc {
+	short unsigned data = 0;
+public:
+	goalfc() = default;
+	template<typename... Ts> constexpr goalfc(goaln v, Ts... args) : goalfc(args...) { set(v); }
+	bool is(goaln v) const { return (data & (1 << v)) != 0; }
+	void set(goaln v) { data |= (1 << v); }
+};
+
+struct goalc {
+	char goals[LastGoal + 1] = {};
+	constexpr goalc() = default;
+	template<typename... Ts> constexpr goalc(goaln v, int n, Ts... args) : goalc(args...) { add(v, n); }
+	constexpr void add(goaln v, int n) { goals[v] += n; }
 };
 
 struct celli {
@@ -144,7 +159,7 @@ struct dungstatei {
 	void clear();
 };
 
-struct dungeoni : sitei {
+struct dungeoni : sitei, goalfc {
 	struct ground : item, posable {
 		explicit operator bool() const { return item::operator bool(); }
 		void		clear();
@@ -170,7 +185,6 @@ struct dungeoni : sitei {
 	overlayitem		overlayitems[256];
 	celln			data[mpy][mpx];
 	unsigned char	flags[mpy][mpx];
-	short unsigned	rewards;
 	overlayi*		add(pointc v, directionn d, celln i);
 	void			add(overlayi* po, item& it);
 	void			add(monstern type, pointc v, directionn d, int side);
@@ -199,7 +213,7 @@ struct dungeoni : sitei {
 	unsigned char	index() const;
 	bool			is(pointc v, cellfn i) const;
 	bool			is(pointc v, celln t1, celln t2) const;
-	bool			is(goaln v) const { return (rewards & (1 << v)) != 0; }
+	bool			is(goaln v) const { return goalfc::is(v); }
 	bool			is(fnpointc v) const;
 	bool			isitem(pointc v) const;
 	bool			isforbidden(pointc v) const;

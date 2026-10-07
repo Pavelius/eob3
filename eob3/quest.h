@@ -1,6 +1,7 @@
 #pragma once
 
 #include "action.h"
+#include "dungeon.h"
 #include "slice.h"
 
 struct sitei;
@@ -30,7 +31,8 @@ struct questi {
 	char			difficult; // Difficult is 0-5, where 0 is start quest, 1 lower difficult, 5 is toughess boss.
 	soundn			music; // Played music
 	variablei		rewards; // Reward, if quest is done.
-	slice<sitei>	dungeon; // Main quest dungeon
+	slice<sitei>	sites; // Main quest dungeon
+	goalc			goals;
 	questfc			state; // Current quest state. Can be serialzed.
 	unsigned char	rumor; // Maximum rumor is 5.
 	questn index() const;

@@ -36,5 +36,5 @@ static sitei unknown_forest[] = {
 };
 
 questi quests[] = {
-	{0, MusBinge, {Coins, 500, Reputation, 1}, flooded_collectors},
+	{0, MusBinge, {Coins, 500, Reputation, 1}, flooded_collectors, {KillAlmostAllMonsters, 3}},
 };

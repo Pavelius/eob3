@@ -327,8 +327,12 @@ bool creature::allow(itemn type) const {
 }
 
 void creature::equip(item& v) {
-	if(!allow(v.type))
+	if(!v)
 		return;
+	if(!monster) {
+		if(!allow(v.type))
+			return;
+	}
 	for(auto i = Head; i <= Quiver; i = (wearn)(i + 1)) {
 		if(wears[i])
 			continue;
@@ -1385,6 +1389,11 @@ void create_monster(monstern type) {
 	player->levels[0] = e.hd;
 	player->basic.abilities[AC] += (10 - e.ac);
 	player->feats = e.feats;
+	// Add items
+	for(auto item_type : e.items) {
+		if(item_type)
+			player->equip(item_type);
+	}
 	standart_ability();
 	reroll_monster_hits();
 	player->update();

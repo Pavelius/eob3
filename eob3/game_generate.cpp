@@ -154,7 +154,7 @@ static void party_random_generation() {
 static void test_city_menu() {
 	auto quest = (questn)0;
 	quests[quest].set(QuestPrepared);
-	dungeon_create(quest, quests[quest].dungeon);
+	dungeon_create(quest, quests[quest].sites);
 	// next_scene(play_city_actions);
 	// consolen("This is a [long] text display [+plus] or [-minuses], maybe [~grayed] of simple format output strings.", language_names[Elf]);
 	enter_dungeon(1, CellStairsUp);

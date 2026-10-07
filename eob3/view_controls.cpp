@@ -1125,7 +1125,7 @@ static void paint_character() {
 	paint_avatar();
 	caret.y = push.caret.y + 44;
 	width = 65;
-	texta(str("%1i of %2i", player->gethp(), player->hpm), AlignCenter);
+	texta(str("%1i of %2i", player->hp, player->hpm), AlignCenter);
 }
 
 static void paint_character(bool disabled, bool hilite) {
@@ -1183,33 +1183,38 @@ static void paint_party_sheets() {
 		paint_avatars();
 }
 
-static void get_closed_goals(char* goals) {
-	//if(!last_quest)
-	//	return;
-	//for(auto& e : last_quest->dungeon) {
-	//	for(auto i = (goaln)0; i <= KillAlmostAllMonsters; i = (goaln)(i + 1)) {
-	//		if(e.is(i))
-	//			goals[i]++;
-	//	}
-	//}
+static void get_closed_goals(goalc& goals) {
+	auto last_quest = active_quest();
+	if(!last_quest)
+		return;
+	auto index = last_quest->index();
+	for(auto& e : dungeons) {
+		if(!e || e.quest != index)
+			continue;
+		for(auto i = (goaln)0; i <= LastGoal; i = (goaln)(i + 1)) {
+			if(e.is(i))
+				goals.goals[i]++;
+		}
+	}
 }
 
 static void paint_quest_goals() {
-	goala goals = {}; get_closed_goals(goals);
+	goalc goals; get_closed_goals(goals);
 	pushrect push;
 	pushfont push_font(0);
 	pushfore push_fore;
 	paint_sheet_head();
 	paint_blank();
 	header(getnm(QuestGoals));
-	//if(last_quest) {
-	//	width -= 2;
-	//	for(auto i = (goaln)0; i <= KillAlmostAllMonsters; i = (goaln)(i + 1)) {
-	//		if(last_quest->goals[i] <= 0 && goals[i] <= 0)
-	//			continue;
-	//		textn(bsdata<goali>::elements[i].getname(), last_quest->goals[i], "%2i/%1i", goals[i]);
-	//	}
-	//}
+	auto last_quest = active_quest();
+	if(last_quest) {
+		width -= 2;
+		for(auto i = (goaln)0; i <= LastGoal; i = (goaln)(i + 1)) {
+			if(last_quest->goals.goals[i] <= 0 && goals.goals[i] <= 0)
+				continue;
+			textn(goal_names[i], last_quest->goals.goals[i], "%2i/%1i", goals.goals[i]);
+		}
+	}
 }
 
 static void field(const char* header, int title_width, int total, int value, int maximum) {

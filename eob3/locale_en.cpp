@@ -98,6 +98,10 @@ const char* ability_short[Experience + 1] = {
 	"HP",
 	"Lev", "Exp"
 };
+const char* goal_names[LastGoal + 1] = {
+	"Explore most area", "Find all secrets", "Take special item", "Open all doors", "Disable all traps",
+	"Kill boss", "Kill boss minions", "Kill them all",
+};
 const char* variable_names[LastVariable + 1] = {
 	"Reputation", "Gold", "Blessing", "Time",
 };

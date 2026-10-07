@@ -19,10 +19,12 @@ enum questfn : unsigned char {
 
 extern const char* quest_rumor[(LastQuest + 1) * 5];
 
-struct questfc {
+class questfc {
 	unsigned char data = 0;
+public:
 	questfc() = default;
 	template<typename... Ts> constexpr questfc(questfn v, Ts... args) : questfc(args...) { set(v); }
+	void clear() { data = 0; }
 	bool is(questfn v) const { return (data & (1 << v)) != 0; }
 	void set(questfn v) { data |= (1 << v); }
 };
@@ -36,6 +38,7 @@ struct questi {
 	questfc			state; // Current quest state. Can be serialzed.
 	unsigned char	rumor; // Maximum rumor is 5.
 	questn index() const;
+	void clear() { goals.clear(); rumor = 0; state.clear(); }
 	bool identify() const { return rumor >= 5; }
 	bool is(questfn v) const { return state.is(v); }
 	void set(questfn v) { return state.set(v); }

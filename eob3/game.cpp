@@ -410,6 +410,7 @@ static void update_every_turn() {
 }
 
 static void update_every_hour() {
+	check_disease();
 }
 
 static bool player_damage(int attack_type, damagen type, dice damage, const featn effect) {
@@ -611,6 +612,14 @@ static void check_noises_behind_door() {
 		return;
 }
 
+static bool party_disabled() {
+	for(auto p : adventurers) {
+		if(p && p->isready())
+			return false;
+	}
+	return true;
+}
+
 static void pass_time_activity() {
 	auto minute = getv(Time);
 	check_boost(minute);
@@ -629,11 +638,10 @@ static void pass_time_activity() {
 		all_creatures(update_every_hour);
 	check_goals();
 	fix_animate();
-	/*if(all_party_disabled()) {
-		message_box(getnm("AllPartyDead"));
-		party_clear();
-		set_next_scene(main_menu);
-	}*/
+	if(party_disabled()) {
+		message_box(getnm(AllPartyDead));
+		next_scene(main_menu);
+	}
 }
 
 void pass_time(unsigned minutes) {

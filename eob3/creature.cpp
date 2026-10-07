@@ -300,7 +300,7 @@ bool creature::allow(itemn type, speechn id) const {
 bool creature::allow(itemn type) const {
 	switch(type) {
 	case ShortSword: case Longsword:
-		return is(Theif) || is(Elf) || is(Fighter) || is(Paladin) || is(Ranger);
+		return is(Theif) || is(Elf) || iswarrior();
 	case Dagger:
 		return !is(Cleric);
 	case WarHammer: case Mace: case Club:
@@ -308,13 +308,13 @@ bool creature::allow(itemn type) const {
 	case Axe:
 		return is(Theif) || is(Fighter) || is(Paladin) || is(Ranger);
 	case TwoHandedSword: case BattleAxe: case Halberd:
-		return is(Fighter) || is(Paladin) || is(Ranger);
+		return iswarrior();
 	case LeatherArmor:
 		return !is(Mage);
 	case ScaleMail: case ChainMail: case BandedMail: case PlateMail:
 	case Shield: case DwarvenShield:
 	case Helm: case DwarvenHelm:
-		return is(Fighter) || is(Paladin) || is(Ranger) || is(Cleric);
+		return iswarrior() || is(Cleric);
 	case HolySymbol: case HolySymbolEvil: case PriestScroll:
 		return is(Cleric);
 	case Wand: case IceSphere: case FlameSphere: case MageScroll: case MageBook:
@@ -380,12 +380,12 @@ static abilityn get_primary(classn v) {
 	}
 }
 
-static groupn get_group(classn v) {
+static char get_group(classn v) {
 	switch(v) {
-	case Cleric: return Priests;
-	case Mage: return Wizards;
-	case Theif: return Rogues;
-	default: return Warriors;
+	case Cleric: return 1;
+	case Mage: return 3;
+	case Theif: return 2;
+	default: return 0;
 	}
 }
 
@@ -489,7 +489,7 @@ static int get_maximum_hits() {
 	auto m = player->level();
 	auto a = player->get(Constitution);
 	auto h = maptbl(hit_points_adjustment, a);
-	if(h > 2 && !(player->is(Fighter) || player->is(Paladin) || player->is(Ranger)))
+	if(h > 2 && !player->iswarrior())
 		h = 2;
 	auto r = player->get(Hits) + h * m + player->hpr / imax(1, (int)n);
 	if(r < m)
@@ -898,7 +898,7 @@ void reroll_ability() {
 	}
 	for(size_t i = 0; i < 6; i++)
 		player->basic.abilities[Strenght + i] = result[i];
-	auto primary = get_primary(player->type);
+	auto primary = get_primary(get_class(player->type, 0));
 	auto race = player->race;
 	iswap(player->basic.abilities[get_best_index(player->basic.abilities + Strenght, 6)], player->basic.abilities[primary]);
 	apply_minimal(player->basic.abilities, player->type);
@@ -1083,15 +1083,24 @@ static const char* str(const dice& v) {
 	return temp;
 }
 
+static const char* str_melee_attack(const combati& v) {
+	auto damage_bonus = v.damage.b;
+	auto thac0 = 20 - v.attack;
+	if(damage_bonus)
+		return str("%1i/%+2i", thac0, damage_bonus);
+	else
+		return str("%1i", thac0);
+}
+
 const char* creature::strvalue(abilityn id) const {
 	switch(id) {
-	case AttackMelee: return str("%1i", 20 - getattack(RightHand, false).attack);
+	case AttackMelee: return str_melee_attack(getattack(RightHand, false));
 	case DamageMelee: return str(getattack(RightHand, false).damage);
 	case AC: return str("%1i", 10 - get(id));
 	case Hits: return str("%1i", hpm);
 	case ReactionBonus: return str("%+1i", get(id));
 	case Strenght:
-		if(get(id) == 18) {
+		if(get(id) == 18 && allow_exeptional_strenght(type, race)) {
 			auto exeptional = get(ExeptionalStrenght);
 			if(exeptional == 100)
 				return "18/00";
@@ -1185,7 +1194,7 @@ item* get_item(void* pointer) {
 static void add_magical(itemn type) {
 }
 
-void set_reaction(creature** creatures, reactions v) {
+static void set_reaction(creature** creatures, reactions v) {
 	for(auto i = 0; i < 6; i++) {
 		if(creatures[i])
 			creatures[i]->reaction = v;
@@ -1205,7 +1214,7 @@ creature* get_leader(creature** creatures) {
 	return result;
 }
 
-reactions get_reaction(creature** creatures) {
+static reactions get_reaction(creature** creatures) {
 	for(auto i = 0; i < 6; i++) {
 		if(creatures[i] && creatures[i]->reaction != Indifferent)
 			return creatures[i]->reaction;

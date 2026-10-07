@@ -164,7 +164,7 @@ struct item {
 	bool isdamaged() const { return hits >= 5; }
 	bool isidentified() const { return identified != 0; }
 	bool ismagical() const { return power != NoPower; }
-	bool isranged() const { return geti().avatar.thrown || geti().combat.ammo != NoItem; }
+	bool isranged() const { return geti().avatar.thrown != -1 || geti().combat.ammo != NoItem; }
 	bool isweapon() const { return geti().combat.damage.c != 0; }
 	bool natural() const { return is_natural(type); }
 	int	getcount() const { return 1; }
@@ -177,7 +177,7 @@ struct item {
 	void usecharge(const char* interactive, int chance = 35);
 };
 
-extern item shops[LastShop+1][6];
+extern item shops[LastShop + 1][6];
 
 struct wearable {
 	item		wears[LastBelt + 1];

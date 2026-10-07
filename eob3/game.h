@@ -43,7 +43,7 @@ enum messagen : unsigned char {
 	WelcomeFriends, WhoIsYou, WhatHappens, HowYouGetHere, YouLiers,
 	LookUnknown, LookDrainageGate, LookStrangeDevice, LookUnknownTheifSign, LookTheifSign,
 	AnimalStayStill,
-	PlayerIsDisabled, PlayerPickUpItem,
+	PlayerIsDisabled, PlayerPickUpItem, AllPartyDead,
 	PartyGoingUp, PartyGoingDown, PartyFallPit, RaiseLevelSuccess,
 	DoorOpened, SneakAttack, FeelPoison, FeelDisease,
 	MagicDevice, Portal, TrapLauncher,
@@ -128,9 +128,11 @@ void fix_monster_attack_end(const creature* target);
 void fix_monster_damage(const creature* target);
 void fix_monster_damage_end();
 void focus_input();
+void game_clear();
 void game_generation();
 void header_yellow(const char* format);
 void initialize_gui();
+void main_menu();
 void make_attacks(bool melee_combat);
 void message_box(const char* format);
 void monsters_talk_carefully();

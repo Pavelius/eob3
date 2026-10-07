@@ -2149,8 +2149,8 @@ static void paint_generate_header(const char* header) {
 long choose_generate_dialog(const char* header) {
 	if(!interactive)
 		return an.random();
+	pushfocus push_focus;
 	an.sort();
-	an.checkkeys();
 	return choose_answer(header, 0, paint_generate_progress, text_label_left, 2, 10, paint_generate_header);
 }
 

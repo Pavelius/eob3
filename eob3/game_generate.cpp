@@ -52,9 +52,13 @@ void change_avatar() {
 	player->avatar = choose_avatar();
 }
 
-static void game_clear() {
+void game_clear() {
 	memset(adventurers, 0, sizeof(adventurers));
+	memset(dungeons, 0, sizeof(dungeons)); dungeons_count = 0;
+	memset(shops, 0, sizeof(shops));
 	for(auto& e : characters)
+		e.clear();
+	for(auto& e : quests)
 		e.clear();
 }
 
@@ -163,8 +167,8 @@ static void test_city_menu() {
 void game_generation() {
 	game_clear();
 	refresh_shops();
-	party_random_generation();
-	// party_generation();
+	// party_random_generation();
+	party_generation();
 	start_variables();
 	test_city_menu();
 }

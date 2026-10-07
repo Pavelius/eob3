@@ -116,6 +116,7 @@ struct goalc {
 	constexpr goalc() = default;
 	template<typename... Ts> constexpr goalc(goaln v, int n, Ts... args) : goalc(args...) { add(v, n); }
 	constexpr void add(goaln v, int n) { goals[v] += n; }
+	void clear() { for(auto& e : goals) e = 0; }
 };
 
 struct celli {

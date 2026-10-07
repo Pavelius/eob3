@@ -14,9 +14,6 @@ enum monstern : unsigned char;
 enum resn : unsigned char;
 enum spelln : unsigned char;
 
-enum groupn : unsigned char {
-	Warriors, Priests, Rogues, Wizards,
-};
 enum classn : unsigned char {
 	Monster,
 	Fighter, Ranger, Paladin, Mage, Cleric, Theif,
@@ -189,6 +186,7 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	bool islarge() const { return is_large(monsters[monster].res); }
 	bool isready() const { return !isdisabled() && !is(Paralizing); }
 	bool isunderstand(racen v) const { return languages.is(v); }
+	bool iswarrior() const { return is(Fighter) || is(Paladin) || is(Ranger); }
 	bool specialized(const item& weapon) const;
 	void kill();
 	bool roll(abilityn v, int bonus = 0) const;

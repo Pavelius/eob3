@@ -20,7 +20,9 @@ static void next_main_menu() {
 		next_scene((fnevent)result);
 }
 
-static void main_menu() {
+void main_menu() {
+	game_clear();
+	current_music = MusKvirasim;
 	an.add((long)game_generation, getnm(StartGame));
 	an.add((long)load_game, getnm(LoadGame));
 	an.add((long)buttoncancel, getnm(ExitGame));
@@ -53,8 +55,7 @@ int main(int argc, char* argv[]) {
 		return -1;
 	main_util();
 #endif
-	current_music = MusKvirasim;
-	music_enable = false;
+	// music_enable = false;
 	sys_create_window(-1, -1, 320, 200, 0, 32);
 	sys_caption("Eye of beholder (remake)");
 	sys_timer(100);

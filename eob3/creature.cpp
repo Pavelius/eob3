@@ -1033,8 +1033,8 @@ bool creature::specialized(const item& weapon) const {
 	switch(race) {
 	case Dwarf: return t == BattleAxe || t == Mace;
 	case HalfElf: case Elf: return t == Longsword || t == ShortSword;
-	case Halfling: return t == ShortSword || t == Dagger;
-	default: return t == Longsword || t == TwoHandedSword;
+	case Halfling: return t == ShortSword || t == Sling || t == Dagger;
+	default: return t == Longsword || t == TwoHandedSword || t == ShortSword;
 	}
 }
 

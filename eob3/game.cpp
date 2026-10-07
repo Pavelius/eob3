@@ -202,10 +202,13 @@ static directionn random_free_look(pointc v, directionn d, bool monster_forbidde
 		auto v1 = to(v, d1);
 		if(!v1)
 			continue;
+		if(!loc->ispassable(v1))
+			continue;
 		if(monster_forbidden && loc->isforbidden(v1))
 			continue;
-		if(loc->ispassable(v1))
-			return d1;
+		if(loc->ismonster(v1))
+			continue;
+		return d1;
 	}
 	return Center;
 }
@@ -591,7 +594,7 @@ static bool check_noises_behind_door(directionn d) {
 			if(count == 1 && monsters[0]->islarge())
 				p->say(IHearSomethingLarge);
 			else
-				p->say(IHearSomethingLarge, count);
+				p->say(IHearSomething, count);
 		} else
 			p->say(BehideThisDoorIsNoOne);
 		return true;

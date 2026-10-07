@@ -1722,22 +1722,15 @@ long choose_small_menu(const char* header, const char* cancel, int* columns) {
 	int maximum = 6;
 	if(cancel)
 		maximum--;
-	pushvalue push(table_columns, columns);
+	pushfont push(0);
+	pushfocus push_focus;
+	pushvalue push_columns(table_columns, columns);
 	return choose_answer(header, cancel, paint_small_menu, text_label_menu_table, 0, maximum, header_yellow);
 }
 
 long choose_main_menu() {
 	current_focus = empty_focus;
 	return choose_answer(0, 0, paint_main_menu, text_label, 1, -1, 0);
-}
-
-static int get_total_use(char* source_value) {
-	auto result = 0;
-	//for(auto& e : an.elements) {
-	//	auto index = getbsi((spelli*)e.value);
-	//	result += source_value[index];
-	//}
-	return result;
 }
 
 static void add_spells(int spell_index, int level, const spella* source) {

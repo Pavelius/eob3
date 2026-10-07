@@ -56,7 +56,7 @@ enum cellfn : unsigned char {
 enum goaln : unsigned char {
 	ExploreMostArea,
 	FindAllSecrets, TakeSpecialItem, OpenAllLockedDoors, DisableAllTraps,
-	KillBoss, KillBossMinions, KillAlmostAllMonsters,
+	KillBoss, KillAlmostAllMonsters,
 	LastGoal = KillAlmostAllMonsters
 };
 enum wellmsgn : unsigned char {
@@ -210,6 +210,7 @@ struct dungeoni : sitei, goalfc {
 	int				getpassables(bool explored) const;
 	bool			have(const overlayi* p) const { return p >= overlays && p <= overlays + sizeof(overlays) / sizeof(overlays[0]); }
 	bool			have(const creature* p) const { return p >= monsters && p <= monsters + sizeof(monsters) / sizeof(monsters[0]); }
+	bool			have(monstern monster) const;
 	unsigned char	index() const;
 	bool			is(pointc v, cellfn i) const;
 	bool			is(pointc v, celln t1, celln t2) const;
@@ -224,6 +225,7 @@ struct dungeoni : sitei, goalfc {
 	bool			ispassable(pointc v) const;
 	static void		makewave(pointc start);
 	void			markoverlay(celln type, short unsigned value) const;
+	bool			pass(goaln v) const;
 	void			remove(pointc v, cellfn i);
 	void			removeov(pointc v);
 	void			set(pointc v, celln i);

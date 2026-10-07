@@ -945,6 +945,14 @@ void party_turn_left() {
 	update_party_position();
 }
 
+bool party_have(itemn type) {
+	for(auto p : adventurers) {
+		if(p && p->haveitem(type))
+			return true;
+	}
+	return false;
+}
+
 static bool is_passable(pointc v) {
 	if(!v)
 		return false;

@@ -190,6 +190,7 @@ struct wearable {
 	void		putbelt(item& v);
 	void		shrinkbelt();
 	bool		haveitem(const void* p) const { return p >= wears && p <= wears + sizeof(wears) / sizeof(wears[0]); }
+	bool		haveitem(itemn v) const { for(auto& e : wears) if(e.type == v) return true; return false; }
 };
 
 itemn random(itemn v);

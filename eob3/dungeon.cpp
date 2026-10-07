@@ -567,6 +567,14 @@ void dungeoni::getmonsters(creature** result, pointc index) {
 	getmonsters(result, index, Center);
 }
 
+bool dungeoni::have(monstern monster) const {
+	for(auto& e : monsters) {
+		if(e && e.monster == monster)
+			return true;
+	}
+	return false;
+}
+
 creature* dungeoni::getmonster(monstern monster) {
 	for(auto& e : monsters) {
 		if(e && e.monster == monster)
@@ -615,4 +623,17 @@ void dungeoni::broke(pointc v) {
 		broken_cell = CellPassable;
 	set(v, broken_cell);
 	// TODO: When broke cell something happening
+}
+
+bool dungeoni::pass(goaln goal) const {
+	switch(goal) {
+	case TakeSpecialItem: return special && party_have(special);
+	case KillAlmostAllMonsters: return state.monsters_killed >= (88 * state.monsters / 100);
+	case KillBoss: return boss && !have(boss);
+	case DisableAllTraps: return state.variables[MessageTraps] && state.traps_disabled >= state.variables[MessageTraps];
+	case OpenAllLockedDoors: return state.variables[MessageLocked] && state.locks_open >= state.variables[MessageLocked];
+	case FindAllSecrets: return state.variables[MessageSecrets] && state.secrets_found >= state.variables[MessageSecrets];
+	case ExploreMostArea: return state.explored_passable >= (90 * state.total_passable / 100);
+	default: return false;
+	}
 }

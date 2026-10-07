@@ -1499,6 +1499,22 @@ static void select_character(int index) {
 	set_focus_by_player();
 }
 
+static void replace_character() {
+	for(auto p : adventurers) {
+		if(!p || p == player)
+			continue;
+		an.add((long)p, p->name());
+	}
+	auto p = (creature*)choose_small_menu(getnm(ReplaceCharacter), getnm(Cancel));
+	if(!p)
+		return;
+	auto i1 = party_index(p);
+	auto i2 = party_index(player);
+	if(i1 == -1 || i2 == -1)
+		return;
+	iswap(characters[i1], characters[i2]);
+}
+
 static void character_input() {
 	switch(hkey) {
 	case '1': case '2': case '3':
@@ -1509,7 +1525,7 @@ static void character_input() {
 	case 'C': switch_page(paint_sheet); break;
 	case 'G': switch_page(paint_quest_goals); break;
 	case 'X': switch_page(paint_skills); break;
-		// case 'O': replace_character(); break;
+	case 'O': replace_character(); break;
 	case 'P': pick_up_item(); break;
 	case 'Q': examine_item(); break;
 	case KeyEscape:
@@ -1697,6 +1713,8 @@ long choose_small_menu(const char* header, const char* cancel) {
 	int maximum = 6;
 	if(cancel)
 		maximum--;
+	pushfont push(0);
+	pushfocus push_focus;
 	return choose_answer(header, cancel, paint_small_menu, text_label_menu, 0, maximum, header_yellow);
 }
 

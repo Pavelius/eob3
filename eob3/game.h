@@ -32,7 +32,7 @@ enum directionn : unsigned char {
 enum messagen : unsigned char {
 	Cancel, Continue, Title, Yes, No, OK, Agree, Decline, On, Off,
 	Music, Sound,
-	Characterinfo, CharacterSkills, PartyStatusFormat,
+	Characterinfo, CharacterSkills, PartyStatusFormat, ReplaceCharacter,
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
 	GeneraionInfo, GenerationPlayInfo,
 	ConfirmDeleteCharacter, ConfirmBuyHealing, ConfirmBuyItem, ConfirmEatAndDrink, ConfirmRentRoom, ConfirmCarousing,

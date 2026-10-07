@@ -1097,14 +1097,6 @@ void animation_update() {
 		prepare_draw(party.pos, party.d);
 }
 
-/*renderi* get_last_disp() {
-	for(auto i = 0; i < renders_count; i++) {
-		if(!renders[i].rdata)
-			return renders + i;
-	}
-	return 0;
-}*/
-
 static int get_index_pos(pointc index) {
 	for(int i = 0; i < 18; i++) {
 		if(indecies[i] == index)

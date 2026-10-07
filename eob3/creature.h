@@ -162,7 +162,7 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	int level(spelln spell) const;
 	void add(abilityn n, int v);
 	void add(featn feat, unsigned duration) {}
-	void addexp(unsigned v) { experience += v; }
+	void addexp(unsigned v) { experience += v; checklevel(); }
 	bool allow(itemn type) const;
 	bool allow(itemn type, speechn speech) const;
 	bool apply(spelln spell, int level, bool run);

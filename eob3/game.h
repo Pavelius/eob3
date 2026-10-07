@@ -44,7 +44,7 @@ enum messagen : unsigned char {
 	AnimalStayStill,
 	PlayerIsDisabled, PlayerPickUpItem,
 	PartyGoingUp, PartyGoingDown, PartyFallPit, RaiseLevelSuccess,
-	DoorOpened, SneakAttack, FeelPoison,
+	DoorOpened, SneakAttack, FeelPoison, FeelDisease,
 	MagicDevice, Portal, TrapLauncher,
 	Button, Cellar,
 	QuestGoals, VisitBuilding,

@@ -80,6 +80,35 @@ int getv(variablen v) {
 	return game.variables[v];
 }
 
+static void all_monsters(fnevent proc, bool allow_disabled) {
+	pushvalue push(player);
+	if(!loc)
+		return;
+	for(auto& e : loc->monsters) {
+		if(!e)
+			continue;
+		if(!allow_disabled && e.isdisabled())
+			continue;
+		player = &e; proc();
+	}
+}
+
+void all_party(fnevent proc, bool allow_disabled) {
+	pushvalue push(player);
+	for(auto p : adventurers) {
+		if(!p)
+			continue;
+		if(!allow_disabled && p->isdisabled())
+			continue;
+		player = p; proc();
+	}
+}
+
+static void all_creatures(fnevent proc) {
+	all_party(proc, true);
+	all_monsters(proc, true);
+}
+
 int roll_dice(int v) {
 	if(!v)
 		return 0;
@@ -296,8 +325,87 @@ static void monsters_movement() {
 	}
 }
 
+static void check_regeneration() {
+	if(player->is(Regenerated))
+		player->heal(1);
+}
+
+static void check_poison() {
+	if(player->is(StoppedPoison))
+		return;
+	if(!player->is(PoisonLevel))
+		return;
+	auto penalty = player->get(PoisonLevel) / 5;
+	if(!player->roll(SaveVsPoison, -penalty))
+		player->damage(PoisonDamage, 1);
+	player->add(PoisonLevel, -1);
+}
+
+static void check_acid() {
+	auto damage = 0;
+	if(player->is(AcidD1Level)) {
+		damage += xrand(1, 4);
+		player->add(AcidD1Level, -1);
+	}
+	if(player->is(AcidD2Level)) {
+		damage += xrand(1, 4);
+		player->add(AcidD2Level, -1);
+	}
+	if(damage)
+		player->damage(AcidDamage, damage);
+}
+
+static void check_disease() {
+	if(!player->is(DiseaseLevel))
+		return;
+	// Two test in row to overcome disease or two failed tests to get worse
+	if(player->roll(SaveVsPoison, 0)) {
+		if(player->roll(SaveVsPoison, 0))
+			player->add(DiseaseLevel, -1);
+	} else {
+		if(!player->roll(SaveVsPoison, 0)) {
+			player->add(DiseaseLevel, 1);
+			consolen(getnm(FeelDisease));
+		}
+	}
+	// Reduce hp (can die if disease level high)
+	if(player->is(DiseaseLevel)) {
+		auto m = player->hpm / 3;
+		if(player->get(DiseaseLevel) > 10)
+			m = 0;
+		if(player->hp > m)
+			player->hp--;
+	}
+}
+
+static void update_every_round() {
+	player->remove(Moved);
+	update_player();
+	check_regeneration();
+	check_acid();
+}
+
 static void pass_time_activity() {
+	// clear_boost(party.abilities[Minutes], clear_boost_proc);
 	monsters_movement();
+	//update_floor_state();
+	//check_secrets();
+	//check_noises_behind_door();
+	all_creatures(update_every_round);
+	// all_party(check_food, true);
+	//if((party.abilities[Minutes] % 6) == 0)
+	//	all_creatures(update_every_turn);
+	//if((party.abilities[Minutes] % 20) == 0)
+	//	check_return_to_base();
+	//if((party.abilities[Minutes] % 60) == 0)
+	//	all_creatures(update_every_hour);
+	//check_goals();
+	//fix_animate();
+	/*if(all_party_disabled()) {
+		message_box(getnm("AllPartyDead"));
+		party_clear();
+		set_next_scene(main_menu);
+	}*/
 }
 
 void pass_time(unsigned minutes) {
@@ -332,17 +440,6 @@ bool confirm_message(messagen header, int value) {
 	sb.add(getnm(header), value);
 	an.add(1, getnm(Agree));
 	return show_message(temp, true, getnm(Decline), 0) != 0;
-}
-
-void all_party(fnevent proc, bool allow_disabled) {
-	pushvalue push(player);
-	for(auto p : adventurers) {
-		if(!p)
-			continue;
-		if(!allow_disabled && p->isdisabled())
-			continue;
-		player = p; proc();
-	}
 }
 
 void show_message(actionn id, ...) {
@@ -664,6 +761,7 @@ static long monsters_talk(messagen id, messagen id2 = (messagen)0, messagen id3 
 			sb.adds(getnm(id3));
 		sb.add("\"");
 	}
+	animation_update();
 	if(!an)
 		return show_message(temp, false, getnm(Continue), 0);
 	else
@@ -675,7 +773,6 @@ static bool monsters_talk(const actioni* actions, messagen id, messagen id2 = (m
 		return false;
 	answer_picture = NoPicture;
 	fix_animate();
-	animation_update();
 	ask_actions(actions);
 	auto result = (actioni*)monsters_talk(id, id2, id3);
 	if(!result)
@@ -751,11 +848,9 @@ static bool party_move_interact(pointc v) {
 	case CellPit:
 		party_set(v);
 		loc = find_dungeon(loc->level + 1);
-		animation_update();
 		all_party(pit_fall_down, true);
 		consolen(getnm(PartyFallPit));
 		enter_dungeon(loc->level, CellUnknown);
-		animation_update();
 		pass_time();
 		break;
 	case CellOverlay1:

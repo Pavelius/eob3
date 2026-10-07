@@ -85,7 +85,6 @@ static bool select_combatants(pointc v, directionn d) {
 		if(select_combatants(v)) {
 			enemy_distance = i + 1;
 			turnto(v, to(d, Down), false);
-			animation_update();
 			return true;
 		}
 	}
@@ -478,7 +477,6 @@ void make_attacks(bool melee_combat) {
 		auto d = to(party.d, Down);
 		turnto(v, d, true);
 		// move_closer(v);
-		animation_update();
 		enemy_distance = 1;
 		if(!select_combatants(v))
 			return;
@@ -486,6 +484,7 @@ void make_attacks(bool melee_combat) {
 		if(!select_combatants(party.pos, party.d))
 			return;
 	}
+	animation_update();
 	auto push_player = player;
 	auto d = to(party.d, Down);
 	for(auto p : combatants) {
@@ -519,7 +518,6 @@ void make_attacks(bool melee_combat) {
 			auto left_side = (player->side % 2) == 0;
 			make_full_attack(get_opponent(left_side, true), 0);
 		}
-		animation_update();
 		fix_animate();
 	}
 	player = push_player;

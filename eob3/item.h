@@ -28,7 +28,7 @@ enum featn : unsigned char {
 	Protection, Flaming, Freezing,
 	ControlHuman, ControlGoblinoid, ControlEvil,
 	TwoHanded, Deadly, Disease, Poison, Precise, DrainEnergy, DrainStrenght, DispelEvil, Holy, Vampiric, Vorpal,
-	ImmuneIllusion, ImmuneNormalWeapon,
+	ImmuneIllusion, ImmuneNormalWeapon, ImmuneDisease,
 	ResistFire, ResistCold, ResistBludgeon, ResistPiercing, ResistSlashing,
 	Blinked, Blind, Blurred, Displaced, Invisible, Paralizing, Regenerated, StoppedPoison,
 	SeeMagical, SeeCursed,
@@ -107,6 +107,7 @@ struct combati {
 	damagen		type;
 	dice		damage, large;
 	itemn		ammo;
+	featn		effect; // Additional effect (for traps)
 };
 extern combati traps[LastTrap + 1];
 

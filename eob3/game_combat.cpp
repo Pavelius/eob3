@@ -27,6 +27,7 @@ static featn get_resist(damagen v) {
 static featn get_immunity(damagen v) {
 	switch(v) {
 	case Bludgeon: case Slashing: case Piercing: return ImmuneNormalWeapon;
+	case IllDamage: return ImmuneNormalWeapon;
 	default: return (featn)0;
 	}
 }
@@ -209,6 +210,7 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 	// RULE: Ranger special hunter skill
 	if(player->is(Ranger) && defender->is(Goblinoid))
 		bonus += 4;
+	// Special magical power, like Bane
 	if((power == ControlGoblinoid && defender->race == Goblinoid)
 		|| (player->is(weapon, Holy) && defender->is(Undead))) {
 		bonus += 3;

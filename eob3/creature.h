@@ -69,7 +69,7 @@ enum speechn : unsigned char {
 	MustBeUseInHand, MustBeWearing, MustBeQuver,
 	WhereIsKeyhole, ThisIsWrongKey,
 	SecrectButtonFound,
-	IAmScarry, IAmTired,
+	IAmScarry, IAmTired, ISeeSomething,
 	CantUseInSettlement,
 	LastSpeech = CantUseInSettlement
 };

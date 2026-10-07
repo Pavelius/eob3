@@ -170,6 +170,7 @@ const char* speech_names1[LastSpeech + 1] = {
 	"Aha! Doors to treasure!",
 	"I am scarry!",
 	"I am tired",
+	"Stop, look to the %1",
 	"Not in the city!",
 };
 const char* speech_names2[LastSpeech + 1] = {
@@ -190,6 +191,7 @@ const char* speech_names2[LastSpeech + 1] = {
 	"I know, it's a secret door",
 	"Leave me alone!",
 	"We need to rest",
+	"I see something on %1 wall",
 	"This one usable in dungeon",
 };
 const char* speech_names3[LastSpeech + 1] = {
@@ -210,6 +212,7 @@ const char* speech_names3[LastSpeech + 1] = {
 	"Secret door, lead to treasure!",
 	"Help me! Help!",
 	"Let's make a camp",
+	"There is a secret to the %1",
 	"Wrong place to use",
 };
 const char* wallmsg_names[LastWellMessage + 1] = {

@@ -412,6 +412,30 @@ static void update_every_turn() {
 static void update_every_hour() {
 }
 
+static bool player_damage(int attack_type, damagen type, dice damage, const featn effect) {
+	auto hits = damage.roll();
+	switch(attack_type) {
+	case 0:
+		if(player->roll(SaveVsTraps))
+			return false;
+		break;
+	case 1:
+		if(player->roll(SaveVsTraps))
+			hits = hits / 2;
+		break;
+	case 2:
+		if(d100() < 30 + player->get(AC) * 5)
+			return true; // Player count hitted
+		break;
+	default:
+		break;
+	}
+	if(!hits)
+		return false;
+	player->damage(type, hits);
+	return true;
+}
+
 static void group_damage(creature** creatures, pointc v, directionn d, const combati& ei) {
 	pushvalue push(player);
 	auto test_projectile = false;
@@ -422,10 +446,10 @@ static void group_damage(creature** creatures, pointc v, directionn d, const com
 		if(!p || p->isdead())
 			continue;
 		player = p;
-//		if(player_damage(ei.type, ei.damage, ei.save, ei.effect)) {
-//			test_projectile = true;
-//			targets--;
-//		}
+		if(player_damage(ei.attack, ei.type, ei.damage, ei.effect)) {
+			test_projectile = true;
+			targets--;
+		}
 	}
 	if(ei.ammo && test_projectile && d100() < 30) {
 		item it(ei.ammo);
@@ -514,11 +538,84 @@ static void update_floor_state() {
 	}
 }
 
+static size_t shrink(creature** result, creature** source) {
+	auto ps = result;
+	for(size_t i = 0; i < party_size; i++) {
+		if(source[i])
+			*ps++ = source[i];
+	}
+	return ps - result;
+}
+
+static slice<creature*> random_party() {
+	static creature* monsters[6];
+	auto count = shrink(monsters, adventurers);
+	zshuffle(monsters, count);
+	return slice<creature*>(monsters, count);
+}
+
+static bool check_secrets(directionn d) {
+	if(!loc)
+		return false;
+	auto po = loc->get(party.pos, to(party.d, d));
+	if(!po || po->type != CellSecretButton)
+		return false;
+	for(auto p : random_party()) {
+		if(!p->roll(DetectSecrets, -10))
+			continue;
+		p->say(ISeeSomething, direction_names[d]);
+		return true;
+	}
+	return false;
+}
+
+static void check_secrets() {
+	if(check_secrets(Right))
+		return;
+	if(check_secrets(Left))
+		return;
+}
+
+static bool check_noises_behind_door(directionn d) {
+	if(!loc)
+		return false;
+	auto v = to(party.pos, to(party.d, d));
+	auto t = loc->get(v);
+	if(t != CellDoor || loc->is(v, CellActive) || loc->is(v, CellExperience))
+		return false;
+	creature* monsters[6]; loc->getmonsters(monsters, to(v, to(party.d, d)));
+	auto count = shrink(monsters, monsters);
+	loc->set(v, CellExperience);
+	for(auto p : random_party()) {
+		if(!p->roll(HearNoise))
+			continue;
+		p->addexp(20);
+		//if(count) {
+		//	if(count == 1 && monsters[0]->islarge())
+		//		p->speak("HearNoise", "Large");
+		//	else
+		//		p->speak("HearNoise", "Medium", count);
+		//} else
+		//	p->speak("HearNoise", "Nobody");
+		return true;
+	}
+	return true;
+}
+
+static void check_noises_behind_door() {
+	if(check_noises_behind_door(Right))
+		return;
+	if(check_noises_behind_door(Left))
+		return;
+	if(check_noises_behind_door(Up))
+		return;
+}
+
 static void pass_time_activity() {
 	auto minute = getv(Time);
 	check_boost(minute);
 	monsters_movement();
-	//update_floor_state();
+	update_floor_state();
 	//check_secrets();
 	//check_noises_behind_door();
 	all_creatures(update_every_round);

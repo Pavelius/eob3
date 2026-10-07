@@ -949,13 +949,26 @@ static void apply_spell_progression(creature* player, classn type, int level) {
 
 static void apply_class_ability(creature* player, classn type, int level) {
 	switch(type) {
-	case Fighter: break;
+	case Fighter:
+		break;
+	case Paladin:
+		switch(level) {
+		case 1:
+			player->basic.feats.set(ImmuneDisease);
+			player->basic.feats.set(ControlEvil);
+			break;
+		default: break;
+		}
+		break;
 	case Cleric:
 		switch(level) {
 		case 1: learn_spells(player, 1, 0); break;
 		case 3: learn_spells(player, 2, 0); break;
 		case 5: learn_spells(player, 3, 0); break;
 		case 7: learn_spells(player, 4, 0); break;
+		case 9: learn_spells(player, 5, 0); break;
+		case 11: learn_spells(player, 6, 0); break;
+		case 14: learn_spells(player, 7, 0); break;
 		default: break;
 		}
 		break;

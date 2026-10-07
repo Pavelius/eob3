@@ -171,6 +171,9 @@ const char* speech_names1[LastSpeech + 1] = {
 	"I am scarry!",
 	"I am tired",
 	"Stop, look to the %1",
+	"Behind this door %1i creatures",
+	"Behind this door something large",
+	"There's no one behind this door",
 	"Not in the city!",
 };
 const char* speech_names2[LastSpeech + 1] = {
@@ -192,6 +195,9 @@ const char* speech_names2[LastSpeech + 1] = {
 	"Leave me alone!",
 	"We need to rest",
 	"I see something on %1 wall",
+	"Behind this door %1i creatures",
+	"Behind this door something large",
+	"There's no one behind this door",
 	"This one usable in dungeon",
 };
 const char* speech_names3[LastSpeech + 1] = {
@@ -213,6 +219,9 @@ const char* speech_names3[LastSpeech + 1] = {
 	"Help me! Help!",
 	"Let's make a camp",
 	"There is a secret to the %1",
+	"Behind this door %1i creatures",
+	"Behind this door something large",
+	"There's no one behind this door",
 	"Wrong place to use",
 };
 const char* wallmsg_names[LastWellMessage + 1] = {

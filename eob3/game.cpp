@@ -292,17 +292,14 @@ static void monsters_move(pointc v, directionn d) {
 	}
 	if(!n || !loc->ispassable(n) || loc->isforbidden(n))
 		return;
-	if(loc->ismonster(n)) {
+	if(loc->ismonster(n))
+		monsters_stop(v);
+	else {
 		for(auto& e : loc->monsters) {
 			if(e.pos == v) {
 				e.d = d;
-				e.set(Moved);
-			}
-		}
-	} else {
-		for(auto& e : loc->monsters) {
-			if(e.pos == v) {
-				e.d = d;
+				if(!n)
+					e.set(Moved);
 				e.pos = n;
 				e.set(Moved);
 			}
@@ -590,13 +587,13 @@ static bool check_noises_behind_door(directionn d) {
 		if(!p->roll(HearNoise))
 			continue;
 		p->addexp(20);
-		//if(count) {
-		//	if(count == 1 && monsters[0]->islarge())
-		//		p->speak("HearNoise", "Large");
-		//	else
-		//		p->speak("HearNoise", "Medium", count);
-		//} else
-		//	p->speak("HearNoise", "Nobody");
+		if(count) {
+			if(count == 1 && monsters[0]->islarge())
+				p->say(IHearSomethingLarge);
+			else
+				p->say(IHearSomethingLarge, count);
+		} else
+			p->say(BehideThisDoorIsNoOne);
 		return true;
 	}
 	return true;
@@ -616,8 +613,8 @@ static void pass_time_activity() {
 	check_boost(minute);
 	monsters_movement();
 	update_floor_state();
-	//check_secrets();
-	//check_noises_behind_door();
+	check_secrets();
+	check_noises_behind_door();
 	all_creatures(update_every_round);
 	if((minute % 6) == 0) {
 		all_party(check_food, true);

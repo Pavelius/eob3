@@ -115,6 +115,8 @@ static void setwall(pointc v, directionn d) {
 }
 
 static bool isaround(pointc v, directionn dir, celln t1 = CellUnknown) {
+	if(!v)
+		return false;
 	if(!loc->is(to(v, to(dir, Left)), CellUnknown, t1))
 		return false;
 	if(!loc->is(to(v, to(dir, Right)), CellUnknown, t1))

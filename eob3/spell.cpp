@@ -48,6 +48,19 @@ static boost* add_boost(spelln spell, creature* player, unsigned duration) {
 	return p;
 }
 
+void check_boost(unsigned stamp) {
+	auto ps = boosts;
+	auto pe = boosts + boost_count;
+	for(auto pb = boosts; pb < pe; pb++) {
+		if(pb->stop > stamp)
+			*ps++ = *pb;
+		else {
+			// TODO: remove boost possible callback implementation
+		}
+	}
+	boost_count = ps - boosts;
+}
+
 void creature::damage(damagen type, int value, abilityn save, bool save_ignore) {
 	if(roll(save)) {
 		if(save_ignore)

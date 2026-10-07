@@ -965,6 +965,7 @@ static void apply_class_ability() {
 		return;
 	auto class_count = get_class_count(player->type);
 	for(auto i = 0; i < class_count; i++) {
+		player->levels[i] = 1;
 		auto type = get_class(player->type, i);
 		apply_class_ability(player, type, 1);
 	}

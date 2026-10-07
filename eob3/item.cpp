@@ -109,6 +109,10 @@ itemi item_data[LastItem + 1] = {
 	{Quiver, 0, {14, 0}, {}, {}}, // Dart
 };
 
+combati traps[LastTrap + 1] = {
+	{0, 1, 0, Piercing, {1, 6}, {1, 6}, Arrow},
+};
+
 static_assert(sizeof(item) == sizeof(int));
 
 int get_magic(featn v) {

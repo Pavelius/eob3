@@ -39,7 +39,7 @@ enum featn : unsigned char {
 enum damagen : unsigned char {
 	Bludgeon, Slashing, Piercing,
 	FireDamage, ColdDamage, AcidDamage, ShockDamage,
-	MindDamage, ForceDamage, PoisonDamage, IllDamage,
+	MindDamage, ForceDamage, PoisonDamage, IllDamage, HealthDamage,
 };
 enum itemn : unsigned char {
 	NoItem,
@@ -82,6 +82,10 @@ enum shopn : unsigned char {
 	WeaponShop, DwarvenWeaponShop, MagicShop,
 	LastShop = MagicShop
 };
+enum trapn : unsigned char {
+	ArrowTrap,
+	LastTrap = ArrowTrap
+};
 
 extern const char* item_names[LastItem + 1];
 
@@ -104,6 +108,8 @@ struct combati {
 	dice		damage, large;
 	itemn		ammo;
 };
+extern combati traps[LastTrap + 1];
+
 struct itemi {
 	struct avatari {
 		short	pack = -1, ground = -1, thrown = -1;

@@ -18,6 +18,8 @@ variablei game;
 static long save_focus;
 static item* valuable_item;
 
+void thrown_item(pointc v, directionn d, int avatar_thrown, int side, int distance);
+
 static messagen get_confirm(actionn v) {
 	switch(v) {
 	case Carousing: return ConfirmCarousing;
@@ -385,22 +387,151 @@ static void update_every_round() {
 	check_acid();
 }
 
+static void check_food() {
+	if(player->roll(Constitution))
+		return;
+	if(player->food > 0)
+		player->food--;
+	else {
+		if(chance(40))
+			player->say(IAmTired);
+		player->damage(HealthDamage, 1);
+	}
+}
+
+static void check_goals() {
+}
+
+static void check_return_to_base() {
+	all_party(check_food, true);
+}
+
+static void update_every_turn() {
+}
+
+static void update_every_hour() {
+}
+
+static void group_damage(creature** creatures, pointc v, directionn d, const combati& ei) {
+	pushvalue push(player);
+	auto test_projectile = false;
+	auto targets = ei.number_attacks;
+	for(auto i = 0; i < 6 && targets > 0; i++) {
+		auto n = get_side_ex(i, d);
+		auto p = creatures[n];
+		if(!p || p->isdead())
+			continue;
+		player = p;
+//		if(player_damage(ei.type, ei.damage, ei.save, ei.effect)) {
+//			test_projectile = true;
+//			targets--;
+//		}
+	}
+	if(ei.ammo && test_projectile && d100() < 30) {
+		item it(ei.ammo);
+		loc->drop(v, it, xrand(0, 3));
+	}
+}
+
+static void trap_launch(pointc v, directionn d, int avatar, const combati& ei) {
+	auto start = v;
+	while(v) {
+		if(party.pos == v) {
+			if(to(party.d, Down) == d && party.pos.x == v.x || party.pos.y == v.y)
+				thrown_item(start, Down, avatar, thrown_side(avatar, 1), start.distance(party.pos) + 1);
+			group_damage(adventurers, v, to(party.d, d), ei);
+			break;
+		} else if(loc->ismonster(v)) {
+			creature* creatures[6]; loc->getmonsters(creatures, v);
+			group_damage(creatures, v, d, ei);
+			break;
+		} else {
+			auto t = loc->get(v);
+			if(t == CellDoor && loc->is(v, CellActive))
+				break;
+			else if(t == CellWall || t == CellStairsUp || t == CellStairsDown || t == CellWeb)
+				break;
+		}
+		v = to(v, d);
+	}
+}
+
+static void trap_launch(pointc v, directionn d) {
+	trap_launch(v, d, 0, traps[loc->trap]);
+}
+
+static void update_floor_state() {
+	if(!loc)
+		return;
+	unsigned char map[mpy][mpx] = {0};
+	loc->state.monsters_alive = 0;
+	loc->state.items_lying = 0;
+	loc->state.explored_passable = loc->getpassables(true);
+	if(party)
+		map[party.pos.y][party.pos.x]++;
+	for(auto& e : loc->monsters) {
+		if(!e)
+			continue;
+		loc->state.monsters_alive++;
+		if(map[e.pos.y][e.pos.x] > 0)
+			continue;
+		map[e.pos.y][e.pos.x]++;
+	}
+	for(auto& e : loc->items) {
+		if(!e)
+			continue;
+		loc->state.items_lying++;
+		if(map[e.pos.y][e.pos.x] > 0)
+			continue;
+		map[e.pos.y][e.pos.x]++;
+	}
+	pointc pt;
+	for(pt.y = 0; pt.y < mpy; pt.y++) {
+		for(pt.x = 0; pt.x < mpx; pt.x++) {
+			auto t = loc->get(pt);
+			if(t == CellButton) {
+				auto new_active = map[pt.y][pt.x] > 0;
+				auto active = loc->is(pt, CellActive);
+				if(active != new_active && new_active) {
+					auto po = loc->getlinked(pt);
+					if(po) {
+						switch(po->type) {
+						case CellTrapLauncher:
+							if(!po->is(CellActive))
+								trap_launch(po->pos, to(po->d, Down));
+							break;
+						default:
+							break;
+						}
+					}
+				}
+				if(new_active)
+					loc->set(pt, CellActive);
+				else
+					loc->remove(pt, CellActive);
+			}
+		}
+	}
+}
+
 static void pass_time_activity() {
-	// clear_boost(party.abilities[Minutes], clear_boost_proc);
+	auto minute = getv(Time);
+	check_boost(minute);
 	monsters_movement();
 	//update_floor_state();
 	//check_secrets();
 	//check_noises_behind_door();
 	all_creatures(update_every_round);
-	// all_party(check_food, true);
-	//if((party.abilities[Minutes] % 6) == 0)
-	//	all_creatures(update_every_turn);
-	//if((party.abilities[Minutes] % 20) == 0)
-	//	check_return_to_base();
-	//if((party.abilities[Minutes] % 60) == 0)
-	//	all_creatures(update_every_hour);
-	//check_goals();
-	//fix_animate();
+	if((minute % 6) == 0) {
+		all_party(check_food, true);
+		all_creatures(update_every_turn);
+	}
+	if((minute % 20) == 0)
+		check_return_to_base();
+	if((minute % 60) == 0)
+		all_creatures(update_every_hour);
+	check_goals();
+	fix_animate();
 	/*if(all_party_disabled()) {
 		message_box(getnm("AllPartyDead"));
 		party_clear();

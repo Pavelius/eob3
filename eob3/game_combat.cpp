@@ -454,6 +454,7 @@ void creature::damage(damagen type, int value, bool magic_wepon) {
 	if(value <= 0)
 		return;
 	switch(type) {
+	case HealthDamage: case IllDamage: break; // Absolutely silent damage
 	case PoisonDamage: consolen(getnm(FeelPoison), name()); break;
 	default: fix_damage(this, value); break;
 	}

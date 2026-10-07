@@ -92,6 +92,7 @@ extern bool need_update_animation;
 int getv(variablen v);
 int party_count();
 int roll_dice(int v);
+int thrown_side(int avatar_thrown, int side);
 
 void addv(variablen v, int i);
 void alternate_focus_input();

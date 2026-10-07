@@ -28,11 +28,11 @@
 #include "quest.h"
 
 static sitei flooded_collectors[] = {
-	{BRICK, Human, 2, {Kobold, Leech}, NoMonster, TrappedCorridor},
-	{BRICK, Human, 1, {Kobold, Leech}, NoMonster, GreatLair},
+	{BRICK, Human, 2, {Kobold, Leech}, NoMonster, TrappedCorridor, IronKey, NoItem, 0, 0, 0, 0, 0, 0, 0, 0, ArrowTrap},
+	{BRICK, Human, 1, {Kobold, Leech}, NoMonster, GreatLair, IronKey, NoItem, 0, 0, 0, 0, 0, 0, 0, 0, ArrowTrap},
 };
 static sitei unknown_forest[] = {
-	{FOREST, Goblinoid, 2, {Kobold, Leech}, NoMonster, Lair},
+	{FOREST, Goblinoid, 2, {Kobold, Leech}, NoMonster, Lair, IronKey, NoItem, 0, 0, 0, 0, 0, 0, 0, 0, ArrowTrap},
 };
 
 questi quests[] = {

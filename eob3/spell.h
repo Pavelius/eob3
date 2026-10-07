@@ -79,3 +79,4 @@ int get_thrown(spelln spell); // If differ from -1 spell is range.
 
 bool cast(spelln spell, bool run);
 bool cast(spelln spell, int level, bool random_choose);
+void check_boost(unsigned stamp);

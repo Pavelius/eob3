@@ -336,6 +336,9 @@
     <ClInclude Include="perference.h">
       <Filter>logic</Filter>
     </ClInclude>
+    <ClInclude Include="game_party.h">
+      <Filter>logic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="logic">

@@ -1200,7 +1200,7 @@ static void thrown_step(pointc v, directionn d, int avatar_thrown, int side) {
 	remove(p, 1);
 }
 
-static void thrown_item(pointc v, directionn d, int avatar_thrown, int side, int distance) {
+void thrown_item(pointc v, directionn d, int avatar_thrown, int side, int distance) {
 	if(!v)
 		return;
 	side = thrown_side(avatar_thrown, side);

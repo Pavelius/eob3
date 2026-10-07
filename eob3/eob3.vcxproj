@@ -149,6 +149,7 @@
     <ClInclude Include="dice.h" />
     <ClInclude Include="draw.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="game_party.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="pointc.h" />
     <ClInclude Include="pointca.h" />

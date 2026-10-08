@@ -1506,6 +1506,10 @@ void start_quest() {
 	enter_dungeon(1, CellStairsUp);
 }
 
+void leave_quest() {
+
+}
+
 void enter_dungeon(int level, celln location) {
 	auto p = active_quest();
 	if(!p)

@@ -627,7 +627,7 @@ void dungeoni::broke(pointc v) {
 
 bool dungeoni::pass(goaln goal) const {
 	switch(goal) {
-	case TakeSpecialItem: return special && party_have(special);
+	case TakeSpecialItem: return special && party_is(special);
 	case KillAlmostAllMonsters: return state.monsters_killed >= (88 * state.monsters / 100);
 	case KillBoss: return boss && !have(boss);
 	case DisableAllTraps: return state.variables[MessageTraps] && state.traps_disabled >= state.variables[MessageTraps];

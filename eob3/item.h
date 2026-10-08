@@ -28,7 +28,7 @@ enum featn : unsigned char {
 	Protection, Flaming, Freezing,
 	ControlHuman, ControlGoblinoid, ControlEvil,
 	TwoHanded, Deadly, Disease, Poison, Precise,
-	Healing,
+	Alertness, Healing, Sneaky,
 	DrainEnergy, DrainStrenght, DispelEvil, Holy, Vampiric, Vorpal,
 	ImmuneIllusion, ImmuneNormalWeapon, ImmuneDisease,
 	ResistFire, ResistCold, ResistBludgeon, ResistPiercing, ResistSlashing,
@@ -96,12 +96,13 @@ bool is_natural(itemn type);
 bool is_small(itemn type);
 
 struct featc {
-	unsigned data = 0;
+	constexpr static const unsigned b = 32;
+	unsigned data[4] = {};
 	featc() = default;
 	template<typename... Ts> constexpr featc(featn v, Ts... args) : featc(args...) { set(v); }
-	bool is(featn v) const { return (data & (1 << v)) != 0; }
-	void remove(featn v) { data &= ~(1 << v); }
-	void set(featn v) { data |= (1 << v); }
+	constexpr bool is(featn v) const { return (data[v / b] & (1 << (v % b))) != 0; }
+	constexpr void remove(featn v) { data[v / b] &= ~(1 << (v % b)); }
+	constexpr void set(featn v) { data[v / b] |= (1 << (v % b)); }
 };
 
 struct combati {

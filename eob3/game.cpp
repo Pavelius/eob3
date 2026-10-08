@@ -248,6 +248,26 @@ static void party_set(pointc v, directionn d) {
 	update_party_position();
 }
 
+static int party_sneaky(creature** creatures) {
+	auto number = party_count(creatures, Sneaky);
+	if(!number)
+		return 0;
+	auto total = party_count(creatures);
+	if(total == number)
+		return 20;
+	return 10;
+}
+
+static void surprise_roll(creature** creatures, int bonus) {
+	auto chance_roll = 30 + bonus;
+	if(party_is(creatures, Alertness))
+		chance_roll -= 20;
+	if(chance(chance_roll)) {
+		consolen(getnm(creatures == adventurers ? PartyFailedSurprise : EnemyFailedSurprise));
+		party_set(creatures, Surprised);
+	}
+}
+
 void turnto(pointc v, directionn d, bool test_surprise) {
 	if(!d)
 		return;
@@ -255,7 +275,7 @@ void turnto(pointc v, directionn d, bool test_surprise) {
 		if(test_surprise) {
 			if(party.d != d) {
 				creature* monsters[6]; loc->getmonsters(monsters, to(v, d));
-				// surprise_roll(characters, party_sneaky(monsters));
+				surprise_roll(adventurers, party_sneaky(monsters));
 			}
 		}
 		party_set(v, d);
@@ -267,7 +287,7 @@ void turnto(pointc v, directionn d, bool test_surprise) {
 				continue;
 			if(test_surprise) {
 				if(p->d != d) {
-					// surprise_roll(monsters, party_sneaky(characters));
+					surprise_roll(monsters, party_sneaky(adventurers));
 					test_surprise = false;
 				}
 			}
@@ -825,17 +845,8 @@ void show_perferences(const char* header, const perferencei* actions) {
 	}
 }
 
-int party_count() {
-	auto n = 0;
-	for(auto p : adventurers) {
-		if(p && !p->isdisabled())
-			n++;
-	}
-	return n;
-}
-
 void party_addexp(int value) {
-	auto n = party_count();
+	auto n = party_count(adventurers);
 	if(!n)
 		return;
 	value = (value + n - 1) / n;
@@ -953,7 +964,7 @@ void party_turn_left() {
 	update_party_position();
 }
 
-bool party_have(itemn type) {
+bool party_is(itemn type) {
 	for(auto p : adventurers) {
 		if(p && p->haveitem(type))
 			return true;

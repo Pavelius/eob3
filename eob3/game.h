@@ -44,7 +44,8 @@ enum messagen : unsigned char {
 	LookUnknown, LookDrainageGate, LookStrangeDevice, LookUnknownTheifSign, LookTheifSign,
 	AnimalStayStill,
 	PlayerIsDisabled, PlayerPickUpItem, AllPartyDead,
-	PartyGoingUp, PartyGoingDown, PartyFallPit, RaiseLevelSuccess,
+	PartyGoingUp, PartyGoingDown, PartyFallPit, PartyFailedSurprise, EnemyFailedSurprise,
+	RaiseLevelSuccess,
 	DoorOpened, SneakAttack, FeelPoison, FeelDisease,
 	MagicDevice, Portal, TrapLauncher,
 	Button, Cellar,
@@ -91,7 +92,6 @@ extern unsigned long current_cpu_time;
 extern bool need_update_animation;
 
 int getv(variablen v);
-int party_count();
 int roll_dice(int v);
 int thrown_side(int avatar_thrown, int side);
 
@@ -145,7 +145,7 @@ void party_addexp(int value);
 void party_addexp(int value, alignmentn alignment);
 void party_addexp_good(int value);
 void party_addexp_evil(int value);
-bool party_have(itemn type);
+bool party_is(itemn type);
 void party_turn_left();
 void party_turn_right();
 void pick_up_item();

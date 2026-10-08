@@ -1331,7 +1331,7 @@ void party_set(creature** source, reactions v) {
 	}
 }
 
-bool party_have(creature** source, classn type) {
+bool party_is(creature** source, classn type) {
 	for(size_t i = 0; i < lengthof(adventurers); i++) {
 		auto p = source[i];
 		if(p && !p->isdisabled() && p->is(type))
@@ -1340,13 +1340,42 @@ bool party_have(creature** source, classn type) {
 	return false;
 }
 
-bool party_have(creature** source, alignmentn type) {
+bool party_is(creature** source, alignmentn type) {
 	for(size_t i = 0; i < lengthof(adventurers); i++) {
 		auto p = source[i];
 		if(p && !p->isdisabled() && p->is(type))
 			return true;
 	}
 	return false;
+}
+
+bool party_is(creature** source, featn type) {
+	for(size_t i = 0; i < lengthof(adventurers); i++) {
+		auto p = source[i];
+		if(p && !p->isdisabled() && p->is(type))
+			return true;
+	}
+	return false;
+}
+
+int party_count(creature** creatures) {
+	auto n = 0;
+	for(auto i = 0; i < party_size; i++) {
+		if(creatures[i] && !creatures[i]->isdisabled())
+			n++;
+	}
+	return n;
+}
+
+int party_count(creature** creatures, featn value) {
+	auto n = 0;
+	for(auto i = 0; i < party_size; i++) {
+		if(!creatures[i] || creatures[i]->isdisabled())
+			continue;
+		if(creatures[i]->is(value))
+			n++;
+	}
+	return n;
 }
 
 int party_median(creature** source, abilityn v) {
@@ -1446,7 +1475,7 @@ void create_monster(monstern type) {
 	player->type = Monster;
 	player->levels[0] = e.hd;
 	player->basic.abilities[AC] += (10 - e.ac);
-	player->feats = e.feats;
+	player->basic.feats = e.feats;
 	// Add items
 	for(auto item_type : e.items) {
 		if(item_type)

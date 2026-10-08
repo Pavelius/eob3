@@ -3,7 +3,7 @@
 
 monsteri monsters[LastMonster + 1] = {
 	{},
-	{KOBOLD, Goblinoid, {}, 0, 7, 7, LawfulEvil, {Dagger}},
+	{KOBOLD, Goblinoid, {}, 0, 7, 7, LawfulEvil, {Dagger}, {Sneaky}},
 	{LEECH, Animal, {}, 4, 9, 175, TrueNeutral, {}},
 };
 

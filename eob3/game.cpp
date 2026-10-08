@@ -1501,6 +1501,11 @@ static void party_set(celln v) {
 	}
 }
 
+void start_quest() {
+	all_party(start_quest_equipment, true);
+	enter_dungeon(1, CellStairsUp);
+}
+
 void enter_dungeon(int level, celln location) {
 	auto p = active_quest();
 	if(!p)

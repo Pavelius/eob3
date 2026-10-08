@@ -167,4 +167,5 @@ void show_sprites_command();
 void show_perferences(const char* header, const perferencei* actions);
 long show_message(const char* format, bool add_anaswers, const char* cancel, unsigned cancel_key);
 void text_label(int index, long data, const char* format, unsigned key);
+void start_quest();
 void text_label_left(int index, long data, const char* format, unsigned key);

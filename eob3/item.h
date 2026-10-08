@@ -27,12 +27,14 @@ enum featn : unsigned char {
 	NoPower, Magical, Magical2, Magical3, Magical4, Magical5, Cursed, Delusion,
 	Protection, Flaming, Freezing,
 	ControlHuman, ControlGoblinoid, ControlEvil,
-	TwoHanded, Deadly, Disease, Poison, Precise, DrainEnergy, DrainStrenght, DispelEvil, Holy, Vampiric, Vorpal,
+	TwoHanded, Deadly, Disease, Poison, Precise,
+	Healing,
+	DrainEnergy, DrainStrenght, DispelEvil, Holy, Vampiric, Vorpal,
 	ImmuneIllusion, ImmuneNormalWeapon, ImmuneDisease,
 	ResistFire, ResistCold, ResistBludgeon, ResistPiercing, ResistSlashing,
 	Blinked, Blind, Blurred, Displaced, Invisible, Paralizing, Regenerated, StoppedPoison,
 	SeeMagical, SeeCursed,
-	Surprised, Panic, Moved, SlowMove, Undead,
+	Surprised, Painful, Panic, Moved, SlowMove, Undead,
 	LastFeat = Undead,
 	SwordPower, MeleeWeaponPower, RangedWeaponPower,
 };
@@ -152,7 +154,7 @@ struct item {
 	bool apply(spelln v, int level, bool run);
 	void clear() { type = NoItem; power = NoPower; purpose = CommonItem; hits = 0; identified = 0; }
 	void consume() {}
-	void createpower(int chance_magical, int chance_cursed = 5);
+	void create(int chance_magical, int chance_cursed = 5);
 	void damage(const char* interactive, int use) {}
 	void identify(int v) { identified = (v >= 0) ? 1 : 0; }
 	bool is(featn v) const { return power == v || geti().flags.is(v); }
@@ -181,7 +183,8 @@ extern item shops[LastShop + 1][6];
 
 struct wearable {
 	item		wears[LastBelt + 1];
-	void		additem(item& v);
+	void		addgear(itemn type, purposen purpose, featn power = NoPower);
+	void		additem(item& it);
 	slice<item> backpack() { return slice<item>(wears + Backpack, wears + LastBackpack + 1); }
 	slice<item> beltslots() { return slice<item>(wears + FirstBelt, wears + LastBelt + 1); }
 	slice<item> equipment() { return slice<item>(wears + Head, wears + Legs + 1); }

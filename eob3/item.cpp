@@ -208,6 +208,14 @@ itemn itemi::index() const {
 	return (itemn)(this - item_data);
 }
 
+void wearable::addgear(itemn type, purposen purpose, featn power) {
+	item e(type);
+	e.create(0, 0);
+	e.purpose = purpose;
+	e.power = power;
+	additem(e);
+}
+
 void wearable::additem(item& it) {
 	for(auto& e : backpack()) {
 		if(!e) {

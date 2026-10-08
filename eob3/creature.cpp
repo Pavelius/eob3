@@ -171,6 +171,13 @@ static char race_maximum[Halfling + 1][6] = {
 	{18, 18, 18, 18, 18, 18},
 	{18, 18, 18, 18, 17, 18},
 };
+static char race_bonuses[Halfling + 1][6] = {
+	{0, 0, 0, 0, 0, 0},
+	{0, 0, 1, 0, 0, -1},
+	{0, 1, -1, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0},
+	{-1, 1, 0, 0, 0, 0},
+};
 static char class_minimum[Theif + 1][6] = {
 	{0, 0, 0, 0, 0, 0}, // Monster
 	{9, 0, 0, 0, 0, 0}, // Fighter
@@ -595,14 +602,19 @@ static void update_additional_spells() {
 }
 
 static void update_depended_abilities() {
+	// Strenght ability
 	auto k = get_modified_strenght();
 	player->abilities[AttackMelee] += maptbl(hit_probability, k);
 	player->abilities[AttackRange] += maptbl(reaction_adjustment, player->abilities[Dexterity]);
 	player->abilities[DamageMelee] += maptbl(damage_adjustment, k);
+	// Dexterity
 	player->abilities[AC] += maptbl(defence_adjustment, player->abilities[Dexterity]);
+	// Charisma
 	player->abilities[ReactionBonus] += maptbl(cha_reaction_adjustment, player->abilities[Charisma]);
+	// Intellegence
 	if(player->is(Mage))
 		player->abilities[LearnSpell] += maptbl(chance_learn_spell, player->abilities[Intellegence]);
+	// Other
 	if(player->wears[RightHand])
 		player->abilities[Speed] += player->wears[RightHand].geti().combat.speed;
 	else if(player->wears[LeftHand])
@@ -611,8 +623,10 @@ static void update_depended_abilities() {
 		player->abilities[Speed] += 6;
 	else
 		player->abilities[Speed] += 3;
-	//	if(player->is(FeelPain))
-	//		player->add(AttackMelee, -4);
+	if(player->is(Painful)) {
+		player->add(AttackMelee, -4);
+		player->add(AttackRange, -2);
+	}
 	if(player->is(Blind)) {
 		player->add(AttackMelee, -4);
 		player->add(AttackRange, -4);
@@ -874,6 +888,11 @@ static void apply_maximal(char* abilities, const char* maximal) {
 	}
 }
 
+static void apply_abilities(char* result, const char* source) {
+	for(auto i = 0; i < 6; i++)
+		result[Strenght + i] += source[i];
+}
+
 static void standart_ability() {
 	for(size_t i = 0; i < 6; i++)
 		player->basic.abilities[Strenght + i] = 10;
@@ -904,6 +923,7 @@ void reroll_ability() {
 	apply_minimal(player->basic.abilities, player->type);
 	apply_minimal(player->basic.abilities, race_minimum[race]);
 	apply_maximal(player->basic.abilities, race_maximum[race]);
+	apply_abilities(player->basic.abilities, race_bonuses[race]);
 	player->basic.abilities[ExeptionalStrenght] = d100() + 1;
 }
 
@@ -1376,6 +1396,22 @@ static void start_equipment() {
 		player->equip(LeatherArmor);
 		break;
 	}
+}
+
+static void quest_equipment(classn type) {
+	switch(type) {
+	case Theif: player->addgear(TheifTools, ToolItem); break;
+	case Cleric: player->addgear(BluePotion, ToolItem, Healing); break;
+	case Mage: player->addgear(Wand, ToolItem, (featn)MagicMissile); break;
+	default: player->addgear(RationIron, ToolItem); break;
+	}
+}
+
+void start_quest_equipment() {
+	player->addgear(Ration, ToolItem);
+	auto n = get_class_count(player->type);
+	for(auto i = 0; i < n; i++)
+		quest_equipment(get_class(player->type, i));
 }
 
 void finish_character() {

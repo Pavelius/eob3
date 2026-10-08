@@ -138,8 +138,11 @@ static void party_generation() {
 		change_character();
 	}
 	// Join party
-	for(auto i = 0; i < 4; i++)
-		characters[i].joinparty();
+	for(auto i = 0; i < 4; i++) {
+		player = characters + i;
+		adventurers[i] = player;
+		finish_character();
+	}
 }
 
 static void create(int index, racen race, gendern gender, classn type, alignmentn alignment) {
@@ -161,14 +164,14 @@ static void test_city_menu() {
 	dungeon_create(quest, quests[quest].sites);
 	// next_scene(play_city_actions);
 	// consolen("This is a [long] text display [+plus] or [-minuses], maybe [~grayed] of simple format output strings.", language_names[Elf]);
-	enter_dungeon(1, CellStairsUp);
+	start_quest();
 }
 
 void game_generation() {
 	game_clear();
 	refresh_shops();
-	// party_random_generation();
-	party_generation();
+	party_random_generation();
+	// party_generation();
 	start_variables();
 	test_city_menu();
 }

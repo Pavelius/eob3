@@ -190,7 +190,6 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	bool specialized(const item& weapon) const;
 	void kill();
 	bool roll(abilityn v, int bonus = 0) const;
-	void joinparty() { /*TODO: Join party later.*/ }
 	void remove(featn v) { feats.remove(v); }
 	void set(featn v) { feats.set(v); }
 	void setframe(short* frames, short index) const;
@@ -245,5 +244,6 @@ void party_set(creature** source, reactions v);
 void reroll_ability();
 void reroll_character();
 void reroll_hits();
+void start_quest_equipment();
 void update_player();
 void use_item(creature* player, item* last_item, wearn wear);

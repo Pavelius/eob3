@@ -249,13 +249,7 @@ static void party_set(pointc v, directionn d) {
 }
 
 static int party_sneaky(creature** creatures) {
-	auto number = party_count(creatures, Sneaky);
-	if(!number)
-		return 0;
-	auto total = party_count(creatures);
-	if(total == number)
-		return 20;
-	return 10;
+	return party_median(creatures, MoveSilently) / 2;
 }
 
 static void surprise_roll(creature** creatures, int bonus) {

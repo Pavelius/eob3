@@ -1381,7 +1381,7 @@ int party_count(creature** creatures, featn value) {
 int party_median(creature** source, abilityn v) {
 	auto count = 0;
 	auto value = 0;
-	for(size_t i = 0; i < lengthof(adventurers); i++) {
+	for(size_t i = 0; i < party_size; i++) {
 		if(!source[i] || !source[i]->isready())
 			continue;
 		value += source[i]->abilities[v];

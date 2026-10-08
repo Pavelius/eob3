@@ -1186,6 +1186,7 @@ static void thrown_step(pointc v, directionn d, int avatar_thrown, int side) {
 		s2 = 2;
 		break;
 	}
+	animation_update();
 	auto p = create_thrown(0, i, s1, avatar_thrown, d, side);
 	if(!p)
 		return;

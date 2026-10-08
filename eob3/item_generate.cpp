@@ -7,7 +7,14 @@ static featn sword_powers[] = {
 	Magical2, Magical2, Magical2, Magical2,
 	Magical3, Magical3,
 	Magical4, Magical5,
-	DispelEvil, Holy, Vampiric, Vorpal, Flaming, Freezing};
+	DispelEvil, Holy, Vampiric, Vorpal, Flaming, Freezing,
+	ControlGoblinoid};
+static featn melee_weapon_powers[] = {
+	Magical, Magical, Magical, Magical, Magical, Magical,
+	Magical2, Magical2, Magical2, Magical2,
+	Magical3, Magical3,
+	Magical4,
+	DispelEvil, Holy, Flaming, Freezing};
 static itemn random_ration[] = {
 	Ration, Ration, Ration,
 	RationIron};
@@ -33,8 +40,16 @@ item shops[LastShop + 1][6];
 
 featn get_powers(itemn type) {
 	switch(type) {
-	case ShortSword: case Longsword: case TwoHandedSword: return SwordPower;
-	default: return NoPower;
+	case ShortSword: case Longsword: case TwoHandedSword: case Dagger:
+		return SwordPower;
+	case Mace: case WarHammer: case Flail:
+		return MeleeWeaponPower;
+	case Spear: case Staff:
+		return MeleeWeaponPower;
+	case Halberd: case Axe: case BattleAxe:
+		return MeleeWeaponPower;
+	default:
+		return NoPower;
 	}
 }
 
@@ -53,24 +68,31 @@ itemn random(itemn v) {
 featn random(featn v) {
 	switch(v) {
 	case SwordPower: return maprnd(sword_powers);
+	case MeleeWeaponPower: return maprnd(melee_weapon_powers);
 	default: return v;
 	}
 }
 
 static bool can_be_mundane(featn power) {
 	switch(power) {
-	case SwordPower: return true;
-	default: return false;
+	case SwordPower: case MeleeWeaponPower:
+		return true;
+	default:
+		return false;
 	}
 }
 
 void item::create(int chance_power, int chance_cursed) {
-	auto result = get_powers(type);
-	if(can_be_mundane(result)) {
-		if(!chance(chance_power))
-			return;
+	if(chance(chance_cursed))
+		power = Cursed;
+	else {
+		auto result = get_powers(type);
+		if(can_be_mundane(result)) {
+			if(!chance(chance_power))
+				return;
+		}
+		power = random(result);
 	}
-	power = random(result);
 }
 
 static void refresh_shop(shopn id, itemn type) {

@@ -472,12 +472,12 @@ static void group_damage(creature** creatures, pointc v, directionn d, const com
 	}
 }
 
-static void trap_launch(pointc v, directionn d, int avatar, const combati& ei) {
+static void trap_launch(pointc v, directionn d, const combati& ei) {
 	auto start = v;
 	while(v) {
 		if(party.pos == v) {
 			if(to(party.d, Down) == d && party.pos.x == v.x || party.pos.y == v.y)
-				thrown_item(start, Down, avatar, thrown_side(avatar, 1), start.distance(party.pos) + 1);
+				thrown_item(start, Down, ei.speed, thrown_side(ei.speed, 1), start.distance(party.pos) + 1);
 			group_damage(adventurers, v, to(party.d, d), ei);
 			break;
 		} else if(loc->ismonster(v)) {
@@ -496,7 +496,7 @@ static void trap_launch(pointc v, directionn d, int avatar, const combati& ei) {
 }
 
 static void trap_launch(pointc v, directionn d) {
-	trap_launch(v, d, 0, traps[loc->trap]);
+	trap_launch(v, d, traps[loc->trap]);
 }
 
 static void update_floor_state() {
@@ -737,6 +737,8 @@ bool apply_action(const actioni* p) {
 }
 
 bool chance(int v) {
+	if(v <= 0)
+		return false;
 	return d100() < v;
 }
 
@@ -1599,7 +1601,7 @@ static void talk_help() {
 			return;
 	}
 	// 3 - After all give general advise
-	
+
 }
 
 actioni talk_carefully[] = {

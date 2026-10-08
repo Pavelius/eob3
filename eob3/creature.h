@@ -100,9 +100,9 @@ struct racenc {
 	unsigned short data = 0;
 	racenc() = default;
 	template<typename... Ts> constexpr racenc(racen v, Ts... args) : racenc(args...) { set(v); }
-	void clear() { data = 0; }
-	bool is(racen v) const { return (data & (1 << v)) != 0; }
-	void set(racen v) { data |= (1 << v); }
+	constexpr void clear() { data = 0; }
+	constexpr bool is(racen v) const { return (data & (1 << v)) != 0; }
+	constexpr void set(racen v) { data |= (1 << v); }
 };
 
 struct monsteri {

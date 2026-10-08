@@ -97,7 +97,7 @@ bool is_small(itemn type);
 
 struct featc {
 	constexpr static const unsigned b = 32;
-	unsigned data[4] = {};
+	unsigned data[(LastFeat + b - 1) / b] = {};
 	featc() = default;
 	template<typename... Ts> constexpr featc(featn v, Ts... args) : featc(args...) { set(v); }
 	constexpr bool is(featn v) const { return (data[v / b] & (1 << (v % b))) != 0; }

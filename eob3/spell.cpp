@@ -1,6 +1,7 @@
 #include "action.h"
 #include "answers.h"
 #include "collectiona.h"
+#include "console.h"
 #include "creature.h"
 #include "dungeon.h"
 #include "game.h"
@@ -182,7 +183,12 @@ static bool spell_cast(spelln spell, bool run, int level, bool random_choose) {
 
 bool creature::cast(spelln spell, bool run) {
 	pushvalue push(caster, this);
-	return spell_cast(spell, run, level(spell), false);
+	if(!spell_cast(spell, run, level(spell), false)) {
+		say(CantFindTarget);
+		return false;
+	}
+	consolen(getnm(PlayerCastSpell), name(), spell_names[spell]);
+	return true;
 }
 
 bool creature::allow(spelln spell, int level) {
@@ -191,7 +197,7 @@ bool creature::allow(spelln spell, int level) {
 		return true;
 	case AllAlly: case Ally: case You:
 	case Enemy: case AllEnemy:
-		return true;
+		return apply(spell, level, false);
 	default:
 		return false;
 	}
@@ -285,10 +291,6 @@ void learn_spells(creature* player, int level, int spell_type) {
 			continue;
 		pb->set(i);
 	}
-}
-
-bool cast(spelln spell, bool run) {
-	return spell_cast(spell, run, player->level(), false);
 }
 
 void prepare_default_spells() {

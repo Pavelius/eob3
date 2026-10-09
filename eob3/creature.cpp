@@ -1157,6 +1157,15 @@ int creature::gethitpenalty(int bonus) const {
 	return bonus;
 }
 
+void creature::heal(int value) {
+	if(value <= 0)
+		return;
+	value += hp;
+	if(value > hpm)
+		value = hpm;
+	hp = value;
+}
+
 static bool no_party_name(unsigned char v) {
 	for(auto i = 0; i < 4; i++) {
 		if(characters[i].name_id == v)

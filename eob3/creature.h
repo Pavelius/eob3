@@ -69,7 +69,7 @@ enum speechn : unsigned char {
 	IAmScarry, IAmTired, ISeeSomething,
 	IHearSomething, IHearSomethingLarge, BehideThisDoorIsNoOne,
 	CastSpellNoCaster, CastSpellNoSpells,
-	CantUseInSettlement,
+	CantFindTarget, CantUseInSettlement,
 	LastSpeech = CantUseInSettlement
 };
 
@@ -150,7 +150,7 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	constexpr explicit operator bool() const { return hp > 0; }
 	const char* strvalue(abilityn id) const;
 	combati getattack(wearn id, bool large_enemy) const;
-	static bool allow(spelln spell, int level);
+	bool allow(spelln spell, int level);
 	int expaward() const;
 	int get(abilityn v) const { return abilities[v]; }
 	int get(classn v) const { auto n = get_class_index(type, v); return (n == -1) ? 0 : levels[n]; }
@@ -174,7 +174,7 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	void damage(damagen type, int value, abilityn save, bool save_negate);
 	void equip(item& v);
 	void equip(const item& v) { item cv = v; equip(cv); }
-	void heal(int hits) {}
+	void heal(int hits);
 	bool is(abilityn v) const { return abilities[v] > 0; }
 	bool is(alignmentn v) const { return alignment == v; }
 	bool is(classn v) const { return get_class_index(type, v) != -1; }

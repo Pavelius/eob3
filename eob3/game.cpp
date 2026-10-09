@@ -873,7 +873,7 @@ void cast_spell() {
 	if(!ps)
 		return;
 	// RULE: add experience for each spell cast.
-	if(!cast(ps->index, true))
+	if(!player->cast(ps->index, true))
 		return;
 	//use_spell_slot(ps);
 	pass_time(1);

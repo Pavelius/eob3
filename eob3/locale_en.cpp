@@ -30,7 +30,7 @@ const char* message_names[LastMessage + 1] = {
 	"This sign is mark something",
 	"The sign point to exit in north part of this place",
 	"%Opponent stay still and carefully watching you.",
-	"%Player is disabled", "%Player pick up %1", "All party member is dead or disabled. Time to start new game...",
+	"%Player is disabled", "%Player pick up %1", "%1 cast %2", "All party member is dead or disabled. Time to start new game...",
 	"Party going up ...", "Party going down ...", "Party fall into the pit.", "Sundelly enemy attack!", "Enemy is surprised!",
 	"%1 became a %2i level %3",
 	"This door is opened by key", "%Player sneack attack enemy", "%1 feel poison", "%Player feel bad",
@@ -181,6 +181,7 @@ const char* speech_names1[LastSpeech + 1] = {
 	"There's no one behind this door",
 	"I am not caster",
 	"I use last spell",
+	"Can't see any target",
 	"Not in the city!",
 };
 const char* speech_names2[LastSpeech + 1] = {
@@ -207,6 +208,7 @@ const char* speech_names2[LastSpeech + 1] = {
 	"There's no one behind this door",
 	"I do not know how to cast spells",
 	"We must rest to cast spell again",
+	"And where is target?",
 	"This one usable in dungeon",
 };
 const char* speech_names3[LastSpeech + 1] = {
@@ -233,6 +235,7 @@ const char* speech_names3[LastSpeech + 1] = {
 	"There's no one behind this door",
 	"Magic? No for me",
 	"I cast all prepared spells",
+	"Cast spell where?",
 	"Wrong place to use",
 };
 const char* wallmsg_names[LastWellMessage + 1] = {

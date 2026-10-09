@@ -11,6 +11,7 @@
 #include "quest.h"
 #include "rand.h"
 #include "sound.h"
+#include "spell.h"
 #include "stringbuilder.h"
 #include "view_focus.h"
 
@@ -841,6 +842,43 @@ void show_perferences(const char* header, const perferencei* actions) {
 	}
 }
 
+static spelli* choose_prepared_spell() {
+	static int columns[] = {87, 13, 0};
+	if(!player->isactable())
+		return 0;
+	for(auto index = (spelln)0; index <= LastSpell; index = (spelln)(index + 1)) {
+		auto count = player->spells[index];
+		if(!count)
+			continue;
+		an.addv(buttonparam, (long)(spell_data + index), 0, 0, 0, 0);
+		an.sc.add(spell_names[index]);
+		an.sc.addsz();
+		an.sc.add("%1i", count);
+		an.sc.addsz();
+	}
+	if(!an) {
+		auto caster = get_caster(get_class(player->type, 0));
+		if(caster == -1)
+			player->say(CastSpellNoCaster);
+		else
+			player->say(CastSpellNoSpells);
+		return 0;
+	}
+	an.sort();
+	return (spelli*)choose_small_menu(getnm(CastSpell), getnm(Cancel), columns);
+}
+
+void cast_spell() {
+	auto ps = choose_prepared_spell();
+	if(!ps)
+		return;
+	// RULE: add experience for each spell cast.
+	if(!cast(ps->index, true))
+		return;
+	//use_spell_slot(ps);
+	pass_time(1);
+}
+
 void party_addexp(int value) {
 	auto n = party_count(adventurers);
 	if(!n)
@@ -1597,11 +1635,12 @@ static void talk_help() {
 	};
 	zshuffle(source, lengthof(source));
 	for(auto proc : source) {
-		if(proc())
+		if(proc()) {
+			monsters_leave();
 			return;
+		}
 	}
 	// 3 - After all give general advise
-
 }
 
 actioni talk_carefully[] = {

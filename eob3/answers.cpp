@@ -126,8 +126,10 @@ void answers::addv(fnevent proc, long value, void* object, const char* text, uns
 	p->value = value;
 	p->text = sc.get();
 	p->key = key;
-	sc.addv(text, format);
-	sc.addsz();
+	if(text) {
+		sc.addv(text, format);
+		sc.addsz();
+	}
 }
 
 void answers::add(long value, const char* name, ...) {

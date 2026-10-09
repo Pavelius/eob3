@@ -68,6 +68,7 @@ enum speechn : unsigned char {
 	SecrectButtonFound,
 	IAmScarry, IAmTired, ISeeSomething,
 	IHearSomething, IHearSomethingLarge, BehideThisDoorIsNoOne,
+	CastSpellNoCaster, CastSpellNoSpells,
 	CantUseInSettlement,
 	LastSpeech = CantUseInSettlement
 };
@@ -221,6 +222,7 @@ racen get_race(monstern v);
 
 bool is_character(const creature* p);
 
+int get_caster(classn v);
 int get_hit_die(classn type);
 int party_count(creature** creatures);
 int party_count(creature** creatures, featn value);

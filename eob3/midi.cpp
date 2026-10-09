@@ -83,7 +83,7 @@ struct MIDIHDR {
 	DWORD       dwBytesRecorded;      /* used for input only */
 	DWORD_PTR	dwUser;               /* for client's use */
 	DWORD       dwFlags;              /* assorted flags (see defines) */
-	struct midihdr_tag *lpNext;   /* reserved for driver */
+	struct midihdr_tag *lpNext;		  /* reserved for driver */
 	DWORD_PTR	reserved;             /* reserved for driver */
 	DWORD       dwOffset;             /* Callback offset into buffer */
 	DWORD_PTR	dwReserved[8];        /* Reserved for MMSYSTEM */

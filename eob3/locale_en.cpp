@@ -7,7 +7,7 @@
 const char* message_names[LastMessage + 1] = {
 	"Cancel", "Continue", "Title", "Yes", "No", "OK", "Agree", "Decline", "On", "Off",
 	"Music", "Sound",
-	"Information", "Skills", "You have %Gold coins.", "Replace with who?",
+	"Information", "Skills", "You have %Gold coins.", "Replace with who?", "Cast spell",
 	"Select Race", "Select Gender", "Select Class", "Select Alignment",
 	"Select the box of the character you wish to create or view.",
 	"Press Enter to play game.",
@@ -179,6 +179,8 @@ const char* speech_names1[LastSpeech + 1] = {
 	"Behind this door %1i creatures",
 	"Behind this door something large",
 	"There's no one behind this door",
+	"I am not caster",
+	"I use last spell",
 	"Not in the city!",
 };
 const char* speech_names2[LastSpeech + 1] = {
@@ -203,6 +205,8 @@ const char* speech_names2[LastSpeech + 1] = {
 	"Behind this door %1i creatures",
 	"Behind this door something large",
 	"There's no one behind this door",
+	"I do not know how to cast spells",
+	"We must rest to cast spell again",
 	"This one usable in dungeon",
 };
 const char* speech_names3[LastSpeech + 1] = {
@@ -227,6 +231,8 @@ const char* speech_names3[LastSpeech + 1] = {
 	"Behind this door %1i creatures",
 	"Behind this door something large",
 	"There's no one behind this door",
+	"Magic? No for me",
+	"I cast all prepared spells",
 	"Wrong place to use",
 };
 const char* wallmsg_names[LastWellMessage + 1] = {

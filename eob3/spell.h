@@ -68,6 +68,7 @@ struct spella : spellbook {
 	bool			is(spelln v) const { return (data[v / 32] & (1 << (v % 32))) != 0; }
 	void			remove(spelln v) { data[v / 32] &= ~(1 << (v % 32)); }
 	void			set(spelln v) { data[v / 32] |= 1 << (v % 32); }
+	int				total(int type, int level) const;
 };
 extern spella spellbooks[32]; // Size exacly equal sizeof(characters)
 
@@ -77,6 +78,9 @@ spella* get_spellbook(const creature* target);
 
 int get_thrown(spelln spell); // If differ from -1 spell is range.
 
+bool can_cast_spell(int type, int level);
+bool can_learn_spell(int type, int level);
 bool cast(spelln spell, bool run);
 bool cast(spelln spell, int level, bool random_choose);
 void check_boost(unsigned stamp);
+void prepare_default_spells();

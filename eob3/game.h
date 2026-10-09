@@ -33,7 +33,7 @@ enum directionn : unsigned char {
 enum messagen : unsigned char {
 	Cancel, Continue, Title, Yes, No, OK, Agree, Decline, On, Off,
 	Music, Sound,
-	Characterinfo, CharacterSkills, PartyStatusFormat, ReplaceCharacter,
+	Characterinfo, CharacterSkills, PartyStatusFormat, ReplaceCharacter, CastSpell,
 	SelectRace, SelectGender, SelectClass, SelectAlignment,
 	GeneraionInfo, GenerationPlayInfo,
 	ConfirmDeleteCharacter, ConfirmBuyHealing, ConfirmBuyItem, ConfirmEatAndDrink, ConfirmRentRoom, ConfirmCarousing,
@@ -101,6 +101,7 @@ void animation_update();
 void button_frame(int count, bool focused, bool pressed);
 void button_label(int index, long data, const char* format, unsigned key);
 void carousing();
+void cast_spell();
 void city_input();
 bool confirm(const char* format);
 bool confirm(messagen header);
@@ -118,6 +119,7 @@ long choose_large_menu(const char* header, const char* cancel);
 long choose_large_menu_no_player(const char* header, const char* cancel);
 long choose_main_menu();
 long choose_small_menu(const char* header, const char* cancel);
+long choose_small_menu(const char* header, const char* cancel, int* columns);
 void choose_spells(const char* title, const char* cancel, int spell_type);
 void enter_dungeon(int level, celln location);
 void fix_animate();

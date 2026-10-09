@@ -400,7 +400,7 @@ classn get_class(classn v, int index) {
 	return class_data[v][index];
 }
 
-static int get_caster(classn v) {
+int get_caster(classn v) {
 	switch(v) {
 	case Cleric: return 0;
 	case Mage: return 1;

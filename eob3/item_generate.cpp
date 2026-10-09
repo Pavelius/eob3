@@ -1,6 +1,7 @@
 #include "item.h"
 #include "game.h"
 #include "rand.h"
+#include "spell.h"
 
 static featn sword_powers[] = {
 	Magical, Magical, Magical, Magical, Magical, Magical, Magical,
@@ -35,6 +36,12 @@ static itemn random_weapon[] = {
 	Halberd, WarHammer, Mace, Spear,
 	Longsword, ShortSword, ShortSword, TwoHandedSword,
 	Bow, Sling};
+static spelln mage_spell_1[] = {
+	MagicMissile, Armor, BurningHands, ChillTouch, ComprehendLanguages, Friends, Identify, MagicMissile, Mending, ShieldSpell, ShockingGrasp
+};
+static spelln priest_spell_1[] = {
+	CureLightWound, DetectEvil, DetectMagic, PurifyFood,
+};
 
 item shops[LastShop + 1][6];
 
@@ -73,6 +80,36 @@ featn random(featn v) {
 	}
 }
 
+static int random_spell_level() {
+	switch(d20()) {
+	case 7: case 8: case 9: case 10: return 2;
+	case 11: case 12: case 13: return 3;
+	case 14: case 15: return 4;
+	case 16: return 5;
+	case 17: return 6;
+	case 18: return 7;
+	default: return 1;
+	}
+}
+
+static spelln random_priest_spell(int level) {
+	switch(level) {
+	case 1: return maprnd(priest_spell_1);
+	default: return CureLightWound;
+	}
+}
+
+static spelln random_mage_spell(int level) {
+	switch(level) {
+	case 1: return maprnd(mage_spell_1);
+	default: return MagicMissile;
+	}
+}
+
+static spelln random_mage_spell() {
+	return random_mage_spell(random_spell_level());
+}
+
 static bool can_be_mundane(featn power) {
 	switch(power) {
 	case SwordPower: case MeleeWeaponPower:
@@ -83,15 +120,21 @@ static bool can_be_mundane(featn power) {
 }
 
 void item::create(int chance_power, int chance_cursed) {
-	if(chance(chance_cursed))
-		power = Cursed;
-	else {
-		auto result = get_powers(type);
-		if(can_be_mundane(result)) {
-			if(!chance(chance_power))
-				return;
+	switch(type) {
+	case MageScroll: power = (featn)random_mage_spell(); break;
+	case PriestScroll: power = (featn)random_mage_spell(); break;
+	default:
+		if(chance(chance_cursed))
+			power = Cursed;
+		else {
+			auto result = get_powers(type);
+			if(can_be_mundane(result)) {
+				if(!chance(chance_power))
+					return;
+			}
+			power = random(result);
 		}
-		power = random(result);
+		break;
 	}
 }
 

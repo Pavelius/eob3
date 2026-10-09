@@ -4,6 +4,7 @@
 #include "creature.h"
 #include "dungeon.h"
 #include "game.h"
+#include "math.h"
 #include "pushvalue.h"
 #include "spell.h"
 
@@ -219,6 +220,52 @@ bool item::allow(spelln spell, int level) {
 	}
 }
 
+int spella::total(int type, int level) const {
+	auto result = 0;
+	for(auto i = (spelln)0; i <= LastSpell; i = (spelln)(i+1)) {
+		if(spell_data[i].levels[type] != level)
+			continue;
+		if(is(i))
+			result++;
+	}
+	return result;
+}
+
+bool can_cast_spell(int type, int level) {
+	static char maximum_spell_level[] = {
+		0, 1, 1, 1, 1, 2, 2, 2, 3, 4,
+		5, 5, 6, 6, 7, 7, 8, 8, 9
+	};
+	int ability;
+	switch(type) {
+	case 1:
+		ability = player->get(Intellegence);
+		return maptbl(maximum_spell_level, ability) >= level;
+	default:
+		return true;
+	}
+}
+
+bool can_learn_spell(int type, int level) {
+	static char maximum_number_of_spells[] = {
+		1, 1, 1, 1, 2, 3, 4, 5, 6, 6,
+		7, 7, 8, 8, 9, 9, 10, 11, 12
+	};
+	auto ps = get_spellbook(player);
+	if(!ps)
+		return false;
+	if(!can_cast_spell(type, level))
+		return false;
+	if(type == 1) {
+		auto intellegence = player->basic.abilities[Intellegence];
+		auto exist_count = ps->total(type, level);
+		auto maximum_count = maptbl(maximum_number_of_spells, intellegence);
+		if(exist_count >= maximum_count)
+			return false;
+	}
+	return true;
+}
+
 spella* get_spellbook(const creature* target) {
 	if(!target)
 		return 0;
@@ -236,5 +283,44 @@ void learn_spells(creature* player, int level, int spell_type) {
 		if(e.levels[spell_type] != level)
 			continue;
 		pb->set(i);
+	}
+}
+
+bool cast(spelln spell, bool run) {
+	return spell_cast(spell, run, player->level(), false);
+}
+
+void prepare_default_spells() {
+	auto spell_known = get_spellbook(player);
+	if(!spell_known)
+		return;
+	auto class_count = get_class_count(player->type);
+	for(auto i = 0; i < class_count; i++) {
+		auto tp = get_class(player->type, i);
+		auto pc = get_caster(tp);
+		if(tp == -1)
+			continue;
+		for(auto level = 1; level < 9; level++) {
+			auto slot_left = player->get((abilityn)(level + Spell1 - 1));
+			//for(auto v : pi->elements) {
+			//	if(slot_left <= 0)
+			//		break;
+			//	if(v.iskind<spelli>()) {
+			//		if(!spell_known->is(v.value))
+			//			continue;
+			//		auto spell_level = bsdata<spelli>::elements[v.value].levels[pc->caster];
+			//		if(spell_level != level)
+			//			continue;
+			//		auto n = slot_left;
+			//		auto k = v.counter;
+			//		if(k == 0)
+			//			k = 1;
+			//		if(n > k)
+			//			n = k;
+			//		spell_prepared[v.value] += n;
+			//		slot_left -= n;
+			//	}
+			//}
+		}
 	}
 }

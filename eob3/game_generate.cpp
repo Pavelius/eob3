@@ -142,6 +142,7 @@ static void party_generation() {
 		player = characters + i;
 		adventurers[i] = player;
 		finish_character();
+		prepare_default_spells();
 	}
 }
 

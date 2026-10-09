@@ -399,7 +399,7 @@ void text_label(int index, long button_data, const char* format, unsigned key) {
 }
 
 static void text_label_menu(int index, long button_data, const char* format, unsigned key) {
-	auto push_fore = fore;
+	pushfore push_fore;
 	if(!focus_valid(button_data))
 		button_data = (long)format;
 	focusing(button_data);
@@ -424,7 +424,6 @@ static void text_label_menu(int index, long button_data, const char* format, uns
 	if(button_pressed)
 		fore = fore.darken();
 	text(format);
-	fore = push_fore;
 }
 
 static void text_label_row(const char* format) {
@@ -446,7 +445,7 @@ static void text_label_row(const char* format) {
 }
 
 static void text_label_menu_table(int index, long button_data, const char* format, unsigned key) {
-	auto push_fore = fore;
+	pushfore push_fore;
 	if(!focus_valid(button_data))
 		button_data = (long)format;
 	focusing(button_data);
@@ -474,7 +473,6 @@ static void text_label_menu_table(int index, long button_data, const char* forma
 		text(format);
 	else
 		text_label_row(format);
-	fore = push_fore;
 }
 
 static void label_control(const char* format, long data, unsigned flags) {

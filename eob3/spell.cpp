@@ -14,6 +14,7 @@ unsigned char	boost_count;
 
 static collection<creature> creatures;
 static collection<item> items;
+static spelln default_spells_list[] = {CureLightWound, DetectEvil, DetectMagic, PurifyFood};
 
 static unsigned char get_dungeon(const void* target) {
 	if(target >= dungeons && target <= dungeons + lengthof(dungeons)) {
@@ -298,29 +299,19 @@ void prepare_default_spells() {
 	for(auto i = 0; i < class_count; i++) {
 		auto tp = get_class(player->type, i);
 		auto pc = get_caster(tp);
-		if(tp == -1)
+		if(pc == -1)
 			continue;
 		for(auto level = 1; level < 9; level++) {
 			auto slot_left = player->get((abilityn)(level + Spell1 - 1));
-			//for(auto v : pi->elements) {
-			//	if(slot_left <= 0)
-			//		break;
-			//	if(v.iskind<spelli>()) {
-			//		if(!spell_known->is(v.value))
-			//			continue;
-			//		auto spell_level = bsdata<spelli>::elements[v.value].levels[pc->caster];
-			//		if(spell_level != level)
-			//			continue;
-			//		auto n = slot_left;
-			//		auto k = v.counter;
-			//		if(k == 0)
-			//			k = 1;
-			//		if(n > k)
-			//			n = k;
-			//		spell_prepared[v.value] += n;
-			//		slot_left -= n;
-			//	}
-			//}
+			for(auto v : default_spells_list) {
+				if(!spell_known->is(v))
+					continue;
+				if(spell_data[v].levels[pc] != level)
+					continue;
+				spell_known->spells[v] += slot_left;
+				break;
+			}
 		}
 	}
+	memcpy(player->spells, spell_known->spells, sizeof(player->spells));
 }

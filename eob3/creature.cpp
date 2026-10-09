@@ -1463,6 +1463,7 @@ void create_character(racen race, gendern gender, classn class_type, alignmentn 
 	player->avatar = random_avatar(race, gender, class_type);
 	reroll_character();
 	finish_character();
+	prepare_default_spells();
 }
 
 void create_monster(monstern type) {

@@ -1548,10 +1548,10 @@ void alternate_focus_input() {
 
 static void adventure_input() {
 	switch(hkey) {
-	case 'M': player_manipulate(); break;
-	case 'U': player_use_item(); break;
-	case 'E': cast_spell(); break;
-	case 'V': show_dungeon_automap(); break;
+	case 'M': execute(player_manipulate); break;
+	case 'U': execute(player_use_item); break;
+	case 'E': execute(cast_spell); break;
+	case 'V': execute(show_dungeon_automap); break;
 	default:
 		alternate_focus_input();
 		character_input();

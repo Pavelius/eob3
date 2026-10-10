@@ -1538,8 +1538,11 @@ void use_item(creature* player, item* last_item, wearn wear) {
 			//			player->speak("MustBeWearing", "LeftHand");
 			break;
 		}
-		//		if(use_rod(pn, last_item, last_item->getpower()))
-		//			pass_round();
+		if(true) {
+			auto spell = last_item->getspell();
+			if(player->cast(last_item->getspell(), 5, true, true, true, false))
+				pass_time();
+		}
 		break;
 	case Faithable:
 		if(!allow_use(player, last_item))

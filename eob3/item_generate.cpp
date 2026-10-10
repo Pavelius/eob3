@@ -42,6 +42,10 @@ static spelln mage_spell_1[] = {
 static spelln priest_spell_1[] = {
 	CureLightWound, DetectEvil, DetectMagic, PurifyFood,
 };
+static spelln wand_spells[] = {
+	MagicMissile, MagicMissile, MagicMissile, BurningHands, BurningHands, BurningHands,
+	ShockingGrasp, ShockingGrasp, DetectMagic,
+};
 
 item shops[LastShop + 1][6];
 
@@ -123,6 +127,7 @@ void item::create(int chance_power, int chance_cursed) {
 	switch(type) {
 	case MageScroll: power = (featn)random_mage_spell(); break;
 	case PriestScroll: power = (featn)random_mage_spell(); break;
+	case Wand: power = (featn)maprnd(wand_spells); break;
 	default:
 		if(chance(chance_cursed))
 			power = Cursed;

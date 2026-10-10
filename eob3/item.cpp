@@ -217,11 +217,12 @@ itemn itemi::index() const {
 	return (itemn)(this - item_data);
 }
 
-void wearable::addgear(itemn type, purposen purpose, featn power) {
+void wearable::addgear(itemn type, purposen purpose, featn power, unsigned char identified) {
 	item e(type);
 	e.create(0, 0);
 	e.purpose = purpose;
 	e.power = power;
+	e.identified = identified;
 	additem(e);
 }
 

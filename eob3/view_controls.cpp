@@ -1482,7 +1482,7 @@ static void examine_item() {
 	else if(!(*pi))
 		pc->say(ThisIsNotItem);
 	else if(pi->isidentified())
-		pc->say(ThisIsObject, pi->name());
+		pc->say(ThisIsObject, pi->namefull());
 	else
 		pc->say(ThisIsUndefinedObject, pi->name());
 }

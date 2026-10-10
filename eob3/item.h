@@ -90,6 +90,7 @@ enum trapn : unsigned char {
 };
 
 extern const char* item_names[LastItem + 1];
+extern const char* feat_names[LastFeat + 1];
 
 bool is_large(itemn type);
 bool is_natural(itemn type);
@@ -151,6 +152,7 @@ struct item {
 	constexpr explicit operator bool() const { return type != 0; }
 	constexpr const itemi& geti() const { return item_data[type]; }
 	const char*	name() const { return item_names[type]; }
+	const char* namefull() const;
 	bool allow(wearn v) const;
 	bool allow(spelln v, int level);
 	bool apply(spelln v, int level, bool run);
@@ -175,6 +177,7 @@ struct item {
 	int	getcost() const { return geti().cost; }
 	int	getmagic() const { return get_magic(power); }
 	featn getpower() const { return is_spell_power(type) ? NoPower : power; }
+	spelln getspell() const { return is_spell_power(type) ? (spelln)power : (spelln)0; }
 	void set(featn v) { power = v; }
 	void set(purposen v) { purpose = v; }
 	void setcount(int v) {}
@@ -185,7 +188,7 @@ extern item shops[LastShop + 1][6];
 
 struct wearable {
 	item		wears[LastBelt + 1];
-	void		addgear(itemn type, purposen purpose, featn power = NoPower);
+	void		addgear(itemn type, purposen purpose, featn power = NoPower, unsigned char identified = 1);
 	void		additem(item& it);
 	slice<item> backpack() { return slice<item>(wears + Backpack, wears + LastBackpack + 1); }
 	slice<item> beltslots() { return slice<item>(wears + FirstBelt, wears + LastBelt + 1); }

@@ -884,6 +884,20 @@ void cast_spell() {
 	pass_time(1);
 }
 
+const char* item::namefull() const {
+	static char temp[128]; stringbuilder sb(temp);
+	if(!identified)
+		return name();
+	if(is_spell_power(type))
+		sb.add(getnm(ItemPowerName), name(), spell_names[power]);
+	else {
+		if(!power)
+			return name();
+		sb.add(getnm(ItemPowerName), name(), feat_names[power]);
+	}
+	return temp;
+}
+
 void party_addexp(int value) {
 	auto n = party_count(adventurers);
 	if(!n)
@@ -971,7 +985,7 @@ void pick_up_dungeon_item() {
 	}
 	*pi = *gpi;
 	gpi->clear();
-	consolen(getnm(PlayerPickUpItem), pi->name());
+	consolen(getnm(PlayerPickUpItem), pi->namefull());
 }
 
 static void explore_area() {
@@ -1481,8 +1495,9 @@ void use_item(creature* player, item* last_item, wearn wear) {
 	case Drinkable:
 		if(!allow_use(player, last_item))
 			break;
+		last_item->identified = 1;
 		player->drink(last_item->getpower(), true);
-		consolen(getnm(PlayerDrinkPotion), last_item->name());
+		consolen(getnm(PlayerDrinkPotion), last_item->namefull());
 		last_item->clear();
 		pass_time();
 		break;

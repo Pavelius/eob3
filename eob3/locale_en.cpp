@@ -30,6 +30,7 @@ const char* message_names[LastMessage + 1] = {
 	"This sign is mark something",
 	"The sign point to exit in north part of this place",
 	"%Opponent stay still and carefully watching you.",
+	"%1 of %2",
 	"%Player is disabled", "%Player pick up %1", "%1 cast %2", "%Player drink %1", "All party member is dead or disabled. Time to start new game...",
 	"Party going up ...", "Party going down ...", "Party fall into the pit.", "Sundelly enemy attack!", "Enemy is surprised!",
 	"%1 became a %2i level %3",
@@ -59,6 +60,19 @@ const char* action_names[LastAction + 1] = {
 	"Ambush", "Attack", "CalmDown", "Hunt", "Talk", "Lie", "Bribe",
 	"You are so tired to do this again. You must stop and rest. Do something else that doesn’t require as much effort.",
 	"Leave outside",
+};
+const char* feat_names[LastFeat + 1] = {
+	"NoPower", "+1", "+2", "+3", "+4", "+5", "Cursing", "Delusion",
+	"Protection", "Flaming", "Freezing",
+	"ControlHuman", "ControlGoblinoid", "ControlEvil",
+	"TwoHanded", "Deadly", "Disease", "Poison", "Precise",
+	"Alertness", "Healing", "Extra-Healing",
+	"Drain Energy", "Drain Strenght", "Dispel Evil", "Holy", "Vampiric", "Vorpal",
+	"Immune to Illusion", "Immune to Normal Weapon", "Immune to Disease",
+	"Resist Fire", "Resist Cold", "Resist Bludgeon", "Resist Piercing", "Resist Slashing",
+	"Blinked", "Blind", "Blurred", "Displaced", "Invisible", "Paralizing", "Regenerated", "StoppedPoison",
+	"SeeMagical", "SeeCursed",
+	"Surprised", "Painful", "Panic", "Moved", "SlowMove", "Undead",
 };
 const char* fatigue_status[4] = {
 	"Fresh", "Fatigued", "Tired", "Exhausted",

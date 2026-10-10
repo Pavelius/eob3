@@ -43,6 +43,7 @@ enum messagen : unsigned char {
 	WelcomeFriends, WhoIsYou, WhatHappens, HowYouGetHere, YouLiers,
 	LookUnknown, LookDrainageGate, LookStrangeDevice, LookUnknownTheifSign, LookTheifSign,
 	AnimalStayStill,
+	ItemPowerName,
 	PlayerIsDisabled, PlayerPickUpItem, PlayerCastSpell, PlayerDrinkPotion, AllPartyDead,
 	PartyGoingUp, PartyGoingDown, PartyFallPit, PartyFailedSurprise, EnemyFailedSurprise,
 	RaiseLevelSuccess,

@@ -410,6 +410,17 @@ int get_caster(classn v) {
 	}
 }
 
+classn get_caster_class(classn v) {
+	auto count = get_class_count(v);
+	for(auto i = 0; i < count; i++) {
+		auto n = get_class(v, i);
+		auto m = get_caster(n);
+		if(m != -1)
+			return n;
+	}
+	return Fighter;
+}
+
 static unsigned* get_experience_table(classn v) {
 	switch(v) {
 	case Cleric: return experience_priest; // Cleric

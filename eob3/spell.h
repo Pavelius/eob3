@@ -78,6 +78,7 @@ spella* get_spellbook(const creature* target);
 
 int get_thrown(spelln spell); // If differ from -1 spell is range.
 
+void camp_autocast();
 bool can_cast_spell(int type, int level);
 bool can_learn_spell(int type, int level);
 bool cast(spelln spell, int level, bool random_choose);

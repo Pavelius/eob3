@@ -24,20 +24,27 @@ static void natural_healing() {
 	}
 }
 
-static void refresh_spells() {
+static void refresh_memorized_spells() {
 	auto ps = get_spellbook(player);
 	if(!ps)
 		return;
 	memcpy(player->spells, ps->spells, sizeof(player->spells));
 }
 
+static void satisfy() {
+	player->food = player->getfood();
+}
+
 void rest_party() {
 	pass_time(60 * 8);
 	if(last_number < 0)
+		// Cursed food make bad sleep
 		all_party(natural_healing, true);
 	else {
 		all_party(natural_healing, true);
-		all_party(refresh_spells, true);
+		all_party(camp_autocast, false);
+		all_party(refresh_memorized_spells, false);
+		all_party(satisfy, true);
 	}
 }
 

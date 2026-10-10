@@ -16,6 +16,7 @@ unsigned char	boost_count;
 static collection<creature> creatures;
 static collection<item> items;
 static spelln default_spells_list[] = {CureLightWound, DetectEvil, DetectMagic, PurifyFood};
+static spelln camp_autocast_spells[] = {CureLightWound, PurifyFood};
 
 static unsigned char get_dungeon(const void* target) {
 	if(target >= dungeons && target <= dungeons + lengthof(dungeons)) {
@@ -316,4 +317,14 @@ void prepare_default_spells() {
 		}
 	}
 	memcpy(player->spells, spell_known->spells, sizeof(player->spells));
+}
+
+void camp_autocast() {
+	for(auto v : camp_autocast_spells) {
+		auto count = player->spells[v];
+		if(!count)
+			continue;
+		while(count-- && spell_cast(v, true, player->level(v), true))
+			consolen(getnm(PlayerCastSpell), player->name(), spell_names[v]);
+	}
 }

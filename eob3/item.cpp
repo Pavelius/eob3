@@ -55,7 +55,7 @@ itemi item_data[LastItem + 1] = {
 	{Drinkable, 0, {40, 19}, {}, {}}, // BluePotion
 	{Drinkable, 0, {41, 19}, {}, {}}, // GreenPotion
 	{Drinkable, 0, {39, 19}, {}, {}}, // RedPotion
-	{Edible, 0, {37, 14}, {}, {}}, // LargeRation
+	{Edible, 0, {37, 14}, {}, {2}}, // LargeRation
 	{Edible, 0, {38, 14}, {}, {}}, // Ration
 	{Readable, 0, {36, 12}, {}, {}}, // MageScroll
 	{Readable, 0, {85, 12}, {}, {}}, // PriestScroll

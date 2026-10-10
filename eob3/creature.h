@@ -97,6 +97,7 @@ bool is_large(monstern v);
 bool is_lawful(alignmentn v);
 
 classn get_class(classn v, int index);
+classn get_caster_class(classn v);
 
 struct racenc {
 	unsigned short data = 0;

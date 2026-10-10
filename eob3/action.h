@@ -21,7 +21,7 @@ enum actionn : unsigned char {
 	Donate,
 	BuyWeapons, BuyWeaponsEmpty,
 	RepairWeapons,
-	RestParty, ScribleScrolls, MemorizeSpells, PrayForSpells,
+	MakeCamp, RestParty, ScribleScrolls, MemorizeSpells, PrayForSpells,
 	GameOptions, StartGame, LoadGame, SaveGame, ExitGame, Settings,
 	Ambush, Attack, CalmDown, Hunt, Talk, Lie, Bribe,
 	PlayerExhaused,
@@ -93,6 +93,7 @@ void open_options(const actioni* actions);
 void pass_activity();
 bool pass_payment(actionn action, const variablei& required);
 void pass_time(unsigned minutes = 1);
+void rest_party();
 void setv(picturen v);
 void show_message(actionn id, ...);
 

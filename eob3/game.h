@@ -50,6 +50,7 @@ enum messagen : unsigned char {
 	MagicDevice, Portal, TrapLauncher,
 	Button, Cellar,
 	QuestGoals, VisitBuilding,
+	MonstersAreNearbe,
 	Class, Race,
 	LastMessage = Race
 };

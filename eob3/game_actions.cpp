@@ -1,24 +1,50 @@
 #include "action.h"
 #include "answers.h"
+#include "console.h"
 #include "creature.h"
 #include "game.h"
 #include "perference.h"
 #include "pushvalue.h"
+#include "rand.h"
 #include "sound.h"
 
 static actionn action_outcome;
+int last_number;
 
 static void leave_outside() {
 	action_outcome = LeaveOutside;
 }
 
-static void rest_party() {
+static void natural_healing() {
+	if(last_number >= 0)
+		player->heal(xrand(1, 3) + last_number);
+	else {
+		consolen(getnm(FeelDisease));
+		player->damage(HealthDamage, xrand(1, 2) - last_number);
+	}
+}
+
+static void refresh_spells() {
+	auto ps = get_spellbook(player);
+	if(!ps)
+		return;
+	memcpy(player->spells, ps->spells, sizeof(player->spells));
+}
+
+void rest_party() {
 	pass_time(60 * 8);
+	if(last_number < 0)
+		all_party(natural_healing, true);
+	else {
+		all_party(natural_healing, true);
+		all_party(refresh_spells, true);
+	}
 }
 
 static void rest_party_inn() {
 	if(!confirm(ConfirmRestParty))
 		return;
+	pushvalue push(last_number, 3);
 	rest_party();
 	leave_outside();
 }
@@ -210,6 +236,7 @@ void show_dungeon_options() {
 	static actioni actions[] = {
 		{MemorizeSpells, {}, {Mage}, memorize_spells},
 		{PrayForSpells, {}, {Cleric}, pray_for_spells},
+		{ScribleScrolls, {}, {Mage}, scrible_scrolls},
 		{GameOptions, {}, {}, game_options},
 		{}};
 	open_options(actions);

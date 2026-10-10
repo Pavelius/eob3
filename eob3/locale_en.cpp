@@ -37,6 +37,7 @@ const char* message_names[LastMessage + 1] = {
 	"Magic device", "Portal", "Trap launcher",
 	"Button", "Cellar",
 	"Current goals", "Visit %1",
+	"Can't do this - monsters are nearby",
 	"Class", "Race"
 };
 const char* action_names[LastAction + 1] = {
@@ -53,7 +54,7 @@ const char* action_names[LastAction + 1] = {
 	"Buy Weapons",
 	"\"I'm all out of weapons. Adventurers bought up everything I had. Come back next week - I might have a fresh shipment by then.\"",
 	"Repair Weapons",
-	"Rest Party", "Scrible scrolls", "Memorize Spells", "Pray for Spells",
+	"Make Camp", "Rest Party", "Scrible scrolls", "Memorize Spells", "Pray for Spells",
 	"Game options", "Start a new game", "Load game", "Save game", "Exit game", "Perferences",
 	"Ambush", "Attack", "CalmDown", "Hunt", "Talk", "Lie", "Bribe",
 	"You are so tired to do this again. You must stop and rest. Do something else that doesn’t require as much effort.",
@@ -183,6 +184,7 @@ const char* speech_names1[LastSpeech + 1] = {
 	"I use last spell",
 	"Can't see any target",
 	"Not in the city!",
+	"This food is rotted",
 };
 const char* speech_names2[LastSpeech + 1] = {
 	"I don't use %1.",
@@ -210,6 +212,7 @@ const char* speech_names2[LastSpeech + 1] = {
 	"We must rest to cast spell again",
 	"And where is target?",
 	"This one usable in dungeon",
+	"This food is not edible",
 };
 const char* speech_names3[LastSpeech + 1] = {
 	"I don't need %1.",
@@ -237,6 +240,7 @@ const char* speech_names3[LastSpeech + 1] = {
 	"I cast all prepared spells",
 	"Cast spell where?",
 	"Wrong place to use",
+	"I can't eat this rotten food!",
 };
 const char* wallmsg_names[LastWellMessage + 1] = {
 	"Find %1i magic weapons on this level",

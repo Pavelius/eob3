@@ -1419,15 +1419,23 @@ static bool use_key(creature* player, item* last_item) {
 	return true;
 }
 
-static void sleep_party(int cure_hits) {
-}
-
 static bool allow_use(const creature* player, const item* pi) {
 	return player->allow(pi->type, CantUseItem);
 }
 
+static bool if_monster_nearbe(pointc v) {
+	if(!pathmap[v.y][v.x] || pathmap[v.y][v.x] > 5)
+		return false;
+	return loc->ismonster(v);
+}
+
 static bool monsters_nearbe() {
-	return false;
+	loc->block(false);
+	loc->makewave(party.pos);
+	auto result = loc->is(if_monster_nearbe);
+	if(result)
+		consolen(getnm(MonstersAreNearbe));
+	return result;
 }
 
 static void ambush_enemy() {
@@ -1479,16 +1487,17 @@ void use_item(creature* player, item* last_item, wearn wear) {
 		if(!dungeon_use())
 			break;
 		if(last_item->isdamaged()) {
-			//			player->say("MakeCamp", "RottenFood");
+			player->say(ThisFoodIsRotten);
 			break;
 		}
 		if(monsters_nearbe())
 			break;
 		if(confirm(getnm(ConfirmMakeCamp))) {
+			pushvalue push(last_number);
+			last_number = last_item->geti().combat.attack;
 			if(last_item->iscursed())
-				sleep_party(-2);
-			else
-				sleep_party(last_item->geti().combat.damage.roll());
+				last_number = -2;
+			rest_party();
 			last_item->clear();
 		}
 		break;

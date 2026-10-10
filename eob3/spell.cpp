@@ -337,6 +337,7 @@ void prepare_default_spells() {
 }
 
 void camp_autocast() {
+	pushvalue push(caster, player);
 	for(auto v : camp_autocast_spells) {
 		auto count = player->spells[v];
 		if(!count)

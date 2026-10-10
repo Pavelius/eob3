@@ -662,6 +662,11 @@ static void pass_time_activity() {
 void pass_time(unsigned minutes) {
 	game.variables[Time] += minutes;
 	pass_time_activity();
+	if(minutes > 10) {
+		auto count = minutes / 10;
+		while(count-- > 0)
+			pass_time_activity();
+	}
 }
 
 int get_hour() {

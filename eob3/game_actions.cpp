@@ -44,7 +44,7 @@ void rest_party() {
 		all_party(natural_healing, true);
 		all_party(camp_autocast, false);
 		all_party(refresh_memorized_spells, false);
-		all_party(satisfy, true);
+		all_party(satisfy, false);
 	}
 }
 

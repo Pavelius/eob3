@@ -70,7 +70,7 @@ struct spella : spellbook {
 	void			set(spelln v) { data[v / 32] |= 1 << (v % 32); }
 	int				total(int type, int level) const;
 };
-extern spella spellbooks[32]; // Size exacly equal sizeof(characters)
+extern spella spellbooks[32]; // Size exacly equal lenghtof(characters)
 
 extern creature* caster;
 

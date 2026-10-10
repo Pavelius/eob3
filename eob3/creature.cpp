@@ -418,7 +418,7 @@ classn get_caster_class(classn v) {
 		if(m != -1)
 			return n;
 	}
-	return Fighter;
+	return (classn)0;
 }
 
 static unsigned* get_experience_table(classn v) {
@@ -1130,9 +1130,9 @@ static const char* str(const dice& v) {
 static const char* str_melee_attack(const combati& v) {
 	auto damage_bonus = v.damage.b;
 	auto thac0 = 20 - v.attack;
-	if(damage_bonus)
-		return str("%1i/%+2i", thac0, damage_bonus);
-	else
+	//if(damage_bonus)
+	//	return str("%1i/%+2i", thac0, damage_bonus);
+	//else
 		return str("%1i", thac0);
 }
 

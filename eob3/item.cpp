@@ -17,7 +17,7 @@
 #include "item.h"
 
 itemi item_data[LastItem + 1] = {
-	{}, // No item
+	{RightHand, 0, {}, {}, {0, 0, 1, Bludgeon, {1, 2}}}, // No item
 	{RightHand, 5, {3, 4}, {Deadly}, {0, 1, 7, Slashing, {1, 8}}}, // BattleAxe
 	{RightHand, 5, {7, 4}, {Deadly}, {0, 1, 4, Slashing, {1, 6}}}, // Axe
 	{RightHand, 5, {116, 12}, {}, {0, 1, 5, Bludgeon, {1, 6}}}, // Club
@@ -107,7 +107,7 @@ itemi item_data[LastItem + 1] = {
 	{Quiver, 0, {16, 5}, {}, {}}, // Arrow
 	{Quiver, 0, {19, 2}, {}, {}}, // Stone
 	{Quiver, 0, {14, 0}, {}, {}}, // Dart
-};
+	};
 
 combati traps[LastTrap + 1] = {
 	{0, 1, 13, Piercing, {1, 6}, {1, 6}, Arrow},
@@ -168,6 +168,15 @@ bool is_natural(itemn type) {
 
 bool is_identified(const void* object) {
 	return ((item*)object)->identified != 0;
+}
+
+bool is_spell_power(itemn type) {
+	switch(type) {
+	case PriestScroll: case MageScroll: case Wand:
+		return true;
+	default:
+		return false;
+	}
 }
 
 bool allow(itemn type, wearn n) {

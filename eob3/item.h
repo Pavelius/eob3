@@ -94,6 +94,7 @@ extern const char* item_names[LastItem + 1];
 bool is_large(itemn type);
 bool is_natural(itemn type);
 bool is_small(itemn type);
+bool is_spell_power(itemn type);
 
 struct featc {
 	constexpr static const unsigned b = 32;
@@ -173,7 +174,7 @@ struct item {
 	int	getcount() const { return 1; }
 	int	getcost() const { return geti().cost; }
 	int	getmagic() const { return get_magic(power); }
-	featn getpower() const { return power; }
+	featn getpower() const { return is_spell_power(type) ? NoPower : power; }
 	void set(featn v) { power = v; }
 	void set(purposen v) { purpose = v; }
 	void setcount(int v) {}

@@ -167,7 +167,19 @@ int creature::level(spelln spell) const {
 	return result_level;
 }
 
-static bool spell_cast(spelln spell, bool run, int level, bool random_choose) {
+static void add_spell_experience(spelln spell) {
+	auto caster_type = get_caster_class(caster->type);
+	if(!caster_type || caster_type==Paladin || caster_type==Ranger)
+		return; // Palading or Ranger not gain experience for spell casting.
+	auto caster_index = get_caster(caster_type);
+	switch(caster_type) {
+	case Mage: caster->addexp(35 * spell_data[spell].levels[caster_index]); break;
+	case Cleric: caster->addexp(20 * spell_data[spell].levels[caster_index]);  break;
+	default: break;
+	}
+}
+
+static bool spell_cast(spelln spell, bool run, int level, bool random_choose, bool expand_slots) {
 	if(!spell_targets(caster, spell, level))
 		return false;
 	switch(spell_data[spell].type) {
@@ -179,12 +191,17 @@ static bool spell_cast(spelln spell, bool run, int level, bool random_choose) {
 		break;
 	}
 	apply_targets(spell, level);
+	add_spell_experience(spell);
+	if(expand_slots) {
+		if(caster->spells[spell] > 0)
+			caster->spells[spell]--;
+	}
 	return true;
 }
 
 bool creature::cast(spelln spell, bool run) {
 	pushvalue push(caster, this);
-	if(!spell_cast(spell, run, level(spell), false)) {
+	if(!spell_cast(spell, run, level(spell), false, true)) {
 		say(CantFindTarget);
 		return false;
 	}
@@ -324,7 +341,10 @@ void camp_autocast() {
 		auto count = player->spells[v];
 		if(!count)
 			continue;
-		while(count-- && spell_cast(v, true, player->level(v), true))
+		auto caster_class = get_caster_class(player->type);
+		if(!caster_class)
+			continue;
+		while(count-- && spell_cast(v, true, player->level(v), true, true))
 			consolen(getnm(PlayerCastSpell), player->name(), spell_names[v]);
 	}
 }

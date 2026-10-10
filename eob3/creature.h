@@ -168,7 +168,8 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	bool allow(itemn type, speechn speech) const;
 	bool apply(spelln spell, int level, bool run);
 	bool canread() const { return true; }
-	bool cast(spelln spell, bool run);
+	bool cast(spelln spell);
+	bool cast(spelln spell, int level, bool show_fail, bool show_cast, bool random_choose, bool expand_slots);
 	bool charmable() const { return get(Intellegence) >= 4; }
 	void clear();
 	void damage(damagen type, int value, bool magic_weapon);

@@ -183,7 +183,6 @@ struct item {
 	void setcount(int v) {}
 	void usecharge(const char* interactive, int chance = 35);
 };
-
 extern item shops[LastShop + 1][6];
 
 struct wearable {

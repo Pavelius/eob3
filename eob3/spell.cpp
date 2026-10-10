@@ -179,34 +179,38 @@ static void add_spell_experience(spelln spell) {
 	}
 }
 
-static bool spell_cast(spelln spell, bool run, int level, bool random_choose, bool expand_slots) {
-	if(!spell_targets(caster, spell, level))
+bool creature::cast(spelln spell, int level, bool show_fail, bool show_cast, bool random_choose, bool expand_slots) {
+	pushvalue push(caster, this);
+	if(!spell_targets(this, spell, level)) {
+		if(show_fail)
+			say(CantFindTarget);
 		return false;
+	}
 	switch(spell_data[spell].type) {
 	case Ally:
 		creatures[0] = choose_player(!random_choose);
 		creatures.count = 1;
 		break;
+	case Enemy:
+		creatures.shuffle();
+		creatures.count = 1;
+		break;
 	default:
 		break;
 	}
+	if(show_cast)
+		consolen(getnm(PlayerCastSpell), name(), spell_names[spell]);
 	apply_targets(spell, level);
 	add_spell_experience(spell);
-	if(expand_slots) {
-		if(caster->spells[spell] > 0)
-			caster->spells[spell]--;
+	if(expand_slots && spell < lengthof(spells)) {
+		if(spells[spell] > 0)
+			spells[spell]--;
 	}
 	return true;
 }
 
-bool creature::cast(spelln spell, bool run) {
-	pushvalue push(caster, this);
-	if(!spell_cast(spell, run, level(spell), false, true)) {
-		say(CantFindTarget);
-		return false;
-	}
-	consolen(getnm(PlayerCastSpell), name(), spell_names[spell]);
-	return true;
+bool creature::cast(spelln spell) {
+	return cast(spell, level(spell), true, true, false, true);
 }
 
 bool creature::allow(spelln spell, int level) {
@@ -345,7 +349,7 @@ void camp_autocast() {
 		auto caster_class = get_caster_class(player->type);
 		if(!caster_class)
 			continue;
-		while(count-- && spell_cast(v, true, player->level(v), true, true))
-			consolen(getnm(PlayerCastSpell), player->name(), spell_names[v]);
+		while(count--)
+			player->cast(v, player->level(v), false, true, true, true);
 	}
 }

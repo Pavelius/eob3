@@ -174,6 +174,7 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	void damage(damagen type, int value, bool magic_weapon);
 	void damage(damagen type, int value) { damage(type, value, true); }
 	void damage(damagen type, int value, abilityn save, bool save_negate);
+	bool drink(featn v, bool run);
 	void equip(item& v);
 	void equip(const item& v) { item cv = v; equip(cv); }
 	void heal(int hits);

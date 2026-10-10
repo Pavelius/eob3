@@ -1481,8 +1481,8 @@ void use_item(creature* player, item* last_item, wearn wear) {
 	case Drinkable:
 		if(!allow_use(player, last_item))
 			break;
-		//		drink_effect(pn, last_item->getpower(), xrand(5, 20) * 10, last_item->iscursed() ? -1 : 1);
-		//		consolen(getnm("DrinkPotionAct"));
+		player->drink(last_item->getpower(), true);
+		consolen(getnm(PlayerDrinkPotion), last_item->name());
 		last_item->clear();
 		pass_time();
 		break;

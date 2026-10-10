@@ -30,7 +30,7 @@ const char* message_names[LastMessage + 1] = {
 	"This sign is mark something",
 	"The sign point to exit in north part of this place",
 	"%Opponent stay still and carefully watching you.",
-	"%Player is disabled", "%Player pick up %1", "%1 cast %2", "All party member is dead or disabled. Time to start new game...",
+	"%Player is disabled", "%Player pick up %1", "%1 cast %2", "%Player drink %1", "All party member is dead or disabled. Time to start new game...",
 	"Party going up ...", "Party going down ...", "Party fall into the pit.", "Sundelly enemy attack!", "Enemy is surprised!",
 	"%1 became a %2i level %3",
 	"This door is opened by key", "%Player sneack attack enemy", "%1 feel poison", "%Player feel bad",

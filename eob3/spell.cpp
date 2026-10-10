@@ -15,8 +15,8 @@ unsigned char	boost_count;
 
 static collection<creature> creatures;
 static collection<item> items;
-static spelln default_spells_list[] = {CureLightWound, DetectEvil, DetectMagic, PurifyFood};
-static spelln camp_autocast_spells[] = {CureLightWound, PurifyFood};
+static spelln default_spells_list[] = {CureLightWound, DetectEvil, DetectMagic, MagicMissile, BurningHands};
+static spelln camp_autocast_spells[] = {CureLightWound, PurifyFood, Identify, Mending};
 
 static unsigned char get_dungeon(const void* target) {
 	if(target >= dungeons && target <= dungeons + lengthof(dungeons)) {

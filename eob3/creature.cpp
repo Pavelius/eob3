@@ -372,6 +372,15 @@ bool creature::roll(abilityn v, int bonus) const {
 	return m < r;
 }
 
+bool creature::drink(featn v, bool run) {
+	switch(v) {
+	case ExtraHealing: heal(xrand(3, 24) + 3); break;
+	case Healing: heal(xrand(2, 8) + 2); break;
+	default: apply((spelln)0, v, xrand(5, 8) * 10); break;
+	}
+	return true;
+}
+
 bool party_roll(abilityn v, int bonus) {
 	auto r = roll_chance(v, party_median(adventurers, v), bonus);
 	auto m = d100();
@@ -1133,7 +1142,7 @@ static const char* str_melee_attack(const combati& v) {
 	//if(damage_bonus)
 	//	return str("%1i/%+2i", thac0, damage_bonus);
 	//else
-		return str("%1i", thac0);
+	return str("%1i", thac0);
 }
 
 const char* creature::strvalue(abilityn id) const {

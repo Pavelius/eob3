@@ -77,7 +77,7 @@ static void gambling() {
 		auto bet = choose_message(GamblingIntro, true);
 		if(!bet)
 			break;
-		pass_activity();
+		pass_effort();
 		if(player->roll(Charisma, -4)) {
 			game.add(Coins, bet);
 			show_message(GamblingWin, bet);

@@ -15,8 +15,7 @@
 #include "stringbuilder.h"
 #include "view_focus.h"
 
-variablei game;
-static long save_focus;
+gamei game;
 static item* valuable_item;
 
 void thrown_item(pointc v, directionn d, int avatar_thrown, int side, int distance);
@@ -81,6 +80,15 @@ void addv(variablen v, int i) {
 
 int getv(variablen v) {
 	return game.variables[v];
+}
+
+static size_t shrink(creature** result, creature** source) {
+	auto ps = result;
+	for(size_t i = 0; i < party_size; i++) {
+		if(source[i])
+			*ps++ = source[i];
+	}
+	return ps - result;
 }
 
 static void all_monsters(fnevent proc, bool allow_disabled) {
@@ -161,7 +169,7 @@ bool check_activity() {
 	return true;
 }
 
-void pass_activity() {
+void pass_effort() {
 	pass_time(xrand(20, 40));
 	auto roll = d20();
 	auto efforts = 10; // Maximum effort consumed
@@ -395,13 +403,6 @@ static void check_disease() {
 	}
 }
 
-static void update_every_round() {
-	player->remove(Moved);
-	update_player();
-	check_regeneration();
-	check_acid();
-}
-
 static void check_food() {
 	if(player->roll(Constitution))
 		return;
@@ -418,14 +419,6 @@ static void check_goals() {
 }
 
 static void check_return_to_base() {
-	all_party(check_food, true);
-}
-
-static void update_every_turn() {
-}
-
-static void update_every_hour() {
-	check_disease();
 }
 
 static bool player_damage(int attack_type, damagen type, dice damage, const featn effect) {
@@ -554,15 +547,6 @@ static void update_floor_state() {
 	}
 }
 
-static size_t shrink(creature** result, creature** source) {
-	auto ps = result;
-	for(size_t i = 0; i < party_size; i++) {
-		if(source[i])
-			*ps++ = source[i];
-	}
-	return ps - result;
-}
-
 static slice<creature*> random_party() {
 	static creature* monsters[6];
 	auto count = shrink(monsters, adventurers);
@@ -635,22 +619,35 @@ static bool party_disabled() {
 	return true;
 }
 
+static void update_every_round() {
+	player->remove(Moved);
+	update_player();
+	check_regeneration();
+	check_acid();
+}
+
+static void update_every_hour() {
+	check_disease();
+}
+
 static void pass_time_activity() {
-	auto minute = getv(Time);
+	auto minute = (unsigned)getv(Time);
 	check_boost(minute);
 	monsters_movement();
 	update_floor_state();
 	check_secrets();
 	check_noises_behind_door();
 	all_creatures(update_every_round);
-	if((minute % 6) == 0) {
+	if(minute >= game.next_turn) {
+		game.next_turn += 10;
 		all_party(check_food, true);
-		all_creatures(update_every_turn);
-	}
-	if((minute % 20) == 0)
+		all_creatures(check_poison);
 		check_return_to_base();
-	if((minute % 60) == 0)
+	}
+	if(minute >= game.next_hour) {
+		game.next_turn += 10 * 6;
 		all_creatures(update_every_hour);
+	}
 	check_goals();
 	fix_animate();
 	if(party_disabled()) {
@@ -660,7 +657,7 @@ static void pass_time_activity() {
 }
 
 void pass_time(unsigned minutes) {
-	game.variables[Time] += minutes;
+	game.add(Time, minutes);
 	pass_time_activity();
 	if(minutes > 10) {
 		auto count = minutes / 10;
@@ -803,6 +800,7 @@ static void ask_actions(const actioni* source) {
 const actioni* choose_location(const actioni* source) {
 	if(!source)
 		return 0;
+	pushfocus push;
 	ask_actions(source);
 	return (actioni*)choose_large_menu_no_player(getnm(WhichWayToGo), getnm(Cancel));
 }
@@ -810,6 +808,7 @@ const actioni* choose_location(const actioni* source) {
 const actioni* choose_action(const actioni* source) {
 	if(!source)
 		return 0;
+	pushfocus push;
 	ask_actions(source);
 	return (actioni*)choose_player_action(getnm(Cancel));
 }
@@ -1194,7 +1193,7 @@ void reaction_check(int bonus) {
 	creature* opponents[party_size];
 	get_opponents(opponents);
 	check_reaction(opponents, bonus);
-	while(true) {
+	while(running_scene()) {
 		get_opponents(opponents);
 		opponent = get_leader(opponents);
 		if(!opponent)

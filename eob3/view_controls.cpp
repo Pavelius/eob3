@@ -1523,13 +1523,13 @@ static void character_input() {
 	case 'C': switch_page(paint_sheet); break;
 	case 'G': switch_page(paint_quest_goals); break;
 	case 'X': switch_page(paint_skills); break;
-	case 'O': replace_character(); break;
-	case 'P': pick_up_item(); break;
-	case 'Q': examine_item(); break;
+	case 'O': execute(replace_character); break;
+	case 'P': execute(pick_up_item); break;
+	case 'Q': execute(examine_item); break;
 	case KeyEscape:
 		if(!character_view_proc)
 			break;
-		clear_page();
+		execute(clear_page);
 		break;
 	default:
 		break;
@@ -1558,15 +1558,8 @@ static void adventure_input() {
 		break;
 	}
 	//	{'D', drop_dungeon_item},
-	//	{'U', use_item},
 	//	{'R', change_quick_item},
 	//	{KeyEscape, choose_dungeon_menu},
-	//#ifdef _DEBUG
-	//	{'T', test_ground},
-	//#endif
-	//	{}};
-	//	adventure_input(source);
-	//	set_player_by_focus();
 }
 
 static void paint_adventure() {

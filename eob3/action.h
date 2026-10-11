@@ -60,7 +60,11 @@ struct variablei {
 	constexpr int get(variablen v) const { return variables[v]; }
 	constexpr void add(variablen v, int n) { variables[v] += n; }
 };
-extern variablei game;
+
+struct gamei : variablei {
+	unsigned next_turn, next_hour;
+};
+extern gamei game;
 
 struct actioni {
 	actionn		action; // What action do.
@@ -90,7 +94,7 @@ bool enough(const variablei& v1, const variablei& v2);
 bool indoor(actionn v);
 bool need_activity(actionn v);
 void open_options(const actioni* actions);
-void pass_activity();
+void pass_effort();
 bool pass_payment(actionn action, const variablei& required);
 void pass_time(unsigned minutes = 1);
 void rest_party();

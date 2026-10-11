@@ -79,10 +79,16 @@ static void gambling() {
 		auto bet = choose_message(GamblingIntro, true);
 		if(!bet)
 			break;
+		addv(Checks, -1);
 		pass_effort();
 		if(player->roll(Charisma, -4)) {
 			game.add(Coins, bet);
 			show_message(GamblingWin, bet);
+			// Win more cause additional suspeciously
+			if(bet >= 500)
+				addv(Checks, -1);
+			if(bet >= 1000)
+				addv(Checks, -1);
 		} else {
 			game.add(Coins, -bet);
 			show_message(GamblingLose, bet);
@@ -96,6 +102,7 @@ static void pick_pockets() {
 		return;
 	if(!check_activity())
 		return;
+	addv(Checks, -1);
 	pass_effort();
 	if(player->roll(PickPockets)) {
 		coins = roll_dice(2, 6) * 20;
@@ -110,7 +117,9 @@ static void pick_pockets() {
 	} else {
 		if(last_ability_roll >= 95) {
 			addv(Reputation, -1);
+			addv(Checks, -3);
 			player->damage(Bludgeon, xrand(1, 4));
+			answer_picture = PicPickpocketsFail;
 			show_message(PickPocketsFail);
 		} else
 			show_message(PickPocketsFail);

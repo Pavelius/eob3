@@ -37,7 +37,7 @@ picturen get_picture(actionn v) {
 	case EatFoodAndDrink: return PicTavern2;
 	case Gambling: return PicGambling;
 	case Inn: return PicInn;
-	case Palace: return PicAmaldo;
+	case Palace: return ChaAmaldo;
 	case PickPocketsAction: return PicPickpockets;
 	case Tavern: return PicTavern;
 	case WizardTower: return PicMagicShop;

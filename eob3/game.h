@@ -74,9 +74,9 @@ enum soundn : unsigned char {
 };
 enum picturen : unsigned char {
 	NoPicture,
-	PicAdaque, PicAmaldo, PicDexter, PicNord1, PicNord2, PicPriestessSilune, PicWitch,
+	ChaAdaque, ChaAmaldo, ChaDexter, ChaNord1, ChaNord2, ChaPriestessSilune, ChaWitch,
 	PicCity, PicCityNight, PicDwarvenCity,
-	PicTavern, PicTavern2, PicInn, PicPickpockets, PicGambling, PicForge, PicTemple, PicMagicShop,
+	PicTavern, PicTavern2, PicInn, PicPickpockets, PicPickpocketsFail, PicGambling, PicForge, PicTemple, PicMagicShop,
 	TavHobbit,
 	LastPicture = TavHobbit
 };

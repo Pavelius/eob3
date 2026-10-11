@@ -18,21 +18,21 @@
 
 itemi item_data[LastItem + 1] = {
 	{RightHand, 0, {}, {}, {0, 0, 1, Bludgeon, {1, 2}}}, // No item
-	{RightHand, 5, {3, 4}, {Deadly}, {0, 1, 7, Slashing, {1, 8}}}, // BattleAxe
-	{RightHand, 5, {7, 4}, {Deadly}, {0, 1, 4, Slashing, {1, 6}}}, // Axe
-	{RightHand, 5, {116, 12}, {}, {0, 1, 5, Bludgeon, {1, 6}}}, // Club
-	{RightHand, 2, {15, 3}, {Precise}, {0, 1, 2, Piercing, {1, 4}}}, // Dagger
-	{RightHand, 15, {5, 2}, {}, {0, 1, 7, Bludgeon, {1, 6, 1}}}, // Flail
-	{RightHand, 10, {9, 5}, {TwoHanded, Deadly}, {0, 1, 9, Slashing, {1, 10}}}, // Halberd
-	{RightHand, 5, {115, 13}, {}, {0, 1, 4, Bludgeon, {1, 4, 2}}}, // WarHammer
-	{RightHand, 10, {4, 1}, {}, {0, 1, 7, Bludgeon, {1, 6, 1}}}, // Mace
-	{RightHand, 2, {6, 3}, {TwoHanded}, {0, 1, 6, Piercing, {1, 6}}}, // Spear
-	{RightHand, 0, {8, 3}, {}, {0, 1, 6, Bludgeon, {1, 6}}}, // Staff
-	{RightHand, 0, {1, 0}, {}, {0, 1, 5, Slashing, {1, 8}}}, // Longsword
-	{RightHand, 0, {2, 0}, {}, {0, 1, 4, Slashing, {1, 6}}}, // ShortSword
-	{RightHand, 0, {42, 0}, {TwoHanded}, {0, 1, 10, Slashing, {1, 10}, {3, 6}}}, // TwoHandedSword
-	{RightHand, 0, {10, 6}, {TwoHanded}, {}}, // Bow
-	{RightHand, 0, {18, 4}, {TwoHanded}, {}}, // Sling
+	{RightHand, 5, {3, 4}, {Deadly}, {0, 1, 7, Slashing, {1, 8}}, {}, MeleeWeaponPower}, // BattleAxe
+	{RightHand, 5, {7, 4}, {Deadly}, {0, 1, 4, Slashing, {1, 6}}, {}, MeleeWeaponPower}, // Axe
+	{RightHand, 5, {116, 12}, {}, {0, 1, 5, Bludgeon, {1, 6}}, {}, MeleeWeaponPower}, // Club
+	{RightHand, 2, {15, 3}, {Precise}, {0, 1, 2, Piercing, {1, 4}}, {}, SwordPower}, // Dagger
+	{RightHand, 15, {5, 2}, {}, {0, 1, 7, Bludgeon, {1, 6, 1}}, {}, MeleeWeaponPower}, // Flail
+	{RightHand, 10, {9, 5}, {TwoHanded, Deadly}, {0, 1, 9, Slashing, {1, 10}}, {}, MeleeWeaponPower}, // Halberd
+	{RightHand, 5, {115, 13}, {}, {0, 1, 4, Bludgeon, {1, 4, 2}}, {}, MeleeWeaponPower}, // WarHammer
+	{RightHand, 10, {4, 1}, {}, {0, 1, 7, Bludgeon, {1, 6, 1}}, {}, MeleeWeaponPower}, // Mace
+	{RightHand, 2, {6, 3}, {TwoHanded}, {0, 1, 6, Piercing, {1, 6}}, {}, MeleeWeaponPower}, // Spear
+	{RightHand, 0, {8, 3}, {}, {0, 1, 6, Bludgeon, {1, 6}}, {}, MeleeWeaponPower}, // Staff
+	{RightHand, 0, {1, 0}, {}, {0, 1, 5, Slashing, {1, 8}}, {}, SwordPower}, // Longsword
+	{RightHand, 0, {2, 0}, {}, {0, 1, 4, Slashing, {1, 6}}, {}, SwordPower}, // ShortSword
+	{RightHand, 0, {42, 0}, {TwoHanded}, {0, 1, 10, Slashing, {1, 10}, {3, 6}}, {}, SwordPower}, // TwoHandedSword
+	{RightHand, 0, {10, 6}, {TwoHanded}, {}, {}, RangedWeaponPower}, // Bow
+	{RightHand, 0, {18, 4}, {TwoHanded}, {}, {}, RangedWeaponPower}, // Sling
 	{Body, 0, {32, 8}, {}, {}}, // Robe
 	{Body, 0, {17, 8}, {}, {}}, // RedCloack
 	{Body, 0, {92, 8}, {}, {}}, // BlueCloack
@@ -57,10 +57,10 @@ itemi item_data[LastItem + 1] = {
 	{Drinkable, 0, {39, 19}, {}, {}}, // RedPotion
 	{Edible, 0, {37, 14}, {}, {2}}, // LargeRation
 	{Edible, 0, {38, 14}, {}, {}}, // Ration
-	{Readable, 0, {36, 12}, {}, {}}, // MageScroll
-	{Readable, 0, {85, 12}, {}, {}}, // PriestScroll
+	{Readable, 0, {36, 12}, {}, {}, {}, MageSpells}, // MageScroll
+	{Readable, 0, {85, 12}, {}, {}, {}, PriestSpells}, // PriestScroll
 	{Readable, 0, {86, 12}, {}, {}}, // MagicMap
-	{Rod, 0, {52, 10}, {}, {}}, // Wand
+	{Rod, 0, {52, 10}, {}, {}, {}, WandSpells}, // Wand
 	{Usable, 0, {54, 1}, {}, {}}, // TheifTools
 	{Usable, 0, {117, 14}, {}, {}}, // GrapplingHook
 	{Faithable, 0, {53, 20}, {}, {}}, // HolySymbol

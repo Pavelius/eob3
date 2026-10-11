@@ -877,17 +877,15 @@ void cast_spell() {
 	auto ps = choose_prepared_spell();
 	if(!ps)
 		return;
-	// RULE: add experience for each spell cast.
 	if(!player->cast(ps->index))
 		return;
-	//use_spell_slot(ps);
 	pass_time(1);
 }
 
 const char* item::namefull() const {
-	static char temp[128]; stringbuilder sb(temp);
 	if(!identified)
 		return name();
+	static char temp[128]; stringbuilder sb(temp);
 	if(is_spell_power(type))
 		sb.add(getnm(ItemPowerName), name(), spell_names[power]);
 	else {

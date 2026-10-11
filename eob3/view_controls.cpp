@@ -1290,7 +1290,7 @@ static void paint_large_menu() {
 
 static void paint_large_menu_no_hilite() {
 	paint_background(PLAYFLD, 0);
-	paint_compass(party.d);
+	paint_compass_no_input(party.d);
 	paint_avatars_no_focus();
 	paint_console();
 	if(!loc)
@@ -1302,7 +1302,7 @@ static void paint_large_menu_no_hilite() {
 
 static void paint_small_menu() {
 	paint_background(PLAYFLD, 0);
-	paint_compass(party.d);
+	paint_compass_no_input(party.d);
 	if(loc)
 		paint_dungeon();
 	else

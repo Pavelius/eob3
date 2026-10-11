@@ -49,21 +49,6 @@ static spelln wand_spells[] = {
 
 item shops[LastShop + 1][6];
 
-featn get_powers(itemn type) {
-	switch(type) {
-	case ShortSword: case Longsword: case TwoHandedSword: case Dagger:
-		return SwordPower;
-	case Mace: case WarHammer: case Flail:
-		return MeleeWeaponPower;
-	case Spear: case Staff:
-		return MeleeWeaponPower;
-	case Halberd: case Axe: case BattleAxe:
-		return MeleeWeaponPower;
-	default:
-		return NoPower;
-	}
-}
-
 itemn random(itemn v) {
 	switch(v) {
 	case RandomWeapon: return random(maprnd(random_weapon));
@@ -80,6 +65,7 @@ featn random(featn v) {
 	switch(v) {
 	case SwordPower: return maprnd(sword_powers);
 	case MeleeWeaponPower: return maprnd(melee_weapon_powers);
+	case PriestSpells: case MageSpells: case WandSpells: return NoPower;
 	default: return v;
 	}
 }
@@ -123,23 +109,23 @@ static bool can_be_mundane(featn power) {
 	}
 }
 
+static featn get_power(featn power, int chance_power, int chance_cursed) {
+	if(chance(chance_cursed))
+		return Cursed;
+	if(can_be_mundane(power)) {
+		if(!chance(chance_power))
+			return NoPower;
+	}
+	return random(power);
+}
+
 void item::create(int chance_power, int chance_cursed) {
+	auto result = geti().powers;
 	switch(type) {
-	case MageScroll: power = (featn)random_mage_spell(); break;
-	case PriestScroll: power = (featn)random_mage_spell(); break;
-	case Wand: power = (featn)maprnd(wand_spells); break;
-	default:
-		if(chance(chance_cursed))
-			power = Cursed;
-		else {
-			auto result = get_powers(type);
-			if(can_be_mundane(result)) {
-				if(!chance(chance_power))
-					return;
-			}
-			power = random(result);
-		}
-		break;
+	case MageSpells: power = (featn)random_mage_spell(); break;
+	case PriestSpells: power = (featn)random_mage_spell(); break;
+	case WandSpells: power = (featn)maprnd(wand_spells); break;
+	default: power = get_power(result, chance_power, chance_cursed); break;
 	}
 }
 

@@ -37,6 +37,7 @@ enum featn : unsigned char {
 	Surprised, Painful, Panic, Moved, SlowMove, Undead,
 	LastFeat = Undead,
 	SwordPower, MeleeWeaponPower, RangedWeaponPower,
+	MageSpells, PriestSpells, WandSpells,
 };
 enum damagen : unsigned char {
 	Bludgeon, Slashing, Piercing,
@@ -130,6 +131,7 @@ struct itemi {
 	featc		flags = {};
 	combati		combat = {};
 	defencei	defence = {};
+	featn		powers = NoPower;
 	itemn index() const;
 };
 extern itemi item_data[LastItem + 1];
@@ -138,8 +140,6 @@ int get_chance_identify(itemn v);
 int get_magic(featn v);
 
 bool allow(itemn type, wearn n);
-
-featn get_powers(itemn type);
 
 struct item {
 	itemn			type = NoItem;

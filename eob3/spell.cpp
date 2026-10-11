@@ -117,9 +117,11 @@ static bool add_monsters(spelln spell, int level, int distance) {
 	if(!loc)
 		return false;
 	auto position = to(party.pos, party.d);
-	while(distance > 0)
-		position = to(position, party.d);
 	creature* monsters[6]; loc->getmonsters(monsters, position, party.d);
+	while(distance-- > 0 && party_count(monsters) == 0) {
+		position = to(position, party.d);
+		loc->getmonsters(monsters, position, party.d);
+	}
 	return add_creatures(monsters, spell, level);
 }
 
@@ -129,8 +131,11 @@ static bool spell_targets(creature* caster, spelln spell, int level) {
 	switch(spell_data[spell].type) {
 	case You: return add_creature(caster, spell, level);
 	case Ally: case AllAlly: return add_party(spell, level);
+	case AllEnemy: case Enemy:
+		if(get_thrown(spell) == -1)
+			return add_monsters(spell, level, 0);
+		return add_monsters(spell, level, 3);
 	case AllAllyItems: return add_party_items(spell, level);
-	case AllEnemy: case Enemy: return add_party_items(spell, level);
 	default: return false;
 	}
 }
@@ -169,7 +174,7 @@ int creature::level(spelln spell) const {
 
 static void add_spell_experience(spelln spell) {
 	auto caster_type = get_caster_class(caster->type);
-	if(!caster_type || caster_type==Paladin || caster_type==Ranger)
+	if(!caster_type || caster_type == Paladin || caster_type == Ranger)
 		return; // Palading or Ranger not gain experience for spell casting.
 	auto caster_index = get_caster(caster_type);
 	switch(caster_type) {
@@ -251,7 +256,7 @@ bool item::allow(spelln spell, int level) {
 
 int spella::total(int type, int level) const {
 	auto result = 0;
-	for(auto i = (spelln)0; i <= LastSpell; i = (spelln)(i+1)) {
+	for(auto i = (spelln)0; i <= LastSpell; i = (spelln)(i + 1)) {
 		if(spell_data[i].levels[type] != level)
 			continue;
 		if(is(i))
@@ -298,7 +303,7 @@ bool can_learn_spell(int type, int level) {
 spella* get_spellbook(const creature* target) {
 	if(!target)
 		return 0;
-	if(target>=characters && target<=characters + lengthof(characters))
+	if(target >= characters && target <= characters + lengthof(characters))
 		return spellbooks + (target - characters);
 	return 0;
 }
@@ -307,7 +312,7 @@ void learn_spells(creature* player, int level, int spell_type) {
 	auto pb = get_spellbook(player);
 	if(!pb)
 		return;
-	for(auto i = (spelln)0; i <= LastSpell; i = (spelln)(i+1)) {
+	for(auto i = (spelln)0; i <= LastSpell; i = (spelln)(i + 1)) {
 		auto& e = spell_data[i];
 		if(e.levels[spell_type] != level)
 			continue;

@@ -11,13 +11,19 @@ enum questn : unsigned char {
 	LastQuest = FintPathToForest,
 };
 
+enum picturen : unsigned char;
 enum soundn : unsigned char;
 
 enum questfn : unsigned char {
 	QuestPrepared, QuestPassed,
 };
+enum phasen : unsigned char {
+	PhaseIntro, PhaseAgree, PhaseAdventure, PhaseEnter, PhaseReward,
+	LastPhase = PhaseReward,
+};
 
 extern const char* quest_rumor[(LastQuest + 1) * 5];
+extern const char* quest_speech[(LastQuest + 1) * (LastPhase + 1)];
 
 class questfc {
 	unsigned char data = 0;
@@ -31,6 +37,7 @@ public:
 
 struct questi {
 	char			difficult; // Difficult is 0-5, where 0 is start quest, 1 lower difficult, 5 is toughess boss.
+	picturen		picture, adventure, enter; // Main picture
 	soundn			music; // Played music
 	variablei		rewards; // Reward, if quest is done.
 	slice<sitei>	sites; // Main quest dungeon

@@ -17,8 +17,10 @@
 #include "action.h"
 #include "creature.h"
 #include "dice.h"
+#include "game.h"
 #include "math.h"
 #include "rand.h"
+#include "quest.h"
 #include "stringbuilder.h"
 #include "stringvar.h"
 
@@ -48,6 +50,12 @@ static void player_gold(stringbuilder& sb) {
 	sb.add("%1i", game.variables[Coins]);
 }
 
+static void quest_reward_gold(stringbuilder& sb) {
+	auto pa = active_quest();
+	if(pa)
+		sb.add("%1i", pa->rewards.variables[Coins]);
+}
+
 void stringbuilder_custom(stringbuilder& sb, const char* id) {
 	if(stringvar_identifier(sb, id))
 		return;
@@ -59,5 +67,6 @@ stringvari stringvars[] = {
 	{"Gold", player_gold},
 	{"Opponent", opponent_name},
 	{"Player", player_name},
+	{"QuestRewardGold", quest_reward_gold},
 	{"Weapon", player_weapon},
 	{}};

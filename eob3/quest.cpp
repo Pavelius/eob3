@@ -32,9 +32,9 @@ static sitei flooded_collectors[] = {
 	{BRICK, Human, 1, {Kobold, Leech}, NoMonster, GreatLair, IronKey, NoItem, 0, 0, 0, 0, 0, 0, 0, 0, ArrowTrap},
 };
 static sitei unknown_forest[] = {
-	{FOREST, Goblinoid, 2, {Kobold, Leech}, NoMonster, Lair, IronKey, NoItem, 0, 0, 0, 0, 0, 0, 0, 0, ArrowTrap},
+	{FOREST, Goblinoid, 2, {Kobold, Leech}, NoMonster, Lair, BronzeKey, NoItem, 0, 0, 0, 0, 0, 0, 0, 0, ArrowTrap},
 };
 
 questi quests[] = {
-	{0, MusBinge, {Coins, 500, Reputation, 1}, flooded_collectors, {KillAlmostAllMonsters, 3}},
+	{0, ChaNord1, PicCityNight, PicCityNight, MusBinge, {Coins, 1000, Reputation, 5}, flooded_collectors, {KillAlmostAllMonsters, 3}},
 };

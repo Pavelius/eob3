@@ -1618,13 +1618,58 @@ static void party_set(celln v) {
 	}
 }
 
-void start_quest() {
+static void show_quest(const questi* pa, phasen phase) {
+	auto format = quest_speech[pa->index() * (LastPhase + 1) + phase];
+	if(!format)
+		return;
+	char temp[512]; stringbuilder sb(temp);
+	while(running_scene()) {
+		sb.clear(); sb.add(format);
+		show_message(temp, false, getnm(Continue), 0);
+		auto pe = zend(format);
+		if(pe[1]==0)
+			break;
+		format = pe + 1;
+	}
+}
+
+static bool confirm_quest(const questi* pa) {
+	auto format = quest_speech[pa->index() * (LastPhase + 1) + PhaseIntro];
+	if(!format)
+		return false;
+	char temp[512]; stringbuilder sb(temp);
+	while(running_scene()) {
+		auto pe = zend(format);
+		if(pe[1]) {
+			sb.clear(); sb.add(format);
+			show_message(temp, false, getnm(Continue), 0);
+			format = pe + 1;
+		} else {
+			an.add((long)1, getnm(Agree));
+			sb.clear(); sb.add(format);
+			return show_message(temp, true, getnm(Decline), 0);
+		}
+	}
+	return false;
+}
+
+void go_adventure() {
+	pushvalue push_picture(answer_picture);
+	auto pa = active_quest();
+	if(!pa)
+		return;
+	answer_picture = pa->picture;
+	if(!confirm_quest(pa))
+		return;
+	show_quest(pa, PhaseAgree);
+	answer_picture = pa->adventure;
+	show_quest(pa, PhaseAdventure);
+	show_quest(pa, PhaseEnter);
 	all_party(start_quest_equipment, true);
 	enter_dungeon(1, CellStairsUp);
 }
 
 void leave_quest() {
-
 }
 
 void enter_dungeon(int level, celln location) {

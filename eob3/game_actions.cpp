@@ -184,7 +184,7 @@ static actioni palace_actions[] = {
 	{LeaveOutside, {}, {}, leave_outside},
 	{}};
 static actioni city_actions[] = {
-	{GoAdventure},
+	{GoAdventure, {}, {}, go_adventure},
 	{Tavern},
 	{Blacksmith, {Reputation, 25}},
 	{Temple},
@@ -209,7 +209,7 @@ static actioni* get_actions(actionn v) {
 void play_city_actions() {
 	auto basic_location = NoAction;
 	auto location = basic_location;
-	while(true) {
+	while(running_scene()) {
 		setv(get_picture(location));
 		auto music = get_music(location);
 		if(music)
@@ -227,7 +227,10 @@ void play_city_actions() {
 				continue;
 			if(!pass_payment(p->action, p->required))
 				continue;
-			location = p->action;
+			if(p->proc)
+				p->proc();
+			else
+				location = p->action;
 		}
 		if(action_outcome == LeaveOutside)
 			location = basic_location;

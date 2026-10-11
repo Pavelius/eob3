@@ -165,7 +165,7 @@ static void test_city_menu() {
 	dungeon_create(quest, quests[quest].sites);
 	next_scene(play_city_actions);
 	// consolen("This is a [long] text display [+plus] or [-minuses], maybe [~grayed] of simple format output strings.", language_names[Elf]);
-	// start_quest();
+	// go_adventure();
 }
 
 void game_generation() {

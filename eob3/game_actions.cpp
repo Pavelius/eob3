@@ -237,7 +237,8 @@ void play_city_actions() {
 	}
 }
 
-static void load_game() {
+void load_game() {
+	game_serial("autosave", false);
 }
 
 static void save_game() {

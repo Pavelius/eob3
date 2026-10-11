@@ -2149,6 +2149,7 @@ void play_dungeon() {
 	locup = 0;
 	if(loc->level > 1)
 		locup = loc - 1;
+	set_dungeon_tiles(loc->type);
 	set_focus_by_player();
 	scene(paint_adventure);
 }

@@ -5,7 +5,7 @@
 
 posable party;
 
-unsigned dungeons_count;
+unsigned char dungeons_count;
 
 dungeoni dungeons[250];
 

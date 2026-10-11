@@ -1039,10 +1039,6 @@ static void explore_area() {
 	loc->set(to(party.pos, Right), CellExplored);
 }
 
-static void make_action() {
-	explore_area();
-}
-
 static void dungeon_drop(itemn type) {
 	item it(type);
 	loc->drop(opponent->pos, it, get_side(opponent->side, party.d));
@@ -1443,7 +1439,7 @@ void player_manipulate() {
 	if(!player->isactable())
 		return;
 	if(manipulate_overlay() || manipulate_cell())
-		make_action();
+		explore_area();
 }
 
 static bool dungeon_use() {
@@ -1681,8 +1677,7 @@ void enter_dungeon(int level, celln location) {
 		return; // Dungeon not found. Stay in city.
 	current_music = quests[loc->quest].music;
 	party_set(location);
-	make_action();
-	set_dungeon_tiles(loc->type);
+	explore_area();
 	next_scene(play_dungeon);
 }
 

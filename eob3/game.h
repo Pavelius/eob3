@@ -140,6 +140,7 @@ void go_adventure();
 void header_yellow(const char* format);
 void initialize_gui();
 void leave_quest();
+void load_game();
 void main_menu();
 void make_attacks(bool melee_combat);
 void message_box(const char* format);

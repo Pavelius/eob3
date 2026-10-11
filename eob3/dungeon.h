@@ -238,8 +238,7 @@ struct dungeoni : sitei, goalfc {
 extern dungeoni* loc; // Currently used dungeon. If loc = 0 then we are in city.
 extern dungeoni* locup; // Top level of currently used dungeon. Use for roof pit painting.
 extern dungeoni dungeons[250];
-
-extern unsigned dungeons_count;
+extern unsigned char dungeons_count;
 
 pointc to(pointc v, directionn d);
 

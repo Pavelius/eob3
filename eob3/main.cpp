@@ -11,9 +11,6 @@
 
 void main_util();
 
-static void load_game() {
-}
-
 static void next_main_menu() {
 	auto result = choose_main_menu();
 	if(result > 0)

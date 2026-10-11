@@ -29,6 +29,7 @@ struct archive {
 	bool version(short major, short minor);
 	bool checksum(unsigned long value);
 	void set(void* value, unsigned size);
+	void setp(void** p, void* source, unsigned size);
 	// Array with fixed count
 	template<typename T, size_t N> void set(T(&value)[N]) {
 		for(int i = 0; i < N; i++)
@@ -45,7 +46,7 @@ struct archive {
 		set(&value, sizeof(value));
 	}
 	// Fixed data collection
-	template<typename T> void setv(T* source, unsigned& count) {
+	template<typename T> void setv(T* source, unsigned char& count) {
 		set(count);
 		for(unsigned i = 0; i < count; i++)
 			set(source[i]);

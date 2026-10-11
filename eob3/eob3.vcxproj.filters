@@ -232,6 +232,9 @@
     <ClCompile Include="perference.cpp">
       <Filter>logic</Filter>
     </ClCompile>
+    <ClCompile Include="archive.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="action.h">
@@ -338,6 +341,9 @@
     </ClInclude>
     <ClInclude Include="game_party.h">
       <Filter>logic</Filter>
+    </ClInclude>
+    <ClInclude Include="archive.h">
+      <Filter>support</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

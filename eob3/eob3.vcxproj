@@ -140,6 +140,7 @@
     <ClInclude Include="action.h" />
     <ClInclude Include="adat.h" />
     <ClInclude Include="answers.h" />
+    <ClInclude Include="archive.h" />
     <ClInclude Include="assign.h" />
     <ClInclude Include="collectiona.h" />
     <ClInclude Include="console.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="win.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="archive.cpp" />
     <ClCompile Include="bin_blue.cpp" />
     <ClCompile Include="bin_brick.cpp" />
     <ClCompile Include="bin_compass.cpp" />

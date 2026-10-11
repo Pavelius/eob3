@@ -490,16 +490,28 @@ static void update_basic() {
 	memcpy(&player->feats, &player->basic.feats, sizeof(player->feats));
 }
 
+static bool is_train(classn type, abilityn v) {
+	switch(v) {
+	case ClimbWalls: case HearNoise: case OpenLocks:
+	case PickPockets: case RemoveTraps: case ReadLanguages:
+		return type == Theif;
+	case MoveSilently:
+		return type == Theif || type == Ranger;
+	default:
+		return false;
+	}
+}
+
 static int get_skill_level(abilityn v) {
-	//	// For monsters and other special effects
-	//	if(player->is(v))
-	//		return player->getlevel();
-	//	// For multiclass and characters
-	//	auto& ei = player->getclass();
-	//	for(auto i = 0; i < ei.count; i++) {
-	//		if(bsdata<classi>::elements[ei.classes[i]].is(v))
-	//			return player->levels[i];
-	//	}
+	// For monsters and other special effects
+	if(player->monster)
+		return 0;
+	// For multiclass and characters
+	auto class_count = get_class_count(player->type);
+	for(auto i = 0; i < class_count; i++) {
+		if(is_train(get_class(player->type, i), v))
+			return player->levels[i];
+	}
 	return 0;
 }
 

@@ -15,7 +15,8 @@ enum soundn : unsigned char;
 enum actionn : unsigned char {
 	NoAction,
 	Tavern, Blacksmith, Temple, Inn, WizardTower, Palace, GoAdventure,
-	PickPocketsAction, EatFoodAndDrink, EatAndDrinkSuccess,
+	PickPocketsAction, PickPocketsFail, PickPocketsCoins, PickPocketsJackpot,
+	EatFoodAndDrink, EatAndDrinkSuccess,
 	Gambling, GamblingIntro, GamblingWin, GamblingLose,
 	Carousing,
 	Donate,
@@ -24,12 +25,12 @@ enum actionn : unsigned char {
 	MakeCamp, RestParty, ScribleScrolls, MemorizeSpells, PrayForSpells,
 	GameOptions, StartGame, LoadGame, SaveGame, ExitGame, Settings,
 	Ambush, Attack, CalmDown, Hunt, Talk, Lie, Bribe,
-	PlayerExhaused,
+	PlayerExhaused, PlayerSuspecious,
 	LeaveOutside,
 	LastAction = LeaveOutside
 };
 enum variablen : unsigned char {
-	Reputation, Coins, Blessing, Time,
+	Reputation, Coins, Blessing, Checks, Time,
 	LastVariable = Time
 };
 
@@ -62,7 +63,7 @@ struct variablei {
 };
 
 struct gamei : variablei {
-	unsigned next_turn, next_hour;
+	unsigned next_turn, next_hour, next_day, next_several_days;
 };
 extern gamei game;
 
@@ -87,6 +88,7 @@ void all_party(fnevent proc, bool allow_disabled = false);
 bool apply_action(const actioni* p);
 void buy_item(shopn shop, actionn shop_empty);
 bool check_activity();
+bool check_suspecious();
 long choose_player_action(const char* cancel);
 long choose_message(actionn id, bool can_cancel = true);
 bool confirm_message(messagen header, int value);

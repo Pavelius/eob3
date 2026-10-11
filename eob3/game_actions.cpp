@@ -68,6 +68,8 @@ static void eat_and_drink() {
 static void gambling() {
 	static long source[] = {20, 50, 100, 500, 1000};
 	while(running_scene()) {
+		if(!check_suspecious())
+			return;
 		if(!check_activity())
 			return;
 		for(auto n : source) {
@@ -89,6 +91,30 @@ static void gambling() {
 }
 
 static void pick_pockets() {
+	auto coins = 0;
+	if(!check_suspecious())
+		return;
+	if(!check_activity())
+		return;
+	pass_effort();
+	if(player->roll(PickPockets)) {
+		coins = roll_dice(2, 6) * 20;
+		addv(Coins, coins);
+		show_message(PickPocketsCoins, coins);
+		if(chance(15)) {
+			item it = random(RandomTavernPickPocket);
+			it.create(20, 5);
+			player->additem(it);
+			show_message(PickPocketsJackpot, it.name());
+		}
+	} else {
+		if(last_ability_roll >= 95) {
+			addv(Reputation, -1);
+			player->damage(Bludgeon, xrand(1, 4));
+			show_message(PickPocketsFail);
+		} else
+			show_message(PickPocketsFail);
+	}
 }
 
 static void scrible_scrolls() {

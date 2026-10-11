@@ -107,7 +107,7 @@ static void start_variables() {
 		if(p)
 			start_variables(p->type);
 	}
-	game.add(Time, 10 * 60);
+	pass_time(10 * 60);
 }
 
 static void party_generation() {

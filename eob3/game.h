@@ -94,7 +94,8 @@ extern unsigned long current_cpu_time;
 extern bool need_update_animation;
 
 int getv(variablen v);
-int roll_dice(int v);
+int roll_dice(int d);
+int roll_dice(int c, int d, int b = 0);
 int thrown_side(int avatar_thrown, int side);
 
 void addv(variablen v, int i);

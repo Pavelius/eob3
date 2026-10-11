@@ -70,7 +70,7 @@ enum itemn : unsigned char {
 	LastItem = Dart,
 	RandomItem, RandomSmallItem, RandomWeapon,
 	RandomRation, RandomRing,
-	RandomTreasure,
+	RandomTavernPickPocket, RandomTreasure,
 };
 enum purposen : unsigned char {
 	CommonItem, SummonedItem, ToolItem, QuestItem, NaturalItem,

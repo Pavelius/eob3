@@ -45,6 +45,9 @@ const char* action_names[LastAction + 1] = {
 	"City Iriaebor",
 	"Tavern", "Blacksmith", "Temple", "Inn", "Wizard Tower", "Palace", "Go Adventure",
 	"Pick pockets",
+	"Looking in pockets of innocent customers get you absolutely nothing. You have no luck opportunity to steal something.",
+	"Looking in pockets of innocent customers get you some valuable porfit. You gain a %1i coins for you mission.",
+	"And you get a jackpot. Last innocent customer loose her %1 and you quickly grab it.",
 	"Eat and Drink",
 	"All party members eat tasted food and drink wine or beer. All of you is satisfied now and no more hunger or thirty.",
 	"Gambling",
@@ -59,6 +62,7 @@ const char* action_names[LastAction + 1] = {
 	"Game options", "Start a new game", "Load game", "Save game", "Exit game", "Perferences",
 	"Ambush", "Attack", "CalmDown", "Hunt", "Talk", "Lie", "Bribe",
 	"You are so tired to do this again. You must stop and rest. Do something else that doesn’t require as much effort.",
+	"You are suspecious for locals now, and get many attention. Any attemp to do this today will be failed. Let's try tomorow.",
 	"Leave outside",
 };
 const char* feat_names[LastFeat + 1] = {
@@ -119,7 +123,7 @@ const char* goal_names[LastGoal + 1] = {
 	"Kill boss", "Kill them all",
 };
 const char* variable_names[LastVariable + 1] = {
-	"Reputation", "Gold", "Blessing", "Time",
+	"Reputation", "Gold", "Blessing", "Checks", "Time",
 };
 const char* alignment_names[ChaoticEvil + 1] = {
 	"True Neutral",

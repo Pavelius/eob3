@@ -88,6 +88,8 @@ extern const char* speech_names1[LastSpeech + 1];
 extern const char* speech_names2[LastSpeech + 1];
 extern const char* speech_names3[LastSpeech + 1];
 
+extern int last_ability_roll;
+
 int get_class_count(classn v);
 int get_class_index(classn base, classn type);
 

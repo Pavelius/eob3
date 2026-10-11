@@ -126,6 +126,14 @@ int roll_dice(int v) {
 	return 1 + rand() % v;
 }
 
+int roll_dice(int c, int d, int b) {
+	if(!d)
+		return c;
+	for(auto i = c; i > 0; i--)
+		b += 1 + rand() % d;
+	return b;
+}
+
 int quest_count(questfn v) {
 	auto result = 0;
 	for(auto& e : quests) {
@@ -159,6 +167,14 @@ questi* active_quest() {
 
 questn questi::index() const {
 	return (questn)(this - quests);
+}
+
+bool check_suspecious() {
+	if(getv(Checks) <= 0) {
+		show_message(PlayerSuspecious);
+		return false;
+	}
+	return true;
 }
 
 bool check_activity() {
@@ -619,6 +635,19 @@ static bool party_disabled() {
 	return true;
 }
 
+static void set_skill_checks_per_day() {
+	auto result = 0;
+	for(auto p : adventurers) {
+		if(!p)
+			continue;
+		switch(get_class(player->type, 0)) {
+		case Theif: result += 4; break;
+		default: result += 2; break;
+		}
+	}
+	game.variables[Checks] = result;
+}
+
 static void update_every_round() {
 	player->remove(Moved);
 	update_player();
@@ -647,6 +676,10 @@ static void pass_time_activity() {
 	if(minute >= game.next_hour) {
 		game.next_turn += 10 * 6;
 		all_creatures(update_every_hour);
+	}
+	if(minute >= game.next_day) {
+		game.next_day += 24 * 10 * 6;
+		set_skill_checks_per_day();
 	}
 	check_goals();
 	fix_animate();

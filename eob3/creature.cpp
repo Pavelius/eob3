@@ -240,6 +240,8 @@ creature* adventurers[6];
 creature* player;
 creature* opponent;
 
+int last_ability_roll;
+
 static classn class_data[FighterMageTheif + 1][3] = {
 	{Monster},
 	{Fighter},
@@ -368,8 +370,8 @@ static int roll_chance(abilityn n, int value, int bonus) {
 
 bool creature::roll(abilityn v, int bonus) const {
 	auto r = roll_chance(v, abilities[v], bonus);
-	auto m = d100();
-	return m < r;
+	last_ability_roll = d100();
+	return last_ability_roll < r;
 }
 
 bool creature::drink(featn v, bool run) {

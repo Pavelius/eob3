@@ -16,10 +16,6 @@ static featn melee_weapon_powers[] = {
 	Magical3, Magical3,
 	Magical4,
 	DispelEvil, Holy, Flaming, Freezing};
-static itemn random_ration[] = {
-	Ration, Ration, Ration,
-	RationIron};
-static itemn random_ring[] = {BlueRing, GreenRing, RedRing};
 static itemn random_treasure[] = {
 	BlueGem, BlueGem, BlueGem, BlueGem, BlueGem,
 	GreenGem, GreenGem, GreenGem,
@@ -30,12 +26,16 @@ static itemn random_small_item[] = {
 	MageBook, PriestScroll, PriestScroll, MageScroll, MageScroll, MageScroll, MagicMap,
 	RandomTreasure, Wand, RandomRing, Amulet,
 	SteelKey, SteelKey, SteelKey};
-static itemn random_item[] = {RandomWeapon, RandomSmallItem};
 static itemn random_weapon[] = {
 	BattleAxe, BattleAxe, Axe, Axe, Dagger, Dagger,
 	Halberd, WarHammer, Mace, Spear,
 	Longsword, ShortSword, ShortSword, TwoHandedSword,
 	Bow, Sling};
+static itemn random_ration[] = {Ration, Ration, Ration, RationIron};
+static itemn random_ring[] = {BlueRing, GreenRing, RedRing};
+static itemn random_item[] = {RandomWeapon, RandomSmallItem};
+static itemn random_tavern_pick_pockets[] = {RandomTreasure, RandomRing};
+
 static spelln mage_spell_1[] = {
 	MagicMissile, Armor, BurningHands, ChillTouch, ComprehendLanguages, Friends, Identify, MagicMissile, Mending, ShieldSpell, ShockingGrasp
 };
@@ -55,6 +55,7 @@ itemn random(itemn v) {
 	case RandomRation: return random(maprnd(random_ration));
 	case RandomRing: return random(maprnd(random_ring));
 	case RandomTreasure: return random(maprnd(random_treasure));
+	case RandomTavernPickPocket: return random(maprnd(random_tavern_pick_pockets));
 	case RandomItem: return random(maprnd(random_item));
 	case RandomSmallItem: return random(maprnd(random_small_item));
 	default: return v;

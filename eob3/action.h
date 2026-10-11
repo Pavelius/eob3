@@ -2,6 +2,7 @@
 
 typedef bool(*fncondition)();
 typedef void(*fnevent)();
+typedef void(*fnaction)(int bonus);
 
 struct item;
 
@@ -36,8 +37,6 @@ enum variablen : unsigned char {
 
 extern const char* action_names[LastAction + 1];
 extern const char* variable_names[LastVariable + 1];
-
-extern int last_number;
 
 inline const char* getnm(actionn v) { return action_names[v]; }
 inline const char* getnm(variablen v) { return variable_names[v]; }
@@ -85,6 +84,7 @@ soundn get_music(actionn v);
 int get_hour(); // Return 0..23
 
 void all_party(fnevent proc, bool allow_disabled = false);
+void all_party(fnaction proc, bool allow_disabled = false, int bonus = 0);
 bool apply_action(const actioni* p);
 void buy_item(shopn shop, actionn shop_empty);
 bool check_activity();
@@ -99,7 +99,7 @@ void open_options(const actioni* actions);
 void pass_effort();
 bool pass_payment(actionn action, const variablei& required);
 void pass_time(unsigned minutes = 1);
-void rest_party();
+void rest_party(int bonus);
 void setv(picturen v);
 void show_message(actionn id, ...);
 

@@ -115,6 +115,17 @@ void all_party(fnevent proc, bool allow_disabled) {
 	}
 }
 
+void all_party(fnaction proc, bool allow_disabled, int bonus) {
+	pushvalue push(player);
+	for(auto p : adventurers) {
+		if(!p)
+			continue;
+		if(!allow_disabled && p->isdisabled())
+			continue;
+		player = p; proc(bonus);
+	}
+}
+
 static void all_creatures(fnevent proc) {
 	all_party(proc, true);
 	all_monsters(proc, true);
@@ -1543,11 +1554,10 @@ void use_item(creature* player, item* last_item, wearn wear) {
 		if(monsters_nearbe())
 			break;
 		if(confirm(getnm(ConfirmMakeCamp))) {
-			pushvalue push(last_number);
-			last_number = last_item->geti().combat.attack;
+			auto bonus = last_item->geti().combat.attack;
 			if(last_item->iscursed())
-				last_number = -2;
-			rest_party();
+				bonus = -2;
+			rest_party(bonus);
 			last_item->clear();
 		}
 		break;

@@ -9,18 +9,17 @@
 #include "sound.h"
 
 static actionn action_outcome;
-int last_number;
 
 static void leave_outside() {
 	action_outcome = LeaveOutside;
 }
 
-static void natural_healing() {
-	if(last_number >= 0)
-		player->heal(xrand(1, 3) + last_number);
+static void natural_healing(int bonus) {
+	if(bonus >= 0)
+		player->heal(xrand(1, 3) + bonus);
 	else {
 		consolen(getnm(FeelDisease));
-		player->damage(HealthDamage, xrand(1, 2) - last_number);
+		player->damage(HealthDamage, xrand(1, 2) - bonus);
 	}
 }
 
@@ -35,13 +34,13 @@ static void satisfy() {
 	player->food = player->getfood();
 }
 
-void rest_party() {
+void rest_party(int bonus) {
 	pass_time(60 * 8);
-	if(last_number < 0)
+	if(bonus < 0)
 		// Cursed food make bad sleep
-		all_party(natural_healing, true);
+		all_party(natural_healing, true, bonus);
 	else {
-		all_party(natural_healing, true);
+		all_party(natural_healing, true, bonus);
 		all_party(camp_autocast, false);
 		all_party(refresh_memorized_spells, false);
 		all_party(satisfy, false);
@@ -51,8 +50,7 @@ void rest_party() {
 static void rest_party_inn() {
 	if(!confirm(ConfirmRestParty))
 		return;
-	pushvalue push(last_number, 3);
-	rest_party();
+	rest_party(3);
 	leave_outside();
 }
 

@@ -235,6 +235,9 @@
     <ClCompile Include="archive.cpp">
       <Filter>support</Filter>
     </ClCompile>
+    <ClCompile Include="serial.cpp">
+      <Filter>logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="action.h">

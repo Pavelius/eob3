@@ -3,6 +3,9 @@
 #define HIWORD(l)		((WORD)(((unsigned)(l)>>16)&0xFFFF))
 #define MAKEINTRESOURCE(i) (const char*)((unsigned)((WORD)(i)))
 
+#define CSIDL_PERSONAL       0x0005
+#define SHGFP_TYPE_CURRENT   0x0000
+
 #define WINUSERAPI extern "C"
 #define WINGDIAPI extern "C"
 #define WINBASEAPI extern "C"
@@ -1016,3 +1019,5 @@ DLL void* WINAPI			wglCreateContext(void*);
 DLL int WINAPI				wglMakeCurrent(void*, void*);
 DLL int WINAPI				wglDeleteContext(void*);
 DLL int WINAPI				wglUseFontBitmapsA(HDC hdc, DWORD first, DWORD count, DWORD listBase);
+
+DLL int WINAPI				SHGetFolderPathA(HWND hwnd, int csidl, void* hToken, DWORD dwFlags, const char* pszPath);

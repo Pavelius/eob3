@@ -135,6 +135,7 @@ void fix_monster_damage_end();
 void focus_input();
 void game_clear();
 void game_generation();
+bool game_serial(const char* id, bool write_mode);
 void go_adventure();
 void header_yellow(const char* format);
 void initialize_gui();

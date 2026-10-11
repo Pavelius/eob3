@@ -44,4 +44,10 @@ struct archive {
 	template<class T> void set(T& value) {
 		set(&value, sizeof(value));
 	}
+	// Fixed data collection
+	template<typename T> void setv(T* source, unsigned& count) {
+		set(count);
+		for(unsigned i = 0; i < count; i++)
+			set(source[i]);
+	}
 };

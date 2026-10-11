@@ -241,6 +241,7 @@ static void load_game() {
 }
 
 static void save_game() {
+	game_serial("autosave", true);
 }
 
 static void empthy_exit_game() {

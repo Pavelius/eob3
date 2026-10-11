@@ -2,6 +2,12 @@
 #include "stringbuilder.h"
 #include "win.h"
 
+const char* io::file::getdocpath() {
+	static char path[512]; path[0] = 0;
+	SHGetFolderPathA(0, CSIDL_PERSONAL, 0, SHGFP_TYPE_CURRENT, path);
+	return path;
+}
+
 io::file::file() : handle(0) {
 }
 
@@ -56,10 +62,10 @@ bool io::file::create(const char* url, unsigned flags) {
 	if(handle)
 		return true;
 	handle = CreateFileA(url,
-		(flags&StreamWrite) ? GENERIC_WRITE : GENERIC_READ,
+		(flags & StreamWrite) ? GENERIC_WRITE : GENERIC_READ,
 		0,
 		0,
-		(flags&StreamWrite) ? CREATE_ALWAYS : OPEN_EXISTING,
+		(flags & StreamWrite) ? CREATE_ALWAYS : OPEN_EXISTING,
 		FILE_ATTRIBUTE_NORMAL,
 		0);
 	if(handle == (void*)-1)

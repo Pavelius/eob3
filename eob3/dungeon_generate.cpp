@@ -1067,7 +1067,7 @@ static dungeoni* new_dungeon() {
 	for(auto& e : dungeons) {
 		if(e)
 			continue;
-		auto index = &e - dungeons;
+		unsigned index = &e - dungeons;
 		if(dungeons_count < (index + 1))
 			dungeons_count = index + 1;
 		return &e;

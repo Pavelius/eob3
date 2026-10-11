@@ -45,7 +45,7 @@ struct questi {
 	questfc			state; // Current quest state. Can be serialzed.
 	unsigned char	rumor; // Maximum rumor is 5.
 	questn index() const;
-	void clear() { goals.clear(); rumor = 0; state.clear(); }
+	void clear() { rumor = 0; state.clear(); }
 	bool identify() const { return rumor >= 5; }
 	bool is(questfn v) const { return state.is(v); }
 	void set(questfn v) { return state.set(v); }

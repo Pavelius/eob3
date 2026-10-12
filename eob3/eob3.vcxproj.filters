@@ -238,6 +238,9 @@
     <ClCompile Include="serial.cpp">
       <Filter>logic</Filter>
     </ClCompile>
+    <ClCompile Include="collection.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="action.h">
@@ -346,6 +349,9 @@
       <Filter>logic</Filter>
     </ClInclude>
     <ClInclude Include="archive.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="collection.h">
       <Filter>support</Filter>
     </ClInclude>
   </ItemGroup>

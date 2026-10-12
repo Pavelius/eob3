@@ -157,7 +157,7 @@ static void pray_for_spells() {
 }
 
 static void memorize_spells() {
-	choose_spells(getnm(MemorizeSpells), getnm(Cancel), 0);
+	choose_spells(getnm(MemorizeSpells), getnm(Cancel), 1);
 }
 
 static actioni tavern_actions[] = {

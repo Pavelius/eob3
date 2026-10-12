@@ -65,6 +65,7 @@ struct spellbook {
 
 struct spella : spellbook {
 	unsigned		data[(LastSpell + 31) / 32];
+	void			addspells(int level, int count);
 	bool			is(spelln v) const { return (data[v / 32] & (1 << (v % 32))) != 0; }
 	void			remove(spelln v) { data[v / 32] &= ~(1 << (v % 32)); }
 	void			set(spelln v) { data[v / 32] |= 1 << (v % 32); }
@@ -83,3 +84,4 @@ bool can_cast_spell(int type, int level);
 bool can_learn_spell(int type, int level);
 void check_boost(unsigned stamp);
 void prepare_default_spells();
+void random_spells(int level, int count);

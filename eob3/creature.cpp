@@ -1002,6 +1002,7 @@ static void apply_spell_progression(creature* player, classn type, int level) {
 }
 
 static void apply_class_ability(creature* player, classn type, int level) {
+	spella* ps;
 	switch(type) {
 	case Fighter:
 		break;
@@ -1010,6 +1011,16 @@ static void apply_class_ability(creature* player, classn type, int level) {
 		case 1:
 			player->basic.feats.set(ImmuneDisease);
 			player->basic.feats.set(ControlEvil);
+			break;
+		default: break;
+		}
+		break;
+	case Mage:
+		switch(level) {
+		case 1:
+			ps = get_spellbook(player);
+			ps->set(DetectMagic);
+			ps->addspells(10 + 1, xrand(3, 5));
 			break;
 		default: break;
 		}

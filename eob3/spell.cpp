@@ -1,5 +1,6 @@
 #include "action.h"
 #include "answers.h"
+#include "collection.h"
 #include "collectiona.h"
 #include "console.h"
 #include "creature.h"
@@ -357,4 +358,26 @@ void camp_autocast() {
 		while(count--)
 			player->cast(v, player->level(v), false, true, true, true);
 	}
+}
+
+static bool filter_level(unsigned char v, int param) {
+	auto caster_type = param / 10;
+	auto level = param % 10;
+	return spell_data[v].levels[caster_type] == level;
+}
+
+void spella::addspells(int level, int count) {
+	collectionu spells;
+	spells.select(0, LastSpell, filter_level, level, true);
+	// Remove existing
+	for(auto i = (spelln)0; i <= LastSpell; i = (spelln)(i + 1)) {
+		if(is(i))
+			spells.removeall(i);
+	}
+	// Get top
+	spells.shuffle();
+	spells.top(count);
+	// Add random
+	for(auto v : spells.records<spelln>())
+		set(v);
 }

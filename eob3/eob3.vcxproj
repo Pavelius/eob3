@@ -141,6 +141,7 @@
     <ClInclude Include="answers.h" />
     <ClInclude Include="archive.h" />
     <ClInclude Include="assign.h" />
+    <ClInclude Include="collection.h" />
     <ClInclude Include="collectiona.h" />
     <ClInclude Include="console.h" />
     <ClInclude Include="dungeon.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="bin_leech.cpp" />
     <ClCompile Include="bin_overlays.cpp" />
     <ClCompile Include="bin_thrown.cpp" />
+    <ClCompile Include="collection.cpp" />
     <ClCompile Include="collectiona.cpp" />
     <ClCompile Include="draw_textf.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

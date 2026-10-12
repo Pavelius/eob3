@@ -3,6 +3,12 @@
 #include "quest.h"
 #include "stringbuilder.h"
 
+#ifdef _WIN32
+#define FILE_SEP "\\"
+#else
+#define FILE_SEP "/"
+#endif
+
 template<> void archive::set<questi>(questi& v) {
 	set(v.rumor);
 	set(v.state);
@@ -69,19 +75,17 @@ static void serial(archive& a) {
 }
 
 void game_file(char* result, const char* folder, const char* name, const char* ext, int index) {
-	stringbuilder sb(result, result + 511);
-#ifdef _WIN32
-	sb.add(io::file::getdocpath());
-#endif
-	sb.add("\\Eye of Beholder");
+	io::file::home(result);
+	stringbuilder sb(result, result + 511); sb.setend();
+	sb.add("/.local/share/eob");
 	io::file::makedir(result);
 	if(folder) {
-		sb.addv("\\", 0);
+		sb.addv(FILE_SEP, 0);
 		sb.addv(folder, 0);
 		io::file::makedir(result);
 	}
 	if(name) {
-		sb.addv("\\", 0);
+		sb.addv(FILE_SEP, 0);
 		sb.add(name, index);
 		if(ext) {
 			sb.addv(".", 0);

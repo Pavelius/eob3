@@ -145,8 +145,13 @@ struct item {
 	itemn			type = NoItem;
 	featn			power = NoPower; // Special additional magical powers
 	purposen		purpose = CommonItem; // Special purpose of item (depends on mission or quest)
-	unsigned char	identified : 1 = 0;
-	unsigned char	hits : 3 = 0; // 0 - undamaged, 7 - is almost broken.
+	union {
+		unsigned char flags = 0;
+		struct {
+			unsigned char identified : 1;
+			unsigned char hits : 3; // 0 - undamaged, 7 - is almost broken.
+		};
+	};
 	item() = default;
 	constexpr item(itemn type) : type(type) {}
 	constexpr explicit operator bool() const { return type != 0; }

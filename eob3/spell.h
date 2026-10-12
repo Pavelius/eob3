@@ -29,7 +29,7 @@ extern const char* spell_names[LastSpell + 1];
 
 struct spelli {
 	char			levels[2]; // 0 - priest, 1 - mage, 2 - other
-	spellfn			type; // Effect type 
+	spellfn			type; // Effect type
 	spelln			index; // Spell (for presentation)
 	color			lighting; // Active color border hilite
 	const char*		name() const { return spell_names[index]; }
@@ -42,8 +42,8 @@ struct targetref {
 	targetref() = default;
 	targetref(const creature* p);
 	constexpr explicit operator bool() const { return type != 0xFF; }
-	constexpr bool operator ==(const targetref& v) const { return type == v.type && v.index == v.index; }
-	constexpr bool operator !=(const targetref& v) const { return type != v.type || v.index != v.index; }
+	constexpr bool operator ==(const targetref& v) const { return type == v.type && index == v.index; }
+	constexpr bool operator !=(const targetref& v) const { return type != v.type || index != v.index; }
 	operator creature*() const;
 	void clear() { type = 0xFF; index = 0; }
 };

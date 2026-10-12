@@ -30,7 +30,7 @@ struct archive {
 	void set(void* value, unsigned size);
 	void set(void** p, void* source, unsigned size); // Serial `p` unsigned char pointer to object in collection of `source`.
 	// Array with fixed count
-	template<typename T, size_t N> void set(T(&value)[N]) {
+	template<typename T, unsigned N> void set(T(&value)[N]) {
 		for(int i = 0; i < N; i++)
 			set(value[i]);
 	};

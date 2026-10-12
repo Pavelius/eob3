@@ -40,6 +40,8 @@
 		<Unit filename="answers.cpp" />
 		<Unit filename="answers.h" />
 		<Unit filename="appearance.cpp" />
+		<Unit filename="archive.cpp" />
+		<Unit filename="archive.h" />
 		<Unit filename="assign.h" />
 		<Unit filename="bin_blue.cpp" />
 		<Unit filename="bin_border.cpp" />
@@ -89,7 +91,6 @@
 		<Unit filename="game_carousing.cpp" />
 		<Unit filename="game_combat.cpp" />
 		<Unit filename="game_generate.cpp" />
-		<Unit filename="game_talk.cpp" />
 		<Unit filename="information.cpp" />
 		<Unit filename="item.cpp" />
 		<Unit filename="item.h" />
@@ -122,6 +123,7 @@
 		<Unit filename="scale.cpp" />
 		<Unit filename="screenshoot.cpp" />
 		<Unit filename="screenshoot.h" />
+		<Unit filename="serial.cpp" />
 		<Unit filename="shape.cpp" />
 		<Unit filename="shape.h" />
 		<Unit filename="slice.h" />

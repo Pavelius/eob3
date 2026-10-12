@@ -15,6 +15,7 @@
 */
 
 #include <cstdio>
+#include <cstdlib>
 #include <unistd.h>
 #include <dirent.h>
 #include "stream.h"
@@ -40,7 +41,7 @@ io::file::~file() {
 }
 
 io::file::find::find(const char* url) {
-   stringbuilder sb(path); sb.clear();
+	stringbuilder sb(path); sb.clear();
 	sb.add(url);
 	handle = opendir(url);
 	next();
@@ -143,4 +144,12 @@ bool io::file::makedir(const char* url) {
 
 bool io::file::getfullurl(const char* short_url, char* url, int size) {
 	return false;
+}
+
+void io::file::home(char* result) {
+	auto p = std::getenv("HOME");
+	if(p && p[0]) {
+		stringbuilder sb(result, result + 512); sb.clear();
+		sb.add(p);
+	}
 }

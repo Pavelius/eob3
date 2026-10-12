@@ -60,6 +60,7 @@ struct file : stream {
 	void				close();
 	bool				create(const char* url, unsigned feats);
 	static bool			exist(const char* url);
+	static void			home(char* result);
 	static char*		getdir(char* url, int size);
 	static char*		getmodule(char* url, int size);
 	static const char*	getdocpath();

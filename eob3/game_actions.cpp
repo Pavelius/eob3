@@ -262,6 +262,7 @@ static void game_music_stop() {
 static void game_perferences() {
 	static perferencei source[] = {
 		{Music, music_enable, game_music_stop},
+		{Sound, sound_enable},
 		{}};
 	show_perferences(getnm(Settings), source);
 }

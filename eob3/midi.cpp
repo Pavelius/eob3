@@ -296,6 +296,7 @@ public:
 static midiplayer music;
 
 bool music_enable = true;
+bool sound_enable = true;
 soundn current_music;
 
 void music_update() {

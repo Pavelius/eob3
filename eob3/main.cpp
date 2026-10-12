@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
 		return -1;
 	main_util();
 #endif
-	music_enable = false;
+	music_enable = true;
 	sys_create_window(-1, -1, 320, 200, 0, 32);
 	sys_caption("Eye of beholder (remake)");
 	sys_timer(100);

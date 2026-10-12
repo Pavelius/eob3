@@ -2148,6 +2148,7 @@ long choose_generate_dialog(const char* header) {
 }
 
 void play_dungeon() {
+	current_music = quests[loc->quest].music;
 	locup = 0;
 	if(loc->level > 1)
 		locup = loc - 1;

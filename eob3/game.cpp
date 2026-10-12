@@ -1675,7 +1675,6 @@ void enter_dungeon(int level, celln location) {
 	loc = find_dungeon(p->index(), level);
 	if(!loc)
 		return; // Dungeon not found. Stay in city.
-	current_music = quests[loc->quest].music;
 	party_set(location);
 	explore_area();
 	next_scene(play_dungeon);
@@ -1757,13 +1756,13 @@ static void talk_help() {
 
 actioni talk_carefully[] = {
 	{Lie, {}, {}, lie, is_personality},
-	{CalmDown, {}, Ranger, monsters_leave, is_animal},
+	{CalmDown, {}, {Ranger}, monsters_leave, is_animal},
 	{Bribe, {}, {}, 0, is_bribeable},
 	{Attack, {}, {}, attack_enemy},
 	{}};
 
 actioni talk_friendly[] = {
 	{Talk, {}, {}, talk_help, is_personality},
-	{Hunt, {}, Ranger, monsters_kill, is_animal},
+	{Hunt, {}, {Ranger}, monsters_kill, is_animal},
 	{Ambush, {}, {}, ambush_enemy},
 	{}};

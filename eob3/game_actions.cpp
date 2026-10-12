@@ -169,6 +169,8 @@ static actioni tavern_actions[] = {
 	{}};
 static actioni inn_actions[] = {
 	{RestParty, {}, {}, rest_party_inn},
+	{MemorizeSpells, {}, {Mage}, memorize_spells},
+	{PrayForSpells, {}, {Cleric}, pray_for_spells},
 	{ScribleScrolls, {}, {Mage}, scrible_scrolls},
 	{}};
 static actioni blacksmith_actions[] = {

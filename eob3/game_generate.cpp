@@ -111,7 +111,6 @@ static void start_variables() {
 }
 
 static void party_generation() {
-	pushvalue push(player);
 	current_music = MusGenerate;
 	generate_player_index = 0;
 	game_clear();
@@ -144,6 +143,7 @@ static void party_generation() {
 		finish_character();
 		prepare_default_spells();
 	}
+	player = characters;
 }
 
 static void create(int index, racen race, gendern gender, classn type, alignmentn alignment) {
@@ -171,8 +171,11 @@ static void test_city_menu() {
 void game_generation() {
 	game_clear();
 	refresh_shops();
+#ifdef _DEBUG
 	party_random_generation();
-	// party_generation();
+#else
+	party_generation();
+#endif // _DEBUG
 	start_variables();
 	test_city_menu();
 }

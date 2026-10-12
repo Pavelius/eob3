@@ -27,22 +27,27 @@ template<> void archive::set<creature*>(creature*& v) {
 	setp((void**)&v, characters, sizeof(characters[0]));
 }
 
+static void set_adventures(archive& a) {
+	for(auto i = 0; i < lengthof(adventurers); i++)
+		a.set(adventurers[i]);
+}
+
 static void serial(archive& a) {
 	if(!a.signature("SAV"))
 		return;
-	if(!a.version(0, 1))
+	if(!a.version(0, 2))
 		return;
 	if(!a.writemode)
 		game_clear();
 	a.set(game);
 	a.set(party);
+	a.set(loc);
+	a.set(location);
+	a.set(player);
+	set_adventures(a);
 	a.set(shops, sizeof(shops));
 	a.set(characters, sizeof(characters));
 	a.set(spellbooks, sizeof(spellbooks));
-	a.set(loc);
-	a.set(player);
-	for(auto i = 0; i < lengthof(adventurers); i++)
-		a.set(adventurers[i]);
 	a.set(quests);
 	a.setv(dungeons, dungeons_count);
 	a.setv(boosts, boost_count);
@@ -56,7 +61,9 @@ static void serial(archive& a) {
 
 bool game_serial(const char* id, bool write_mode) {
 	char temp[512]; stringbuilder sb(temp);
+#ifdef _WIN32
 	sb.add(io::file::getdocpath());
+#endif
 	sb.add("\\Eye of Beholder");
 	io::file::makedir(temp);
 	sb.add("\\%1.sav", id);

@@ -8,10 +8,10 @@
 #include "rand.h"
 #include "sound.h"
 
-static actionn action_outcome;
+actionn location = NoAction;
 
 static void leave_outside() {
-	action_outcome = LeaveOutside;
+	location = NoAction;
 }
 
 static void natural_healing(int bonus) {
@@ -52,6 +52,8 @@ static void rest_party_inn() {
 		return;
 	rest_party(3);
 	leave_outside();
+	game_serial("autosave", true);
+	consolen(getnm(GameSaved));
 }
 
 static void remove_hunger() {
@@ -207,15 +209,12 @@ static actioni* get_actions(actionn v) {
 }
 
 void play_city_actions() {
-	auto basic_location = NoAction;
-	auto location = basic_location;
 	while(running_scene()) {
 		setv(get_picture(location));
 		auto music = get_music(location);
 		if(music)
 			current_music = music;
 		play_city();
-		action_outcome = NoAction;
 		if(indoor(location)) {
 			auto p = choose_action(get_actions(location));
 			if(!p)
@@ -232,8 +231,6 @@ void play_city_actions() {
 			else
 				location = p->action;
 		}
-		if(action_outcome == LeaveOutside)
-			location = basic_location;
 	}
 }
 

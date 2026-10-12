@@ -38,6 +38,8 @@ enum variablen : unsigned char {
 extern const char* action_names[LastAction + 1];
 extern const char* variable_names[LastVariable + 1];
 
+extern actionn location;
+
 inline const char* getnm(actionn v) { return action_names[v]; }
 inline const char* getnm(variablen v) { return variable_names[v]; }
 

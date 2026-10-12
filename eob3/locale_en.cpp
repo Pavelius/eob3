@@ -39,6 +39,7 @@ const char* message_names[LastMessage + 1] = {
 	"Button", "Cellar",
 	"Current goals", "Visit %1",
 	"Can't do this - monsters are nearby",
+	"All game progress saved",
 	"Class", "Race"
 };
 const char* action_names[LastAction + 1] = {

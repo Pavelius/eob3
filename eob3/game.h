@@ -52,6 +52,7 @@ enum messagen : unsigned char {
 	Button, Cellar,
 	QuestGoals, VisitBuilding,
 	MonstersAreNearbe,
+	GameSaved,
 	Class, Race,
 	LastMessage = Race
 };

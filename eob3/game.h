@@ -135,6 +135,7 @@ void fix_monster_damage(const creature* target);
 void fix_monster_damage_end();
 void focus_input();
 void game_clear();
+void game_file(char* result, const char* folder, const char* name, const char* ext, int index = 0); // Result is minimum 512 chars.
 void game_generation();
 bool game_serial(const char* id, bool write_mode);
 void go_adventure();

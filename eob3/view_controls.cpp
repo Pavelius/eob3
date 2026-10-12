@@ -1356,8 +1356,9 @@ static void paint_blue_title(const char* title) {
 	fore = push_fore;
 }
 
-static int get_file_number(const char* url, const char* mask) {
-	char result[260]; stringbuilder sb(result); sb.clear();
+static int get_file_number(char* url, const char* folder, const char* mask) {
+	game_file(url, folder, 0, 0);
+	char result[260]; stringbuilder sb(result); result[0] = 0;
 	for(io::file::find file(url); file; file.next()) {
 		auto pn = file.name();
 		if(pn[0] == '.')
@@ -1385,9 +1386,9 @@ static int get_file_number(const char* url, const char* mask) {
 }
 
 static void make_screenshoot() {
-	auto index = get_file_number("screenshoots", "scr*.bmp");
-	char temp[260]; stringbuilder sb(temp);
-	sb.add("screenshoots/scr%1.5i.bmp", index);
+	char temp[512];
+	auto index = get_file_number(temp, "Screenshots", "scr*.bmp");
+	game_file(temp, "Screenshots", "scr%1.5i", "bmp", index);
 	bitmap_write(temp, canvas->ptr(0, 0), canvas->width, canvas->height, canvas->bpp, canvas->scanline, 0);
 }
 
@@ -1589,6 +1590,7 @@ static void paint_city_no_input() {
 	paint_party_status();
 	paint_party_sheets();
 	update_focus_player();
+	console_scroll(5000);
 	paint_console();
 }
 

@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include "adat.h"
 #include "stream.h"
 
 // Fast and simple driver for streaming binary data.
@@ -29,18 +28,12 @@ struct archive {
 	bool version(short major, short minor);
 	bool checksum(unsigned long value);
 	void set(void* value, unsigned size);
-	void setp(void** p, void* source, unsigned size);
+	void set(void** p, void* source, unsigned size); // Serial `p` unsigned char pointer to object in collection of `source`.
 	// Array with fixed count
 	template<typename T, size_t N> void set(T(&value)[N]) {
 		for(int i = 0; i < N; i++)
 			set(value[i]);
 	};
-	// Fixed data collection
-	template<typename T, unsigned N> void set(adat<T, N>& value) {
-		set(value.count);
-		for(auto& e : value)
-			set(e);
-	}
 	// All simple types and requisites
 	template<class T> void set(T& value) {
 		set(&value, sizeof(value));

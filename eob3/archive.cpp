@@ -15,6 +15,7 @@
 */
 
 #include "archive.h"
+#include "slice.h"
 #include "stringbuilder.h"
 
 bool archive::signature(const char* id) {
@@ -66,4 +67,15 @@ void archive::set(void* value, unsigned size) {
 			source.read(value, size);
 	} else // Skip same count of bytes if readed object is empthy
 		source.seek(size, SeekCur);
+}
+
+void archive::set(void** p, void* source, unsigned size) {
+	unsigned char index;
+	if(writemode) {
+		index = (*p) ? ((unsigned char*)(*p) - (unsigned char*)source) / size : 0xFF;
+		set(index);
+	} else {
+		set(index);
+		*p = (index == 0xFF) ? 0 : (unsigned char*)source + index * size;
+	}
 }

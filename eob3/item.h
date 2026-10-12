@@ -164,7 +164,7 @@ struct item {
 	void clear() { type = NoItem; power = NoPower; purpose = CommonItem; hits = 0; identified = 0; }
 	void consume() {}
 	void create(int chance_magical, int chance_cursed = 5);
-	void damage(const char* interactive, int use) {}
+	void damage(const char* interactive);
 	void identify(int v) { identified = (v >= 0) ? 1 : 0; }
 	bool is(featn v) const { return power == v || geti().flags.is(v); }
 	bool is(purposen v) const { return purpose == v; }

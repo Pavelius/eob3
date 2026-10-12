@@ -148,7 +148,7 @@ static void drain_attack(creature* defender, const item& weapon, featn type, abi
 }
 
 static void hit_equipment(creature* player) {
-	static wearn equipment[] = {Body, LeftHand, Head, Elbow, Legs, Neck};
+	static wearn equipment[] = {Body, Head, LeftHand, Elbow, Legs, Neck};
 	if(player->isdisabled())
 		return;
 	for(auto w : equipment) {
@@ -156,7 +156,7 @@ static void hit_equipment(creature* player) {
 			continue;
 		if(player->roll(SaveVsParalization))
 			continue;
-		player->wears[w].damage(0, 1);
+		player->wears[w].damage(0);
 		break;
 	}
 }
@@ -304,7 +304,7 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 	}
 	// Weapon can be broken
 	if(rolls == 1)
-		weapon.damage("WeaponBroken", 1);
+		weapon.damage(getnm(ItemBroken));
 }
 
 static void single_main_attack(wearn wear, creature* enemy, int bonus, int multiplier) {

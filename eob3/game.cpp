@@ -1475,6 +1475,67 @@ static bool use_key(creature* player, item* last_item) {
 	return true;
 }
 
+static int get_level_difficult() {
+	return 0;
+}
+
+static bool active_overlay(dungeoni::overlayi* p, bool test_linked, speechn speech) {
+	if(p->is(CellActive) || (test_linked && p->link && loc->is(p->link, CellActive))) {
+		player->say(speech);
+		return true;
+	}
+	return false;
+}
+
+static bool use_tool_item(creature* player, item* last_item, abilityn skill, int bonus) {
+	if(player->roll(skill, bonus)) {
+		last_item->usecharge(getnm(ItemBroken), 40);
+		return true;
+	}
+	consolen(getnm(PlayerFailedSkill), player->name(), ability_names[skill]);
+	last_item->usecharge(getnm(ItemBroken), 30);
+	return false;
+}
+
+static void use_tool_success(creature* player, abilityn skill, int add_experience = 100) {
+	if(add_experience)
+		player->addexp(add_experience);
+	consolen(getnm(PlayerSuccessSkill), player->name(), ability_names[skill]);
+}
+
+static void use_theif_tools(creature* player, item* last_item) {
+	auto p = loc->get(player->pos, player->d);
+	if(p) {
+		switch(p->type) {
+		case CellKeyHole:
+			if(active_overlay(p, true, AlreadyOpened))
+				return;
+			if(use_tool_item(player, last_item, OpenLocks, get_level_difficult())) {
+				if(p->link) {
+					use_tool_success(player, OpenLocks);
+					loc->set(p->link, CellActive);
+					loc->state.locks_open++;
+				}
+			}
+			pass_time(1);
+			return;
+		case CellTrapLauncher:
+			if(active_overlay(p, false, AlreadyDisabled))
+				return;
+			if(use_tool_item(player, last_item, RemoveTraps, get_level_difficult())) {
+				use_tool_success(player, RemoveTraps);
+				p->set(CellActive);
+				loc->state.traps_disabled++;
+			}
+			pass_time(1);
+			return;
+		default:
+			break;
+		}
+	}
+	player->say(CantFindTarget);
+}
+
 static bool allow_use(const creature* player, const item* pi) {
 	return player->allow(pi->type, CantUseItem);
 }
@@ -1571,7 +1632,7 @@ void use_item(creature* player, item* last_item, wearn wear) {
 		if(!allow_use(player, last_item))
 			break;
 		if(wear != LeftHand) {
-			//			player->speak("MustBeWearing", "LeftHand");
+			player->say(MustBeUseInHand);
 			break;
 		}
 		if(true) {
@@ -1584,7 +1645,7 @@ void use_item(creature* player, item* last_item, wearn wear) {
 		if(!allow_use(player, last_item))
 			break;
 		if(wear != LeftHand) {
-			//			player->speak("MustBeWearing", "LeftHand");
+			player->say(MustBeUseInHand);
 			break;
 		}
 		//if(faith_effect(last_item->getmagic())) {
@@ -1600,7 +1661,10 @@ void use_item(creature* player, item* last_item, wearn wear) {
 	default:
 		if(!allow_use(player, last_item))
 			break;
-		// apply_script(last_item->geti().id, "Use", last_item->getmagic());
+		switch(last_item->type) {
+		case TheifTools: use_theif_tools(player, last_item); break;
+		default: break;
+		}
 		break;
 	}
 }

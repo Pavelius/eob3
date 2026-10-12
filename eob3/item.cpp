@@ -14,6 +14,8 @@
 	limitations under the License.77
 */
 
+#include "console.h"
+#include "game.h"
 #include "item.h"
 
 itemi item_data[LastItem + 1] = {
@@ -107,7 +109,7 @@ itemi item_data[LastItem + 1] = {
 	{Quiver, 0, {16, 5}, {}, {}}, // Arrow
 	{Quiver, 0, {19, 2}, {}, {}}, // Stone
 	{Quiver, 0, {14, 0}, {}, {}}, // Dart
-	};
+};
 
 combati traps[LastTrap + 1] = {
 	{0, 1, 13, Piercing, {1, 6}, {1, 6}, Arrow},
@@ -215,6 +217,20 @@ void addv(item* shop, item& it) {
 
 itemn itemi::index() const {
 	return (itemn)(this - item_data);
+}
+
+void item::usecharge(const char* interactive, int chance_consume) {
+	if(chance(chance_consume))
+		damage(interactive);
+}
+
+void item::damage(const char* interactive) {
+	if(hits >= 7) {
+		if(interactive)
+			consolen(interactive, name());
+		clear();
+	} else
+		hits++;
 }
 
 void wearable::addgear(itemn type, purposen purpose, featn power, unsigned char identified) {

@@ -31,10 +31,11 @@ const char* message_names[LastMessage + 1] = {
 	"The sign point to exit in north part of this place",
 	"%Opponent stay still and carefully watching you.",
 	"%1 of %2",
-	"%Player is disabled", "%Player pick up %1", "%1 cast %2", "%Player drink %1", "All party member is dead or disabled. Time to start new game...",
+	"%Player is disabled", "%Player pick up %1", "%1 cast %2", "%Player drink %1", "%1 failed %2", "%1 success %2",
+	"All party member is dead or disabled. Time to start new game...",
 	"Party going up ...", "Party going down ...", "Party fall into the pit.", "Sundelly enemy attack!", "Enemy is surprised!",
 	"%1 became a %2i level %3",
-	"This door is opened by key", "%Player sneack attack enemy", "%1 feel poison", "%Player feel bad",
+	"%1 is broken", "This door is opened by key", "%Player sneack attack enemy", "%1 feel poison", "%Player feel bad",
 	"Magic device", "Portal", "Trap launcher",
 	"Button", "Cellar",
 	"Current goals", "Visit %1",
@@ -204,6 +205,8 @@ const char* speech_names1[LastSpeech + 1] = {
 	"Can't see any target",
 	"Not in the city!",
 	"This food is rotted",
+	"Door is already opened",
+	"Trap is disabled",
 };
 const char* speech_names2[LastSpeech + 1] = {
 	"I don't use %1.",
@@ -232,6 +235,8 @@ const char* speech_names2[LastSpeech + 1] = {
 	"And where is target?",
 	"This one usable in dungeon",
 	"This food is not edible",
+	"This lock is picked up",
+	"This trap is not active",
 };
 const char* speech_names3[LastSpeech + 1] = {
 	"I don't need %1.",
@@ -260,6 +265,8 @@ const char* speech_names3[LastSpeech + 1] = {
 	"Cast spell where?",
 	"Wrong place to use",
 	"I can't eat this rotten food!",
+	"Stop. Already opened.",
+	"Stop. Trap is disabled.",
 };
 const char* wallmsg_names[LastWellMessage + 1] = {
 	"Find %1i magic weapons on this level",

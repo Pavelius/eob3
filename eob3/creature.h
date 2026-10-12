@@ -71,7 +71,8 @@ enum speechn : unsigned char {
 	CastSpellNoCaster, CastSpellNoSpells,
 	CantFindTarget, CantUseInSettlement,
 	ThisFoodIsRotten,
-	LastSpeech = ThisFoodIsRotten
+	AlreadyOpened, AlreadyDisabled,
+	LastSpeech = AlreadyDisabled
 };
 
 extern const char* ability_names[Experience + 1];

@@ -202,7 +202,7 @@ static void create_item(item& it, itemn type, int bonus_level = 0, int chance_id
 	case Edible:
 		// Food can be rotten
 		if(d100() < 60)
-			it.damage(0, 5);
+			it.hits = 5;
 		break;
 	case LeftRing: case RightRing:
 		if(it.ismagical())

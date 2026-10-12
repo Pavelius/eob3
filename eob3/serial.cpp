@@ -77,7 +77,11 @@ static void serial(archive& a) {
 void game_file(char* result, const char* folder, const char* name, const char* ext, int index) {
 	io::file::home(result);
 	stringbuilder sb(result, result + 511); sb.setend();
+#ifdef _MSC_VER
+	sb.add("\\Eye of Beholder");
+#else
 	sb.add("/.local/share/eob");
+#endif
 	io::file::makedir(result);
 	if(folder) {
 		sb.addv(FILE_SEP, 0);
@@ -94,12 +98,18 @@ void game_file(char* result, const char* folder, const char* name, const char* e
 	}
 }
 
-bool game_serial(const char* id, bool write_mode) {
+bool game_serial(const char* id, bool write_mode, bool run_game) {
 	char temp[512]; game_file(temp, "Saved Games", id, "sav");
 	io::file file(temp, write_mode ? StreamWrite : StreamRead);
 	if(!file)
 		return false;
 	archive a(file, write_mode);
 	serial(a);
+	if(run_game) {
+		if(loc)
+			next_scene(play_dungeon);
+		else
+			next_scene(play_city_actions);
+	}
 	return true;
 }

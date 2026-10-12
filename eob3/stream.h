@@ -63,7 +63,6 @@ struct file : stream {
 	static void			home(char* result);
 	static char*		getdir(char* url, int size);
 	static char*		getmodule(char* url, int size);
-	static const char*	getdocpath();
 	static bool			getfullurl(const char* short_url, char* url, int size);
 	static bool			makedir(const char* url);
 	int					read(void* result, int count) override;

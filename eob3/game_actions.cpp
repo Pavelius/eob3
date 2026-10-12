@@ -52,7 +52,7 @@ static void rest_party_inn() {
 		return;
 	rest_party(3);
 	leave_outside();
-	game_serial("autosave", true);
+	game_serial("autosave", true, false);
 	consolen(getnm(GameSaved));
 }
 
@@ -235,11 +235,11 @@ void play_city_actions() {
 }
 
 void load_game() {
-	game_serial("autosave", false);
+	game_serial("autosave", false, true);
 }
 
 static void save_game() {
-	game_serial("autosave", true);
+	game_serial("autosave", true, true);
 }
 
 static void empthy_exit_game() {

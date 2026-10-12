@@ -50,14 +50,14 @@
 	"creature.h"
 	"game.h"
 
-1791180051 /home/user-331/projects/eob3/eob3/action.h
+1791546121 /home/user-331/projects/eob3/eob3/action.h
 
-1791180051 /home/user-331/projects/eob3/eob3/creature.h
+1791546121 /home/user-331/projects/eob3/eob3/creature.h
 	"item.h"
 	"pointc.h"
 	"spell.h"
 
-1791180051 /home/user-331/projects/eob3/eob3/item.h
+1791546121 /home/user-331/projects/eob3/eob3/item.h
 	"dice.h"
 	"slice.h"
 
@@ -65,7 +65,7 @@
 
 1790942951 /home/user-331/projects/eob3/eob3/pointc.h
 
-1791181728 /home/user-331/projects/eob3/eob3/game.h
+1791546121 /home/user-331/projects/eob3/eob3/game.h
 
 1790665249 source:/home/user-331/projects/eob3/eob3/bin_itemgl.cpp
 
@@ -417,7 +417,7 @@
 	"draw.h"
 	"stringbuilder.h"
 
-1791180051 /home/user-331/projects/eob3/eob3/spell.h
+1791546121 /home/user-331/projects/eob3/eob3/spell.h
 	"color.h"
 
 1791180051 /home/user-331/projects/eob3/eob3/perference.h

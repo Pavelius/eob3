@@ -37,7 +37,7 @@ static itemn random_item[] = {RandomWeapon, RandomSmallItem};
 static itemn random_tavern_pick_pockets[] = {RandomTreasure, RandomRing};
 
 static spelln mage_spell_1[] = {
-	MagicMissile, Armor, BurningHands, ChillTouch, ComprehendLanguages, Friends, Identify, MagicMissile, Mending, ShieldSpell, ShockingGrasp
+	Armor, BurningHands, BurningHands, ChillTouch, ComprehendLanguages, Friends, Identify, MagicMissile, MagicMissile, Mending, ShieldSpell, ShockingGrasp
 };
 static spelln priest_spell_1[] = {
 	CureLightWound, DetectEvil, DetectMagic, PurifyFood,
@@ -97,10 +97,6 @@ static spelln random_mage_spell(int level) {
 	}
 }
 
-static spelln random_mage_spell() {
-	return random_mage_spell(random_spell_level());
-}
-
 static bool can_be_mundane(featn power) {
 	switch(power) {
 	case SwordPower: case MeleeWeaponPower:
@@ -123,8 +119,8 @@ static featn get_power(featn power, int chance_power, int chance_cursed) {
 void item::create(int chance_power, int chance_cursed) {
 	auto result = geti().powers;
 	switch(type) {
-	case MageSpells: power = (featn)random_mage_spell(); break;
-	case PriestSpells: power = (featn)random_mage_spell(); break;
+	case MageSpells: power = (featn)random_mage_spell(random_spell_level()); break;
+	case PriestSpells: power = (featn)random_priest_spell(random_spell_level()); break;
 	case WandSpells: power = (featn)maprnd(wand_spells); break;
 	default: power = get_power(result, chance_power, chance_cursed); break;
 	}

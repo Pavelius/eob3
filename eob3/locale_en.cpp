@@ -262,7 +262,7 @@ const char* speech_names3[LastSpeech + 1] = {
 	"There's no one behind this door",
 	"Magic? No for me",
 	"I cast all prepared spells",
-	"Cast spell where?",
+	"Do this where?",
 	"Wrong place to use",
 	"I can't eat this rotten food!",
 	"Stop. Already opened.",

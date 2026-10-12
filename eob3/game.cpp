@@ -1476,6 +1476,8 @@ static bool use_key(creature* player, item* last_item) {
 }
 
 static int get_level_difficult() {
+	if(loc)
+		return -(loc->level - 1);
 	return 0;
 }
 
@@ -1687,7 +1689,7 @@ static void show_quest(const questi* pa, phasen phase) {
 		sb.clear(); sb.add(format);
 		show_message(temp, false, getnm(Continue), 0);
 		auto pe = zend(format);
-		if(pe[1]==0)
+		if(pe[1] == 0)
 			break;
 		format = pe + 1;
 	}

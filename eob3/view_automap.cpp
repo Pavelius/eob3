@@ -476,8 +476,7 @@ static void paint_layers() {
 
 static void input_automap() {
 	switch(hkey) {
-	case KeyEscape:
-	case KeySpace: breakmodal(0); break;
+	case KeyEscape: case KeySpace: breakmodal(0); break;
 	}
 }
 

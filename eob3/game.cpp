@@ -1489,13 +1489,11 @@ static bool active_overlay(dungeoni::overlayi* p, bool test_linked, speechn spee
 	return false;
 }
 
-static bool use_tool_item(creature* player, item* last_item, abilityn skill, int bonus) {
-	if(player->roll(skill, bonus)) {
-		last_item->usecharge(getnm(ItemBroken), 40);
+static bool use_tool_item(creature* player, item* last_item, abilityn skill, int bonus, int chance_consume = 40) {
+	last_item->usecharge(getnm(ItemBroken), chance_consume);
+	if(player->roll(skill, bonus))
 		return true;
-	}
 	consolen(getnm(PlayerFailedSkill), player->name(), ability_names[skill]);
-	last_item->usecharge(getnm(ItemBroken), 30);
 	return false;
 }
 
@@ -1536,6 +1534,24 @@ static void use_theif_tools(creature* player, item* last_item) {
 		}
 	}
 	player->say(CantFindTarget);
+}
+
+static void use_grappling_hook(creature* player, item* last_item) {
+	if(loc->get(to(player->pos, player->d)) == CellPit) {
+		if(use_tool_item(player, last_item, ClimbWalls, get_level_difficult(), 60)) {
+			loc->set(to(party.pos, party.d), CellPassable);
+			use_tool_success(player, ClimbWalls, 20);
+		}
+		pass_time(xrand(2, 5));
+	} else if(locup && locup->get(player->pos) == CellPitUp) {
+		if(use_tool_item(player, last_item, ClimbWalls, get_level_difficult(), 60)) {
+			if(loc->level>1)
+				enter_dungeon(loc->level-1, CellUnknown);
+			consolen(getnm(PartyGoingUp));
+			use_tool_success(player, ClimbWalls, 20);
+		}
+		pass_time(xrand(2, 5));
+	}
 }
 
 static bool allow_use(const creature* player, const item* pi) {
@@ -1665,6 +1681,7 @@ void use_item(creature* player, item* last_item, wearn wear) {
 			break;
 		switch(last_item->type) {
 		case TheifTools: use_theif_tools(player, last_item); break;
+		case GrapplingHook: use_grappling_hook(player, last_item); break;
 		default: break;
 		}
 		break;
@@ -1741,7 +1758,8 @@ void enter_dungeon(int level, celln location) {
 	loc = find_dungeon(p->index(), level);
 	if(!loc)
 		return; // Dungeon not found. Stay in city.
-	party_set(location);
+	if(location!=CellUnknown)
+		party_set(location);
 	explore_area();
 	next_scene(play_dungeon);
 }

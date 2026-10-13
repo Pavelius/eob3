@@ -1483,7 +1483,7 @@ static void start_equipment() {
 
 static void quest_equipment(classn type) {
 	switch(type) {
-	case Theif: player->addgear(TheifTools, ToolItem); break;
+	case Theif: player->addgear(TheifTools, ToolItem); player->addgear(GrapplingHook, ToolItem); break;
 	case Cleric: player->addgear(BluePotion, ToolItem, Healing); break;
 	case Mage: player->addgear(Wand, ToolItem, (featn)MagicMissile); break;
 	default: player->addgear(RationIron, ToolItem); break;

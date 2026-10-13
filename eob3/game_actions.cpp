@@ -107,6 +107,9 @@ static void donate() {
 		return;
 	pass_time(xrand(10, 20));
 	addv(Coins, -bet);
+	auto chance_reputation = bet / 10;
+	if(chance(chance_reputation))
+		addv(Reputation, 1, 0, 100); // RULE: Donation can raise reputation.
 	bet = bet / 50 - 1;
 	addv(Blessing, xrand(bet, bet * 2), 0, 100);
 	show_message(DonateAccept);

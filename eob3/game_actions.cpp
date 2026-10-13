@@ -98,7 +98,6 @@ static void gambling() {
 
 static void donate() {
 	static long source[] = {100, 200, 500};
-	answer_picture = ChaPriestessSilune;
 	for(auto n : source) {
 		if(game.get(Coins) >= n)
 			an.add(n, "%1i", n);
@@ -110,6 +109,7 @@ static void donate() {
 	addv(Coins, -bet);
 	bet = bet / 50 - 1;
 	addv(Blessing, xrand(bet, bet * 2), 0, 100);
+	show_message(DonateAccept);
 }
 
 static void pick_pockets() {

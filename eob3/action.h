@@ -21,7 +21,7 @@ enum actionn : unsigned char {
 	Gambling, GamblingIntro, GamblingWin, GamblingLose,
 	Carousing,
 	HealWounds,
-	Donate, DonateIntro,
+	Donate, DonateIntro, DonateAccept,
 	BuyWeapons, BuyWeaponsEmpty,
 	RepairWeapons,
 	MakeCamp, RestParty, ScribleScrolls, MemorizeSpells, PrayForSpells,

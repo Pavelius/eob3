@@ -1556,6 +1556,16 @@ static void use_grappling_hook(creature* player, item* last_item) {
 
 static bool use_bless_effect(bool run) {
 	static spelln source[] = {CureLightWound};
+	auto level = player->level();
+	auto duration = 4 * 60; // 4-9 hour standart duration for blessing
+	for(auto spell : source) {
+		if(!player->cast(spell, level, false, false, true, false))
+			continue;
+		if(run)
+			player->cast(spell, level, false, false, true, false);
+		return true;
+	}
+	return false;
 }
 
 static bool faith_effect() {

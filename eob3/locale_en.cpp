@@ -135,7 +135,7 @@ const char* alignment_names[ChaoticEvil + 1] = {
 	"Lawful Neutral", "Chaotic Neutral",
 	"Lawful Evil", "Neutral Evil", "Chaotic Evil"
 };
-const char* class_names[FighterMageThief + 1] = {
+const char* class_names[LastClass + 1] = {
 	"Monster",
 	"Fighter", "Ranger", "Paladin", "Mage", "Cleric", "Thief",
 	"Fighter/Cleric", "Fighter/Mage", "Fighter/Thief",

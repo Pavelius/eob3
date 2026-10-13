@@ -52,7 +52,7 @@
 
 1791791544 /home/user-331/projects/eob3/eob3/action.h
 
-1791873470 /home/user-331/projects/eob3/eob3/creature.h
+1791891204 /home/user-331/projects/eob3/eob3/creature.h
 	"item.h"
 	"pointc.h"
 	"spell.h"
@@ -169,7 +169,7 @@
 1790665249 /home/user-331/projects/eob3/eob3/shape.h
 	"pointc.h"
 
-1791873470 source:/home/user-331/projects/eob3/eob3/game.cpp
+1791889013 source:/home/user-331/projects/eob3/eob3/game.cpp
 	"action.h"
 	"answers.h"
 	"console.h"

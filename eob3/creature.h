@@ -20,6 +20,7 @@ enum classn : unsigned char {
 	FighterCleric, FighterMage, FighterTheif,
 	MageTheif,
 	FighterMageTheif,
+	LastClass = FighterMageTheif
 };
 enum racen : unsigned char {
 	Human, Dwarf, Elf, HalfElf, Halfling,

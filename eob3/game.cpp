@@ -25,6 +25,7 @@ static messagen get_confirm(actionn v) {
 	case Carousing: return ConfirmCarousing;
 	case Inn: return ConfirmRentRoom;
 	case EatFoodAndDrink: return ConfirmEatAndDrink;
+	case HealWounds: return ConfirmBuyHealing;
 	default: return (messagen)0;
 	}
 }
@@ -76,6 +77,15 @@ bool indoor(actionn v) {
 
 void addv(variablen v, int i) {
 	game.add(v, i);
+}
+
+void addv(variablen v, int i, int minimum, int maximum) {
+	i += game.variables[v];
+	if(i < minimum)
+		i = minimum;
+	else if(maximum > 0 && i > maximum)
+		i = maximum;
+	game.variables[v] = i;
 }
 
 int getv(variablen v) {
@@ -213,7 +223,7 @@ void pass_effort() {
 
 bool enough(const variablei& v1, const variablei& v2) {
 	for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1))
-		if(v1.variables[i] < v2.variables[i])
+		if(v2.variables[i] && v1.variables[i] < v2.variables[i])
 			return false;
 	return true;
 }

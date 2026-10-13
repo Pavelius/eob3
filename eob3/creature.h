@@ -229,6 +229,7 @@ monstern get_minions(monstern v);
 racen get_race(monstern v);
 
 bool is_character(const creature* p);
+bool if_wounded();
 
 int get_caster(classn v);
 int get_hit_die(classn type);

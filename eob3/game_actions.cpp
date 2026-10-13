@@ -96,6 +96,22 @@ static void gambling() {
 	}
 }
 
+static void donate() {
+	static long source[] = {100, 200, 500};
+	answer_picture = ChaPriestessSilune;
+	for(auto n : source) {
+		if(game.get(Coins) >= n)
+			an.add(n, "%1i", n);
+	}
+	auto bet = choose_message(DonateIntro, true);
+	if(!bet)
+		return;
+	pass_time(xrand(10, 20));
+	addv(Coins, -bet);
+	bet = bet / 50 - 1;
+	addv(Blessing, xrand(bet, bet * 2), 0, 100);
+}
+
 static void pick_pockets() {
 	auto coins = 0;
 	if(!check_suspecious())
@@ -124,6 +140,10 @@ static void pick_pockets() {
 		} else
 			show_message(PickPocketsFail);
 	}
+}
+
+static void heal_wounds() {
+	player->hp = player->hpm;
 }
 
 static void scrible_scrolls() {
@@ -179,6 +199,8 @@ static actioni blacksmith_actions[] = {
 	{LeaveOutside, {}, {}, leave_outside},
 	{}};
 static actioni temple_actions[] = {
+	{HealWounds, {Coins, 50}, {}, heal_wounds, if_wounded},
+	{Donate, {}, {}, donate},
 	{LeaveOutside, {}, {}, leave_outside},
 	{}};
 static actioni wizard_tower_actions[] = {

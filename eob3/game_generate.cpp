@@ -159,13 +159,10 @@ static void party_random_generation() {
 	create(0, Human, Male, Fighter, LawfulGood);
 }
 
-static void test_city_menu() {
+static void start_campaign() {
 	auto quest = (questn)0;
 	quests[quest].set(QuestPrepared);
 	dungeon_create(quest, quests[quest].sites);
-	next_scene(play_city_actions);
-	// consolen("This is a [long] text display [+plus] or [-minuses], maybe [~grayed] of simple format output strings.", language_names[Elf]);
-	// go_adventure();
 }
 
 void game_generation() {
@@ -174,9 +171,9 @@ void game_generation() {
 #ifdef _DEBUG
 	party_random_generation();
 #else
-	party_random_generation();
-	// party_generation();
+	party_generation();
 #endif // _DEBUG
 	start_variables();
-	test_city_menu();
+	start_campaign();
+	next_scene(play_city_actions);
 }

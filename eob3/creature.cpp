@@ -1450,6 +1450,10 @@ bool is_character(const creature* p) {
 	return p >= characters && p <= characters + lengthof(characters);
 }
 
+bool if_wounded() {
+	return player->hp < player->hpm;
+}
+
 static void start_equipment() {
 	switch(get_class(player->type, 0)) {
 	case Fighter:

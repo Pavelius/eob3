@@ -80,6 +80,7 @@ enum picturen : unsigned char {
 	ChaAdaque, ChaAmaldo, ChaDexter, ChaNord1, ChaNord2, ChaPriestessSilune, ChaWitch,
 	PicCity, PicCityNight, PicDwarvenCity,
 	PicTavern, PicTavern2, PicInn, PicPickpockets, PicPickpocketsFail, PicGambling, PicForge, PicTemple, PicMagicShop,
+	PicMiracle, PicTriumph,
 	TavHobbit,
 	LastPicture = TavHobbit
 };
@@ -102,6 +103,7 @@ int roll_dice(int c, int d, int b = 0);
 int thrown_side(int avatar_thrown, int side);
 
 void addv(variablen v, int i);
+void addv(variablen v, int i, int minimum, int maximum = -1);
 void alternate_focus_input();
 void animation_update();
 void button_frame(int count, bool focused, bool pressed);

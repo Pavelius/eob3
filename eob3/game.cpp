@@ -1554,6 +1554,31 @@ static void use_grappling_hook(creature* player, item* last_item) {
 	}
 }
 
+static bool use_bless_effect(bool run) {
+	static spelln source[] = {CureLightWound};
+}
+
+static bool faith_effect() {
+	if(getv(Blessing) <= 30) {
+		consolen(getnm(YourFaithIsWeak));
+		return false;
+	}
+	if(!use_bless_effect(false)) {
+		consolen(getnm(UseHolySymbolNoEffect));
+		return false;
+	}
+	if(d100() >= getv(Blessing)) {
+		consolen(getnm(UseHolySymbolFail));
+		return true;
+	}
+	if(use_bless_effect(true)) {
+		consolen(getnm(UseHolySymbolSuccess));
+		addv(Blessing, -1);
+	} else
+		consolen(getnm(UseHolySymbolFail));
+	return true;
+}
+
 static bool allow_use(const creature* player, const item* pi) {
 	return player->allow(pi->type, CantUseItem);
 }

@@ -174,7 +174,8 @@ void game_generation() {
 #ifdef _DEBUG
 	party_random_generation();
 #else
-	party_generation();
+	party_random_generation();
+	// party_generation();
 #endif // _DEBUG
 	start_variables();
 	test_city_menu();

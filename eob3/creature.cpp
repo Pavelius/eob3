@@ -1497,12 +1497,24 @@ void start_quest_equipment() {
 		quest_equipment(get_class(player->type, i));
 }
 
+static void start_unique_equipment() {
+	switch(player->type) {
+	case Theif:
+		if(player->race==Halfling)
+			player->addgear(RedRing, CommonItem, Invisible, 0);
+		break;
+	default:
+		break;
+	}
+}
+
 void finish_character() {
 	apply_class_ability();
 	update_player();
 	update_player_hits();
 	if(!player->monster) {
 		start_equipment();
+		start_unique_equipment();
 		update_player();
 		update_player_hits();
 	}

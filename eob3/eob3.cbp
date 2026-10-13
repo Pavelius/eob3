@@ -68,6 +68,8 @@
 		<Unit filename="bin_thrown.cpp" />
 		<Unit filename="bin_xspl.cpp" />
 		<Unit filename="bitmap.cpp" />
+		<Unit filename="collection.cpp" />
+		<Unit filename="collection.h" />
 		<Unit filename="collectiona.cpp" />
 		<Unit filename="collectiona.h" />
 		<Unit filename="color.cpp" />

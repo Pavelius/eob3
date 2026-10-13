@@ -18,6 +18,7 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <dirent.h>
+#include <sys/stat.h>
 #include "stream.h"
 #include "stringbuilder.h"
 
@@ -139,6 +140,8 @@ bool io::file::exist(const char* url) {
 }
 
 bool io::file::makedir(const char* url) {
+	if(mkdir(url, 0755) == 0)
+		return true;
 	return false;
 }
 

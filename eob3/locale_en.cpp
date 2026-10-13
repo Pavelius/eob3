@@ -41,6 +41,8 @@ const char* message_names[LastMessage + 1] = {
 	"Current goals", "Visit %1",
 	"Can't do this - monsters are nearby",
 	"All game progress saved",
+	"Your faith is weak. You need donate more to temple.",
+	"Your praying is no effect", "Your praying is satisfied by god", "Your praying is without answers",
 	"Class", "Race"
 };
 const char* action_names[LastAction + 1] = {

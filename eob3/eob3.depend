@@ -52,12 +52,12 @@
 
 1791791544 /home/user-331/projects/eob3/eob3/action.h
 
-1791791544 /home/user-331/projects/eob3/eob3/creature.h
+1791873470 /home/user-331/projects/eob3/eob3/creature.h
 	"item.h"
 	"pointc.h"
 	"spell.h"
 
-1791798598 /home/user-331/projects/eob3/eob3/item.h
+1791873470 /home/user-331/projects/eob3/eob3/item.h
 	"dice.h"
 	"slice.h"
 
@@ -65,7 +65,7 @@
 
 1790942951 /home/user-331/projects/eob3/eob3/pointc.h
 
-1791791544 /home/user-331/projects/eob3/eob3/game.h
+1791887646 /home/user-331/projects/eob3/eob3/game.h
 
 1790665249 source:/home/user-331/projects/eob3/eob3/bin_itemgl.cpp
 
@@ -91,15 +91,15 @@
 
 1790665249 /home/user-331/projects/eob3/eob3/math.h
 
-1791798814 /home/user-331/projects/eob3/eob3/stream.h
+1791873470 /home/user-331/projects/eob3/eob3/stream.h
 
-1790665249 source:/home/user-331/projects/eob3/eob3/collection.cpp
+1791873470 source:/home/user-331/projects/eob3/eob3/collection.cpp
 	"collection.h"
 	"math.h"
 	"rand.h"
 	"stringbuilder.h"
 
-1790665249 /home/user-331/projects/eob3/eob3/collection.h
+1791873470 /home/user-331/projects/eob3/eob3/collection.h
 	"adat.h"
 	"slice.h"
 
@@ -118,7 +118,7 @@
 
 1790665249 /home/user-331/projects/eob3/eob3/timer.h
 
-1791791544 source:/home/user-331/projects/eob3/eob3/creature.cpp
+1791885951 source:/home/user-331/projects/eob3/eob3/creature.cpp
 	"creature.h"
 	"console.h"
 	"game.h"
@@ -153,7 +153,7 @@
 	"adat.h"
 	"pointc.h"
 
-1791791544 source:/home/user-331/projects/eob3/eob3/dungeon_generate.cpp
+1791873470 source:/home/user-331/projects/eob3/eob3/dungeon_generate.cpp
 	"assign.h"
 	"answers.h"
 	"dungeon.h"
@@ -169,7 +169,7 @@
 1790665249 /home/user-331/projects/eob3/eob3/shape.h
 	"pointc.h"
 
-1791791544 source:/home/user-331/projects/eob3/eob3/game.cpp
+1791873470 source:/home/user-331/projects/eob3/eob3/game.cpp
 	"action.h"
 	"answers.h"
 	"console.h"
@@ -187,7 +187,7 @@
 	"stringbuilder.h"
 	"view_focus.h"
 
-1791180051 /home/user-331/projects/eob3/eob3/sound.h
+1791873470 /home/user-331/projects/eob3/eob3/sound.h
 
 1790665249 /home/user-331/projects/eob3/eob3/stringvar.h
 	"stringbuilder.h"
@@ -213,7 +213,7 @@
 	"pushvalue.h"
 	"sound.h"
 
-1791791544 source:/home/user-331/projects/eob3/eob3/game_generate.cpp
+1791873721 source:/home/user-331/projects/eob3/eob3/game_generate.cpp
 	"action.h"
 	"answers.h"
 	"console.h"
@@ -237,16 +237,18 @@
 	"stringbuilder.h"
 	"stringvar.h"
 
-1791791544 source:/home/user-331/projects/eob3/eob3/item.cpp
+1791873470 source:/home/user-331/projects/eob3/eob3/item.cpp
+	"console.h"
+	"game.h"
 	"item.h"
 
-1791791544 source:/home/user-331/projects/eob3/eob3/item_generate.cpp
+1791873470 source:/home/user-331/projects/eob3/eob3/item_generate.cpp
 	"item.h"
 	"game.h"
 	"rand.h"
 	"spell.h"
 
-1791791544 source:/home/user-331/projects/eob3/eob3/locale_en.cpp
+1791887045 source:/home/user-331/projects/eob3/eob3/locale_en.cpp
 	"action.h"
 	"creature.h"
 	"dungeon.h"
@@ -283,7 +285,7 @@
 	"math.h"
 	"pointc.h"
 
-1791546121 source:/home/user-331/projects/eob3/eob3/midi.cpp
+1791873470 source:/home/user-331/projects/eob3/eob3/midi.cpp
 	"sound.h"
 	"slice.h"
 	"win.h"
@@ -340,7 +342,7 @@
 	"stringbuilder.h"
 	"view_focus.h"
 
-1791791544 source:/home/user-331/projects/eob3/eob3/view_controls.cpp
+1791873470 source:/home/user-331/projects/eob3/eob3/view_controls.cpp
 	"answers.h"
 	"console.h"
 	"creature.h"
@@ -359,11 +361,12 @@
 1788442202 source:/home/user-331/projects/eob3/eob3/nix_time.cpp
 	<time.h>
 
-1791801464 source:/home/user-331/projects/eob3/eob3/nix_io_file.cpp
+1791806796 source:/home/user-331/projects/eob3/eob3/nix_io_file.cpp
 	<cstdio>
 	<cstdlib>
 	<unistd.h>
 	<dirent.h>
+	<sys/stat.h>
 	"stream.h"
 	"stringbuilder.h"
 
@@ -413,7 +416,7 @@
 	"stringbuilder.h"
 	"timer.h"
 
-1791546121 source:/home/user-331/projects/eob3/eob3/view_automap.cpp
+1791873470 source:/home/user-331/projects/eob3/eob3/view_automap.cpp
 	"draw.h"
 	"dungeon.h"
 	"game.h"
@@ -426,7 +429,7 @@
 	"draw.h"
 	"stringbuilder.h"
 
-1791798636 /home/user-331/projects/eob3/eob3/spell.h
+1791873470 /home/user-331/projects/eob3/eob3/spell.h
 	"color.h"
 
 1791180051 /home/user-331/projects/eob3/eob3/perference.h
@@ -448,9 +451,10 @@
 	"math.h"
 	"spell.h"
 
-1791791544 source:/home/user-331/projects/eob3/eob3/spell.cpp
+1791873470 source:/home/user-331/projects/eob3/eob3/spell.cpp
 	"action.h"
 	"answers.h"
+	"collection.h"
 	"collectiona.h"
 	"console.h"
 	"creature.h"
@@ -460,7 +464,7 @@
 	"pushvalue.h"
 	"spell.h"
 
-1791791544 source:/home/user-331/projects/eob3/eob3/game_actions.cpp
+1791873470 source:/home/user-331/projects/eob3/eob3/game_actions.cpp
 	"action.h"
 	"answers.h"
 	"console.h"
@@ -471,7 +475,7 @@
 	"rand.h"
 	"sound.h"
 
-1791546121 source:/home/user-331/projects/eob3/eob3/game_combat.cpp
+1791873470 source:/home/user-331/projects/eob3/eob3/game_combat.cpp
 	"action.h"
 	"adat.h"
 	"answers.h"
@@ -496,7 +500,7 @@
 
 1791180051 source:/home/user-331/projects/eob3/eob3/bin_thrown.cpp
 
-1791791544 source:/home/user-331/projects/eob3/eob3/main.cpp
+1791873470 source:/home/user-331/projects/eob3/eob3/main.cpp
 	"action.h"
 	"answers.h"
 	"creature.h"
@@ -508,7 +512,7 @@
 	"timer.h"
 	"stringvar.h"
 
-1791800436 source:/home/user-331/projects/eob3/eob3/serial.cpp
+1791873470 source:/home/user-331/projects/eob3/eob3/serial.cpp
 	"archive.h"
 	"game.h"
 	"quest.h"

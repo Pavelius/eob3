@@ -150,15 +150,18 @@ static void heal_wounds() {
 }
 
 static void ask_for_miracle() {
-	auto chance_miracle = getv(Blessing) / 5;
+	auto chance_miracle = getv(Blessing) / 4;
 	char temp[260]; stringbuilder sb(temp);
 	sb.add(getnm(AskMiracleIntro), player->name());
 	if(chance(chance_miracle)) {
+		auto raise = random(RandomMiracleRaise);
 		sb.adds("\"");
 		sb.add(getnm(UseHolySymbolSuccess));
-		sb.add("\"");
-		auto raise = random(RandomMiracleRaise);
+		sb.add(".");
+		sb.adds(getnm(YourAbilityGrow), ability_names[raise]);
+		sb.add(".\"");
 		player->basic.abilities[raise]++;
+		update_player();
 	} else {
 		sb.adds("\"");
 		switch(d4()) {

@@ -54,7 +54,7 @@ enum messagen : unsigned char {
 	QuestGoals, VisitBuilding,
 	MonstersAreNearbe,
 	GameSaved,
-	YourFaithIsWeak,UseHolySymbolNoEffect,UseHolySymbolSuccess,UseHolySymbolFail,
+	YourFaithIsWeak, UseHolySymbolNoEffect, UseHolySymbolSuccess, UseHolySymbolFail, YourAbilityGrow,
 	Class, Race,
 	LastMessage = Race
 };

@@ -42,7 +42,7 @@ const char* message_names[LastMessage + 1] = {
 	"You can't do that while monsters are nearby",
 	"Game saved",
 	"Your faith is weak. Perhaps a more generous donation would please the gods.",
-	"Your prayer have no effect", "Your prayer are answered by your deity", "Your prayer go unanswered",
+	"Your prayer have no effect", "Your prayer are answered by your deity", "Your prayer go unanswered", "Your %1 is raised",
 	"Class", "Race"
 };
 const char* action_names[LastAction + 1] = {

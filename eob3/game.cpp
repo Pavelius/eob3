@@ -1784,6 +1784,7 @@ void go_adventure() {
 }
 
 void leave_quest() {
+
 }
 
 void enter_dungeon(int level, celln location) {

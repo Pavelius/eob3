@@ -42,7 +42,7 @@ const char* message_names[LastMessage + 1] = {
 	"You can't do that while monsters are nearby",
 	"Game saved",
 	"Your faith is weak. Perhaps a more generous donation would please the gods.",
-	"Your prayers have no effect", "Your prayers are answered by your deity", "Your prayers go unanswered",
+	"Your prayer have no effect", "Your prayer are answered by your deity", "Your prayer go unanswered",
 	"Class", "Race"
 };
 const char* action_names[LastAction + 1] = {
@@ -299,7 +299,7 @@ const char* quest_rumor[(LastQuest + 1) * 5] = {
 	"Can you hear the bell beneath the water? It is no bell. It is calling to whatever sleeps deep beneath the city."
 };
 const char* quest_speech[(LastQuest + 1) * (LastPhase + 1)] = {
-	"\"Well met, my friends.\" Chief of local guard was good spirited. You sit in local tavern. \"My name if Halfast Rodgar. And I am chief of local guard as you now.\"\0\"We have a problem in collectors. Two our men are going down and not returned yet. Maybe, there is a some kind of monsters inside.\"\0\"I need your help to deal with them. Kill them all. Going down to the last level and kill all of these creatures and our comunity will reward you. Small rewar, say %QuestRewardGold gold pieces.\"\0",
+	"\"Well met, my friends.\" Chief of local guard was good spirited. You sit in local tavern. \"My name if Halfast Rodgar. And I am chief of local guard as you now.\"\0\"We have a problem in collectors. Two our men are going down and not returned yet. Maybe, there is a some kind of monsters inside.\"\0\"I need your help to deal with them. Kill them all. Going down to the last level and kill all of these creatures and our comunity will reward you. Small rewar, say %QuestRewardGold silver pieces.\"\0",
 	"\"Very well! You are good mens. Let's luck be with you.\"\0",
 	0,
 	"Old collector builded hundred years ago. What lie below the earth? You open metal door and get in a sticky flooded tunnel...\0",

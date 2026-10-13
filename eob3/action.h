@@ -20,6 +20,7 @@ enum actionn : unsigned char {
 	EatFoodAndDrink, EatAndDrinkSuccess,
 	Gambling, GamblingIntro, GamblingWin, GamblingLose,
 	Carousing,
+	AskMiracle, AskMiracleIntro,
 	HealWounds,
 	Donate, DonateIntro, DonateAccept,
 	BuyWeapons, BuyWeaponsEmpty,

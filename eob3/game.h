@@ -145,6 +145,7 @@ bool game_serial(const char* id, bool write_mode, bool run_game);
 void go_adventure();
 void header_yellow(const char* format);
 void initialize_gui();
+bool if_blessing_good();
 void leave_quest();
 void load_game();
 void main_menu();

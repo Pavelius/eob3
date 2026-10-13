@@ -164,6 +164,10 @@ int quest_count(questfn v) {
 	return result;
 }
 
+bool if_blessing_good() {
+	return getv(Blessing) >= 30;
+}
+
 static void party_items(collection<item>& result, fnvisible filter, bool keep) {
 	for(auto p : adventurers) {
 		if(!p)

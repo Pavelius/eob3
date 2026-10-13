@@ -235,6 +235,8 @@ static char spell_progression[4][21][9] = {
 	{5, 5, 5, 5, 5, 4, 3, 3, 2}},
 };
 
+static abilityn random_miracle[] = {Strenght, Dexterity, Constitution, Intellegence, Wisdow, Charisma, BestClassAbility, BestClassAbility};
+
 creature characters[32];
 creature* adventurers[6];
 creature* player;
@@ -1452,6 +1454,14 @@ bool is_character(const creature* p) {
 
 bool if_wounded() {
 	return player->hp < player->hpm;
+}
+
+abilityn random(abilityn v) {
+	switch(v) {
+	case RandomMiracleRaise: return maprnd(random_miracle);
+	case BestClassAbility: return get_primary(get_class(player->type, 0));
+	default: return v;
+	}
 }
 
 static void start_equipment() {

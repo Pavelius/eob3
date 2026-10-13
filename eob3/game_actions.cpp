@@ -146,6 +146,29 @@ static void heal_wounds() {
 	player->hp = player->hpm;
 }
 
+static void ask_for_miracle() {
+	auto chance_miracle = getv(Blessing) / 5;
+	char temp[260]; stringbuilder sb(temp);
+	sb.add(getnm(AskMiracleIntro), player->name());
+	if(chance(chance_miracle)) {
+		sb.adds("\"");
+		sb.add(getnm(UseHolySymbolSuccess));
+		sb.add("\"");
+		auto raise = random(RandomMiracleRaise);
+		player->basic.abilities[raise]++;
+	} else {
+		sb.adds("\"");
+		switch(d4()) {
+		case 1: sb.add(getnm(UseHolySymbolNoEffect)); break;
+		case 2: sb.add(getnm(UseHolySymbolFail)); break;
+		default: sb.add(getnm(YourFaithIsWeak)); break;
+		}
+		sb.add("\"");
+	}
+	addv(Blessing, -xrand(10, 20));
+	show_message(temp, false, getnm(Continue), 13);
+}
+
 static void scrible_scrolls() {
 }
 
@@ -199,6 +222,7 @@ static actioni blacksmith_actions[] = {
 	{LeaveOutside, {}, {}, leave_outside},
 	{}};
 static actioni temple_actions[] = {
+	{AskMiracle, {}, {}, ask_for_miracle, if_blessing_good},
 	{HealWounds, {Coins, 50}, {}, heal_wounds, if_wounded},
 	{Donate, {}, {}, donate},
 	{LeaveOutside, {}, {}, leave_outside},

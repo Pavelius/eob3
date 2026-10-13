@@ -52,6 +52,7 @@ enum abilityn : unsigned char {
 	DrainedStrenght, DrainedConstitution, DrainedLevels,
 	Hits, LastAbility = Hits,
 	Level, Experience,
+	RandomMiracleRaise, BestClassAbility,
 };
 enum monstern : unsigned char {
 	NoMonster,
@@ -102,6 +103,8 @@ bool is_lawful(alignmentn v);
 
 classn get_class(classn v, int index);
 classn get_caster_class(classn v);
+
+abilityn random(abilityn v);
 
 struct racenc {
 	unsigned short data = 0;

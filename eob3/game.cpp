@@ -458,6 +458,16 @@ static void check_food() {
 }
 
 static void check_goals() {
+	if(!loc)
+		return;
+	for(auto goal = (goaln)0; goal <= LastGoal; goal = (goaln)(goal + 1)) {
+		if(loc->is(goal))
+			continue;
+		if(!loc->pass(goal))
+			continue;
+		party_addexp(500);
+		loc->set(goal);
+	}
 }
 
 static void check_return_to_base() {
@@ -1157,11 +1167,23 @@ static void loot_identyfing() {
 	}
 }
 
+static int party_goals(questn quest, goaln v) {
+	auto result = 0;
+	for(unsigned i = 0; i < dungeons_count; i++) {
+		if(dungeons[i].quest != quest)
+			continue;
+		if(dungeons[i].is(v))
+			result++;
+	}
+	return result;
+}
+
 static bool quest_complite(const questi* p) {
+	auto index = p->index();
 	for(auto i = (goaln)0; i <= KillAlmostAllMonsters; i = (goaln)(i + 1)) {
 		if(!p->goals.goals[i])
 			continue;
-		auto value = 0; // party_goal(i);
+		auto value = party_goals(index, i);
 		if(value < p->goals.goals[i])
 			return false;
 	}
@@ -1677,8 +1699,8 @@ static void use_grappling_hook(creature* player, item* last_item) {
 		pass_time(xrand(2, 5));
 	} else if(locup && locup->get(player->pos) == CellPitUp) {
 		if(use_tool_item(player, last_item, ClimbWalls, get_level_difficult(), 60)) {
-			if(loc->level>1)
-				enter_dungeon(loc->level-1, CellUnknown);
+			if(loc->level > 1)
+				enter_dungeon(loc->level - 1, CellUnknown);
 			consolen(getnm(PartyGoingUp));
 			use_tool_success(player, ClimbWalls, 20);
 		}
@@ -1911,7 +1933,7 @@ void enter_dungeon(int level, celln location) {
 	loc = find_dungeon(p->index(), level);
 	if(!loc)
 		return; // Dungeon not found. Stay in city.
-	if(location!=CellUnknown)
+	if(location != CellUnknown)
 		party_set(location);
 	explore_area();
 	next_scene(play_dungeon);

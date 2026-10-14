@@ -234,6 +234,7 @@ struct dungeoni : sitei, goalfc {
 	void			set(pointc v, celln i, pointc size);
 	void			set(pointc v, cellfn i, int radius);
 	void			set(pointc v, cellfn i);
+	void			set(goaln v) { goalfc::set(v); }
 };
 extern dungeoni* loc; // Currently used dungeon. If loc = 0 then we are in city.
 extern dungeoni* locup; // Top level of currently used dungeon. Use for roof pit painting.

@@ -233,6 +233,10 @@ void item::damage(const char* interactive) {
 		hits++;
 }
 
+void item::consume() {
+	usecharge(getnm(UseLastAmmo));
+}
+
 void wearable::addgear(itemn type, purposen purpose, featn power, unsigned char identified) {
 	item e(type);
 	e.create(0, 0);

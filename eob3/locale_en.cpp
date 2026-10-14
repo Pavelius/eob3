@@ -45,6 +45,7 @@ const char* message_names[LastMessage + 1] = {
 	"Your prayer have no effect", "Your prayer are answered by your deity", "Your prayer go unanswered", "Your %1 is raised",
 	"Before visit any shop you try identify any items that you grab in dungeon. Speaking with skilled people you identify as magical %Number items in you package.",
 	"You visit locale market and sold all valuable loot you get from adventure. Totaly you earn %Number silver pieces after this.",
+	"Last %1 used",
 	"Class", "Race"
 };
 const char* action_names[LastAction + 1] = {

@@ -162,7 +162,7 @@ struct item {
 	bool allow(spelln v, int level);
 	bool apply(spelln v, int level, bool run);
 	void clear() { type = NoItem; power = NoPower; purpose = CommonItem; hits = 0; identified = 0; }
-	void consume() {}
+	void consume();
 	void create(int chance_magical, int chance_cursed = 5);
 	void damage(const char* interactive);
 	void identify(int v) { identified = (v >= 0) ? 1 : 0; }

@@ -226,6 +226,7 @@ static actioni inn_actions[] = {
 	{MemorizeSpells, {}, {Mage}, memorize_spells},
 	{PrayForSpells, {}, {Cleric}, pray_for_spells},
 	{ScribleScrolls, {}, {Mage}, scrible_scrolls},
+	{LeaveOutside, {}, {}, leave_outside},
 	{}};
 static actioni blacksmith_actions[] = {
 	{BuyWeapons, {}, {}, buy_weapons},

@@ -155,13 +155,18 @@ static void ask_for_miracle() {
 	sb.add(getnm(AskMiracleIntro), player->name());
 	if(chance(chance_miracle)) {
 		auto raise = random(RandomMiracleRaise);
+		if(raise < 25)
+			player->basic.abilities[raise]++;
+		else {
+			raise = Hits;
+			player->hpr += xrand(2, 4);
+		}
+		update_player();
 		sb.adds("\"");
 		sb.add(getnm(UseHolySymbolSuccess));
 		sb.add(".");
 		sb.adds(getnm(YourAbilityGrow), ability_names[raise]);
 		sb.add(".\"");
-		player->basic.abilities[raise]++;
-		update_player();
 	} else {
 		sb.adds("\"");
 		switch(d4()) {

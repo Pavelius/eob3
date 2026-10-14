@@ -1852,18 +1852,6 @@ void choose_spells(const char* title, const char* cancel, int spell_type) {
 	an.clear();
 }
 
-void show_scene(fnevent scene_paint, fnevent input, long focus) {
-	pushrect push;
-	current_focus = focus;
-	while(ismodal()) {
-		scene_paint();
-		domodal();
-		if(input)
-			input();
-		common_input();
-	}
-}
-
 static int menu_button_width() {
 	auto result = 0;
 	if(!an)

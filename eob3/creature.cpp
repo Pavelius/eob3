@@ -1066,6 +1066,8 @@ void creature::checklevel() {
 			auto type = get_class(this->type, i);
 			auto tbl = get_experience_table(type);
 			auto lev = levels[i];
+			if(lev >= 20)
+				continue; // Maximum level is 20.
 			if(experience >= tbl[lev + 1]) {
 				levels[i]++;
 				hpr += 1 + (rand() % get_hit_die(type));

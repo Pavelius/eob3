@@ -465,6 +465,12 @@ static void paint_overlays() {
 	}
 }
 
+static void input_automap() {
+	switch(hkey) {
+	case KeyEscape: case KeySpace: execute(buttoncancel); break;
+	}
+}
+
 static void paint_layers() {
 	paint_background();
 	paint_automap();
@@ -472,12 +478,7 @@ static void paint_layers() {
 	paint_points(red_markers, red_marker);
 	if(show_party)
 		paint_party_position();
-}
-
-static void input_automap() {
-	switch(hkey) {
-	case KeyEscape: case KeySpace: breakmodal(0); break;
-	}
+	input_automap();
 }
 
 void show_automap(const pointca& markers, int explore_radius) {
@@ -494,7 +495,7 @@ void show_automap(const pointca& markers, int explore_radius) {
 	paint_layers();
 	screenshoot after;
 	before.blend(after, 1000);
-	show_scene(paint_layers, input_automap, 0);
+	scene(paint_layers);
 }
 
 void show_automap(bool mshow_fog_of_war, bool mshow_secrets, bool mshow_party, const pointca* vred_markers) {
@@ -503,7 +504,7 @@ void show_automap(bool mshow_fog_of_war, bool mshow_secrets, bool mshow_party, c
 	show_secrets = mshow_secrets;
 	show_party = mshow_party;
 	red_markers = vred_markers;
-	show_scene(paint_layers, input_automap, 0);
+	scene(paint_layers);
 }
 
 void show_dungeon_automap() {

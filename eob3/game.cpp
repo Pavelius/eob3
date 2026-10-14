@@ -17,6 +17,7 @@
 
 gamei game;
 static item* valuable_item;
+int last_number;
 
 void thrown_item(pointc v, directionn d, int avatar_thrown, int side, int distance);
 
@@ -665,7 +666,7 @@ static void set_skill_checks_per_day() {
 	for(auto p : adventurers) {
 		if(!p)
 			continue;
-		switch(get_class(player->type, 0)) {
+		switch(get_class(p->type, 0)) {
 		case Theif: result += 4; break;
 		default: result += 2; break;
 		}
@@ -692,17 +693,17 @@ static void pass_time_activity() {
 	check_secrets();
 	check_noises_behind_door();
 	all_creatures(update_every_round);
-	if(minute >= game.next_turn) {
+	while(minute >= game.next_turn) {
 		game.next_turn += 10;
 		all_party(check_food, true);
 		all_creatures(check_poison);
 		check_return_to_base();
 	}
-	if(minute >= game.next_hour) {
-		game.next_turn += 10 * 6;
+	while(minute >= game.next_hour) {
+		game.next_hour += 10 * 6;
 		all_creatures(update_every_hour);
 	}
-	if(minute >= game.next_day) {
+	while(minute >= game.next_day) {
 		game.next_day += 24 * 10 * 6;
 		set_skill_checks_per_day();
 	}
@@ -762,6 +763,21 @@ void show_message(actionn id, ...) {
 
 long choose_message(actionn id, bool can_cancel) {
 	return show_message(getnm(id), true, can_cancel ? getnm(Cancel) : 0, 27);
+}
+
+static void show_quest(const questi* pa, phasen phase) {
+	auto format = quest_speech[pa->index() * (LastPhase + 1) + phase];
+	if(!format)
+		return;
+	char temp[512]; stringbuilder sb(temp);
+	while(running_scene()) {
+		sb.clear(); sb.add(format);
+		show_message(temp, false, getnm(Continue), 0);
+		auto pe = zend(format);
+		if(pe[1] == 0)
+			break;
+		format = pe + 1;
+	}
 }
 
 static bool pass_restriction(const classnc& v) {
@@ -832,8 +848,10 @@ void buy_item(shopn shop, actionn shop_empty) {
 		auto cost = pi->getcost();
 		if(!confirm_action(ConfirmBuyItem, cost))
 			continue;
-		game.add(Coins, -cost);
 		player->additem(*pi);
+		if(*pi)
+			continue;
+		game.add(Coins, -cost);
 		normalize_shop(shop);
 	}
 }
@@ -1088,8 +1106,108 @@ static void pit_fall_down() {
 		player->damage(Bludgeon, xrand(3, 18));
 }
 
+static void after_dungeon(picturen picture, messagen id, fnevent proc) {
+	last_number = 0;
+	all_party(proc, false);
+	if(last_number) {
+		pushvalue push_picture(answer_picture, picture);
+		char temp[260]; stringbuilder sb(temp);
+		sb.add(getnm(id));
+		show_message(temp, false, getnm(Continue), 13);
+	}
+}
+
+static void clear_mission_equipment() {
+	for(auto& e : player->wears) {
+		if(e.is(ToolItem))
+			e.clear();
+	}
+}
+
+static void clear_edible() {
+	for(auto& e : player->wears) {
+		if(e.is(Edible))
+			e.clear();
+	}
+}
+
+static void loot_selling() {
+	for(auto& e : player->backpack()) {
+		if(!e || e.ismagical())
+			continue;
+		if(e.is(QuestItem))
+			continue;
+		auto wear = e.geti().wear;
+		if(wear == Key || wear == Readable)
+			continue;
+		auto value = e.getcost(); // Full price? Maybe half?
+		last_number += value;
+		addv(Coins, value);
+		e.clear();
+	}
+}
+
+static void loot_identyfing() {
+	for(auto& e : player->wears) {
+		if(!e || e.isidentified())
+			continue;
+		e.identify(1);
+		if(e.ismagical())
+			last_number++;
+	}
+}
+
+static bool quest_complite(const questi* p) {
+	for(auto i = (goaln)0; i <= KillAlmostAllMonsters; i = (goaln)(i + 1)) {
+		if(!p->goals.goals[i])
+			continue;
+		auto value = 0; // party_goal(i);
+		if(value < p->goals.goals[i])
+			return false;
+	}
+	return true;
+}
+
+static bool is_special_item(questn index, const item& it) {
+	for(auto& e : dungeons) {
+		if(!e || e.quest != index)
+			continue;
+		if(e.special && e.special == it.type)
+			return true;
+	}
+	return false;
+}
+
+static void clear_quest_items() {
+	auto p = active_quest();
+	if(!p)
+		return;
+	auto quest = p->index();
+	for(auto& e : player->wears) {
+		if(e && is_special_item(quest, e))
+			e.clear();
+	}
+}
+
+static void check_quest_complited() {
+	auto p = active_quest();
+	if(!p)
+		return;
+	if(!quest_complite(p))
+		return;
+	all_party(clear_quest_items, false); // Remove quest item only if done quest
+	show_quest(p, PhaseReward); game += p->rewards;
+	p->set(QuestPassed);
+}
+
 static void leave_dungeon() {
-	// TODO: Check passed goals. If all - close quest and apply reward.
+	all_party(clear_mission_equipment, true);
+	all_party(clear_edible, true);
+	check_quest_complited();
+	after_dungeon(PicShop, LootIdentyfing, loot_identyfing);
+	after_dungeon(PicShop, LootSelling, loot_selling);
+	loc = 0; // City enter
+	next_scene(play_city_actions);
 }
 
 static void drop_unique_loot(creature* player) {
@@ -1743,21 +1861,6 @@ static void party_set(celln v) {
 	case CellStairsDown: party_set(loc->state.down); break;
 	case CellPortal: party_set(loc->state.portal); break;
 	default: return;
-	}
-}
-
-static void show_quest(const questi* pa, phasen phase) {
-	auto format = quest_speech[pa->index() * (LastPhase + 1) + phase];
-	if(!format)
-		return;
-	char temp[512]; stringbuilder sb(temp);
-	while(running_scene()) {
-		sb.clear(); sb.add(format);
-		show_message(temp, false, getnm(Continue), 0);
-		auto pe = zend(format);
-		if(pe[1] == 0)
-			break;
-		format = pe + 1;
 	}
 }
 

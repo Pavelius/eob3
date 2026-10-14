@@ -56,6 +56,10 @@ static void quest_reward_gold(stringbuilder& sb) {
 		sb.add("%1i", pa->rewards.variables[Coins]);
 }
 
+static void print_number(stringbuilder& sb) {
+	sb.add("%1i", last_number);
+}
+
 void stringbuilder_custom(stringbuilder& sb, const char* id) {
 	if(stringvar_identifier(sb, id))
 		return;
@@ -65,6 +69,7 @@ void stringbuilder_custom(stringbuilder& sb, const char* id) {
 stringvari stringvars[] = {
 	{"Class", player_class},
 	{"Coins", player_gold},
+	{"Number", print_number},
 	{"Opponent", opponent_name},
 	{"Player", player_name},
 	{"QuestRewardGold", quest_reward_gold},

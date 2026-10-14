@@ -43,6 +43,8 @@ const char* message_names[LastMessage + 1] = {
 	"Game saved",
 	"Your faith is weak. Perhaps a more generous donation would please the gods.",
 	"Your prayer have no effect", "Your prayer are answered by your deity", "Your prayer go unanswered", "Your %1 is raised",
+	"Before visit any shop you try identify any items that you grab in dungeon. Speaking with skilled people you identify as magical %Number items in you package.",
+	"You visit locale market and sold all valuable loot you get from adventure. Totaly you earn %Number silver pieces after this.",
 	"Class", "Race"
 };
 const char* action_names[LastAction + 1] = {
@@ -273,7 +275,7 @@ const char* speech_names3[LastSpeech + 1] = {
 	"I can't use that here.",
 	"I can't eat this rotten food!",
 	"Stop. Already opened.",
-	"Stop. The trap has been disarmed..",
+	"Stop. The trap has been disarmed.",
 };
 const char* wallmsg_names[LastWellMessage + 1] = {
 	"%1i magical weapons lie hidden on this level.",

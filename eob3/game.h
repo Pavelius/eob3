@@ -55,6 +55,7 @@ enum messagen : unsigned char {
 	MonstersAreNearbe,
 	GameSaved,
 	YourFaithIsWeak, UseHolySymbolNoEffect, UseHolySymbolSuccess, UseHolySymbolFail, YourAbilityGrow,
+	LootIdentyfing, LootSelling,
 	Class, Race,
 	LastMessage = Race
 };
@@ -80,7 +81,7 @@ enum picturen : unsigned char {
 	ChaAdaque, ChaAmaldo, ChaDexter, ChaNord1, ChaNord2, ChaPriestessSilune, ChaWitch,
 	PicCity, PicCityNight, PicDwarvenCity,
 	PicTavern, PicTavern2, PicInn, PicPickpockets, PicPickpocketsFail, PicGambling, PicForge, PicTemple, PicMagicShop,
-	PicMiracle, PicTriumph,
+	PicShop, PicTriumph,
 	TavHobbit,
 	LastPicture = TavHobbit
 };
@@ -94,6 +95,7 @@ inline const char* getnm(messagen v) { return message_names[v]; }
 extern sprite* res_data[LastRes + 1];
 extern bool interactive;
 extern int generate_player_index;
+extern int last_number;
 extern unsigned long current_cpu_time;
 extern bool need_update_animation;
 
@@ -177,7 +179,6 @@ void show_automap(bool mshow_fog_of_war, bool mshow_secrets, bool mshow_party, c
 void show_dungeon_automap();
 void show_dungeon_images();
 void show_dungeon_options();
-void show_scene(fnevent before_paint, fnevent input, long focus = -1);
 void show_scene_font();
 void show_sprites_command();
 void show_perferences(const char* header, const perferencei* actions);

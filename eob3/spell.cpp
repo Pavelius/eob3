@@ -167,7 +167,7 @@ int creature::level(spelln spell) const {
 			result_level = priest_level;
 	}
 	if(spell_data[spell].levels[1]) {
-		if(mage_level && mage_level < result_level)
+		if(mage_level && mage_level > result_level)
 			result_level = mage_level;
 	}
 	return result_level;

@@ -61,6 +61,7 @@ struct variablei {
 	constexpr explicit operator bool() const { for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1)) if(variables[i]) return true; return false; }
 	constexpr bool operator==(const variablei& v) const { for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1)) if(variables[i] != v.variables[i]) return false; return true; }
 	constexpr bool operator!=(const variablei& v) const { for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1)) if(variables[i] == v.variables[i]) return false; return true; }
+	constexpr void operator+=(const variablei& v) { for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1)) variables[i] += v.variables[i]; }
 	constexpr int get(variablen v) const { return variables[v]; }
 	constexpr void add(variablen v, int n) { variables[v] += n; }
 };

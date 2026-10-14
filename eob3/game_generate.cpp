@@ -53,9 +53,11 @@ void change_avatar() {
 }
 
 void game_clear() {
+	memset(&game, 0, sizeof(game));
 	memset(adventurers, 0, sizeof(adventurers));
 	memset(dungeons, 0, sizeof(dungeons)); dungeons_count = 0;
 	memset(shops, 0, sizeof(shops));
+	memset(boosts, 0, sizeof(boosts)); boost_count = 0;
 	for(auto& e : characters)
 		e.clear();
 	for(auto& e : quests)

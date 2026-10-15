@@ -134,6 +134,11 @@ const char* goal_names[LastGoal + 1] = {
 	"Explore most area", "Find all secrets", "Take special item", "Open all doors", "Disable all traps",
 	"Kill boss", "Kill them all",
 };
+const char* goal_speech[LastGoal + 1] = {
+	"We explore almost all area",
+	"We found almost all secret in this place", "We take all we need", "All locked doors are open, now", "Seems all traps is disabled on this level",
+	"We kill all bosses", "We kill almost all of them",
+};
 const char* variable_names[LastVariable + 1] = {
 	"Reputation", "Silver", "Blessing", "Checks", "Time",
 };

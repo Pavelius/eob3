@@ -9,6 +9,7 @@ typedef bool (*fncfilter)(unsigned char v);
 const int encounter_table_maximum = 19;
 const int party_size = 6;
 
+enum goaln : unsigned char;
 enum messagen : unsigned char;
 enum monstern : unsigned char;
 enum resn : unsigned char;
@@ -142,6 +143,7 @@ struct npci {
 	char			levels[3];
 	const char* name() const { return monster ? monster_names[monster] : name_names[name_id]; }
 	int level() const { return levels[0]; }
+	void say(goaln id) const;
 	void say(messagen id, ...) const;
 	void say(speechn id, ...) const;
 	void say(const char* foramt, ...) const;

@@ -1,5 +1,6 @@
 #include "console.h"
 #include "creature.h"
+#include "dungeon.h"
 #include "game.h"
 #include "rand.h"
 #include "stringbuilder.h"
@@ -26,6 +27,10 @@ void npci::say(messagen id, ...) const {
 void npci::say(speechn id, ...) const {
 	XVA_FORMAT(id);
 	sayv(getnm(id), format_param);
+}
+
+void npci::say(goaln id) const {
+	sayv(goal_speech[id], 0);
 }
 
 void npci::say(const char* foramt, ...) const {

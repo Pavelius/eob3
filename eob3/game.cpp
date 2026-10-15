@@ -465,6 +465,7 @@ static void check_goals() {
 			continue;
 		if(!loc->pass(goal))
 			continue;
+		player->say(goal);
 		party_addexp(500);
 		loc->set(goal);
 	}

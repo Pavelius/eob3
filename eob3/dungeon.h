@@ -75,6 +75,7 @@ enum roomn : unsigned char {
 };
 
 extern const char* goal_names[LastGoal + 1];
+extern const char* goal_speech[LastGoal + 1];
 extern const char* wallmsg_names[LastWellMessage + 1];
 
 struct sitei {

@@ -437,19 +437,22 @@ static void check_acid() {
 		player->damage(AcidDamage, damage);
 }
 
-static void check_disease() {
-	if(!player->is(DiseaseLevel))
-		return;
-	// Two test in row to overcome disease or two failed tests to get worse
-	if(player->roll(SaveVsPoison, 0)) {
-		if(player->roll(SaveVsPoison, 0))
-			player->add(DiseaseLevel, -1);
-	} else {
-		if(!player->roll(SaveVsPoison, 0)) {
-			player->add(DiseaseLevel, 1);
-			consolen(getnm(FeelDisease));
+static void check_disease_level() {
+	if(player->is(DiseaseLevel)) {
+		// Two test in row to overcome disease or two failed tests to get worse
+		if(player->roll(SaveVsPoison, 0)) {
+			if(player->roll(SaveVsPoison, 0))
+				player->add(DiseaseLevel, -1);
+		} else {
+			if(!player->roll(SaveVsPoison, 0)) {
+				player->add(DiseaseLevel, 1);
+				consolen(getnm(FeelDisease));
+			}
 		}
 	}
+}
+
+static void check_disease_effect() {
 	// Reduce hp (can die if disease level high)
 	if(player->is(DiseaseLevel)) {
 		auto m = player->hpm / 3;
@@ -773,7 +776,11 @@ static void update_every_turn() {
 }
 
 static void update_every_half_hour() {
-	check_disease();
+	check_disease_effect();
+}
+
+static void update_every_hour() {
+	check_disease_level();
 }
 
 static void pass_time_activity() {
@@ -793,6 +800,10 @@ static void pass_time_activity() {
 	while(minute >= game.next_half_hour) {
 		game.next_half_hour += 10 * 3;
 		all_creatures(update_every_half_hour);
+	}
+	while(minute >= game.next_hour) {
+		game.next_hour += 10 * 6;
+		all_creatures(update_every_hour);
 	}
 	while(minute >= game.next_day) {
 		game.next_day += 24 * 10 * 6;

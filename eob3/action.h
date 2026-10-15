@@ -67,7 +67,7 @@ struct variablei {
 };
 
 struct gamei : variablei {
-	unsigned next_turn, next_half_hour, next_day, next_several_days;
+	unsigned next_turn, next_half_hour, next_hour, next_day;
 };
 extern gamei game;
 

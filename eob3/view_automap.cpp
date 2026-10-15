@@ -106,9 +106,9 @@ static void paint_party_position() {
 }
 
 static celln tget(int x, int y) {
-	if(show_fog_of_war && !loc->is({(unsigned char)x, (unsigned char)y}, CellExplored))
+	if(show_fog_of_war && !loc->is(pointc(x, y), CellExplored))
 		return CellWall;
-	auto t = loc->get({(unsigned char)x, (unsigned char)y});
+	auto t = loc->get(pointc(x, y));
 	switch(t) {
 	case CellUnknown:
 	case CellPortal:
@@ -118,16 +118,16 @@ static celln tget(int x, int y) {
 	}
 }
 
-static void fill_neighboard(pointc v, celln* nb) {
-	nb[0] = tget(v.x - 1, v.y);
-	nb[1] = tget(v.x, v.y - 1);
-	nb[2] = tget(v.x + 1, v.y);
-	nb[3] = tget(v.x, v.y + 1);
+static void fill_neighboard(int x, int y, celln* nb) {
+	nb[0] = tget(x - 1, y);
+	nb[1] = tget(x, y - 1);
+	nb[2] = tget(x + 1, y);
+	nb[3] = tget(x, y + 1);
 	//
-	nb[4] = tget(v.x - 1, v.y + 1);
-	nb[5] = tget(v.x - 1, v.y - 1);
-	nb[6] = tget(v.x + 1, v.y - 1);
-	nb[7] = tget(v.x + 1, v.y + 1);
+	nb[4] = tget(x - 1, y + 1);
+	nb[5] = tget(x - 1, y - 1);
+	nb[6] = tget(x + 1, y - 1);
+	nb[7] = tget(x + 1, y + 1);
 }
 
 static void fill_side(int dx, color border, celln* nb, celln t1) {
@@ -271,17 +271,17 @@ static void paint_automap() {
 			v.x = x; v.y = y;
 			if(show_fog_of_war) {
 				if(!v) {
-					auto x1 = (unsigned char)imax(0, imin((int)v.x, mpx - 1));
-					auto y1 = (unsigned char)imax(0, imin((int)v.y, mpy - 1));
-					if(!loc->is({x1, y1}, CellExplored))
+					auto x1 = (unsigned char)imax(0, imin(x, mpx - 1));
+					auto y1 = (unsigned char)imax(0, imin(y, mpy - 1));
+					if(!loc->is(pointc(x1, y1), CellExplored))
 						continue;
 				} else {
 					if(!loc->is(v, CellExplored))
 						continue;
 				}
 			}
-			fill_neighboard(v, nb);
-			auto pos = gs(v.x, v.y);
+			fill_neighboard(x, y, nb);
+			auto pos = gs(x, y);
 			caret = pos;
 			width = mpg; height = mpg;
 			auto t = loc->get(v);

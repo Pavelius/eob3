@@ -1,6 +1,7 @@
 #include "action.h"
 #include "answers.h"
 #include "console.h"
+#include "collectiona.h"
 #include "creature.h"
 #include "game.h"
 #include "perference.h"
@@ -145,8 +146,10 @@ static void pick_pockets() {
 	}
 }
 
-static void heal_wounds() {
+static void heal_wounds_and_illness() {
 	player->hp = player->hpm;
+	player->abilities[DiseaseLevel] = 0;
+	player->abilities[PoisonLevel] = 0;
 }
 
 static void ask_for_miracle() {
@@ -180,7 +183,36 @@ static void ask_for_miracle() {
 	show_message(temp, false, getnm(Continue), 13);
 }
 
+static bool ask_spell_items(itemn type, bool run) {
+	auto ps = get_spellbook(player);
+	if(!ps)
+		return false;
+	for(auto& e : player->wears) {
+		if(e.type != type)
+			continue;
+		if(!e.identified)
+			continue;
+		auto spell = e.getspell();
+		if(!spell)
+			continue;
+		if(ps->is(spell))
+			continue; // Already known this spell
+		if(!run)
+			return true;
+		an.add((long) & e, e.name());
+	}
+	if(!run)
+		return false;
+	return an.operator bool();
+}
+
+static bool if_scrible_scrolls() {
+	return ask_spell_items(MageScroll, false);
+}
+
 static void scrible_scrolls() {
+	if(!ask_spell_items(MageScroll, true))
+		return;
 }
 
 static void repair_weapons() {
@@ -214,6 +246,10 @@ static void memorize_spells() {
 	choose_spells(getnm(MemorizeSpells), getnm(Cancel), 1);
 }
 
+static bool if_need_healing() {
+	return if_wounded() || player->is(DiseaseLevel) || player->is(PoisonLevel);
+}
+
 static actioni tavern_actions[] = {
 	{EatFoodAndDrink, {Coins, 20}, {}, eat_and_drink},
 	{PickPocketsAction, {}, {Theif}, pick_pockets},
@@ -225,7 +261,7 @@ static actioni inn_actions[] = {
 	{RestParty, {}, {}, rest_party_inn},
 	{MemorizeSpells, {}, {Mage}, memorize_spells},
 	{PrayForSpells, {}, {Cleric}, pray_for_spells},
-	{ScribleScrolls, {}, {Mage}, scrible_scrolls},
+	{ScribleScrolls, {}, {Mage}, scrible_scrolls, if_scrible_scrolls},
 	{LeaveOutside, {}, {}, leave_outside},
 	{}};
 static actioni blacksmith_actions[] = {
@@ -235,7 +271,7 @@ static actioni blacksmith_actions[] = {
 	{}};
 static actioni temple_actions[] = {
 	{AskMiracle, {}, {}, ask_for_miracle, if_blessing_good},
-	{HealWounds, {Coins, 50}, {}, heal_wounds, if_wounded},
+	{HealWounds, {Coins, 50}, {}, heal_wounds_and_illness, if_need_healing},
 	{Donate, {}, {}, donate},
 	{LeaveOutside, {}, {}, leave_outside},
 	{}};
@@ -339,7 +375,7 @@ void show_dungeon_options() {
 	static actioni actions[] = {
 		{MemorizeSpells, {}, {Mage}, memorize_spells},
 		{PrayForSpells, {}, {Cleric}, pray_for_spells},
-		{ScribleScrolls, {}, {Mage}, scrible_scrolls},
+		{ScribleScrolls, {}, {Mage}, scrible_scrolls, if_scrible_scrolls},
 		{GameOptions, {}, {}, game_options},
 		{}};
 	open_options(actions);

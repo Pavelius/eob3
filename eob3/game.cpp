@@ -1722,6 +1722,46 @@ static void use_grappling_hook(creature* player, item* last_item) {
 	}
 }
 
+static void add_area_overlay(celln type, bool keep) {
+	for(auto& e : loc->overlays) {
+		if((e.type == type) != keep)
+			continue;
+		auto v = to(e.pos, e.d);
+		points.addu(v);
+	}
+}
+
+static void add_area_items(itemn type, bool keep) {
+	// Ground items
+	for(auto& e : loc->items) {
+		if(!e || (e.type==type)!=keep)
+			continue;
+		auto v = to(e.pos, e.d);
+		points.addu(v);
+	}
+	// Wall cellar items
+	for(auto& e : loc->overlayitems) {
+		if(!e || (e.type == type) != keep)
+			continue;
+		auto v = loc->overlays[e.storage_index];
+		points.addu(v.pos);
+	}
+}
+
+static void use_magic_map(creature* player, item* last_item) {
+	// PassRound ShowArea DestroyItem
+	points.clear();
+	add_area_overlay(CellSecretButton, true);
+	points.match(CellExplored, false);
+	points.shuffle();
+	points.top(1);
+	player->addexp(200);
+	show_automap(points, 1);
+	pass_time(1);
+	player->say(SecrectButtonFound);
+	last_item->clear();
+}
+
 static bool use_bless_effect(bool run) {
 	static spelln source[] = {CureLightWound};
 	auto level = player->level();
@@ -1885,6 +1925,7 @@ void use_item(creature* player, item* last_item, wearn wear) {
 		switch(last_item->type) {
 		case TheifTools: use_theif_tools(player, last_item); break;
 		case GrapplingHook: use_grappling_hook(player, last_item); break;
+		case MagicMap: use_magic_map(player, last_item); break;
 		default: break;
 		}
 		break;

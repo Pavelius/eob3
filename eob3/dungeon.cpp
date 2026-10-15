@@ -309,9 +309,13 @@ void dungeoni::set(pointc v, cellfn i, int radius) {
 	pointc s;
 	if(!radius)
 		return;
-	for(s.x = v.x - radius; s.x <= v.x + radius; s.x++)
-		for(s.y = v.y - radius; s.y <= v.y + radius; s.y++)
-			set(s, CellExplored);
+	for(auto x = v.x - radius; x <= v.x + radius; x++)
+		for(auto y = v.y - radius; y <= v.y + radius; y++) {
+			pointc pt(x, y);
+			if(!pt)
+				continue;
+			set(pt, CellExplored);
+		}
 }
 
 dungeoni::overlayi* dungeoni::get(pointc v, directionn d) {

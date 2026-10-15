@@ -19,10 +19,16 @@
 #include "adat.h"
 #include "pointc.h"
 
+typedef bool(*fnispointc)(pointc v);
+
 extern unsigned short pathmap[mpy][mpx];
+
+enum cellfn : unsigned char;
 
 struct pointca : adat<pointc, mpy*mpx> {
 	pointc random() const;
+	void match(fnispointc proc, bool keep);
+	void match(cellfn v, bool keep);
 	void select(int r1, int r2);
 	void shuffle();
 };

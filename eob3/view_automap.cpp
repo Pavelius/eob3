@@ -494,7 +494,7 @@ void show_automap(const pointca& markers, int explore_radius) {
 	red_markers = &markers;
 	paint_layers();
 	screenshoot after;
-	before.blend(after, 1000);
+	before.fading(after, 3000);
 	scene(paint_layers);
 }
 

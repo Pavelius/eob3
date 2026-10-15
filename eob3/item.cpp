@@ -61,7 +61,7 @@ itemi item_data[LastItem + 1] = {
 	{Edible, 0, {38, 14}, {}, {}}, // Ration
 	{Readable, 0, {36, 12}, {}, {}, {}, MageSpells}, // MageScroll
 	{Readable, 0, {85, 12}, {}, {}, {}, PriestSpells}, // PriestScroll
-	{Readable, 0, {86, 12}, {}, {}}, // MagicMap
+	{Usable, 0, {86, 12}, {}, {}}, // MagicMap
 	{Rod, 0, {52, 10}, {}, {}, {}, WandSpells}, // Wand
 	{Usable, 0, {54, 1}, {}, {}}, // TheifTools
 	{Usable, 0, {117, 14}, {}, {}}, // GrapplingHook

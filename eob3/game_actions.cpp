@@ -1,7 +1,6 @@
 #include "action.h"
 #include "answers.h"
 #include "console.h"
-#include "collectiona.h"
 #include "creature.h"
 #include "game.h"
 #include "perference.h"

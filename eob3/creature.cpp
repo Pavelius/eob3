@@ -477,6 +477,19 @@ int party_index(const creature* player) {
 	return -1;
 }
 
+static void addv(abilityn v, int n) {
+	n += player->abilities[v];
+}
+
+static void addv(abilityn v, int n, int minimum, int maximum) {
+	n += player->abilities[v];
+	if(n < minimum)
+		n = minimum;
+	else if(n > maximum)
+		n = maximum;
+	player->abilities[v] = n;
+}
+
 static void update_languages() {
 	player->languages.clear();
 	player->languages.set(player->race);
@@ -677,26 +690,24 @@ static void update_bonus_saves() {
 		player->abilities[SaveVsMagic] += maptbl(dwarven_bonus, k) * 5;
 }
 
-/*static int magic_wear_value(int magic_bonus) {
-	return 17 + magic_bonus;
-}*/
+static void set_minimal(abilityn v, int value) {
+	if(player->abilities[v] > value)
+		player->abilities[v] = value;
+}
 
-//static void magic_wear(variant v) {
-//	if(v.iskind<abilityi>()) {
-//		auto m = bsdata<abilityi>::elements[v.value].wearing_multiplier;
-//		if(m == 100) {
-//			auto k = magic_wear_value(v.counter);
-//			auto n = player->abilities[v.value];
-//			if(n < k)
-//				n = k;
-//			player->abilities[v.value] = n;
-//		} else
-//			player->add((abilityn)v.value, v.counter * m);
-//	} else if(v.iskind<spelli>()) {
-//		// Nothing to do. Camp spell add.
-//	} else
-//		script_run(v);
-//}
+static void set_maximal(abilityn v, int value) {
+	if(player->abilities[v] < value)
+		player->abilities[v] = value;
+}
+
+static void magic_wear(featn v) {
+	switch(v) {
+	case Cursed: addv(Strenght, -2, 3, 25); break;
+	case Delusion: set_minimal(Strenght, 5); break;
+	case GiantStrenght: set_maximal(Strenght, 18); break;
+	default: break;
+	}
+}
 
 static int get_modifier(abilityn v) {
 	return 1;
@@ -729,35 +740,26 @@ static void update_wear() {
 		// Dwarven shield and helm improve magical save
 		if(e.type == DwarvenHelm || e.type == DwarvenShield)
 			player->abilities[SaveVsMagic] += get_modifier(SaveVsMagic);
-		//if((ei.wear >= Head && ei.wear <= Legs) // If wearable equipment only!
-		//	&& ei.wear != LeftHand && ei.wear != RightHand) {
-		//	auto power = e.getpower();
-		//	if(power)
-		//		magic_wear(power);
-		//}
+		if((ei.wear >= Head && ei.wear <= Legs) // If wearable equipment only!
+			&& ei.wear != LeftHand && ei.wear != RightHand) {
+			auto power = e.getpower();
+			if(power)
+				magic_wear(power);
+		}
 	}
 }
 
-static void apply_boost(short type, short param) {
-	//if(type <= Hits)
-	//	player->add((abilityn)type, param);
-	//else if(type == BoostSpell)
-	//	ftscript<spelli>(param, 0);
-	//else if(type == BoostFeat)
-	//	ftscript<feati>(param, 0);
-	//else {
-	//	// TODO: error for debuging
-	//}
-}
-
 static void update_duration() {
-	//auto push_modifier = modifier; modifier = Wearing;
-	//referencei target = player;
-	//for(auto& e : bsdata<boosti>()) {
-	//	if(e.target == target)
-	//		apply_boost(e.type, e.param);
-	//}
-	//modifier = push_modifier;
+	targetref target = player;
+	auto pe = boosts + boost_count;
+	for(auto p = boosts; p < pe; p++) {
+		if(p->target == target) {
+			if(p->feat)
+				player->set(p->feat);
+			else if(p->proc)
+				p->proc();
+		}
+	}
 }
 
 static bool have_boost_summon(const item& it) {
@@ -1403,28 +1405,37 @@ void party_set(creature** source, reactions v) {
 	}
 }
 
-bool party_is(creature** source, classn type) {
+bool party_is(creature** source, classn v) {
 	for(size_t i = 0; i < lengthof(adventurers); i++) {
 		auto p = source[i];
-		if(p && !p->isdisabled() && p->is(type))
+		if(p && !p->isdisabled() && p->is(v))
 			return true;
 	}
 	return false;
 }
 
-bool party_is(creature** source, alignmentn type) {
+bool party_is(creature** source, alignmentn v) {
 	for(size_t i = 0; i < lengthof(adventurers); i++) {
 		auto p = source[i];
-		if(p && !p->isdisabled() && p->is(type))
+		if(p && !p->isdisabled() && p->is(v))
 			return true;
 	}
 	return false;
 }
 
-bool party_is(creature** source, featn type) {
+bool party_is(creature** source, featn v) {
 	for(size_t i = 0; i < lengthof(adventurers); i++) {
 		auto p = source[i];
-		if(p && !p->isdisabled() && p->is(type))
+		if(p && !p->isdisabled() && p->is(v))
+			return true;
+	}
+	return false;
+}
+
+bool party_is(creature** source, itemn v) {
+	for(size_t i = 0; i < lengthof(adventurers); i++) {
+		auto p = source[i];
+		if(p && p->haveitem(v))
 			return true;
 	}
 	return false;

@@ -162,7 +162,6 @@ void party_addexp(int value);
 void party_addexp(int value, alignmentn alignment);
 void party_addexp_good(int value);
 void party_addexp_evil(int value);
-bool party_is(itemn type);
 void party_turn_left();
 void party_turn_right();
 void pick_up_item();

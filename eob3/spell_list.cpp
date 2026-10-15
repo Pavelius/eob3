@@ -159,8 +159,8 @@ spelli spell_data[LastSpell + 1] = {
 	// Level 1 Cleric spells
 	{{1}, Ally, Bless},
 	{{1}, Ally, CureLightWound},
-	{{1, 2}, You, DetectEvil},
-	{{1, 1}, You, DetectMagic},
+	{{1, 2}, AllAlly, DetectEvil},
+	{{1, 1}, AllAlly, DetectMagic},
 	{{1, 1}, Ally, ProtectionFromEvil, color(150, 0, 24)},
 	{{1}, AllAllyItems, PurifyFood},
 	// Level 1 Mage spells

@@ -28,7 +28,7 @@ enum featn : unsigned char {
 	Protection, Flaming, Freezing,
 	ControlHuman, ControlGoblinoid, ControlEvil,
 	TwoHanded, Deadly, DiseaseAttack, PoisonAttack, Precise,
-	Alertness, Healing, ExtraHealing,
+	Alertness, Healing, ExtraHealing, GiantStrenght,
 	DrainEnergy, DrainStrenght, DispelEvil, Holy, VampiricAttack, Vorpal,
 	ImmuneIllusion, ImmuneNormalWeapon, ImmuneDisease,
 	ResistFire, ResistCold, ResistBludgeon, ResistPiercing, ResistSlashing,

@@ -105,7 +105,7 @@ static bool add_creature(creature* player, spelln spell, int level) {
 }
 
 static bool add_creatures(creature** source, spelln spell, int level) {
-	for(auto i = 0; i < lengthof(adventurers); i++)
+	for(unsigned i = 0; i < lengthof(adventurers); i++)
 		add_creature(source[i], spell, level);
 	return creatures.operator bool();
 }

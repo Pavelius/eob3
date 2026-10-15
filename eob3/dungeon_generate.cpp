@@ -428,11 +428,11 @@ static void corridor_stairs_down(pointc v, directionn d) {
 	loc->state.down.d = d;
 }
 
-static void corridor_stairs_up(pointc v, directionn d) {
+/*static void corridor_stairs_up(pointc v, directionn d) {
 	loc->set(v, CellStairsUp);
 	loc->state.up = v;
 	loc->state.up.d = d;
-}
+}*/
 
 static void portal(pointc v, directionn d) {
 	if(loc->type == FOREST)
@@ -774,12 +774,12 @@ static void apply_shape(pointc v, directionn d, shapen shape, char sym, fncorrid
 	}
 }
 
-static void apply_shape(pointc v, directionn d, shapen shape, char sym, fncorridor proc, celln cell) {
+/*static void apply_shape(pointc v, directionn d, shapen shape, char sym, fncorridor proc, celln cell) {
 	if(proc)
 		apply_shape(v, d, shape, sym, proc);
 	else
 		apply_shape(v, d, shape, sym, cell);
-}
+}*/
 
 static void stairs_up(pointc v, directionn d, shapen shape) {
 	apply_shape(v, d, shape, '0', CellStairsUp);

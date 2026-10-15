@@ -40,7 +40,7 @@ const char* message_names[LastMessage + 1] = {
 	"Button", "Cellar",
 	"Current goals", "Visit %1",
 	"You can't do that while monsters are nearby",
-	"Game saved",
+	"Game saved", "Dead", "Disabled", "Paralized", "Poisoned", "Diseased",
 	"Your faith is weak. Perhaps a more generous donation would please the gods.",
 	"Your prayer have no effect", "Your prayer are answered by your deity", "Your prayer go unanswered", "Your %1 is raised",
 	"Before visit any shop you try identify any items that you grab in dungeon. Speaking with skilled people you identify as magical %Number items in you package.",

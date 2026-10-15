@@ -116,11 +116,13 @@ bool creature::apply(spelln spell, int level, bool run) {
 }
 
 bool item::apply(spelln spell, int level, bool run) {
+	wearn wear;
 	switch(spell) {
 	case Mending:
 		if(!hits)
 			return false;
-		if(type == Edible || type == Rod || type == Readable || type == Drinkable)
+		wear = item_data[type].wear;
+		if(wear == Edible || wear == Rod || wear == Readable || wear == Drinkable)
 			return false;
 		if(run)
 			hits = 0;
@@ -128,7 +130,8 @@ bool item::apply(spelln spell, int level, bool run) {
 	case PurifyFood:
 		if(!hits)
 			return false;
-		if(type != Edible)
+		wear = item_data[type].wear;
+		if(wear != Edible)
 			return false;
 		if(run)
 			hits = 0;

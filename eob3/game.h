@@ -53,7 +53,7 @@ enum messagen : unsigned char {
 	Button, Cellar,
 	QuestGoals, VisitBuilding,
 	MonstersAreNearbe,
-	GameSaved,
+	GameSaved, StateDead, StateDisabled, StateParalized, StatePoisoned, StateDiseased,
 	YourFaithIsWeak, UseHolySymbolNoEffect, UseHolySymbolSuccess, UseHolySymbolFail, YourAbilityGrow,
 	LootIdentyfing, LootSelling, UseLastAmmo,
 	Class, Race,

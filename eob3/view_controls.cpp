@@ -67,11 +67,6 @@ static int get_alpha(int base, unsigned range) {
 	return get_alpha(base, range, get_frame_tick());
 }
 
-static void press_key() {
-	hkey = hparam;
-	hpressed = false;
-}
-
 void fix_damage(const creature* target, int value) {
 	auto i = party_index(target);
 	if(i == -1)
@@ -635,38 +630,11 @@ static void paint_avatar_border() {
 	}
 }
 
-static void paint_shadow() {
+/*static void paint_shadow() {
 	auto push = alpha; alpha = 64;
 	rectf();
 	alpha = push;
-}
-
-static void mouse_button() {
-	button_clear();
-	if(!ishilite())
-		return;
-	if(hpressed) {
-		paint_shadow();
-		button_pressed = true;
-	}
-	if(hkey == MouseLeft && !hpressed)
-		button_executed = true;
-}
-
-static void mouse_button(long button_data, unsigned key) {
-	mouse_button();
-	if(!focus_valid(button_data))
-		return;
-	if(!button_pressed) {
-		if(key && hkey == key) {
-			pressed_focus = button_data;
-			button_pressed = true;
-		} else if(hkey == InputKeyUp && pressed_focus == button_data) {
-			pressed_focus = empty_focus;
-			button_executed = true;
-		}
-	}
-}
+}*/
 
 static void apply_switch_page() {
 	player = (creature*)hparam;
@@ -1041,9 +1009,9 @@ static void warning(const char* format, unsigned flags) {
 }
 
 static void paint_states() {
-	//auto pn = player->getbadstate();
-	//if(pn)
-	//	warning(getnm(pn), AlignCenter);
+	auto pn = player->getbadstate();
+	if(pn)
+		warning(getnm(pn), AlignCenter);
 }
 
 static void paint_inventory() {
@@ -1426,12 +1394,6 @@ static bool can_place(const creature* player, wearn id, item* pi) {
 			return false;
 	}
 	return true;
-}
-
-static void update_player(creature* p1) {
-	auto push_player = player;
-	player = p1; update_player();
-	player = push_player;
 }
 
 void pick_up_dungeon_item();

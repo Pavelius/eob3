@@ -400,7 +400,7 @@ static abilityn get_primary(classn v) {
 	}
 }
 
-static char get_group(classn v) {
+static unsigned get_group(classn v) {
 	switch(v) {
 	case Cleric: return 1;
 	case Mage: return 3;
@@ -677,9 +677,9 @@ static void update_bonus_saves() {
 		player->abilities[SaveVsMagic] += maptbl(dwarven_bonus, k) * 5;
 }
 
-static int magic_wear_value(int magic_bonus) {
+/*static int magic_wear_value(int magic_bonus) {
 	return 17 + magic_bonus;
-}
+}*/
 
 //static void magic_wear(variant v) {
 //	if(v.iskind<abilityi>()) {
@@ -700,6 +700,20 @@ static int magic_wear_value(int magic_bonus) {
 
 static int get_modifier(abilityn v) {
 	return 1;
+}
+
+messagen creature::getbadstate() const {
+	if(isdead())
+		return StateDead;
+	else if(isdisabled())
+		return StateDisabled;
+	else if(is(Paralizing))
+		return StateParalized;
+	else if(is(PoisonLevel))
+		return StatePoisoned;
+	else if(is(DiseaseLevel))
+		return StateDiseased;
+	return (messagen)0;
 }
 
 static void update_wear() {
@@ -1166,7 +1180,7 @@ static const char* str(const dice& v) {
 }
 
 static const char* str_melee_attack(const combati& v) {
-	auto damage_bonus = v.damage.b;
+	//auto damage_bonus = v.damage.b;
 	auto thac0 = 20 - v.attack;
 	//if(damage_bonus)
 	//	return str("%1i/%+2i", thac0, damage_bonus);

@@ -93,6 +93,21 @@ int getv(variablen v) {
 	return game.variables[v];
 }
 
+static void show_quest(const questi* pa, phasen phase) {
+	auto format = quest_speech[pa->index() * (LastPhase + 1) + phase];
+	if(!format)
+		return;
+	char temp[512]; stringbuilder sb(temp);
+	while(running_scene()) {
+		sb.clear(); sb.add(format);
+		show_message(temp, false, getnm(Continue), 0);
+		auto pe = zend(format);
+		if(pe[1] == 0)
+			break;
+		format = pe + 1;
+	}
+}
+
 static size_t shrink(creature** result, creature** source) {
 	auto ps = result;
 	for(size_t i = 0; i < party_size; i++) {
@@ -471,7 +486,68 @@ static void check_goals() {
 	}
 }
 
+static bool is_special_item(questn index, const item& it) {
+	for(auto& e : dungeons) {
+		if(!e || e.quest != index)
+			continue;
+		if(e.special && e.special == it.type)
+			return true;
+	}
+	return false;
+}
+
+static void clear_quest_items() {
+	auto p = active_quest();
+	if(!p)
+		return;
+	auto quest = p->index();
+	for(auto& e : player->wears) {
+		if(e && is_special_item(quest, e))
+			e.clear();
+	}
+}
+
+static int party_goals(questn quest, goaln v) {
+	auto result = 0;
+	for(unsigned i = 0; i < dungeons_count; i++) {
+		if(dungeons[i].quest != quest)
+			continue;
+		if(dungeons[i].is(v))
+			result++;
+	}
+	return result;
+}
+
+static bool quest_complite(const questi* p) {
+	auto index = p->index();
+	for(auto i = (goaln)0; i <= KillAlmostAllMonsters; i = (goaln)(i + 1)) {
+		if(!p->goals.goals[i])
+			continue;
+		auto value = party_goals(index, i);
+		if(value < p->goals.goals[i])
+			return false;
+	}
+	return true;
+}
+
+static void check_quest_complited() {
+	auto p = active_quest();
+	if(!p)
+		return;
+	if(!quest_complite(p))
+		return;
+	all_party(clear_quest_items, false); // Remove quest item only if done quest
+	show_quest(p, PhaseReward); game += p->rewards;
+	p->set(QuestPassed);
+}
+
 static void check_return_to_base() {
+	auto p = active_quest();
+	if(!p)
+		return;
+	if(!quest_complite(p))
+		return;
+	player->say(CanReturnToBase);
 }
 
 static bool player_damage(int attack_type, damagen type, dice damage, const featn effect) {
@@ -692,7 +768,11 @@ static void update_every_round() {
 	check_acid();
 }
 
-static void update_every_hour() {
+static void update_every_turn() {
+	check_poison();
+}
+
+static void update_every_half_hour() {
 	check_disease();
 }
 
@@ -707,12 +787,12 @@ static void pass_time_activity() {
 	while(minute >= game.next_turn) {
 		game.next_turn += 10;
 		all_party(check_food, true);
-		all_creatures(check_poison);
+		all_creatures(update_every_turn);
 		check_return_to_base();
 	}
-	while(minute >= game.next_hour) {
-		game.next_hour += 10 * 6;
-		all_creatures(update_every_hour);
+	while(minute >= game.next_half_hour) {
+		game.next_half_hour += 10 * 3;
+		all_creatures(update_every_half_hour);
 	}
 	while(minute >= game.next_day) {
 		game.next_day += 24 * 10 * 6;
@@ -774,21 +854,6 @@ void show_message(actionn id, ...) {
 
 long choose_message(actionn id, bool can_cancel) {
 	return show_message(getnm(id), true, can_cancel ? getnm(Cancel) : 0, 27);
-}
-
-static void show_quest(const questi* pa, phasen phase) {
-	auto format = quest_speech[pa->index() * (LastPhase + 1) + phase];
-	if(!format)
-		return;
-	char temp[512]; stringbuilder sb(temp);
-	while(running_scene()) {
-		sb.clear(); sb.add(format);
-		show_message(temp, false, getnm(Continue), 0);
-		auto pe = zend(format);
-		if(pe[1] == 0)
-			break;
-		format = pe + 1;
-	}
 }
 
 static bool pass_restriction(const classnc& v) {
@@ -1166,61 +1231,6 @@ static void loot_identyfing() {
 		if(e.ismagical())
 			last_number++;
 	}
-}
-
-static int party_goals(questn quest, goaln v) {
-	auto result = 0;
-	for(unsigned i = 0; i < dungeons_count; i++) {
-		if(dungeons[i].quest != quest)
-			continue;
-		if(dungeons[i].is(v))
-			result++;
-	}
-	return result;
-}
-
-static bool quest_complite(const questi* p) {
-	auto index = p->index();
-	for(auto i = (goaln)0; i <= KillAlmostAllMonsters; i = (goaln)(i + 1)) {
-		if(!p->goals.goals[i])
-			continue;
-		auto value = party_goals(index, i);
-		if(value < p->goals.goals[i])
-			return false;
-	}
-	return true;
-}
-
-static bool is_special_item(questn index, const item& it) {
-	for(auto& e : dungeons) {
-		if(!e || e.quest != index)
-			continue;
-		if(e.special && e.special == it.type)
-			return true;
-	}
-	return false;
-}
-
-static void clear_quest_items() {
-	auto p = active_quest();
-	if(!p)
-		return;
-	auto quest = p->index();
-	for(auto& e : player->wears) {
-		if(e && is_special_item(quest, e))
-			e.clear();
-	}
-}
-
-static void check_quest_complited() {
-	auto p = active_quest();
-	if(!p)
-		return;
-	if(!quest_complite(p))
-		return;
-	all_party(clear_quest_items, false); // Remove quest item only if done quest
-	show_quest(p, PhaseReward); game += p->rewards;
-	p->set(QuestPassed);
 }
 
 static void leave_dungeon() {

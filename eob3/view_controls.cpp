@@ -1002,14 +1002,16 @@ static void paint_skills() {
 }
 
 static void warning(const char* format, unsigned flags) {
-	auto push_fore = fore;
-	fore = colors::text.mix(colors::red);
+	auto n = (get_frame_tick() % 100);
+	if(n < 30)
+		return;
+	pushfore push(colors::black.mix(colors::red));
+	pushfont push_font(0);
 	texta(format, flags);
-	fore = push_fore;
 }
 
 static void paint_states() {
-	auto pn = player->getbadstate();
+	auto pn = player->badstate();
 	if(pn)
 		warning(getnm(pn), AlignCenter);
 }

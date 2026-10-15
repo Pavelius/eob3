@@ -274,19 +274,19 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 			}
 		}
 		// RULE: vampiric ability allow user to drain blood and regain own HP
-		if(player->is(weapon, Vampiric)) {
-			auto hits_healed = xrand(1, 3);
+		if(player->is(weapon, VampiricAttack)) {
+			auto hits_healed = xrand(1, 6);
 			if(hits_healed > hits)
 				hits_healed = hits;
 			player->heal(hits_healed);
 		}
 		// RULE: diseased weapon can cause disease if hit
-		if(player->is(weapon, Disease)) {
+		if(player->is(weapon, DiseaseAttack)) {
 			if(!defender->roll(SaveVsPoison))
 				defender->add(DiseaseLevel, 1);
 		}
 		// RULE: poison attack
-		if(player->is(weapon, Poison)) {
+		if(player->is(weapon, PoisonAttack)) {
 			if(!defender->roll(SaveVsPoison))
 				defender->add(PoisonLevel, xrand(2, 8));
 		}

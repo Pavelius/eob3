@@ -702,7 +702,7 @@ static int get_modifier(abilityn v) {
 	return 1;
 }
 
-messagen creature::getbadstate() const {
+messagen creature::badstate() const {
 	if(isdead())
 		return StateDead;
 	else if(isdisabled())

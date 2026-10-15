@@ -75,7 +75,8 @@ enum speechn : unsigned char {
 	CantFindTarget, CantUseInSettlement,
 	ThisFoodIsRotten,
 	AlreadyOpened, AlreadyDisabled,
-	LastSpeech = AlreadyDisabled
+	CanReturnToBase,
+	LastSpeech = CanReturnToBase
 };
 
 extern const char* ability_names[Experience + 1];
@@ -160,7 +161,7 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	reactions		reaction;
 	constexpr explicit operator bool() const { return hp > 0; }
 	const char* strvalue(abilityn id) const;
-	messagen getbadstate() const;
+	messagen badstate() const;
 	combati getattack(wearn id, bool large_enemy) const;
 	bool allow(spelln spell, int level);
 	int expaward() const;

@@ -8,7 +8,7 @@ static featn sword_powers[] = {
 	Magical2, Magical2, Magical2, Magical2,
 	Magical3, Magical3,
 	Magical4, Magical5,
-	DispelEvil, Holy, Vampiric, Vorpal, Flaming, Freezing,
+	DispelEvil, Holy, VampiricAttack, Vorpal, Flaming, Freezing,
 	ControlGoblinoid};
 static featn melee_weapon_powers[] = {
 	Magical, Magical, Magical, Magical, Magical, Magical,

@@ -157,7 +157,7 @@ int get_thrown(spelln spell) {
 
 spelli spell_data[LastSpell + 1] = {
 	// Level 1 Cleric spells
-	{{1}, Ally, Bless},
+	{{1}, Ally, Bless, color(200,200,30)},
 	{{1}, Ally, CureLightWound},
 	{{1, 2}, AllAlly, DetectEvil},
 	{{1, 1}, AllAlly, DetectMagic},

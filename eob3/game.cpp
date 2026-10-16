@@ -1832,6 +1832,8 @@ bool make_object_attack(pointc v);
 void use_item(creature* player, item* last_item, wearn wear) {
 	if(!player->isactable())
 		return;
+	if(!(*last_item))
+		return;
 	switch(last_item->geti().wear) {
 	case LeftHand: case RightHand:
 		if(!dungeon_use())
@@ -1884,9 +1886,10 @@ void use_item(creature* player, item* last_item, wearn wear) {
 			break;
 		if(!player->canread())
 			player->say(CantRead);
-		else {
-			//			if(read_effect(pn, last_item->getpower(), 50, xrand(5, 20) * 10))
-			//				last_item->clear();
+		else if(is_spell_power(last_item->type)) {
+			auto spell = last_item->getspell();
+			if(player->cast(spell, player->level(), true, true, false, false))
+				last_item->clear();
 		}
 		break;
 	case Rod:
@@ -2009,7 +2012,7 @@ static bool is_bribeable() {
 }
 
 static void lie() {
-	if(!party_median(adventurers, Charisma)) {
+	if(!party_roll(Charisma, -2)) {
 		monsters_talk(YouLiers);
 		party_set(adventurers, Surprised);
 		make_attacks(true);

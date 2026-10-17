@@ -1439,6 +1439,12 @@ void pick_up_item() {
 		auto c2 = get_creature(p2);
 		if(!c2)
 			return;
+		if(c1 != c2) {
+			if(!can_loose(c1, p1))
+				return;
+			if(!can_loose(c2, p2))
+				return;
+		}
 		auto w1 = get_wear(p1);
 		auto w2 = get_wear(p2);
 		if(!can_place(c1, w1, p2))
@@ -1449,7 +1455,6 @@ void pick_up_item() {
 			return;
 		if(!can_place(c2, w1, p1))
 			return;
-		//if(!p2->join(*p1))
 		iswap(*p1, *p2);
 		c1->update();
 		if(c1 != c2)

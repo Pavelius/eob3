@@ -1377,6 +1377,7 @@ static bool party_move_interact(pointc v) {
 	case CellPit:
 		party_set(v);
 		loc = find_dungeon(loc->level + 1);
+		animation_update();
 		all_party(pit_fall_down, true);
 		consolen(getnm(PartyFallPit));
 		enter_dungeon(loc->level, CellUnknown);
@@ -1727,7 +1728,7 @@ static void use_grappling_hook(creature* player, item* last_item) {
 			use_tool_success(player, ClimbWalls, 20);
 		}
 		pass_time(xrand(2, 5));
-	} else if(locup && locup->get(player->pos) == CellPitUp) {
+	} else if(locup && locup->get(player->pos) == CellPit) {
 		if(use_tool_item(player, last_item, ClimbWalls, get_level_difficult(), 60)) {
 			if(loc->level > 1)
 				enter_dungeon(loc->level - 1, CellUnknown);

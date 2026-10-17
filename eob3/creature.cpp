@@ -469,9 +469,9 @@ int get_hit_die(classn type) {
 	}
 }
 
-int party_index(const creature* player) {
-	for(size_t i = 0; i < lengthof(adventurers); i++) {
-		if(adventurers[i] == player)
+int party_index(creature** source, const creature* player) {
+	for(size_t i = 0; i < party_size; i++) {
+		if(source[i] == player)
 			return i;
 	}
 	return -1;

@@ -164,6 +164,7 @@ struct item {
 	void clear() { type = NoItem; power = NoPower; purpose = CommonItem; hits = 0; identified = 0; }
 	void consume();
 	void create(int chance_magical, int chance_cursed = 5);
+	bool cursed() const { return is_spell_power(type) ? false : (power == Cursed || power == Delusion); }
 	void damage(const char* interactive);
 	void identify(int v) { identified = (v >= 0) ? 1 : 0; }
 	bool is(featn v) const { return power == v || geti().flags.is(v); }
@@ -171,7 +172,6 @@ struct item {
 	bool is(wearn v) const { return geti().wear == v; }
 	bool is(itemn v) const { return type == v; }
 	bool isartifact() const { return get_magic(power) >= 4; }
-	bool iscursed() const { return (power == Cursed || power == Delusion); }
 	bool isdamaged() const { return hits >= 5; }
 	bool isidentified() const { return identified != 0; }
 	bool ismagical() const { return power != NoPower; }

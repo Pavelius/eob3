@@ -1845,6 +1845,23 @@ static void attack_enemy() {
 
 bool make_object_attack(pointc v);
 
+void sell_item(creature* player, item* last_item) {
+	auto cost = last_item->getcost() / 2; // Selling is half priced by default
+	if(!cost)
+		return;
+	if(!can_remove(player, last_item))
+		return;
+//	if(!can_loose(last_item))
+//		return;
+	if(!confirm_message(ConfirmSellItem, cost))
+		return;
+	last_item->clear();
+	addv(Coins, cost);
+}
+
+void drop_item(creature* player, item* last_item, wearn wear) {
+}
+
 void use_item(creature* player, item* last_item, wearn wear) {
 	if(!player->isactable())
 		return;
@@ -1891,7 +1908,7 @@ void use_item(creature* player, item* last_item, wearn wear) {
 			break;
 		if(confirm(getnm(ConfirmMakeCamp))) {
 			auto bonus = last_item->geti().combat.attack;
-			if(last_item->iscursed())
+			if(last_item->cursed())
 				bonus = -2;
 			rest_party(bonus);
 			last_item->clear();

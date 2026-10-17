@@ -65,7 +65,7 @@ static int get_alpha(int base, unsigned range) {
 }
 
 void fix_damage(const creature* target, int value) {
-	auto i = party_index(target);
+	auto i = party_index(adventurers, target);
 	if(i == -1)
 		fix_monster_damage(target);
 	else {
@@ -78,7 +78,7 @@ void fix_damage(const creature* target, int value) {
 
 // If hits == -1 the attack is missed
 void fix_attack(const creature* attacker, wearn slot, int hits) {
-	auto pind = party_index(attacker);
+	auto pind = party_index(adventurers, attacker);
 	if(pind == -1)
 		return;
 	// If thrown animation fix attack
@@ -319,7 +319,7 @@ static void paint_player_hit(int hits, unsigned counter) {
 static void paint_player_hit(const creature* player, wearn id) {
 	if(!player)
 		return;
-	auto pind = party_index(player);
+	auto pind = party_index(adventurers, player);
 	if(pind == -1)
 		return;
 	auto value = disp_weapon[pind][id == RightHand ? 0 : 1];
@@ -655,7 +655,7 @@ static void paint_avatar() {
 		image(res_data[PORTM], player->avatar, 0);
 	alpha = push_alpha;
 	paint_avatar_stats();
-	auto pind = party_index(player);
+	auto pind = party_index(adventurers, player);
 	if(pind != -1) {
 		auto v = disp_damage[pind];
 		if(v) {
@@ -733,7 +733,7 @@ static void paint_item(item& it, wearn id, int emphty_avatar = -1, int pallette_
 	pushrect push;
 	auto button_data = (long)&it;
 	if(pallette_feat == -1) {
-		if(player->is(SeeCursed) && it.iscursed())
+		if(player->is(SeeCursed) && it.cursed())
 			pallette_feat = SeeCursed;
 		else if(player->is(SeeMagical) && it.ismagical())
 			pallette_feat = SeeMagical;
@@ -798,7 +798,7 @@ static void paint_ring(item& it, wearn id) {
 }
 
 static void prev_character() {
-	auto index = party_index(player);
+	auto index = party_index(adventurers, player);
 	if(index <= 0)
 		return;
 	if(adventurers[index - 1]) {
@@ -808,7 +808,7 @@ static void prev_character() {
 }
 
 static void next_character() {
-	auto index = party_index(player);
+	auto index = party_index(adventurers, player);
 	if(index < 0 || index >= 5)
 		return;
 	if(adventurers[index + 1]) {
@@ -1296,6 +1296,16 @@ static void player_use_item() {
 	use_item(player, pi, get_wear((void*)current_focus));
 }
 
+static void player_drop_item() {
+	auto pi = get_item_by_focus();
+	if(!pi || !(*pi))
+		return;
+	if(loc)
+		drop_item(player, pi, get_wear((void*)current_focus));
+	else
+		sell_item(player, pi);
+}
+
 void paint_main_menu() {
 	paint_background(MENU);
 	caret = {80, 110};
@@ -1377,7 +1387,11 @@ static void common_input() {
 #endif
 }
 
-static bool can_remove(const item& e) {
+bool can_remove(const creature* player, const item* pi) {
+	if(pi->cursed() || pi->natural()) {
+		player->say(CantRemoveItem, pi->name());
+		return false;
+	}
 	return true;
 }
 
@@ -1387,7 +1401,7 @@ static bool can_place(const creature* player, wearn id, item* pi) {
 			player->say(CantPutItemHere, item_names[pi->type]);
 			return false;
 		}
-		if(player->wears[id] && !can_remove(player->wears[id]))
+		if(player->wears[id] && !can_remove(player, player->wears + id))
 			return false;
 		if(!player->allow(pi->type, CantPutItemHere))
 			return false;
@@ -1468,8 +1482,8 @@ static void replace_character() {
 	auto p = (creature*)choose_small_menu(getnm(ReplaceCharacter), getnm(Cancel));
 	if(!p)
 		return;
-	auto i1 = party_index(p);
-	auto i2 = party_index(player);
+	auto i1 = party_index(adventurers, p);
+	auto i2 = party_index(adventurers, player);
 	if(i1 == -1 || i2 == -1)
 		return;
 	iswap(characters[i1], characters[i2]);
@@ -1487,6 +1501,7 @@ static void character_input() {
 	case 'X': switch_page(paint_skills); break;
 	case 'O': execute(replace_character); break;
 	case 'P': execute(pick_up_item); break;
+	case 'D': execute(player_drop_item); break;
 	case 'Q': execute(examine_item); break;
 	case KeyEscape:
 		if(!character_view_proc)
@@ -1519,9 +1534,7 @@ static void adventure_input() {
 		character_input();
 		break;
 	}
-	//	{'D', drop_dungeon_item},
 	//	{'R', change_quick_item},
-	//	{KeyEscape, choose_dungeon_menu},
 }
 
 static void paint_adventure() {

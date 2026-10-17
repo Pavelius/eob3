@@ -72,7 +72,7 @@ enum speechn : unsigned char {
 	IAmScarry, IAmTired, ISeeSomething,
 	IHearSomething, IHearSomethingLarge, BehideThisDoorIsNoOne,
 	CastSpellNoCaster, CastSpellNoSpells,
-	CantFindTarget, CantUseInSettlement,
+	CantFindTarget, CantUseInSettlement, CantRemoveItem,
 	ThisFoodIsRotten,
 	AlreadyOpened, AlreadyDisabled,
 	CanReturnToBase,
@@ -242,17 +242,19 @@ int get_caster(classn v);
 int get_hit_die(classn type);
 int party_count(creature** creatures);
 int party_count(creature** creatures, featn value);
-int party_index(const creature* player);
+int party_index(creature** source, const creature* player);
 int party_median(creature** source, abilityn v);
 int select_avatars(unsigned char* result, racen race, gendern gender, classn type, fncfilter filter);
 int select_names(unsigned char* result, racen race, gendern gender, fncfilter filter);
 
 bool allow(alignmentn type, classn v);
 bool allow(classn type, racen v);
+bool can_remove(const creature* player, const item* pi);
 void check_reaction(creature** creatures, int bonus);
 void create_character(racen race, gendern gender, classn class_type, alignmentn alignment);
 void create_monster(monstern type);
 void create_monster_pallette();
+void drop_item(creature* player, item* last_item, wearn wear);
 void finish_character();
 void learn_spells(creature* player, int level, int spell_type);
 bool no_party_avatar(unsigned char v);
@@ -266,6 +268,7 @@ void party_set(creature** source, reactions v);
 void reroll_ability();
 void reroll_character();
 void reroll_hits();
+void sell_item(creature* player, item* last_item);
 void start_quest_equipment();
 void update_player();
 void use_item(creature* player, item* last_item, wearn wear);

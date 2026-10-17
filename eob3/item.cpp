@@ -20,20 +20,20 @@
 
 itemi item_data[LastItem + 1] = {
 	{RightHand, 0, {}, {}, {0, 0, 1, Bludgeon, {1, 2}}}, // No item
-	{RightHand, 5, {3, 4}, {Deadly}, {0, 1, 7, Slashing, {1, 8}}, {}, MeleeWeaponPower}, // BattleAxe
-	{RightHand, 5, {7, 4}, {Deadly}, {0, 1, 4, Slashing, {1, 6}}, {}, MeleeWeaponPower}, // Axe
-	{RightHand, 5, {116, 12}, {}, {0, 1, 5, Bludgeon, {1, 6}}, {}, MeleeWeaponPower}, // Club
-	{RightHand, 2, {15, 3}, {Precise}, {0, 1, 2, Piercing, {1, 4}}, {}, SwordPower}, // Dagger
-	{RightHand, 15, {5, 2}, {}, {0, 1, 7, Bludgeon, {1, 6, 1}}, {}, MeleeWeaponPower}, // Flail
-	{RightHand, 10, {9, 5}, {TwoHanded, Deadly}, {0, 1, 9, Slashing, {1, 10}}, {}, MeleeWeaponPower}, // Halberd
-	{RightHand, 5, {115, 13}, {}, {0, 1, 4, Bludgeon, {1, 4, 2}}, {}, MeleeWeaponPower}, // WarHammer
-	{RightHand, 10, {4, 1}, {}, {0, 1, 7, Bludgeon, {1, 6, 1}}, {}, MeleeWeaponPower}, // Mace
-	{RightHand, 2, {6, 3}, {TwoHanded}, {0, 1, 6, Piercing, {1, 6}}, {}, MeleeWeaponPower}, // Spear
+	{RightHand, 5 * gp, {3, 4}, {Deadly}, {0, 1, 7, Slashing, {1, 8}}, {}, MeleeWeaponPower}, // BattleAxe
+	{RightHand, 5 * gp, {7, 4}, {Deadly}, {0, 1, 4, Slashing, {1, 6}}, {}, MeleeWeaponPower}, // Axe
+	{RightHand, 5 * gp, {116, 12}, {}, {0, 1, 5, Bludgeon, {1, 6}}, {}, MeleeWeaponPower}, // Club
+	{RightHand, 2 * gp, {15, 3}, {Precise}, {0, 1, 2, Piercing, {1, 4}}, {}, SwordPower}, // Dagger
+	{RightHand, 15 * gp, {5, 2}, {}, {0, 1, 7, Bludgeon, {1, 6, 1}, {1, 4, 1}}, {}, MeleeWeaponPower}, // Flail
+	{RightHand, 10 * gp, {9, 5}, {TwoHanded, Deadly}, {0, 1, 9, Slashing, {1, 10}}, {}, MeleeWeaponPower}, // Halberd
+	{RightHand, 5 * gp, {115, 13}, {}, {0, 1, 4, Bludgeon, {1, 4, 2}, {1, 4}}, {}, MeleeWeaponPower}, // WarHammer
+	{RightHand, 10 * gp, {4, 1}, {}, {0, 1, 7, Bludgeon, {1, 6, 1}}, {}, MeleeWeaponPower}, // Mace
+	{RightHand, 2 * gp, {6, 3}, {TwoHanded}, {0, 1, 6, Piercing, {1, 6}}, {}, MeleeWeaponPower}, // Spear
 	{RightHand, 0, {8, 3}, {}, {0, 1, 6, Bludgeon, {1, 6}}, {}, MeleeWeaponPower}, // Staff
-	{RightHand, 0, {1, 0}, {}, {0, 1, 5, Slashing, {1, 8}}, {}, SwordPower}, // Longsword
-	{RightHand, 0, {2, 0}, {}, {0, 1, 4, Slashing, {1, 6}}, {}, SwordPower}, // ShortSword
-	{RightHand, 0, {42, 0}, {TwoHanded}, {0, 1, 10, Slashing, {1, 10}, {3, 6}}, {}, SwordPower}, // TwoHandedSword
-	{RightHand, 0, {10, 6}, {TwoHanded}, {}, {}, RangedWeaponPower}, // Bow
+	{RightHand, 20 * gp, {1, 0}, {}, {0, 1, 5, Slashing, {1, 8}, {1, 12}}, {}, SwordPower}, // Longsword
+	{RightHand, 15 * gp, {2, 0}, {}, {0, 1, 4, Slashing, {1, 6}, {1, 8}}, {}, SwordPower}, // ShortSword
+	{RightHand, 50 * gp, {42, 0}, {TwoHanded}, {0, 1, 10, Slashing, {1, 10}, {3, 6}}, {}, SwordPower}, // TwoHandedSword
+	{RightHand, 40 * gp, {10, 6}, {TwoHanded}, {}, {}, RangedWeaponPower}, // Bow
 	{RightHand, 0, {18, 4}, {TwoHanded}, {}, {}, RangedWeaponPower}, // Sling
 	{Body, 0, {32, 8}, {}, {}}, // Robe
 	{Body, 0, {17, 8}, {}, {}}, // RedCloack

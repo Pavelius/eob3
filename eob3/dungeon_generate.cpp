@@ -194,7 +194,7 @@ static void create_item(item& it, itemn type, int bonus_level = 0, int chance_id
 	it.create(chance_magic, chance_cursed);
 	if(it.isartifact())
 		loc->state.add(MessageAtifacts);
-	if(it.iscursed())
+	if(it.cursed())
 		loc->state.add(MessageCursedItems);
 	if(chance_identify && d100() < chance_identify)
 		it.identify(1);

@@ -99,6 +99,8 @@ long choose_message(actionn id, bool can_cancel = true);
 bool confirm_message(messagen header, int value);
 bool enough(const variablei& v1, const variablei& v2);
 bool indoor(actionn v);
+bool is_closed(actionn v);
+bool is_night();
 bool need_activity(actionn v);
 void open_options(const actioni* actions);
 void pass_effort();
@@ -107,6 +109,7 @@ void pass_time(unsigned minutes = 1);
 void rest_party(int bonus);
 void setv(picturen v);
 void show_message(actionn id, ...);
+void show_message(messagen id, ...);
 
 item* choose_buy_item(shopn shop, actionn shop_empty);
 

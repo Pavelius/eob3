@@ -323,8 +323,14 @@ void play_city_actions() {
 				continue;
 			if(p->proc)
 				p->proc();
-			else
+			else {
+				if(is_closed(p->action)) {
+					answer_picture = PicClosed;
+					show_message(CloseByNight, action_names[p->action]);
+					continue;
+				}
 				location = p->action;
+			}
 		}
 	}
 }

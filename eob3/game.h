@@ -56,6 +56,7 @@ enum messagen : unsigned char {
 	GameSaved, StateDead, StateDisabled, StateParalized, StatePoisoned, StateDiseased,
 	YourFaithIsWeak, UseHolySymbolNoEffect, UseHolySymbolSuccess, UseHolySymbolFail, YourAbilityGrow,
 	LootIdentyfing, LootSelling, UseLastAmmo,
+	CloseByNight,
 	Class, Race,
 	LastMessage = Race
 };
@@ -79,7 +80,7 @@ enum soundn : unsigned char {
 enum picturen : unsigned char {
 	NoPicture,
 	ChaAdaque, ChaAmaldo, ChaDexter, ChaNord1, ChaNord2, ChaPriestessSilune, ChaWitch,
-	PicCity, PicCityNight, PicDwarvenCity,
+	PicCity, PicCityNight, PicDwarvenCity, PicClosed,
 	PicTavern, PicTavern2, PicInn, PicPickpockets, PicPickpocketsFail, PicGambling, PicForge, PicTemple, PicMagicShop,
 	PicShop, PicTriumph,
 	TavHobbit,
@@ -99,6 +100,7 @@ extern int last_number;
 extern unsigned long current_cpu_time;
 extern bool need_update_animation;
 
+int get_hour();
 int getv(variablen v);
 int roll_dice(int d);
 int roll_dice(int c, int d, int b = 0);

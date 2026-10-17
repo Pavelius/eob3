@@ -47,9 +47,6 @@ pushfont::pushfont(int size) : pushfont() {
 	::font = res_data[size ? FONT8 : FONT6];
 }
 
-//struct pushdialog : pushfocus {
-//};
-
 static unsigned get_frame_tick() {
 	return current_cpu_time / 10;
 }
@@ -101,8 +98,8 @@ static void copy_image(point origin, point dest, int w, int h) {
 		memcpy(canvas->ptr(dest.x, dest.y + i), canvas->ptr(origin.x, origin.y + i), scan_size);
 }
 
-static void paint_background(resn v, int frame) {
-	image(res_data[v], frame, 0);
+static void paint_background(resn v) {
+	image(res_data[v], 0, 0);
 }
 
 static void paint_picture() {
@@ -1247,7 +1244,7 @@ static void update_focus_player() {
 }
 
 static void paint_large_menu() {
-	paint_background(PLAYFLD, 0);
+	paint_background(PLAYFLD);
 	paint_compass_no_input(party.d);
 	paint_avatars_no_focus_hilite();
 	paint_console();
@@ -1259,7 +1256,7 @@ static void paint_large_menu() {
 }
 
 static void paint_large_menu_no_hilite() {
-	paint_background(PLAYFLD, 0);
+	paint_background(PLAYFLD);
 	paint_compass_no_input(party.d);
 	paint_avatars_no_focus();
 	paint_console();
@@ -1271,7 +1268,7 @@ static void paint_large_menu_no_hilite() {
 }
 
 static void paint_small_menu() {
-	paint_background(PLAYFLD, 0);
+	paint_background(PLAYFLD);
 	paint_compass_no_input(party.d);
 	if(loc)
 		paint_dungeon();
@@ -1300,7 +1297,7 @@ static void player_use_item() {
 }
 
 void paint_main_menu() {
-	paint_background(MENU, 0);
+	paint_background(MENU);
 	caret = {80, 110};
 	width = 166;
 	height = texth();
@@ -1528,7 +1525,7 @@ static void adventure_input() {
 }
 
 static void paint_adventure() {
-	paint_background(PLAYFLD, 0);
+	paint_background(PLAYFLD);
 	paint_compass(party.d);
 	animation_update();
 	paint_dungeon();
@@ -1540,7 +1537,7 @@ static void paint_adventure() {
 }
 
 static void paint_adventure_no_update() {
-	paint_background(PLAYFLD, 0);
+	paint_background(PLAYFLD);
 	paint_compass(party.d);
 	paint_dungeon();
 	paint_avatars_no_focus();
@@ -1549,7 +1546,7 @@ static void paint_adventure_no_update() {
 }
 
 static void paint_city_no_input() {
-	paint_background(PLAYFLD, 0);
+	paint_background(PLAYFLD);
 	paint_picture();
 	paint_party_status();
 	paint_party_sheets();
@@ -1739,7 +1736,7 @@ void choose_spells(const char* title, const char* cancel, int spell_type) {
 		}
 		auto available_spells = player->abilities[Spell1 + level];
 		auto total_use = get_total_use(book);
-		paint_background(PLAYFLD, 0);
+		paint_background(PLAYFLD);
 		paint_avatars_no_focus_hilite();
 		paint_console();
 		paint_menu({0, 0}, 178, 174);
@@ -1914,7 +1911,7 @@ static void paint_generate_avatars(creature* hilite, long progress_position) {
 }
 
 static void paint_generate_progress() {
-	paint_background(CHARGEN, 0);
+	paint_background(CHARGEN);
 	paint_generate_avatars(player, generate_player_index);
 }
 
@@ -1924,7 +1921,7 @@ long choose_generate_box(const char* header, const char* footer, int current) {
 	pushfocus push_dialog;
 	current_focus = current;
 	while(ismodal()) {
-		paint_background(CHARGEN, 0);
+		paint_background(CHARGEN);
 		paint_generate_avatars(player, -1);
 		setpos(150, 80); width = 148; paint_header(header);
 		if(footer) {
@@ -2118,7 +2115,7 @@ long show_message(const char* format, bool add_anaswers, const char* cancel, uns
 	if(!cancel_key)
 		cancel_key = KeyEscape;
 	while(ismodal()) {
-		paint_background(PLAYFLD, 0);
+		paint_background(PLAYFLD);
 		paint_avatars_no_focus_hilite();
 		paint_menu({0, 122}, 319, 77);
 		setpos(6, 128, 308, 56);

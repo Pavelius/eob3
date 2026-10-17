@@ -228,17 +228,17 @@ bool check_activity() {
 
 void pass_effort() {
 	pass_time(xrand(20, 40));
-	auto roll = d20();
-	auto efforts = 10; // Maximum effort consumed
-	// AD&D standart success roll must be lesser that ability
-	if(roll < player->abilities[Constitution]) {
-		efforts -= player->abilities[Constitution] - roll;
-		if(efforts < 1)
-			efforts = 1;
-	}
-	player->food -= efforts;
-	if(player->food < 0)
-		player->food = 0;
+	//auto roll = d20();
+	//auto efforts = 10; // Maximum effort consumed
+	//// AD&D standart success roll must be lesser that ability
+	//if(roll < player->abilities[Constitution]) {
+	//	efforts -= player->abilities[Constitution] - roll;
+	//	if(efforts < 1)
+	//		efforts = 1;
+	//}
+	//player->food -= efforts;
+	//if(player->food < 0)
+	//	player->food = 0;
 }
 
 bool enough(const variablei& v1, const variablei& v2) {
@@ -863,6 +863,13 @@ void show_message(actionn id, ...) {
 	show_message(temp, false, getnm(Continue), '\n');
 }
 
+void show_message(messagen id, ...) {
+	XVA_FORMAT(id);
+	char temp[512]; stringbuilder sb(temp);
+	sb.addv(getnm(id), format_param);
+	show_message(temp, false, getnm(Continue), '\n');
+}
+
 long choose_message(actionn id, bool can_cancel) {
 	return show_message(getnm(id), true, can_cancel ? getnm(Cancel) : 0, 27);
 }
@@ -883,11 +890,8 @@ void setv(picturen v) {
 		return;
 	answer_picture = v;
 	// Day/Night
-	if(answer_picture == PicCity) {
-		auto n = get_hour();
-		if(n < 7 || n > 22)
-			answer_picture = PicCityNight;
-	}
+	if(answer_picture == PicCity && is_night())
+		answer_picture = PicCityNight;
 }
 
 bool apply_action(const actioni* p) {
@@ -904,6 +908,18 @@ bool chance(int v) {
 	if(v <= 0)
 		return false;
 	return d100() < v;
+}
+
+bool is_closed(actionn v) {
+	switch(v) {
+	case Blacksmith: case Temple: return is_night();
+	default: return false;
+	}
+}
+
+bool is_night() {
+	auto n = get_hour();
+	return n < 7 || n > 22;
 }
 
 item* choose_buy_item(shopn shop, actionn shop_empty) {

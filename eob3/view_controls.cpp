@@ -1397,6 +1397,10 @@ bool can_remove(const creature* player, const item* pi) {
 }
 
 bool can_loose(const creature* player, const item* pi) {
+	if(pi->is(PersonalItem)) {
+		player->say(CantRemoveItem, pi->name());
+		return false;
+	}
 	return true;
 }
 

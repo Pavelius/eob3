@@ -73,7 +73,7 @@ enum itemn : unsigned char {
 	RandomTavernPickPocket, RandomTreasure,
 };
 enum purposen : unsigned char {
-	CommonItem, SummonedItem, ToolItem, QuestItem, NaturalItem,
+	CommonItem, SummonedItem, ToolItem, QuestItem, NaturalItem, PersonalItem,
 };
 enum wearn : unsigned char {
 	Backpack, Edible, Drinkable, Readable, Usable, Key, Rod, Faithable, LastBackpack = Backpack + 13,

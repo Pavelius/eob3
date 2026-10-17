@@ -18,6 +18,8 @@
 #include "game.h"
 #include "item.h"
 
+item* last_item;
+
 itemi item_data[LastItem + 1] = {
 	{RightHand, 0, {}, {}, {0, 0, 1, Bludgeon, {1, 2}}}, // No item
 	{RightHand, 5 * gp, {3, 4}, {Deadly}, {0, 1, 7, Slashing, {1, 8}}, {}, MeleeWeaponPower}, // BattleAxe

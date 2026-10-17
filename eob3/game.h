@@ -82,7 +82,7 @@ enum picturen : unsigned char {
 	ChaAdaque, ChaAmaldo, ChaDexter, ChaNord1, ChaNord2, ChaPriestessSilune, ChaWitch,
 	PicCity, PicCityNight, PicDwarvenCity, PicClosed,
 	PicTavern, PicTavern2, PicInn, PicPickpockets, PicPickpocketsFail, PicGambling, PicForge, PicTemple, PicMagicShop,
-	PicShop, PicTriumph,
+	PicShop, PicSellItems, PicTriumph,
 	TavHobbit,
 	LastPicture = TavHobbit
 };

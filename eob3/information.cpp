@@ -60,6 +60,10 @@ static void print_number(stringbuilder& sb) {
 	sb.add("%1i", last_number);
 }
 
+static void print_item(stringbuilder& sb) {
+	sb.addv(last_item->name(), 0);
+}
+
 void stringbuilder_custom(stringbuilder& sb, const char* id) {
 	if(stringvar_identifier(sb, id))
 		return;
@@ -69,6 +73,7 @@ void stringbuilder_custom(stringbuilder& sb, const char* id) {
 stringvari stringvars[] = {
 	{"Class", player_class},
 	{"Coins", player_gold},
+	{"Item", print_item},
 	{"Number", print_number},
 	{"Opponent", opponent_name},
 	{"Player", player_name},

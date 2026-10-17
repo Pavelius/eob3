@@ -96,7 +96,6 @@ bool check_activity();
 bool check_suspecious();
 long choose_player_action(const char* cancel);
 long choose_message(actionn id, bool can_cancel = true);
-bool confirm_message(messagen header, int value);
 bool enough(const variablei& v1, const variablei& v2);
 bool indoor(actionn v);
 bool is_closed(actionn v);

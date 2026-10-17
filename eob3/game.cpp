@@ -1845,21 +1845,22 @@ static void attack_enemy() {
 
 bool make_object_attack(pointc v);
 
-void sell_item(creature* player, item* last_item) {
+void sell_item() {
 	auto cost = last_item->getcost() / 2; // Selling is half priced by default
 	if(!cost)
 		return;
 	if(!can_remove(player, last_item))
 		return;
-//	if(!can_loose(last_item))
-//		return;
+	if(!can_loose(player, last_item))
+		return;
+	pushvalue push_answer(answer_picture, PicSellItems);
 	if(!confirm_message(ConfirmSellItem, cost))
 		return;
 	last_item->clear();
 	addv(Coins, cost);
 }
 
-void drop_item(creature* player, item* last_item, wearn wear) {
+void drop_item() {
 }
 
 void use_item(creature* player, item* last_item, wearn wear) {

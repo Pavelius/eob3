@@ -13,7 +13,7 @@ const char* message_names[LastMessage + 1] = {
 	"Press Enter to start the game.",
 	"Do you really want to delete this character?",
 	"Healing comes at a price. The priestess asks for %1i silver coins to fully heal %Name and cure any poison or disease. Do you agree?",
-	"Would you really sell this item for %1i silver coins?",
+	"Would you really sell %Item for %1i silver coins?",
 	"This costs %1i silver coins. Would you like to buy it?",
 	"Buy food and drinks for the entire party for %1i silver coins?",
 	"A room for the whole party costs %1i silver coins. No fleas, no rats - guaranteed! Care to stay the night?",

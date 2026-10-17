@@ -189,6 +189,7 @@ struct item {
 	void usecharge(const char* interactive, int chance = 35);
 };
 extern item shops[LastShop + 1][6];
+extern item* last_item;
 
 struct wearable {
 	item		wears[LastBelt + 1];

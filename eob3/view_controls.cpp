@@ -1297,13 +1297,14 @@ static void player_use_item() {
 }
 
 static void player_drop_item() {
-	auto pi = get_item_by_focus();
-	if(!pi || !(*pi))
+	pushvalue push(last_item);
+	last_item = get_item_by_focus();
+	if(!last_item || !(*last_item))
 		return;
 	if(loc)
-		drop_item(player, pi, get_wear((void*)current_focus));
+		drop_item();
 	else
-		sell_item(player, pi);
+		sell_item();
 }
 
 void paint_main_menu() {
@@ -1392,6 +1393,10 @@ bool can_remove(const creature* player, const item* pi) {
 		player->say(CantRemoveItem, pi->name());
 		return false;
 	}
+	return true;
+}
+
+bool can_loose(const creature* player, const item* pi) {
 	return true;
 }
 

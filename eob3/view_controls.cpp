@@ -1507,6 +1507,7 @@ static void character_input() {
 	case 'O': execute(replace_character); break;
 	case 'P': execute(pick_up_item); break;
 	case 'D': execute(player_drop_item); break;
+	case 'U': execute(player_use_item); break;
 	case 'Q': execute(examine_item); break;
 	case KeyEscape:
 		if(!character_view_proc)
@@ -1531,7 +1532,6 @@ void alternate_focus_input() {
 static void adventure_input() {
 	switch(hkey) {
 	case 'M': execute(player_manipulate); break;
-	case 'U': execute(player_use_item); break;
 	case 'E': execute(cast_spell); break;
 	case 'V': execute(show_dungeon_automap); break;
 	default:

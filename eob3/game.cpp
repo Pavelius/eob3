@@ -1132,7 +1132,7 @@ void pick_up_dungeon_item() {
 	if(!gpi)
 		return;
 	auto slot = get_wear(pi);
-	if(!gpi->allow(slot))
+	if(!allow_wear(gpi->type, slot))
 		return;
 	if(slot >= Head && slot <= LastBelt) {
 		if(!pn->allow(gpi->type))
@@ -1759,7 +1759,7 @@ static void use_magic_map(creature* player, item* last_item) {
 }
 
 static bool use_bless_effect(bool run) {
-	static spelln source[] = {CureLightWound};
+	static spelln source[] = {CureLightWound, Bless};
 	auto level = player->level();
 	auto duration = 4 * 60; // 4-9 hour standart duration for blessing
 	for(auto spell : source) {
@@ -1850,11 +1850,15 @@ void use_item(creature* player, item* last_item, wearn wear) {
 		return;
 	switch(last_item->geti().wear) {
 	case RightHand:
+		if(!allow_use(player, last_item))
+			break;
 		if(!dungeon_use())
 			break;
-		if(wear != LeftHand && wear != RightHand)
+		if(wear != RightHand) {
 			player->say(MustBeUseInHand);
-		else if(last_item->weapon()) {
+			break;
+		}
+		if(last_item->weapon()) {
 			if(!make_object_attack(to(party.pos, party.d)))
 				make_attacks(false);
 			pass_time();
@@ -1868,9 +1872,17 @@ void use_item(creature* player, item* last_item, wearn wear) {
 			break;
 		}
 		if(is_spell_power(last_item->type)) {
-			auto spell = last_item->getspell();
-			if(player->cast(last_item->getspell(), 5, true, true, true, false))
+			last_item->identified = 1;
+			if(player->cast(last_item->getspell(), 5, true, true, true, false)) {
+				last_item->usecharge(getnm(UseLastChange));
 				pass_time();
+			}
+		} else if(is_faithable(last_item->type)) {
+			if(!dungeon_use())
+				break;
+			if(faith_effect())
+				last_item->usecharge(getnm(UseLastChange));
+			pass_time();
 		}
 		break;
 	case Body: case Neck: case Elbow: case Legs: case Head:
@@ -1911,25 +1923,15 @@ void use_item(creature* player, item* last_item, wearn wear) {
 	case Readable:
 		if(!allow_use(player, last_item))
 			break;
-		if(!player->canread())
+		if(!player->canread()) {
 			player->say(CantRead);
-		else if(is_spell_power(last_item->type)) {
+			break;
+		}
+		if(is_spell_power(last_item->type)) {
 			auto spell = last_item->getspell();
 			if(player->cast(spell, player->level(), true, true, false, false))
 				last_item->clear();
 		}
-		break;
-	case Faithable:
-		if(!allow_use(player, last_item))
-			break;
-		if(wear != LeftHand) {
-			player->say(MustBeUseInHand);
-			break;
-		}
-		//if(faith_effect(last_item->getmagic())) {
-		//	last_item->usecharge("ToolCrumbleToDust");
-		//	pass_round();
-		//}
 		break;
 	case Key:
 		if(!dungeon_use())

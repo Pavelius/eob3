@@ -69,8 +69,8 @@ itemi item_data[LastItem + 1] = {
 	{LeftHand, 0, {52, 10}, {}, {}, {}, WandSpells}, // Wand
 	{Usable, 0, {54, 1}, {}, {}, {}}, // TheifTools
 	{Usable, 0, {117, 14}, {}, {}, {}}, // GrapplingHook
-	{Faithable, 0, {53, 20}, {}, {}, {}}, // HolySymbol
-	{Faithable, 0, {27, 20}, {}, {}, {}}, // HolySymbolEvil
+	{LeftHand, 0, {53, 20}, {}, {}, {}}, // HolySymbol
+	{LeftHand, 0, {27, 20}, {}, {}, {}}, // HolySymbolEvil
 	{Readable, 0, {35, 11}, {}, {}, {}}, // MageBook
 	{Usable, 0, {59, 22}, {}, {}, {}}, // Horn
 	{Backpack, 0, {43, 7}, {}, {}, {}}, // Bones
@@ -177,34 +177,14 @@ bool is_identified(const void* object) {
 }
 
 bool is_spell_power(itemn type) {
-	switch(type) {
-	case PriestScroll: case MageScroll: case Wand:
-		return true;
-	default:
-		return false;
-	}
+	return type == PriestScroll
+		|| type == MageScroll
+		|| type == Wand;
 }
 
-bool allow_wear(itemn type, wearn n) {
-	auto v = item_data[type].wear;
-	switch(v) {
-	case LeftRing:
-	case RightRing:
-		return n == LeftRing
-			|| n == RightRing;
-	case LeftHand:
-		return type == Dagger
-			|| n == LeftHand
-			|| n == Readable
-			|| n == Faithable
-			|| n == Drinkable;
-	case FirstBelt: case SecondBelt: case LastBelt:
-		return n == RightHand;
-	default:
-		if(v >= Backpack && v <= LastBackpack)
-			return true;
-		return n == v;
-	}
+bool is_faithable(itemn type) {
+	return type == HolySymbol
+		|| type == HolySymbolEvil;
 }
 
 void addv(item* shop, item& it) {
@@ -290,18 +270,17 @@ void wearable::additem(item& it) {
 	}
 }
 
-bool item::allow(wearn v) const {
-	auto n = geti().wear;
+bool allow_wear(itemn type, wearn n) {
+	auto v = item_data[type].wear;
 	switch(v) {
 	case LeftRing:
 	case RightRing:
 		return n == LeftRing
 			|| n == RightRing;
 	case LeftHand:
-		return (n == RightHand && is(Precise))
+		return type == Dagger
 			|| n == LeftHand
 			|| n == Readable
-			|| n == Faithable
 			|| n == Drinkable;
 	case FirstBelt: case SecondBelt: case LastBelt:
 		return n == RightHand;

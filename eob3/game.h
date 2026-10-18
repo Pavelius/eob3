@@ -56,7 +56,7 @@ enum messagen : unsigned char {
 	MonstersAreNearbe,
 	GameSaved, StateDead, StateDisabled, StateParalized, StatePoisoned, StateDiseased,
 	YourFaithIsWeak, UseHolySymbolNoEffect, UseHolySymbolSuccess, UseHolySymbolFail, YourAbilityGrow,
-	LootIdentyfing, LootSelling, UseLastAmmo,
+	LootIdentyfing, LootSelling, UseLastAmmo, UseLastChange,
 	CloseByNight,
 	Class, Race,
 	LastMessage = Race

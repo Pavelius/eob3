@@ -76,7 +76,7 @@ enum purposen : unsigned char {
 	CommonItem, SummonedItem, ToolItem, QuestItem, NaturalItem, PersonalItem,
 };
 enum wearn : unsigned char {
-	Backpack, Edible, Drinkable, Readable, Usable, Key, Faithable, LastBackpack = Backpack + 13,
+	Backpack, Edible, Drinkable, Readable, Usable, Key, LastBackpack = Backpack + 13,
 	Head, Neck, Body, RightHand, LeftHand, RightRing, LeftRing, Elbow, Legs, Quiver,
 	FirstBelt, SecondBelt, LastBelt,
 	FirstInvertory = Backpack, LastInvertory = LastBelt
@@ -93,6 +93,7 @@ enum trapn : unsigned char {
 extern const char* item_names[LastItem + 1];
 extern const char* feat_names[LastFeat + 1];
 
+bool is_faithable(itemn type);
 bool is_large(itemn type);
 bool is_natural(itemn type);
 bool is_small(itemn type);
@@ -139,8 +140,6 @@ extern itemi item_data[LastItem + 1];
 int get_chance_identify(itemn v);
 int get_magic(featn v);
 
-bool allow_wear(itemn type, wearn n);
-
 struct item {
 	itemn		type = NoItem;
 	featn		power = NoPower; // Special additional magical powers
@@ -162,7 +161,6 @@ struct item {
 	spelln getspell() const { return is_spell_power(type) ? (spelln)power : (spelln)0; }
 	int	cost() const { return geti().cost; }
 	int	magic() const { return get_magic(power); }
-	bool allow(wearn v) const;
 	bool allow(spelln v, int level);
 	bool apply(spelln v, int level, bool run);
 	bool artifact() const { return get_magic(power) >= 4; }
@@ -210,6 +208,7 @@ featn random(featn v);
 
 void addv(item* shop, item& v);
 bool allow(shopn v);
+bool allow_wear(itemn type, wearn n);
 bool is_identified(const void* object);
 void normalize_shop(shopn id);
 void refresh_shop(shopn id);

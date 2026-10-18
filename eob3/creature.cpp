@@ -1513,6 +1513,7 @@ static void start_equipment() {
 	case Cleric:
 		player->equip(Mace);
 		player->equip(LeatherArmor);
+		player->equip(HolySymbol);
 		break;
 	case Mage:
 		player->equip(Dagger);
@@ -1529,7 +1530,7 @@ static void quest_equipment(classn type) {
 	switch(type) {
 	case Theif: player->addgear(TheifTools, ToolItem); player->addgear(GrapplingHook, ToolItem); break;
 	case Cleric: player->addgear(BluePotion, ToolItem, Healing); break;
-	case Mage: break;
+	case Mage: break; // Mage have nothing
 	default: player->addgear(RationIron, ToolItem); break;
 	}
 }
@@ -1546,8 +1547,6 @@ static void start_unique_equipment() {
 	case Theif:
 		if(player->race==Halfling)
 			player->addgear(RedRing, CommonItem, Invisible, 0);
-		break;
-	case Mage:
 		break;
 	default:
 		break;

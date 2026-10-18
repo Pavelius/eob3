@@ -74,27 +74,26 @@ static actioni carousing_actions[] = {
 	{DrinkContest, {}, {}, drink_contest, is_dwarf_or_warrior},
 	{NudeNightRide, {}, {}, nude_night_ride},
 };
+const unsigned carouse_size = lengthof(carousing_actions);
 
 static void select_actions(actioni** result) {
 	auto p = result;
 	for(auto& e : carousing_actions)
 		*p++ = &e;
-	zshuffle(result, lengthof(carousing_actions));
+	zshuffle(result, carouse_size);
 }
 
 void carousing() {
-	actioni* actions[lengthof(carousing_actions)];
-	select_actions(actions);
+	actioni* actions[carouse_size]; select_actions(actions);
 	pushvalue push(player);
 	pushvalue push_picture(answer_picture);
-	unsigned index = 0;
 	for(auto p : adventurers) {
 		if(!p || p->isdisabled())
 			continue;
 		player = p;
-		auto pa = pick_action(actions, lengthof(carousing_actions), index);
+		auto pa = pick_action(actions, carouse_size);
 		if(!pa)
-			continue;
+			break;
 		setv(get_picture(pa->action));
 		show_message(pa->action);
 		if(pa->proc)

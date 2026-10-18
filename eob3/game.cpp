@@ -975,16 +975,15 @@ static void ask_actions(const actioni* source) {
 	}
 }
 
-const actioni* pick_action(actioni** source, unsigned count, unsigned& index) {
-	unsigned pass_count = 0;
-	while(pass_count < count) {
-		auto p = source[index];
-		index = (++index) % count;
-		pass_count++;
+const actioni* pick_action(actioni** source, unsigned count) {
+	for(unsigned i = 0; i < count; i++) {
+		auto p = source[i];
 		if(!pass_restriction(p->restriction))
 			continue;
 		if(p->allow && !p->allow())
 			continue;
+		memmove(source + i, source + (i + 1), (count - (i + 1)) * sizeof(source[i]));
+		source[count - 1] = p;
 		return p;
 	}
 	return 0;

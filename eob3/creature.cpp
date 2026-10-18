@@ -1044,7 +1044,7 @@ static void apply_class_ability(creature* player, classn type, int level) {
 		case 1:
 			ps = get_spellbook(player);
 			ps->set(DetectMagic);
-			ps->addspells(10 + 1, xrand(3, 5));
+			ps->addspells(10 + 1, 3);
 			break;
 		default: break;
 		}

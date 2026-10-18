@@ -118,4 +118,4 @@ item* choose_buy_item(shopn shop, actionn shop_empty);
 
 const actioni* choose_location(const actioni* source);
 const actioni* choose_action(const actioni* source);
-const actioni* pick_action(actioni** source, unsigned count, unsigned& index);
+const actioni* pick_action(actioni** source, unsigned count);

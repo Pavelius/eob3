@@ -285,6 +285,8 @@ bool allow_wear(itemn type, wearn n) {
 	case FirstBelt: case SecondBelt: case LastBelt:
 		return n == RightHand;
 	default:
+		if(n >= Backpack && n <= LastBackpack)
+			return true;
 		if(v >= Backpack && v <= LastBackpack)
 			return true;
 		return n == v;

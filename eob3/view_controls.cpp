@@ -676,7 +676,11 @@ static void greenbar(int vc, int vm) {
 		vc = 0;
 	pushrect push;
 	pushfore push_fore;
-	color c1 = colors::green.darken().mix(colors::red, vc * 255 / vm);
+	color c1 = colors::green;
+	if(vc <= vm / 4)
+		c1 = color(170, 0, 0);
+	else if(vc <= vm / 2)
+		c1 = color(200, 200, 87);
 	border_down();
 	caret.x++; caret.y++;
 	width--; height--;

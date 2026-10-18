@@ -21,7 +21,7 @@
 color colors::black;
 color colors::blue(0, 0, 255);
 color colors::gray(128, 128, 128);
-color colors::green(0, 255, 0);
+color colors::green(0, 170, 0);
 color colors::red(255, 0, 0);
 color colors::yellow(255, 244, 32);
 color colors::white(255, 255, 255);

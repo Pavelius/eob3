@@ -99,4 +99,5 @@ void carousing() {
 		if(pa->proc)
 			pa->proc();
 	}
+	pass_time(roll_dice(1, 2, 2) * 60);
 }

@@ -77,13 +77,14 @@ bool indoor(actionn v) {
 }
 
 void addv(variablen v, int i) {
-	game.add(v, i);
-}
-
-void addv(variablen v, int i, int minimum, int maximum) {
+	auto maximum = 100;
+	switch(v) {
+	case Coins: maximum = 10000000; break;
+	default: break;
+	}
 	i += game.variables[v];
-	if(i < minimum)
-		i = minimum;
+	if(i < 0)
+		i = 0;
 	else if(maximum > 0 && i > maximum)
 		i = maximum;
 	game.variables[v] = i;
@@ -1773,7 +1774,7 @@ static bool use_bless_effect(bool run) {
 }
 
 static bool faith_effect() {
-	if(getv(Blessing) <= 30) {
+	if(getv(Blessing) <= 20) {
 		consolen(getnm(YourFaithIsWeak));
 		return false;
 	}

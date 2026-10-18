@@ -55,7 +55,7 @@ struct classnc {
 };
 
 struct variablei {
-	int variables[LastVariable + 1] = {};
+	unsigned variables[LastVariable + 1] = {};
 	constexpr variablei() = default;
 	template<typename... Ts> constexpr variablei(variablen v, int n, Ts... args) : variablei(args...) { add(v, n); }
 	constexpr explicit operator bool() const { for(auto i = (variablen)0; i <= LastVariable; i = (variablen)(i + 1)) if(variables[i]) return true; return false; }

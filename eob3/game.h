@@ -108,7 +108,6 @@ int roll_dice(int c, int d, int b = 0);
 int thrown_side(int avatar_thrown, int side);
 
 void addv(variablen v, int i);
-void addv(variablen v, int i, int minimum, int maximum = -1);
 void alternate_focus_input();
 void animation_update();
 void button_frame(int count, bool focused, bool pressed);

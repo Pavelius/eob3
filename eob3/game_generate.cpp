@@ -75,29 +75,29 @@ static bool is_party_formed() {
 static void start_variables(classn type) {
 	switch(type) {
 	case Mage:
-		game.add(Coins, xrand(4, 20) * gp);
-		game.add(Reputation, 10);
+		addv(Coins, xrand(4, 20) * gp);
+		addv(Reputation, 10);
 		break;
 	case Theif:
-		game.add(Coins, xrand(3, 18) * gp);
-		game.add(Reputation, 5);
+		addv(Coins, xrand(3, 18) * gp);
+		addv(Reputation, 5);
 		break;
 	case Ranger:
-		game.add(Coins, xrand(1, 6) * gp);
-		game.add(Reputation, 5);
+		addv(Coins, xrand(1, 6) * gp);
+		addv(Reputation, 5);
 		break;
 	case Cleric:
-		game.add(Coins, xrand(1, 6) * gp);
-		game.add(Reputation, 10);
-		game.add(Blessing, 10);
+		addv(Coins, xrand(1, 6) * gp);
+		addv(Reputation, 10);
+		addv(Blessing, 20);
 		break;
 	case Paladin:
-		game.add(Coins, xrand(10, 20) * gp);
-		game.add(Reputation, 10);
-		game.add(Blessing, 5);
+		addv(Coins, xrand(10, 20) * gp);
+		addv(Reputation, 10);
+		addv(Blessing, 5);
 		break;
 	default:
-		game.add(Coins, xrand(2, 7) * gp);
+		addv(Coins, xrand(2, 7) * gp);
 		break;
 	}
 }

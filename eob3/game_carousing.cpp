@@ -19,11 +19,11 @@ static void great_pick_pockets() {
 	if(player->roll(PickPockets)) {
 		auto coins = xrand(4, 24) * 20 * gp;
 		auto jackpot = create_item(RandomTavernPickPocket, 20, 20);
+		show_message(GreatPickPocketsSuccess, coins, jackpot.name());
 		addv(Coins, coins);
 		player->additem(jackpot);
-		show_message(GreatPickPocketsSuccess, coins, jackpot.name());
 	} else {
-		auto coins = xrand(1, 6) * 20 * gp;
+		auto coins = xrand(1, 6) * 10 * gp;
 		show_message(GreatPickPocketsFail, coins);
 	}
 }

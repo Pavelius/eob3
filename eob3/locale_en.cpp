@@ -79,7 +79,9 @@ const char* action_names[LastAction + 1] = {
 	"You're too exhausted to try that again. Get some rest, or find something less demanding to do.",
 	"The locals are growing suspicious, and you've attracted too much attention. Better lay low until tomorrow.",
 	"Go Outside",
-	"Tonight, the tavern is crowded with wealthy merchants and noble guests. Wine flows freely, music drowns out conversation, and the drunken patrons have completely let down their guard. Heavy purses hang from belts, golden rings glitter on fingers, and servants are far too busy drinking to watch for wandering hands.",
+	"Tonight, the tavern is crowded with wealthy merchants and noble guests. Wine flows freely, music drowns out conversation, and the drunken patrons have completely let down their guard. Heavy purses hang from belts, golden rings glitter on fingers.",
+	"Waiting until the nobleman becomes engrossed in conversation with a charming lady, you quietly lift a jeweled pouch from his belt. Inside you find %1i coins and a %2.",
+	"You loose your opportunity and steal only %1i coins for all evening.",
 };
 const char* feat_names[LastFeat + 1] = {
 	"NoPower", "+1", "+2", "+3", "+4", "+5", "Cursing", "Delusion",

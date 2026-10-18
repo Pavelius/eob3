@@ -27,7 +27,7 @@ static featn get_resist(damagen v) {
 static featn get_immunity(damagen v) {
 	switch(v) {
 	case Bludgeon: case Slashing: case Piercing: return ImmuneNormalWeapon;
-	case IllDamage: return ImmuneNormalWeapon;
+	case IllDamage: return ImmuneDisease;
 	default: return (featn)0;
 	}
 }

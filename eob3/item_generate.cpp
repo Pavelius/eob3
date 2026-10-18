@@ -16,6 +16,12 @@ static featn melee_weapon_powers[] = {
 	Magical3, Magical3,
 	Magical4,
 	DispelEvil, Holy, Flaming, Freezing};
+static featn ranged_weapon_powers[] = {
+	Magical, Magical, Magical, Magical, Magical,
+	Magical2, Magical2, Magical2,
+	Magical3, Magical3,
+	Magical4,
+	Flaming, Freezing};
 static itemn random_treasure[] = {
 	BlueGem, BlueGem, BlueGem, BlueGem, BlueGem,
 	GreenGem, GreenGem, GreenGem,
@@ -62,6 +68,7 @@ featn random(featn v) {
 	switch(v) {
 	case SwordPower: return maprnd(sword_powers);
 	case MeleeWeaponPower: return maprnd(melee_weapon_powers);
+	case RangedWeaponPower: return maprnd(ranged_weapon_powers);
 	case PriestSpells: case MageSpells: case WandSpells: return NoPower;
 	default: return v;
 	}

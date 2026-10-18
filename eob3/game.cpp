@@ -2049,6 +2049,8 @@ static bool is_bribeable() {
 static void lie() {
 	if(!party_roll(Charisma, -2)) {
 		monsters_talk(YouLiers);
+		creature* opponents[party_size]; get_opponents(opponents);
+		party_set(opponents, Hostile);
 		party_set(adventurers, Surprised);
 		make_attacks(true);
 	} else {

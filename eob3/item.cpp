@@ -37,51 +37,51 @@ itemi item_data[LastItem + 1] = {
 	{RightHand, 50 * gp, {42, 0}, {TwoHanded}, {0, 1, 10, Slashing, {1, 10}, {3, 6}}, {}, SwordPower}, // TwoHandedSword
 	{RightHand, 40 * gp, {10, 6}, {TwoHanded}, {}, {}, RangedWeaponPower}, // Bow
 	{RightHand, 0, {18, 4}, {TwoHanded}, {}, {}, RangedWeaponPower}, // Sling
-	{Body, 0, {32, 8}, {}, {}}, // Robe
-	{Body, 0, {17, 8}, {}, {}}, // RedCloack
-	{Body, 0, {92, 8}, {}, {}}, // BlueCloack
-	{Body, 0, {31, 11}, {}, {}}, // LeatherArmor
-	{Body, 0, {30, 9}, {}, {}}, // ScaleMail
-	{Body, 0, {29, 9}, {}, {}}, // ChainMail
-	{Body, 0, {28, 9}, {}, {}}, // BandedMail
-	{Body, 0, {26, 9}, {}, {}}, // PlateMail
-	{Head, 0, {20, 6}, {}, {}}, // Helm
-	{Head, 0, {73, 6}, {}, {}}, // DwarvenHelm
-	{LeftHand, 0, {23, 7}, {}, {}}, // Shield
-	{LeftHand, 0, {71, 7}, {}, {}}, // DwarvenShield
-	{Legs, 0, {9, 9}, {}, {}}, // Boots
-	{Elbow, 0, {25, 16}, {}, {}}, // Bracers
-	{LeftRing, 0, {78, 15}, {}, {}}, // BlueRing
-	{LeftRing, 0, {79, 15}, {}, {}}, // GreenRing
-	{LeftRing, 0, {55, 15}, {}, {}}, // RedRing
-	{Neck, 0, {33, 26}, {}, {}}, // Amulet
-	{Neck, 0, {34, 26}, {}, {}}, // Medalion
-	{Drinkable, 0, {40, 19}, {}, {}}, // BluePotion
-	{Drinkable, 0, {41, 19}, {}, {}}, // GreenPotion
-	{Drinkable, 0, {39, 19}, {}, {}}, // RedPotion
-	{Edible, 0, {37, 14}, {}, {2}}, // LargeRation
-	{Edible, 0, {38, 14}, {}, {}}, // Ration
+	{Body, 0, {32, 8}, {}, {}, {}}, // Robe
+	{Body, 0, {17, 8}, {}, {}, {}}, // RedCloack
+	{Body, 0, {92, 8}, {}, {}, {}}, // BlueCloack
+	{Body, 0, {31, 11}, {}, {}, {2}}, // LeatherArmor
+	{Body, 0, {30, 9}, {}, {}, {4}}, // ScaleMail
+	{Body, 0, {29, 9}, {}, {}, {5}}, // ChainMail
+	{Body, 0, {28, 9}, {}, {}, {6}}, // BandedMail
+	{Body, 0, {26, 9}, {}, {}, {8}}, // PlateMail
+	{Head, 0, {20, 6}, {}, {}, {}}, // Helm
+	{Head, 0, {73, 6}, {}, {}, {}}, // DwarvenHelm
+	{LeftHand, 0, {23, 7}, {}, {}, {1}}, // Shield
+	{LeftHand, 0, {71, 7}, {}, {}, {1}}, // DwarvenShield
+	{Legs, 0, {9, 9}, {}, {}, {}}, // Boots
+	{Elbow, 0, {25, 16}, {}, {}, {}}, // Bracers
+	{LeftRing, 0, {78, 15}, {}, {}, {}}, // BlueRing
+	{LeftRing, 0, {79, 15}, {}, {}, {}}, // GreenRing
+	{LeftRing, 0, {55, 15}, {}, {}, {}}, // RedRing
+	{Neck, 0, {33, 26}, {}, {}, {}}, // Amulet
+	{Neck, 0, {34, 26}, {}, {}, {}}, // Medalion
+	{Drinkable, 0, {40, 19}, {}, {}, {}}, // BluePotion
+	{Drinkable, 0, {41, 19}, {}, {}, {}}, // GreenPotion
+	{Drinkable, 0, {39, 19}, {}, {}, {}}, // RedPotion
+	{Edible, 0, {37, 14}, {}, {2}, {}}, // LargeRation
+	{Edible, 0, {38, 14}, {}, {}, {}}, // Ration
 	{Readable, 0, {36, 12}, {}, {}, {}, MageSpells}, // MageScroll
 	{Readable, 0, {85, 12}, {}, {}, {}, PriestSpells}, // PriestScroll
-	{Usable, 0, {86, 12}, {}, {}}, // MagicMap
+	{Usable, 0, {86, 12}, {}, {}, {}}, // MagicMap
 	{Rod, 0, {52, 10}, {}, {}, {}, WandSpells}, // Wand
-	{Usable, 0, {54, 1}, {}, {}}, // TheifTools
-	{Usable, 0, {117, 14}, {}, {}}, // GrapplingHook
-	{Faithable, 0, {53, 20}, {}, {}}, // HolySymbol
-	{Faithable, 0, {27, 20}, {}, {}}, // HolySymbolEvil
-	{Readable, 0, {35, 11}, {}, {}}, // MageBook
-	{Usable, 0, {59, 22}, {}, {}}, // Horn
-	{Backpack, 0, {43, 7}, {}, {}}, // Bones
-	{Backpack, 0, {51, 7}, {}, {}}, // MantistHead
-	{Backpack, 0, {56, 7}, {}, {}}, // MonsterTeeth
-	{Backpack, 0, {89, 7}, {}, {}}, // SkullHead
-	{Backpack, 0, {90, 7}, {}, {}}, // SkullBone
-	{Backpack, 0, {91, 18}, {}, {}}, // FlameSphere
-	{Backpack, 0, {100, 18}, {}, {}}, // IceSphere
-	{Backpack, 150, {94, 22}, {}, {}}, // BlueGem
-	{Backpack, 300, {95, 22}, {}, {}}, // GreenGem
-	{Backpack, 500, {93, 22}, {}, {}}, // RedGem
-	{Backpack, 1000, {96, 22}, {}, {}}, // PurpleGem
+	{Usable, 0, {54, 1}, {}, {}, {}}, // TheifTools
+	{Usable, 0, {117, 14}, {}, {}, {}}, // GrapplingHook
+	{Faithable, 0, {53, 20}, {}, {}, {}}, // HolySymbol
+	{Faithable, 0, {27, 20}, {}, {}, {}}, // HolySymbolEvil
+	{Readable, 0, {35, 11}, {}, {}, {}}, // MageBook
+	{Usable, 0, {59, 22}, {}, {}, {}}, // Horn
+	{Backpack, 0, {43, 7}, {}, {}, {}}, // Bones
+	{Backpack, 0, {51, 7}, {}, {}, {}}, // MantistHead
+	{Backpack, 0, {56, 7}, {}, {}, {}}, // MonsterTeeth
+	{Backpack, 0, {89, 7}, {}, {}, {}}, // SkullHead
+	{Backpack, 0, {90, 7}, {}, {}, {}}, // SkullBone
+	{Backpack, 0, {91, 18}, {}, {}, {}}, // FlameSphere
+	{Backpack, 0, {100, 18}, {}, {}, {}}, // IceSphere
+	{Backpack, 150, {94, 22}, {}, {}, {}}, // BlueGem
+	{Backpack, 300, {95, 22}, {}, {}, {}}, // GreenGem
+	{Backpack, 500, {93, 22}, {}, {}, {}}, // RedGem
+	{Backpack, 1000, {96, 22}, {}, {}, {}}, // PurpleGem
 	{Key, 0, {47, 8}}, // IronKey
 	{Key, 0, {46, 8}}, // BronzeKey
 	{Key, 0, {48, 8}}, // CooperKey

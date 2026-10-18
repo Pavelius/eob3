@@ -172,7 +172,6 @@ void game_generation() {
 	refresh_shops();
 #ifdef _DEBUG
 	party_random_generation();
-	addv(Blessing, 60);
 #else
 	party_generation();
 #endif // _DEBUG

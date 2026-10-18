@@ -126,11 +126,11 @@ static bool add_monsters(spelln spell, int level, int distance) {
 	return add_creatures(monsters, spell, level);
 }
 
-static bool spell_targets(creature* caster, spelln spell, int level) {
+bool creature::castprepare(spelln spell, int level) {
 	creatures.clear();
 	items.clear();
 	switch(spell_data[spell].type) {
-	case You: return add_creature(caster, spell, level);
+	case You: return add_creature(player, spell, level);
 	case Ally: case AllAlly: return add_party(spell, level);
 	case AllEnemy: case Enemy:
 		if(get_thrown(spell) == -1)
@@ -187,7 +187,7 @@ static void add_spell_experience(spelln spell) {
 
 bool creature::cast(spelln spell, int level, bool show_fail, bool show_cast, bool random_choose, bool expand_slots) {
 	pushvalue push(caster, this);
-	if(!spell_targets(this, spell, level)) {
+	if(!castprepare(spell, level)) {
 		if(show_fail)
 			say(CantFindTarget);
 		return false;

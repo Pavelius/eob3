@@ -1760,11 +1760,10 @@ static void use_magic_map(creature* player, item* last_item) {
 }
 
 static bool use_bless_effect(bool run) {
-	static spelln source[] = {CureLightWound, Bless};
-	auto level = player->level();
-	auto duration = 4 * 60; // 4-9 hour standart duration for blessing
+	static spelln source[] = {CureLightWound};
+	auto level = 20;
 	for(auto spell : source) {
-		if(!player->cast(spell, level, false, false, true, false))
+		if(!player->castprepare(spell, level))
 			continue;
 		if(run)
 			player->cast(spell, level, false, false, true, false);
@@ -1779,14 +1778,11 @@ static bool faith_effect() {
 		return false;
 	}
 	if(!use_bless_effect(false)) {
-		consolen(getnm(UseHolySymbolNoEffect));
+		consolen(getnm(UseHolySymbolFail));
 		return false;
 	}
-	if(d100() >= getv(Blessing)) {
-		consolen(getnm(UseHolySymbolFail));
-		return true;
-	}
-	if(use_bless_effect(true)) {
+	if(d100() < getv(Blessing)) {
+		use_bless_effect(true);
 		consolen(getnm(UseHolySymbolSuccess));
 		addv(Blessing, -1);
 	} else

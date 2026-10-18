@@ -1730,7 +1730,7 @@ static void add_area_overlay(celln type, bool keep) {
 static void add_area_items(itemn type, bool keep) {
 	// Ground items
 	for(auto& e : loc->items) {
-		if(!e || (e.type==type)!=keep)
+		if(!e || (e.type == type) != keep)
 			continue;
 		auto v = to(e.pos, e.d);
 		points.addu(v);
@@ -1849,7 +1849,7 @@ void use_item(creature* player, item* last_item, wearn wear) {
 	if(!(*last_item))
 		return;
 	switch(last_item->geti().wear) {
-	case LeftHand: case RightHand:
+	case RightHand:
 		if(!dungeon_use())
 			break;
 		if(wear != LeftHand && wear != RightHand)
@@ -1858,6 +1858,19 @@ void use_item(creature* player, item* last_item, wearn wear) {
 			if(!make_object_attack(to(party.pos, party.d)))
 				make_attacks(false);
 			pass_time();
+		}
+		break;
+	case LeftHand:
+		if(!allow_use(player, last_item))
+			break;
+		if(wear != LeftHand) {
+			player->say(MustBeUseInHand);
+			break;
+		}
+		if(is_spell_power(last_item->type)) {
+			auto spell = last_item->getspell();
+			if(player->cast(last_item->getspell(), 5, true, true, true, false))
+				pass_time();
 		}
 		break;
 	case Body: case Neck: case Elbow: case Legs: case Head:
@@ -1904,19 +1917,6 @@ void use_item(creature* player, item* last_item, wearn wear) {
 			auto spell = last_item->getspell();
 			if(player->cast(spell, player->level(), true, true, false, false))
 				last_item->clear();
-		}
-		break;
-	case Rod:
-		if(!allow_use(player, last_item))
-			break;
-		if(wear != LeftHand) {
-			player->say(MustBeUseInHand);
-			break;
-		}
-		if(true) {
-			auto spell = last_item->getspell();
-			if(player->cast(last_item->getspell(), 5, true, true, true, false))
-				pass_time();
 		}
 		break;
 	case Faithable:

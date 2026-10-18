@@ -76,7 +76,7 @@ enum purposen : unsigned char {
 	CommonItem, SummonedItem, ToolItem, QuestItem, NaturalItem, PersonalItem,
 };
 enum wearn : unsigned char {
-	Backpack, Edible, Drinkable, Readable, Usable, Key, Rod, Faithable, LastBackpack = Backpack + 13,
+	Backpack, Edible, Drinkable, Readable, Usable, Key, Faithable, LastBackpack = Backpack + 13,
 	Head, Neck, Body, RightHand, LeftHand, RightRing, LeftRing, Elbow, Legs, Quiver,
 	FirstBelt, SecondBelt, LastBelt,
 	FirstInvertory = Backpack, LastInvertory = LastBelt
@@ -139,7 +139,7 @@ extern itemi item_data[LastItem + 1];
 int get_chance_identify(itemn v);
 int get_magic(featn v);
 
-bool allow(itemn type, wearn n);
+bool allow_wear(itemn type, wearn n);
 
 struct item {
 	itemn		type = NoItem;

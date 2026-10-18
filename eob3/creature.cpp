@@ -317,7 +317,7 @@ bool creature::allow(itemn type) const {
 	case WarHammer: case Mace: case Club:
 		return !is(Mage);
 	case Axe:
-		return is(Theif) || is(Fighter) || is(Paladin) || is(Ranger);
+		return is(Theif) || iswarrior();
 	case TwoHandedSword: case BattleAxe: case Halberd:
 		return iswarrior();
 	case LeatherArmor:
@@ -337,22 +337,28 @@ bool creature::allow(itemn type) const {
 	}
 }
 
-void creature::equip(item& v) {
+bool creature::equip(itemn item_type, featn power) {
+	item v(item_type);
+	v.create(0, 0);
+	v.identified = 1;
 	if(!v)
-		return;
+		return false;
+	if(power)
+		v.power = power;
 	if(!monster) {
 		if(!allow(v.type))
-			return;
+			return false;
 	}
 	for(auto i = Head; i <= Quiver; i = (wearn)(i + 1)) {
 		if(wears[i])
 			continue;
-		if(!::allow(v.type, i))
+		if(!allow_wear(v.type, i))
 			continue;
 		wears[i] = v;
 		v.clear();
-		break;
+		return true;
 	}
+	return false;
 }
 
 bool creature::isactable() const {
@@ -1298,9 +1304,6 @@ item* get_item(void* pointer) {
 	return 0;
 }
 
-static void add_magical(itemn type) {
-}
-
 static void set_reaction(creature** creatures, reactions v) {
 	for(auto i = 0; i < 6; i++) {
 		if(creatures[i])
@@ -1513,7 +1516,7 @@ static void start_equipment() {
 		break;
 	case Mage:
 		player->equip(Dagger);
-		add_magical(Wand);
+		player->equip(Wand, (featn)BurningHands);
 		break;
 	default:
 		player->equip(Dagger);
@@ -1526,7 +1529,7 @@ static void quest_equipment(classn type) {
 	switch(type) {
 	case Theif: player->addgear(TheifTools, ToolItem); player->addgear(GrapplingHook, ToolItem); break;
 	case Cleric: player->addgear(BluePotion, ToolItem, Healing); break;
-	case Mage: player->addgear(Wand, ToolItem, (featn)MagicMissile); break;
+	case Mage: break;
 	default: player->addgear(RationIron, ToolItem); break;
 	}
 }
@@ -1543,6 +1546,8 @@ static void start_unique_equipment() {
 	case Theif:
 		if(player->race==Halfling)
 			player->addgear(RedRing, CommonItem, Invisible, 0);
+		break;
+	case Mage:
 		break;
 	default:
 		break;

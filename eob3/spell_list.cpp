@@ -122,7 +122,7 @@ bool item::apply(spelln spell, int level, bool run) {
 		if(!hits)
 			return false;
 		wear = item_data[type].wear;
-		if(wear == Edible || wear == Rod || wear == Readable || wear == Drinkable)
+		if(wear == Edible || wear == Readable || wear == Drinkable || is_spell_power(type))
 			return false;
 		if(run)
 			hits = 0;

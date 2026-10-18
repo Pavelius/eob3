@@ -66,7 +66,7 @@ itemi item_data[LastItem + 1] = {
 	{Readable, 50 * gp, {36, 12}, {}, {}, {}, MageSpells}, // MageScroll
 	{Readable, 50 * gp, {85, 12}, {}, {}, {}, PriestSpells}, // PriestScroll
 	{Usable, 0, {86, 12}, {}, {}, {}}, // MagicMap
-	{Rod, 0, {52, 10}, {}, {}, {}, WandSpells}, // Wand
+	{LeftHand, 0, {52, 10}, {}, {}, {}, WandSpells}, // Wand
 	{Usable, 0, {54, 1}, {}, {}, {}}, // TheifTools
 	{Usable, 0, {117, 14}, {}, {}, {}}, // GrapplingHook
 	{Faithable, 0, {53, 20}, {}, {}, {}}, // HolySymbol
@@ -185,7 +185,7 @@ bool is_spell_power(itemn type) {
 	}
 }
 
-bool allow(itemn type, wearn n) {
+bool allow_wear(itemn type, wearn n) {
 	auto v = item_data[type].wear;
 	switch(v) {
 	case LeftRing:
@@ -195,7 +195,6 @@ bool allow(itemn type, wearn n) {
 	case LeftHand:
 		return type == Dagger
 			|| n == LeftHand
-			|| n == Rod
 			|| n == Readable
 			|| n == Faithable
 			|| n == Drinkable;
@@ -301,7 +300,6 @@ bool item::allow(wearn v) const {
 	case LeftHand:
 		return (n == RightHand && is(Precise))
 			|| n == LeftHand
-			|| n == Rod
 			|| n == Readable
 			|| n == Faithable
 			|| n == Drinkable;

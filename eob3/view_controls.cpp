@@ -1397,7 +1397,7 @@ bool can_loose(const creature* player, const item* pi) {
 
 static bool can_place(const creature* player, wearn id, item* pi) {
 	if(id >= Head && id <= LastBelt) {
-		if(*pi && !allow(pi->type, id)) {
+		if(*pi && !allow_wear(pi->type, id)) {
 			player->say(CantPutItemHere, item_names[pi->type]);
 			return false;
 		}

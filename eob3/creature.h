@@ -187,8 +187,7 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	void damage(damagen type, int value) { damage(type, value, true); }
 	void damage(damagen type, int value, abilityn save, bool save_negate);
 	bool drink(featn v, bool run);
-	void equip(item& v);
-	void equip(const item& v) { item cv = v; equip(cv); }
+	bool equip(itemn item_type, featn power = NoPower);
 	void heal(int hits);
 	bool is(abilityn v) const { return abilities[v] > 0; }
 	bool is(alignmentn v) const { return alignment == v; }

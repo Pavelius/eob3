@@ -206,6 +206,8 @@ struct wearable {
 itemn random(itemn v);
 featn random(featn v);
 
+item create_item(itemn type, int chance_magic = 0, int chance_cursed = 0);
+
 void addv(item* shop, item& v);
 bool allow(shopn v);
 bool allow_wear(itemn type, wearn n);

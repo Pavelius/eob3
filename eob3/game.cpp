@@ -217,7 +217,7 @@ questn questi::index() const {
 }
 
 bool check_suspecious() {
-	if(getv(Checks) <= 0) {
+	if(getv(Suspecious) >= 4) {
 		show_message(PlayerSuspecious);
 		return false;
 	}
@@ -750,17 +750,9 @@ static bool party_disabled() {
 	return true;
 }
 
-static void set_skill_checks_per_day() {
-	auto result = 0;
-	for(auto p : adventurers) {
-		if(!p)
-			continue;
-		switch(get_class(p->type, 0)) {
-		case Theif: result += 4; break;
-		default: result += 2; break;
-		}
-	}
-	game.variables[Checks] = result;
+static void refresh_suspecious() {
+	if(getv(Suspecious))
+		addv(Suspecious, -1);
 }
 
 static void update_every_round() {
@@ -803,10 +795,11 @@ static void pass_time_activity() {
 	while(minute >= game.next_hour) {
 		game.next_hour += 10 * 6;
 		all_creatures(update_every_hour);
+		refresh_suspecious();
 	}
 	while(minute >= game.next_day) {
 		game.next_day += 24 * 10 * 6;
-		set_skill_checks_per_day();
+		// TODO: per day activity
 	}
 	check_goals();
 	fix_animate();

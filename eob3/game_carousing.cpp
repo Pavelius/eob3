@@ -9,12 +9,6 @@ static bool is_dwarf_or_warrior() {
 	return player->iswarrior() || player->is(Dwarf);
 }
 
-static item create_item(itemn type, int chance_magic = 0, int chance_cursed = 0) {
-	item it(random(type));
-	it.create(chance_magic, chance_cursed);
-	return it;
-}
-
 static void great_pick_pockets() {
 	if(player->roll(PickPockets)) {
 		last_number = roll_dice(2, 6) * 10 * gp;

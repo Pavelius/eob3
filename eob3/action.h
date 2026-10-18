@@ -37,7 +37,7 @@ enum actionn : unsigned char {
 	LastAction = NudeNightRideFail
 };
 enum variablen : unsigned char {
-	Reputation, Coins, Blessing, Checks, Time,
+	Reputation, Coins, Blessing, Suspecious, Time,
 	LastVariable = Time
 };
 

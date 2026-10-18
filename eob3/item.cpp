@@ -292,3 +292,9 @@ bool allow_wear(itemn type, wearn n) {
 		return n == v;
 	}
 }
+
+item create_item(itemn type, int chance_magic, int chance_cursed) {
+	item it(random(type));
+	it.create(chance_magic, chance_cursed);
+	return it;
+}

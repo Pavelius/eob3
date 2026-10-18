@@ -44,6 +44,7 @@ picturen get_picture(actionn v) {
 	case Tavern: return PicTavern;
 	case WizardTower: return PicMagicShop;
 	case Temple: return PicTemple;
+	case GreatPickPockets: return TavGreatPickPockets;
 	default: return NoPicture;
 	}
 }
@@ -968,6 +969,21 @@ static void ask_actions(const actioni* source) {
 		else
 			an.add((long)p, getnm(p->action));
 	}
+}
+
+const actioni* pick_action(actioni** source, unsigned count, unsigned& index) {
+	unsigned pass_count = 0;
+	while(pass_count < count) {
+		auto p = source[index];
+		index = (++index) % count;
+		pass_count++;
+		if(!pass_restriction(p->restriction))
+			continue;
+		if(p->allow && !p->allow())
+			continue;
+		return p;
+	}
+	return 0;
 }
 
 const actioni* choose_location(const actioni* source) {

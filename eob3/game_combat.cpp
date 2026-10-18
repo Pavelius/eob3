@@ -165,13 +165,13 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 	if(!defender || defender->isdisabled())
 		return;
 	auto& weapon = player->wears[slot];
-	if(!weapon.isweapon())
+	if(!weapon.weapon())
 		return;
 	auto power = weapon.getpower();
 	auto chance_critical = 0;
 	auto attack = player->getattack(slot, defender->islarge());
 	auto damage_type = weapon.geti().combat.type;
-	auto isrange = weapon.isranged();
+	auto isrange = weapon.ranged();
 	auto ammo = weapon.geti().combat.ammo;
 	if(ammo) {
 		if(!player->wears[Quiver].is(ammo))
@@ -328,9 +328,9 @@ static void make_full_attack(creature* enemy, int bonus) {
 	auto wp1 = player->wears[RightHand];
 	auto wp2 = player->wears[LeftHand];
 	auto wp3 = player->wears[Head];
-	if(wp1.is(TwoHanded) || !wp2.isweapon())
+	if(wp1.is(TwoHanded) || !wp2.weapon())
 		wp2.clear();
-	if(!wp3.isweapon())
+	if(!wp3.weapon())
 		wp3.clear();
 	auto multiplier = 1;
 	// RULE: backstabbing attack depend on surprise check and invisibility. Chance is move silently.
@@ -508,7 +508,7 @@ void make_attacks(bool melee_combat) {
 			}
 		}
 		// If we can only shoot
-		if(enemy_distance > 1 && !player->wears[RightHand].isranged())
+		if(enemy_distance > 1 && !player->wears[RightHand].ranged())
 			continue;
 		if(player->monster) {
 			if(!ai_use_spells()) {

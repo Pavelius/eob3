@@ -192,7 +192,7 @@ static void create_item(item& it, itemn type, int bonus_level = 0, int chance_id
 	auto chance_cursed = 5 + loc->cursed;
 	chance_identify += get_chance_identify(type);
 	it.create(chance_magic, chance_cursed);
-	if(it.isartifact())
+	if(it.artifact())
 		loc->state.add(MessageAtifacts);
 	if(it.cursed())
 		loc->state.add(MessageCursedItems);
@@ -223,6 +223,8 @@ static void items(pointc v, itemn type, int bonus_level = 0) {
 		return;
 	item it;
 	create_item(it, type, bonus_level);
+	if(it.geti().wear == Quiver)
+		it.hits += xrand(2, 4);
 	loc->drop(v, it, xrand(0, 3));
 }
 

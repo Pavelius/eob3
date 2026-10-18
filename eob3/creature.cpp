@@ -1128,7 +1128,7 @@ combati creature::getattack(wearn id, bool large_enemy) const {
 	auto result = wears[id].geti().combat;
 	if(large_enemy && result.large)
 		result.damage = result.large;
-	auto isranged = wears[id].isranged();
+	auto isranged = wears[id].ranged();
 	result.attack += get(isranged ? AttackRange : AttackMelee);
 	result.damage.b += get(isranged ? DamageRange : DamageMelee);
 	// RULE: Single player fighter have bonus speñialization

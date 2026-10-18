@@ -142,9 +142,9 @@ int get_magic(featn v);
 bool allow(itemn type, wearn n);
 
 struct item {
-	itemn			type = NoItem;
-	featn			power = NoPower; // Special additional magical powers
-	purposen		purpose = CommonItem; // Special purpose of item (depends on mission or quest)
+	itemn		type = NoItem;
+	featn		power = NoPower; // Special additional magical powers
+	purposen	purpose = CommonItem; // Special purpose of item (depends on mission or quest)
 	union {
 		unsigned char flags = 0;
 		struct {
@@ -158,35 +158,34 @@ struct item {
 	constexpr const itemi& geti() const { return item_data[type]; }
 	const char*	name() const { return item_names[type]; }
 	const char* namefull() const;
+	featn getpower() const { return is_spell_power(type) ? NoPower : power; }
+	spelln getspell() const { return is_spell_power(type) ? (spelln)power : (spelln)0; }
+	int	cost() const { return geti().cost; }
+	int	magic() const { return get_magic(power); }
 	bool allow(wearn v) const;
 	bool allow(spelln v, int level);
 	bool apply(spelln v, int level, bool run);
+	bool artifact() const { return get_magic(power) >= 4; }
 	void clear() { type = NoItem; power = NoPower; purpose = CommonItem; hits = 0; identified = 0; }
 	void consume();
 	void create(int chance_magical, int chance_cursed = 5);
 	bool cursed() const { return is_spell_power(type) ? false : (power == Cursed || power == Delusion); }
 	void damage(const char* interactive);
+	bool damaged() const { return hits >= 4; }
 	void identify(int v) { identified = (v >= 0) ? 1 : 0; }
 	bool is(featn v) const { return power == v || geti().flags.is(v); }
 	bool is(purposen v) const { return purpose == v; }
 	bool is(wearn v) const { return geti().wear == v; }
 	bool is(itemn v) const { return type == v; }
-	bool isartifact() const { return get_magic(power) >= 4; }
-	bool isdamaged() const { return hits >= 5; }
 	bool isidentified() const { return identified != 0; }
 	bool ismagical() const { return power != NoPower; }
-	bool isranged() const { return geti().avatar.thrown != -1 || geti().combat.ammo != NoItem; }
-	bool isweapon() const { return geti().combat.damage.c != 0; }
 	bool natural() const { return is_natural(type); }
-	int	getcount() const { return 1; }
-	int	getcost() const { return geti().cost; }
-	int	getmagic() const { return get_magic(power); }
-	featn getpower() const { return is_spell_power(type) ? NoPower : power; }
-	spelln getspell() const { return is_spell_power(type) ? (spelln)power : (spelln)0; }
+	bool ranged() const { return geti().avatar.thrown != -1 || geti().combat.ammo != NoItem; }
 	void set(featn v) { power = v; }
 	void set(purposen v) { purpose = v; }
 	void setcount(int v) {}
 	void usecharge(const char* interactive, int chance = 35);
+	bool weapon() const { return geti().combat.damage.c != 0; }
 };
 extern item shops[LastShop + 1][6];
 extern item* last_item;

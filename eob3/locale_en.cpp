@@ -31,8 +31,9 @@ const char* message_names[LastMessage + 1] = {
 	"This sign must mean something.",
 	"The sign points to an exit to the north.",
 	"%Opponent stands still, watching you carefully.",
-	"%1 of %2",
+	"%1 of %2", "Rotten", "Damaged", "Few", "Several", "Many",
 	"%Player is incapacitated", "%Player picks up %1", "%1 casts %2", "%Player drinks %1", "%1 fails the %2 check", "%1 succeeds on the %2 check",
+	"%Player learn %1 spell", "%Player fail to learn spell",
 	"All party members are dead or incapacitated. Your adventure ends here...",
 	"The party ascends...", "The party descends...", "The party falls into a pit!", "Suddenly, enemies attack!", "Enemy surprised!",
 	"%1 has reached level %2i as a %3!",
@@ -189,7 +190,7 @@ const char* item_names[LastItem + 1] = {
 	"Circle",
 	"Chill Touch", "Flame Blade",
 	"Bite", "Claws", "Claws", "Hag", "Mandibles", "Slam", "Slam", "Sting",
-	"Arrow", "Stone", "Dart"
+	"Arrows", "Stones", "Darts"
 };
 const char* monster_names[LastMonster + 1] = {
 	"Nobody",

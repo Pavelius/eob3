@@ -778,15 +778,6 @@ static void paint_item(item& it, wearn id, int emphty_avatar = -1, int pallette_
 		} else
 			image(caret.x + width / 2, caret.y + height / 2, rs, avatar, 0);
 	}
-	auto count = it.getcount();
-	if(count > 1) {
-		auto ps = str("%1i", count);
-		caret.y = push.caret.y + push.height - 6 - 2;
-		caret.x = push.caret.x + push.width - textw(ps) - 3;
-		pushfore push_fore(colors::white);
-		text(ps, -1, TextBold);
-		caret = push.caret;
-	}
 	if(show_disabled)
 		paint_disabled();
 }
@@ -1474,7 +1465,7 @@ static void examine_item() {
 	else if(pi->isidentified())
 		pc->say(ThisIsObject, pi->namefull());
 	else
-		pc->say(ThisIsUndefinedObject, pi->name());
+		pc->say(ThisIsUndefinedObject, pi->namefull());
 }
 
 static void select_character(int index) {

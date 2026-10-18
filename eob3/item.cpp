@@ -17,6 +17,8 @@
 #include "console.h"
 #include "game.h"
 #include "item.h"
+#include "spell.h"
+#include "stringbuilder.h"
 
 item* last_item;
 
@@ -61,8 +63,8 @@ itemi item_data[LastItem + 1] = {
 	{Drinkable, 0, {39, 19}, {}, {}, {}}, // RedPotion
 	{Edible, 0, {37, 14}, {}, {2}, {}}, // LargeRation
 	{Edible, 0, {38, 14}, {}, {}, {}}, // Ration
-	{Readable, 0, {36, 12}, {}, {}, {}, MageSpells}, // MageScroll
-	{Readable, 0, {85, 12}, {}, {}, {}, PriestSpells}, // PriestScroll
+	{Readable, 50 * gp, {36, 12}, {}, {}, {}, MageSpells}, // MageScroll
+	{Readable, 50 * gp, {85, 12}, {}, {}, {}, PriestSpells}, // PriestScroll
 	{Usable, 0, {86, 12}, {}, {}, {}}, // MagicMap
 	{Rod, 0, {52, 10}, {}, {}, {}, WandSpells}, // Wand
 	{Usable, 0, {54, 1}, {}, {}, {}}, // TheifTools
@@ -237,6 +239,37 @@ void item::damage(const char* interactive) {
 
 void item::consume() {
 	usecharge(getnm(UseLastAmmo));
+}
+
+const char* item::namefull() const {
+	static char temp[128]; stringbuilder sb(temp); sb.clear();
+	auto wear = geti().wear;
+	if(wear == Edible) {
+		if(damaged())
+			sb.adds(getnm(Rotten));
+		sb.adds(item_names[type]);
+	} else if(wear == Quiver) {
+		if(hits >= 7)
+			sb.adds(getnm(Few));
+		else if(hits >= 4)
+			sb.adds(getnm(Several));
+		else
+			sb.adds(getnm(Many));
+		sb.adds(name());
+	} else if(is_spell_power(type)) {
+		if(identified)
+			sb.adds(getnm(ItemPowerName), name(), spell_names[power]);
+		else
+			sb.adds(name());
+	} else {
+		if(damaged())
+			sb.adds(getnm(Damaged));
+		if(identified && power)
+			sb.adds(getnm(ItemPowerName), name(), feat_names[power]);
+		else
+			sb.adds(name());
+	}
+	return temp;
 }
 
 void wearable::addgear(itemn type, purposen purpose, featn power, unsigned char identified) {

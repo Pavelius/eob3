@@ -198,7 +198,7 @@ static bool ask_spell_items(itemn type, bool run) {
 			continue; // Already known this spell
 		if(!run)
 			return true;
-		an.add((long) & e, e.name());
+		an.add((long)&e, spell_names[spell]);
 	}
 	if(!run)
 		return false;
@@ -212,11 +212,23 @@ static bool if_scrible_scrolls() {
 static void scrible_scrolls() {
 	if(!ask_spell_items(MageScroll, true))
 		return;
+	auto pi = (item*)choose_large_menu(getnm(ScribleScrolls), 0);
+	if(!pi)
+		return;
+	auto spell = pi->getspell();
+	if(player->roll(LearnSpell)) {
+		auto ps = get_spellbook(player);
+		if(ps)
+			ps->set(spell);
+		consolen(getnm(PlayerLearnSpell), spell_names[spell]);
+	} else
+		consolen(getnm(PlayerLearnSpellFail), spell_names[spell]);
+	pi->clear();
 }
 
 static void repair_weapons() {
 	for(auto& e : player->wears) {
-		if(!e || !e.isweapon())
+		if(!e || !e.weapon())
 			continue;
 		if(e.hits > 1) // Repair only if state is not trade-in.
 			e.hits = 0;
@@ -225,7 +237,7 @@ static void repair_weapons() {
 
 static bool allow_repair_weapons() {
 	for(auto& e : player->wears) {
-		if(!e || !e.isweapon())
+		if(!e || !e.weapon())
 			continue;
 		if(e.hits > 1) // Repair only if state is not trade-in.
 			return true;

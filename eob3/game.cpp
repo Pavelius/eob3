@@ -228,17 +228,9 @@ bool check_activity() {
 
 void pass_effort() {
 	pass_time(xrand(20, 40));
-	//auto roll = d20();
-	//auto efforts = 10; // Maximum effort consumed
-	//// AD&D standart success roll must be lesser that ability
-	//if(roll < player->abilities[Constitution]) {
-	//	efforts -= player->abilities[Constitution] - roll;
-	//	if(efforts < 1)
-	//		efforts = 1;
-	//}
-	//player->food -= efforts;
-	//if(player->food < 0)
-	//	player->food = 0;
+	player->food -= 1;
+	if(player->food < 0)
+		player->food = 0;
 }
 
 bool enough(const variablei& v1, const variablei& v2) {
@@ -594,6 +586,7 @@ static void group_damage(creature** creatures, pointc v, directionn d, const com
 	}
 	if(ei.ammo && test_projectile && d100() < 30) {
 		item it(ei.ammo);
+		it.hits = 7; // A few of ...
 		loc->drop(v, it, xrand(0, 3));
 	}
 }
@@ -948,7 +941,7 @@ void buy_item(shopn shop, actionn shop_empty) {
 		auto pi = choose_buy_item(shop, shop_empty);
 		if(!pi)
 			break;
-		auto cost = pi->getcost();
+		auto cost = pi->cost();
 		if(!confirm_action(ConfirmBuyItem, cost))
 			continue;
 		player->additem(*pi);
@@ -1058,20 +1051,6 @@ void cast_spell() {
 	if(!player->cast(ps->index))
 		return;
 	pass_time(1);
-}
-
-const char* item::namefull() const {
-	if(!identified)
-		return name();
-	static char temp[128]; stringbuilder sb(temp);
-	if(is_spell_power(type))
-		sb.add(getnm(ItemPowerName), name(), spell_names[power]);
-	else {
-		if(!power)
-			return name();
-		sb.add(getnm(ItemPowerName), name(), feat_names[power]);
-	}
-	return temp;
 }
 
 void party_addexp(int value) {
@@ -1235,7 +1214,7 @@ static void loot_selling() {
 		auto wear = e.geti().wear;
 		if(wear == Key || wear == Readable)
 			continue;
-		auto value = e.getcost(); // Full price? Maybe half?
+		auto value = e.cost(); // Full price? Maybe half?
 		last_number += value;
 		addv(Coins, value);
 		e.clear();
@@ -1847,7 +1826,7 @@ static void attack_enemy() {
 bool make_object_attack(pointc v);
 
 void sell_item() {
-	auto cost = last_item->getcost() / 2; // Selling is half priced by default
+	auto cost = last_item->cost() / 2; // Selling is half priced by default
 	if(!cost)
 		return;
 	if(!can_remove(player, last_item))
@@ -1875,7 +1854,7 @@ void use_item(creature* player, item* last_item, wearn wear) {
 			break;
 		if(wear != LeftHand && wear != RightHand)
 			player->say(MustBeUseInHand);
-		else if(last_item->isweapon()) {
+		else if(last_item->weapon()) {
 			if(!make_object_attack(to(party.pos, party.d)))
 				make_attacks(false);
 			pass_time();
@@ -1902,7 +1881,7 @@ void use_item(creature* player, item* last_item, wearn wear) {
 			break;
 		if(!dungeon_use())
 			break;
-		if(last_item->isdamaged()) {
+		if(last_item->damaged()) {
 			player->say(ThisFoodIsRotten);
 			break;
 		}

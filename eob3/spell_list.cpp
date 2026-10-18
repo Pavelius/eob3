@@ -101,7 +101,7 @@ bool creature::apply(spelln spell, int level, bool run) {
 		break;
 	case ShockingGrasp:
 		if(run)
-			apply(spell, ShockDamage, rolld(1, 8, level));
+			damage(ShockDamage, rolld(1, 8, level));
 		break;
 	case ShieldSpell:
 		if(abilities[AC] >= 7)

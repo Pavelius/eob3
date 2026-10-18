@@ -22,8 +22,8 @@ static itemn random_treasure[] = {
 	RedGem, RedGem,
 	PurpleGem};
 static itemn random_small_item[] = {
-	TheifTools, TheifTools,
-	MageBook, PriestScroll, PriestScroll, MageScroll, MageScroll, MageScroll, MagicMap,
+	TheifTools,
+	MageBook, MageScroll, MageScroll, MageScroll, MageScroll, PriestScroll, PriestScroll, MagicMap,
 	RandomTreasure, Wand, RandomRing, Amulet,
 	SteelKey, SteelKey, SteelKey};
 static itemn random_weapon[] = {
@@ -36,12 +36,8 @@ static itemn random_ring[] = {BlueRing, GreenRing, RedRing};
 static itemn random_item[] = {RandomWeapon, RandomSmallItem};
 static itemn random_tavern_pick_pockets[] = {RandomTreasure, RandomRing};
 
-static spelln mage_spell_1[] = {
-	Armor, BurningHands, BurningHands, ChillTouch, ComprehendLanguages, Friends, Identify, MagicMissile, MagicMissile, Mending, ShieldSpell, ShockingGrasp
-};
-static spelln priest_spell_1[] = {
-	CureLightWound, DetectEvil, DetectMagic, PurifyFood,
-};
+static spelln mage_spell_1[] = {Armor, BurningHands, BurningHands, ChillTouch, ComprehendLanguages, Friends, Identify, MagicMissile, MagicMissile, Mending, ShieldSpell, ShockingGrasp};
+static spelln priest_spell_1[] = {CureLightWound, DetectEvil, DetectMagic, PurifyFood};
 static spelln wand_spells[] = {
 	MagicMissile, MagicMissile, MagicMissile, BurningHands, BurningHands, BurningHands,
 	ShockingGrasp, ShockingGrasp, DetectMagic,
@@ -84,17 +80,11 @@ static int random_spell_level() {
 }
 
 static spelln random_priest_spell(int level) {
-	switch(level) {
-	case 1: return maprnd(priest_spell_1);
-	default: return CureLightWound;
-	}
+	return maprnd(priest_spell_1);
 }
 
 static spelln random_mage_spell(int level) {
-	switch(level) {
-	case 1: return maprnd(mage_spell_1);
-	default: return MagicMissile;
-	}
+	return maprnd(mage_spell_1);
 }
 
 static bool can_be_mundane(featn power) {
@@ -118,7 +108,7 @@ static featn get_power(featn power, int chance_power, int chance_cursed) {
 
 void item::create(int chance_power, int chance_cursed) {
 	auto result = geti().powers;
-	switch(type) {
+	switch(result) {
 	case MageSpells: power = (featn)random_mage_spell(random_spell_level()); break;
 	case PriestSpells: power = (featn)random_priest_spell(random_spell_level()); break;
 	case WandSpells: power = (featn)maprnd(wand_spells); break;

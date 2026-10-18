@@ -62,11 +62,25 @@ static void nude_night_ride() {
 	}
 }
 
+static void priest_and_golden_chalise() {
+	last_number = 20;
+	if(player->roll(Wisdow, -1)) {
+		show_message(PriestAndGoldenChaliseSuccess);
+		addv(Coins, last_number);
+		addv(Blessing, roll_dice(1, 4, 1));
+		player->addexp(25);
+	} else {
+		show_message(PriestAndGoldenChaliseFail);
+		addv(Coins, roll_dice(3, 6) * 5);
+	}
+}
+
 static actioni carousing_actions[] = {
 	{GreatPickPockets, {}, {Theif}, great_pick_pockets},
 	{Gambling—heat, {}, {}, gambling_cheat},
 	{DrinkContest, {}, {}, drink_contest, is_dwarf_or_warrior},
 	{NudeNightRide, {}, {}, nude_night_ride},
+	{PriestAndGoldenChalise, {}, {}, priest_and_golden_chalise},
 };
 const unsigned carouse_size = lengthof(carousing_actions);
 

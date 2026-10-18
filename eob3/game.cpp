@@ -47,6 +47,7 @@ picturen get_picture(actionn v) {
 	case GreatPickPockets: return TavGreatPickPockets;
 	case DrinkContest: return TavDrinkContest;
 	case NudeNightRide: return TavNudeNightRide;
+	case PriestAndGoldenChalise: return TavStoryPriest;
 	default: return NoPicture;
 	}
 }
@@ -850,9 +851,16 @@ bool confirm_message(messagen header, int value) {
 
 void show_message(actionn id, ...) {
 	XVA_FORMAT(id);
+	auto format = getnm(id);
 	char temp[512]; stringbuilder sb(temp);
-	sb.addv(getnm(id), format_param);
-	show_message(temp, false, getnm(Continue), '\n');
+	while(running_scene()) {
+		sb.clear(); sb.addv(format, format_param);
+		show_message(temp, false, getnm(Continue), '\n');
+		auto pe = zend(format);
+		if(pe[1] == 0)
+			break;
+		format = pe + 1;
+	}
 }
 
 void show_message(messagen id, ...) {

@@ -84,7 +84,7 @@ enum picturen : unsigned char {
 	PicCity, PicCityNight, PicDwarvenCity, PicClosed,
 	PicTavern, PicTavern2, PicInn, PicPickpockets, PicPickpocketsFail, PicGambling, PicForge, PicTemple, PicMagicShop,
 	PicShop, PicSellItems, PicTriumph, PicSewerEntrance,
-	TavGreatPickPockets, TavDrinkContest, TavNudeNightRide, TavHobbit,
+	TavGreatPickPockets, TavDrinkContest, TavNudeNightRide, TavStoryPriest, TavHobbit,
 	LastPicture = TavHobbit
 };
 

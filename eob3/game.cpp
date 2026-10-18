@@ -37,7 +37,7 @@ picturen get_picture(actionn v) {
 	case Blacksmith: return PicForge;
 	case Carousing: return PicTavern2;
 	case EatFoodAndDrink: return PicTavern2;
-	case Gambling: return PicGambling;
+	case Gambling: case Gambling—heat: return PicGambling;
 	case Inn: return PicInn;
 	case Palace: return ChaAmaldo;
 	case PickPocketsAction: return PicPickpockets;
@@ -45,6 +45,8 @@ picturen get_picture(actionn v) {
 	case WizardTower: return PicMagicShop;
 	case Temple: return PicTemple;
 	case GreatPickPockets: return TavGreatPickPockets;
+	case DrinkContest: return TavDrinkContest;
+	case NudeNightRide: return TavNudeNightRide;
 	default: return NoPicture;
 	}
 }
@@ -80,7 +82,9 @@ bool indoor(actionn v) {
 void addv(variablen v, int i) {
 	auto maximum = 100;
 	switch(v) {
-	case Coins: maximum = 10000000; break;
+	case Coins:
+		maximum = 10000000;
+		break;
 	default: break;
 	}
 	i += game.variables[v];

@@ -31,8 +31,10 @@ enum actionn : unsigned char {
 	PlayerExhaused, PlayerSuspecious,
 	LeaveOutside,
 	GreatPickPockets, GreatPickPocketsSuccess, GreatPickPocketsFail,
-	GreatGambling, DrinkContest,
-	LastAction = DrinkContest
+	DrinkContest, DrinkContestSuccess, DrinkContestFail,
+	Gambling—heat, Gambling—heatSuccess, Gambling—heatFail,
+	NudeNightRide, NudeNightRideSuccess, NudeNightRideFail,
+	LastAction = NudeNightRideFail
 };
 enum variablen : unsigned char {
 	Reputation, Coins, Blessing, Checks, Time,

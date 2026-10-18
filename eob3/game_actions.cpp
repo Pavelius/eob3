@@ -124,7 +124,7 @@ static void pick_pockets() {
 	addv(Checks, -1);
 	pass_effort();
 	if(player->roll(PickPockets)) {
-		coins = roll_dice(2, 6) * 20;
+		coins = roll_dice(1, 6) * 10;
 		addv(Coins, coins);
 		show_message(PickPocketsCoins, coins);
 		if(chance(15)) {

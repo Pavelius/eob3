@@ -17,34 +17,62 @@ static item create_item(itemn type, int chance_magic = 0, int chance_cursed = 0)
 
 static void great_pick_pockets() {
 	if(player->roll(PickPockets)) {
-		auto coins = xrand(4, 24) * 20 * gp;
+		last_number = roll_dice(2, 6) * 10 * gp;
 		auto jackpot = create_item(RandomTavernPickPocket, 20, 20);
-		show_message(GreatPickPocketsSuccess, coins, jackpot.name());
-		addv(Coins, coins);
+		show_message(GreatPickPocketsSuccess, jackpot.name());
+		addv(Coins, last_number);
 		player->additem(jackpot);
 	} else {
-		auto coins = xrand(1, 6) * 10 * gp;
-		show_message(GreatPickPocketsFail, coins);
+		last_number = roll_dice(1, 6) * 10 * gp;
+		show_message(GreatPickPocketsFail);
 	}
 }
 
-static void great_gambling() {
+static void gambling_cheat() {
+	last_number = roll_dice(1, 6) * 10 * gp;
 	if(player->roll(Charisma, -2)) {
-		auto coins = xrand(4, 24) * 20 * gp;
+		show_message(Gambling—heatSuccess);
+		addv(Coins, last_number);
+		addv(Reputation, 1);
 	} else {
+		show_message(Gambling—heatFail);
+		addv(Coins, -last_number);
+		addv(Reputation, -1);
 	}
 }
 
 static void drink_contest() {
 	if(player->roll(Constitution, -1)) {
+		last_number = 20 * gp;
+		show_message(DrinkContestSuccess);
+		addv(Coins, last_number);
+		addv(Reputation, 1);
 	} else {
+		last_number = 10 * gp;
+		show_message(DrinkContestFail);
+		addv(Coins, -last_number);
+		player->add(DiseaseLevel, 1);
+	}
+}
+
+static void nude_night_ride() {
+	last_number = 30 * gp;
+	if(player->roll(Dexterity, -2)) {
+		show_message(NudeNightRideSuccess);
+		addv(Coins, last_number);
+		addv(Reputation, 1);
+		player->addexp(25);
+	} else {
+		show_message(NudeNightRideFail);
+		addv(Reputation, -1);
 	}
 }
 
 static actioni carousing_actions[] = {
 	{GreatPickPockets, {}, {Theif}, great_pick_pockets},
-	{GreatGambling, {}, {}, great_gambling},
+	{Gambling—heat, {}, {}, gambling_cheat},
 	{DrinkContest, {}, {}, drink_contest, is_dwarf_or_warrior},
+	{NudeNightRide, {}, {}, nude_night_ride},
 };
 
 static void select_actions(actioni** result) {

@@ -2144,10 +2144,16 @@ static void talk_help() {
 	}
 }
 
+static void bribe() {
+	monsters_talk(TalkBribe);
+	valuable_item->clear();
+	monsters_leave();
+}
+
 actioni talk_carefully[] = {
 	{Lie, {}, {}, lie, is_personality},
 	{CalmDown, {}, {Ranger}, monsters_leave, is_animal},
-	{Bribe, {}, {}, 0, is_bribeable},
+	{Bribe, {}, {}, bribe, is_bribeable},
 	{Attack, {}, {}, attack_enemy},
 	{}};
 

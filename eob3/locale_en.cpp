@@ -29,6 +29,7 @@ const char* message_names[LastMessage + 1] = {
 	"I tell you something that you may not to known. That item in your package is a %-1. Don't use it or it will be bad.",
 	"As sign of my friendship take this %-1. Use it as you desire and remember your kindly friends.",
 	"I give you a key. Use it to open closed doors in this area.",
+	"I accept this gift. Now, you can pass.",
 	"I don't know what this is.",
 	"Looks like an old drainage gate.",
 	"A strange mechanical device.",

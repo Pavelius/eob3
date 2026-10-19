@@ -40,7 +40,7 @@ enum messagen : unsigned char {
 	ConfirmRestParty, ConfirmReturnCity, ConfirmMakeCamp, ConfirmExitGame,
 	WhatPlayerDo, WhichWayToGo, WhatYouWantToBuy, CastOnWho,
 	NoSpellsAvailable, SpellsAvailable,
-	WelcomeFriends, WhoIsYou, WhatHappens, HowYouGetHere, YouLiers, HelpIdentify, HelpCursed, HelpGift, HelpKey,
+	WelcomeFriends, WhoIsYou, WhatHappens, HowYouGetHere, YouLiers, HelpIdentify, HelpCursed, HelpGift, HelpKey, TalkBribe,
 	LookUnknown, LookDrainageGate, LookStrangeDevice, LookUnknownTheifSign, LookTheifSign,
 	AnimalStayStill,
 	ItemPowerName, Rotten, Damaged, Few, Several, Many,

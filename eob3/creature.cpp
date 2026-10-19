@@ -1478,6 +1478,25 @@ int party_median(creature** source, abilityn v) {
 	return value / count;
 }
 
+bool party_add(creature** source, item& v) {
+	if(!v)
+		return true;
+	for(unsigned i = 0; i < party_size; i++) {
+		auto p = source[i];
+		if(!p)
+			continue;
+		p->additem(v);
+		if(!v)
+			return true;
+	}
+	return false;
+}
+
+bool party_add(creature** source, itemn item_type, int chance_magical, int chance_cursed, featn power) {
+	auto v = create_item(item_type, chance_magical, chance_cursed, power);
+	return party_add(source, v);
+}
+
 bool is_character(const creature* p) {
 	return p >= characters && p <= characters + lengthof(characters);
 }

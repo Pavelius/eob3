@@ -2062,7 +2062,6 @@ static bool talk_rumor() {
 	if(!p || p->identify())
 		return false;
 	monsters_talk(quest_rumor[p->rumor++]);
-	monsters_leave();
 	return true;
 }
 
@@ -2071,31 +2070,71 @@ static bool is_magical(const void* object) {
 	return !p->identified && p->power;
 }
 
+static bool is_unknown_cursed(const void* object) {
+	auto p = (item*)object;
+	return !p->identified && p->cursed();
+}
+
 static bool talk_identify_item() {
 	collection<item> source;
 	party_items(source, is_magical, true);
 	if(!source)
 		return false;
+	auto pi = source.random();
+	pi->identified = 1;
+	show_message(HelpIdentify, pi->namefull());
 	return true;
 }
 
 static bool talk_cursed_item() {
-	return false;
+	collection<item> source;
+	party_items(source, is_unknown_cursed, true);
+	if(!source)
+		return false;
+	auto pi = source.random();
+	pi->identified = 1;
+	show_message(HelpIdentify, pi->namefull());
+	return true;
+}
+
+static item create_gift(const magicitemi& it) {
+	auto type = it.type;
+	auto chance_magic = 15;
+	auto chance_cursed = 20;
+	if(loc) {
+		if(item_data[it.type].wear == Key)
+			type = loc->getkey();
+		chance_magic += loc->level * 5;
+		chance_cursed += loc->cursed;
+	}
+	return create_item(type, chance_magic, chance_cursed, it.power);
 }
 
 static bool talk_gift_item() {
-	return false;
+	static magicitemi source[] = {
+		{Ration}, {Ration}, {RationIron},
+		{BluePotion}, {GreenPotion}, {BluePotion, Healing}, {BluePotion, ExtraHealing},
+		{BlueRing},
+	};
+	auto v = create_gift(maprnd(source));
+	show_message(HelpGift, v.name());
+	return party_add(adventurers, v);
+}
+
+static bool talk_gift_key() {
+	auto v = create_gift({CooperKey});
+	show_message(HelpKey, v.name());
+	return party_add(adventurers, v);
 }
 
 static void talk_help() {
 	// 1 - There is a big chance to speak about rumor
-	if(chance(60) && talk_rumor())
+	if(chance(60) && talk_rumor()) {
+		monsters_leave();
 		return;
+	}
 	// 2 - Random chance to get help (include rumor)
-	fncondition source[] = {
-		talk_gift_item,
-		talk_cursed_item, talk_identify_item, talk_rumor,
-	};
+	fncondition source[] = {talk_gift_key, talk_gift_item, talk_cursed_item, talk_identify_item, talk_rumor};
 	zshuffle(source, lengthof(source));
 	for(auto proc : source) {
 		if(proc()) {
@@ -2103,7 +2142,6 @@ static void talk_help() {
 			return;
 		}
 	}
-	// 3 - After all give general advise
 }
 
 actioni talk_carefully[] = {

@@ -137,6 +137,11 @@ struct itemi {
 };
 extern itemi item_data[LastItem + 1];
 
+struct magicitemi {
+	itemn		type;
+	featn		power;
+};
+
 int get_chance_identify(itemn v);
 int get_magic(featn v);
 
@@ -206,11 +211,12 @@ struct wearable {
 itemn random(itemn v);
 featn random(featn v);
 
-item create_item(itemn type, int chance_magic = 0, int chance_cursed = 0);
+item create_item(itemn type, int chance_magic = 0, int chance_cursed = 0, featn power = NoPower);
 
 void addv(item* shop, item& v);
 bool allow(shopn v);
 bool allow_wear(itemn type, wearn n);
+bool is_cursed(const void* object);
 bool is_identified(const void* object);
 void normalize_shop(shopn id);
 void refresh_shop(shopn id);

@@ -176,6 +176,10 @@ bool is_identified(const void* object) {
 	return ((item*)object)->identified != 0;
 }
 
+bool is_cursed(const void* object) {
+	return ((item*)object)->cursed();
+}
+
 bool is_spell_power(itemn type) {
 	return type == PriestScroll
 		|| type == MageScroll
@@ -293,8 +297,10 @@ bool allow_wear(itemn type, wearn n) {
 	}
 }
 
-item create_item(itemn type, int chance_magic, int chance_cursed) {
+item create_item(itemn type, int chance_magic, int chance_cursed, featn power) {
 	item it(random(type));
 	it.create(chance_magic, chance_cursed);
+	if(power)
+		it.power = power;
 	return it;
 }

@@ -259,6 +259,8 @@ void drop_item();
 void finish_character();
 void learn_spells(creature* player, int level, int spell_type);
 bool no_party_avatar(unsigned char v);
+bool party_add(creature** source, itemn item_type, int chance_magical, int chance_cursed, featn power);
+bool party_add(creature** source, item& v);
 bool party_is(creature** source, alignmentn v);
 bool party_is(creature** source, classn v);
 bool party_is(creature** source, featn v);

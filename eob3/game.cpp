@@ -1858,7 +1858,18 @@ void sell_item() {
 	addv(Coins, cost);
 }
 
+static directionn get_drop(directionn d) {
+	static directionn result[] = {Center, Right, Up, Left, Down};
+	return result[d];
+}
+
 void drop_item() {
+	auto player = get_creature(last_item);
+	if(!player)
+		return;
+	if(!can_remove(player, last_item))
+		return;
+	loc->drop(party.pos, *last_item, get_side(get_side(player), get_drop(party.d)));
 }
 
 void use_item(creature* player, item* last_item, wearn wear) {

@@ -275,6 +275,8 @@ void wearable::additem(item& it) {
 }
 
 bool allow_wear(itemn type, wearn n) {
+	if(n >= Backpack && n <= LastBackpack)
+		return true;
 	auto v = item_data[type].wear;
 	switch(v) {
 	case LeftRing:
@@ -289,8 +291,6 @@ bool allow_wear(itemn type, wearn n) {
 	case FirstBelt: case SecondBelt: case LastBelt:
 		return n == RightHand;
 	default:
-		if(n >= Backpack && n <= LastBackpack)
-			return true;
 		if(v >= Backpack && v <= LastBackpack)
 			return true;
 		return n == v;

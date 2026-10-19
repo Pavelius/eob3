@@ -602,6 +602,7 @@ static void trap_launch(pointc v, directionn d, const combati& ei) {
 	auto start = v;
 	while(v) {
 		if(party.pos == v) {
+			animation_update();
 			if(to(party.d, Down) == d && (party.pos.x == v.x || party.pos.y == v.y))
 				thrown_item(start, Down, ei.speed, thrown_side(ei.speed, 1), start.distance(party.pos) + 1);
 			group_damage(adventurers, v, to(party.d, d), ei);

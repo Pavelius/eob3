@@ -64,6 +64,10 @@ static void print_item(stringbuilder& sb) {
 	sb.addv(last_item->namefull(), 0);
 }
 
+static void stairs_down_part(stringbuilder& sb) {
+	sb.addv(world_side_names[get_part_placement(loc->state.down.pos)], 0);
+}
+
 void stringbuilder_custom(stringbuilder& sb, const char* id) {
 	if(stringvar_identifier(sb, id))
 		return;
@@ -78,5 +82,6 @@ stringvari stringvars[] = {
 	{"Opponent", opponent_name},
 	{"Player", player_name},
 	{"QuestRewardGold", quest_reward_gold},
+	{"StairsDownPart", stairs_down_part},
 	{"Weapon", player_weapon},
 	{}};

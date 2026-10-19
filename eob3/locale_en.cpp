@@ -30,11 +30,11 @@ const char* message_names[LastMessage + 1] = {
 	"As sign of my friendship take this %-1. Use it as you desire and remember your kindly friends.",
 	"I give you a key. Use it to open closed doors in this area.",
 	"I accept this gift. Now, you can pass.",
-	"I don't know what this is.",
-	"Looks like an old drainage gate.",
-	"A strange mechanical device.",
-	"This sign must mean something.",
-	"The sign points to an exit to the north.",
+	"I don't know what this is",
+	"Looks like an old drainage gate",
+	"A strange mechanical device",
+	"This sign must mean something",
+	"Exit is in %StairsDownPart side of area",
 	"%Opponent stands still, watching you carefully.",
 	"%1 of %2", "Rotten", "Damaged", "Few", "Several", "Many",
 	"%Player is incapacitated", "%Player picks up %1", "%1 casts %2", "%Player drinks %1", "%1 fails the %2 check", "%1 succeeds on the %2 check",
@@ -117,7 +117,11 @@ const char* fatigue_status[4] = {
 	"Fresh", "Fatigued", "Tired", "Exhausted",
 };
 const char* direction_names[Down + 1] = {
-	"Center", "Left", "Up", "Right", "Down"
+	"Center", "Left", "Up", "Right", "Down",
+};
+const char* world_side_names[RightDown + 1] = {
+	"Center", "West", "North", "East", "South",
+	"North-West", "North-East", "South-West", "South-East",
 };
 const char* ability_names[Experience + 1] = {
 	"Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma",

@@ -90,6 +90,7 @@ enum picturen : unsigned char {
 
 extern const char* direction_names[Down + 1];
 extern const char* message_names[LastMessage + 1];
+extern const char* world_side_names[RightDown + 1];
 
 inline const char* getnm(directionn v) { return direction_names[v]; }
 inline const char* getnm(messagen v) { return message_names[v]; }

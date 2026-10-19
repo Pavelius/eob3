@@ -118,7 +118,7 @@
 
 1790665249 /home/user-331/projects/eob3/eob3/timer.h
 
-1792063382 source:/home/user-331/projects/eob3/eob3/creature.cpp
+1792069816 source:/home/user-331/projects/eob3/eob3/creature.cpp
 	"creature.h"
 	"console.h"
 	"game.h"
@@ -343,7 +343,7 @@
 	"stringbuilder.h"
 	"view_focus.h"
 
-1792069374 source:/home/user-331/projects/eob3/eob3/view_controls.cpp
+1792069934 source:/home/user-331/projects/eob3/eob3/view_controls.cpp
 	"answers.h"
 	"console.h"
 	"creature.h"

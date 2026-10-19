@@ -26,7 +26,7 @@ static void show_map_interactive() {
 #endif
 }
 
-static void show_map_features() {
+/*static void show_map_features() {
 #ifdef DEBUG_ROOM
 	pointca points;
 	points.add(loc->state.up);
@@ -36,8 +36,9 @@ static void show_map_features() {
 		points.add(loc->state.lair);
 	show_automap(false, true, false, &points);
 #endif
-}
+}*/
 
+/*
 static void select_pathable(pointca& result) {
 	result.clear();
 	auto ps = result.begin();
@@ -52,7 +53,7 @@ static void select_pathable(pointca& result) {
 		}
 	}
 	result.count = ps - result.data;
-}
+}*/
 
 static void show_map_pathfind() {
 #ifdef DEBUG_DUNGEON
@@ -132,9 +133,10 @@ static bool isboth(pointc v, directionn d1, directionn d2, celln t1, celln t2 = 
 	return (c1 == t1 || c1 == t2) && (c2 == t1 || c2 == t2);
 }
 
+/*
 static bool is(pointc v, directionn d, celln t1) {
 	return loc->get(to(v, d)) == t1;
-}
+}*/
 
 static bool door(pointc v, directionn d, bool has_button, bool has_button_on_other_side) {
 	switch(loc->get(v)) {
@@ -163,23 +165,6 @@ static bool door(pointc v, directionn d, bool has_button, bool has_button_on_oth
 
 static void lair_door(pointc v, directionn d) {
 	door(v, d, true, true);
-}
-
-static int get_magic_bonus(int chance_upgrade, int chance_downgrade) {
-	auto base = loc->level;
-	//if(last_quest)
-	//	base += last_quest->difficult;
-	if(base < 1)
-		base = 1;
-	while(base < 5 && d100() < chance_upgrade) {
-		if(base > 1 && d100() < chance_downgrade)
-			base--;
-		else
-			base++;
-	}
-	if(base > 5)
-		base = 5;
-	return base;
 }
 
 static void create_item(item& it, itemn type, int bonus_level = 0, int chance_identify = 0) {
@@ -232,9 +217,10 @@ static void items(pointc v, int bonus_level) {
 	items(v, random(RandomItem), bonus_level);
 }
 
+/*
 static void valuable_items(pointc v, int bonus_level) {
 	items(v, random(RandomTreasure), bonus_level);
-}
+}*/
 
 static void secret(pointc v, directionn d) {
 	auto v1 = to(v, d);
@@ -304,9 +290,10 @@ static void monster(pointc v, directionn d) {
 	monster(v, look_direction(v, d), loc->habbits[n], xrand(1, 4));
 }
 
+/*
 static void monster_tough(pointc v, directionn d) {
 	monster(v, look_direction(v, d), loc->habbits[1], xrand(1, 4));
-}
+}*/
 
 static void monster_boss(pointc v, directionn d) {
 	loc->set(v, CellPassable);
@@ -314,6 +301,7 @@ static void monster_boss(pointc v, directionn d) {
 	loc->add(type, v, look_direction(v, d), 0);
 }
 
+/*
 static void overlay_interact(pointc v, directionn d, celln tile) {
 	loc->set(v, tile);
 }
@@ -328,12 +316,13 @@ static void overlay_interact2(pointc v, directionn d) {
 
 static void overlay_interact3(pointc v, directionn d) {
 	overlay_interact(v, d, CellOverlay3);
-}
+}*/
 
+/*
 static void monster_dweller(pointc v, directionn d) {
 	auto type = loc->habbits[0];
 	monster(v, d, type, xrand(1, 4));
-}
+}*/
 
 static void prison(pointc v, directionn d) {
 	if(loc->type == FOREST)
@@ -367,12 +356,13 @@ static void floor_treasure(pointc v, directionn d) {
 		items(v, 2);
 }
 
+/*
 static void floor_lair_treasure(pointc v, directionn d) {
 	loc->set(v, CellPassable);
 	for(auto i = 1 + random_count(); i > 0; i--)
 		valuable_items(v, 2);
 	floor_treasure(v, d);
-}
+}*/
 
 static void treasure(pointc v, directionn d) {
 	if(loc->type == FOREST)
@@ -420,6 +410,7 @@ static void decoration(pointc v, directionn d) {
 		loc->add(v, d, maprnd(random));
 }
 
+/*
 static void corridor_passable(pointc v, directionn d) {
 	loc->set(v, CellPassable);
 }
@@ -430,7 +421,7 @@ static void corridor_stairs_down(pointc v, directionn d) {
 	loc->state.down.d = d;
 }
 
-/*static void corridor_stairs_up(pointc v, directionn d) {
+static void corridor_stairs_up(pointc v, directionn d) {
 	loc->set(v, CellStairsUp);
 	loc->state.up = v;
 	loc->state.up.d = d;

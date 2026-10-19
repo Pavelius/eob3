@@ -46,7 +46,7 @@ targetref::operator creature*() const {
 
 static boost* add_boost(spelln spell, creature* player, unsigned duration) {
 	auto p = boosts + (boost_count++);
-	memset(p, 0, sizeof(*p));
+	memset((void*)p, 0, sizeof(*p));
 	p->spell = spell;
 	p->target = player;
 	p->stop = getv(Time) + duration;

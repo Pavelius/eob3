@@ -128,10 +128,10 @@ int io::file::seek(int pos, int rel) {
     switch(rel) {
     case SeekEnd: rel = SEEK_END; break;
     case SeekCur: rel = SEEK_CUR; break;
-    case SeekSet: rel = SEEK_SET; break;
+    default: rel = SEEK_SET; break;
     }
     if(std::fseek((FILE*)handle, pos, rel))
-        return 0;
+		return 0;
 	return ftell((FILE*)handle);
 }
 

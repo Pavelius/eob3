@@ -2,74 +2,34 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="stream.h" open="1" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="view_dungeon.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1969" topLine="33" />
+			<Cursor1 position="5530" topLine="183" />
 		</Cursor>
 	</File>
-	<File name="stringbuilder.h" open="1" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="game.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4883" topLine="83" />
+			<Cursor1 position="29164" topLine="1318" />
 		</Cursor>
 	</File>
-	<File name="item.cpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="nix_io_file.cpp" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6240" topLine="142" />
+			<Cursor1 position="2783" topLine="110" />
 		</Cursor>
 	</File>
-	<File name="dungeon_generate.cpp" open="1" top="0" tabpos="23" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="pointc.h" open="1" top="0" tabpos="26" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2754" topLine="132" />
+			<Cursor1 position="822" topLine="2" />
 		</Cursor>
 	</File>
-	<File name="view_controls.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="draw.cpp" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="50513" topLine="1975" />
+			<Cursor1 position="31623" topLine="1379" />
 		</Cursor>
 	</File>
-	<File name="spell.cpp" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="game_carousing.cpp" open="1" top="0" tabpos="27" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2509" topLine="105" />
-		</Cursor>
-	</File>
-	<File name="serial.cpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1739" topLine="65" />
-		</Cursor>
-	</File>
-	<File name="game_generate.cpp" open="1" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3483" topLine="98" />
-		</Cursor>
-	</File>
-	<File name="spell.h" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2459" topLine="37" />
-		</Cursor>
-	</File>
-	<File name="shape.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="340" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="nix_draw3x.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5736" topLine="244" />
-		</Cursor>
-	</File>
-	<File name="pointc.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1386" topLine="2" />
-		</Cursor>
-	</File>
-	<File name="spell_list.cpp" open="1" top="0" tabpos="24" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2707" topLine="124" />
-		</Cursor>
-	</File>
-	<File name="view_debug.cpp" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="820" topLine="15" />
+			<Cursor1 position="1921" topLine="51" />
 		</Cursor>
 	</File>
 	<File name="bitmap.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -82,54 +42,39 @@
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="view_dungeon.cpp" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="shape.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5530" topLine="183" />
-		</Cursor>
-	</File>
-	<File name="pointca.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="622" topLine="0" />
+			<Cursor1 position="962" topLine="11" />
 		</Cursor>
 	</File>
 	<File name="creature.h" open="1" top="0" tabpos="22" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4992" topLine="141" />
+			<Cursor1 position="4710" topLine="141" />
 		</Cursor>
 	</File>
-	<File name="nix_io_file.cpp" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="item.cpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3034" topLine="109" />
+			<Cursor1 position="6240" topLine="142" />
+		</Cursor>
+	</File>
+	<File name="locale_en.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="19411" topLine="320" />
 		</Cursor>
 	</File>
 	<File name="view_automap.cpp" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="11680" topLine="458" />
+			<Cursor1 position="2459" topLine="103" />
 		</Cursor>
 	</File>
-	<File name="draw.cpp" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="spell.cpp" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="31623" topLine="1379" />
+			<Cursor1 position="1481" topLine="43" />
 		</Cursor>
 	</File>
-	<File name="game.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="item.h" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2040" topLine="34" />
-		</Cursor>
-	</File>
-	<File name="creature.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="19344" topLine="691" />
-		</Cursor>
-	</File>
-	<File name="dungeon.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5232" topLine="148" />
-		</Cursor>
-	</File>
-	<File name="game.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="40198" topLine="1772" />
+			<Cursor1 position="4926" topLine="136" />
 		</Cursor>
 	</File>
 	<File name="stringbuilder.cpp" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -137,14 +82,104 @@
 			<Cursor1 position="3560" topLine="143" />
 		</Cursor>
 	</File>
-	<File name="locale_en.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="archive.h" open="1" top="0" tabpos="30" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2247" topLine="24" />
+			<Cursor1 position="1228" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="item.h" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="spell.h" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4926" topLine="136" />
+			<Cursor1 position="2459" topLine="37" />
+		</Cursor>
+	</File>
+	<File name="stream.h" open="1" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1969" topLine="33" />
+		</Cursor>
+	</File>
+	<File name="creature.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="12929" topLine="468" />
+		</Cursor>
+	</File>
+	<File name="spell_list.cpp" open="1" top="0" tabpos="24" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2707" topLine="124" />
+		</Cursor>
+	</File>
+	<File name="view_controls.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="50271" topLine="1975" />
+		</Cursor>
+	</File>
+	<File name="action.h" open="1" top="0" tabpos="25" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1120" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="game_combat.cpp" open="1" top="0" tabpos="28" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2399" topLine="80" />
+		</Cursor>
+	</File>
+	<File name="stringbuilder.h" open="1" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4883" topLine="83" />
+		</Cursor>
+	</File>
+	<File name="dungeon_generate.cpp" open="1" top="0" tabpos="23" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1203" topLine="37" />
+		</Cursor>
+	</File>
+	<File name="nix_draw3x.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5736" topLine="244" />
+		</Cursor>
+	</File>
+	<File name="game_generate.cpp" open="1" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3610" topLine="127" />
+		</Cursor>
+	</File>
+	<File name="serial.cpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="536" topLine="17" />
+		</Cursor>
+	</File>
+	<File name="quest.cpp" open="1" top="0" tabpos="29" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1538" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="information.cpp" open="1" top="0" tabpos="31" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="879" topLine="18" />
+		</Cursor>
+	</File>
+	<File name="game.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2040" topLine="34" />
+		</Cursor>
+	</File>
+	<File name="pointca.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="622" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="view_debug.cpp" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="820" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="1" tabpos="32" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="594" topLine="18" />
+		</Cursor>
+	</File>
+	<File name="dungeon.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8244" topLine="297" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

@@ -24,11 +24,11 @@
 #include "stringbuilder.h"
 #include "stringvar.h"
 
-static void addv(stringbuilder& sb, const dice& v) {
+/*static void addv(stringbuilder& sb, const dice& v) {
 	sb.add("%1id%2i", v.c, v.d);
 	if(v.b)
 		sb.add("%+1i", v.b);
-}
+}*/
 
 static void player_name(stringbuilder& sb) {
 	sb.add(player->name());

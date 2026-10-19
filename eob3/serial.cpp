@@ -23,7 +23,7 @@ template<> void archive::set<creature*>(creature*& v) {
 }
 
 static void set_adventures(archive& a) {
-	for(auto i = 0; i < lengthof(adventurers); i++)
+	for(unsigned i = 0; i < party_size; i++)
 		a.set(adventurers[i]);
 }
 

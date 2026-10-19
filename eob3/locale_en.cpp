@@ -346,7 +346,7 @@ const char* quest_speech[(LastQuest + 1) * (LastPhase + 1)] = {
 	0,
 	"Old collector builded hundred years ago. What lie below the earth? You open metal door and get in a sticky flooded tunnel...\0",
 };
-extern const char* spell_names[LastSpell + 1] = {
+const char* spell_names[LastSpell + 1] = {
 	"Bless", "Cure Light Wounds", "Detect Evil", "Detect Magic", "Protection From Evil", "Purify Food",
 	"Armor", "Burning Hands", "Chill Touch", "Comprehend Languages", "Friends", "Identify", "Magic Missile", "Mending", "Shield", "Shocking Grasp",
 };

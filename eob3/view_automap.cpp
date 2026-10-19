@@ -106,9 +106,9 @@ static void paint_party_position() {
 }
 
 static celln tget(int x, int y) {
-	if(show_fog_of_war && !loc->is(pointc(x, y), CellExplored))
+	if(show_fog_of_war && !loc->is({x, y}, CellExplored))
 		return CellWall;
-	auto t = loc->get(pointc(x, y));
+	auto t = loc->get({x, y});
 	switch(t) {
 	case CellUnknown:
 	case CellPortal:
@@ -273,7 +273,7 @@ static void paint_automap() {
 				if(!v) {
 					auto x1 = (unsigned char)imax(0, imin(x, mpx - 1));
 					auto y1 = (unsigned char)imax(0, imin(y, mpy - 1));
-					if(!loc->is(pointc(x1, y1), CellExplored))
+					if(!loc->is({x1, y1}, CellExplored))
 						continue;
 				} else {
 					if(!loc->is(v, CellExplored))

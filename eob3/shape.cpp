@@ -37,7 +37,7 @@ pointc shapei::translate(pointc c, pointc v, directionn d) const {
 }
 
 void shapei::clear() {
-	memset(this, 0, sizeof(*this));
+	memset((void*)this, 0, sizeof(*this));
 	for(auto& e : points)
 		e.clear();
 	origin.clear();

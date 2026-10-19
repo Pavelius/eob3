@@ -26,6 +26,8 @@ void main_menu() {
 	next_main_menu();
 }
 
+#ifdef _DEBUG
+
 static bool test_items() {
 	if(item_data[Robe].wear != Body)
 		return false;
@@ -39,6 +41,7 @@ static bool auto_test() {
 		return false;
 	return true;
 }
+#endif
 
 int main(int argc, char* argv[]) {
 	// start_random_seed = getcputime();

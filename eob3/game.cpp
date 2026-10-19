@@ -37,7 +37,7 @@ picturen get_picture(actionn v) {
 	case Blacksmith: return PicForge;
 	case Carousing: return PicTavern2;
 	case EatFoodAndDrink: return PicTavern2;
-	case Gambling: case Gambling—heat: return PicGambling;
+	case Gambling: case GamblingCheat: return PicGambling;
 	case Inn: return PicInn;
 	case Palace: return ChaAmaldo;
 	case PickPocketsAction: return PicPickpockets;
@@ -279,7 +279,7 @@ static directionn random_free_look(pointc v, directionn d, bool monster_forbidde
 }
 
 static void update_party_position() {
-	for(size_t i = 0; i < lengthof(adventurers); i++) {
+	for(unsigned i = 0; i < party_size; i++) {
 		if(!adventurers[i])
 			continue;
 		adventurers[i]->side = (char)i;
@@ -289,7 +289,7 @@ static void update_party_position() {
 }
 
 static void party_set(creature** source, directionn d) {
-	for(auto i = 0; i < lengthof(adventurers); i++) {
+	for(unsigned i = 0; i < party_size; i++) {
 		if(!source[i])
 			continue;
 		adventurers[i]->d = d;
@@ -602,7 +602,7 @@ static void trap_launch(pointc v, directionn d, const combati& ei) {
 	auto start = v;
 	while(v) {
 		if(party.pos == v) {
-			if(to(party.d, Down) == d && party.pos.x == v.x || party.pos.y == v.y)
+			if(to(party.d, Down) == d && (party.pos.x == v.x || party.pos.y == v.y))
 				thrown_item(start, Down, ei.speed, thrown_side(ei.speed, 1), start.distance(party.pos) + 1);
 			group_damage(adventurers, v, to(party.d, d), ei);
 			break;
@@ -1310,6 +1310,7 @@ static bool monsters_talk(const actioni* actions, messagen id, messagen id2 = (m
 	return true;
 }
 
+/*
 static void monsters_flee() {
 	if(!loc)
 		return;
@@ -1324,10 +1325,10 @@ static void monsters_flee() {
 	for(auto p : creatures) {
 		if(p) {
 			p->pos = v;
-			// p->set(Moved);
+			p->set(Moved);
 		}
 	}
-}
+}*/
 
 static void monsters_kill() {
 	if(!loc || !opponent)
@@ -1748,7 +1749,7 @@ static void add_area_overlay(celln type, bool keep) {
 	}
 }
 
-static void add_area_items(itemn type, bool keep) {
+/*static void add_area_items(itemn type, bool keep) {
 	// Ground items
 	for(auto& e : loc->items) {
 		if(!e || (e.type == type) != keep)
@@ -1763,7 +1764,7 @@ static void add_area_items(itemn type, bool keep) {
 		auto v = loc->overlays[e.storage_index];
 		points.addu(v.pos);
 	}
-}
+}*/
 
 static void use_magic_map(creature* player, item* last_item) {
 	// PassRound ShowArea DestroyItem
@@ -2159,6 +2160,6 @@ actioni talk_carefully[] = {
 
 actioni talk_friendly[] = {
 	{Talk, {}, {}, talk_help, is_personality},
-	{Hunt, {}, {Ranger}, monsters_kill, is_animal},
+	{Hunt, {}, {Ranger}, animal_hunt, is_animal},
 	{Ambush, {}, {}, ambush_enemy},
 	{}};

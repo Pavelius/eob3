@@ -53,7 +53,7 @@ void change_avatar() {
 }
 
 void game_clear() {
-	memset(&game, 0, sizeof(game));
+	memset((void*)&game, 0, sizeof(game));
 	memset(adventurers, 0, sizeof(adventurers));
 	memset(dungeons, 0, sizeof(dungeons)); dungeons_count = 0;
 	memset(shops, 0, sizeof(shops));
@@ -148,6 +148,7 @@ static void party_generation() {
 	player = characters;
 }
 
+#ifdef _DEBUG
 static void create(int index, racen race, gendern gender, classn type, alignmentn alignment) {
 	player = characters + index;
 	create_character(race, gender, type, alignment);
@@ -160,6 +161,7 @@ static void party_random_generation() {
 	create(3, Dwarf, Male, Cleric, ChaoticGood);
 	create(0, Human, Male, Fighter, LawfulGood);
 }
+#endif // _DEBUG
 
 static void start_campaign() {
 	auto quest = (questn)0;

@@ -32,7 +32,7 @@ enum actionn : unsigned char {
 	LeaveOutside,
 	GreatPickPockets, GreatPickPocketsSuccess, GreatPickPocketsFail,
 	DrinkContest, DrinkContestSuccess, DrinkContestFail,
-	Gambling—heat, Gambling—heatSuccess, Gambling—heatFail,
+	GamblingCheat, GamblingCheatSuccess, GamblingCheatFail,
 	NudeNightRide, NudeNightRideSuccess, NudeNightRideFail,
 	PriestAndGoldenChalise, PriestAndGoldenChaliseSuccess, PriestAndGoldenChaliseFail,
 	LastAction = PriestAndGoldenChaliseFail

@@ -23,6 +23,8 @@ const int mpy = 23;
 
 struct pointc {
 	unsigned char x = 0xFF, y = 0xFF;
+	constexpr pointc() = default;
+	constexpr pointc(int vx, int vy) : x((unsigned char)vx), y((unsigned char)vy) {}
 	constexpr bool operator==(pointc v) const { return x == v.x && y == v.y; }
 	constexpr bool operator!=(pointc v) const { return x != v.x || y != v.y; }
 	constexpr explicit operator bool() const { return x < mpx && y < mpy; }
@@ -37,7 +39,7 @@ struct pointc {
 
 struct posable {
 	pointc		pos = {};
-	char		side = 0;
+	unsigned char side = 0;
 	directionn	d = (directionn)0;
 	constexpr posable() = default;
 	constexpr posable(pointc v) : pos(v), side(0), d() {}

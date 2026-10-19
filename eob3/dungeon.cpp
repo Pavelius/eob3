@@ -311,7 +311,7 @@ void dungeoni::set(pointc v, cellfn i, int radius) {
 		return;
 	for(auto x = v.x - radius; x <= v.x + radius; x++)
 		for(auto y = v.y - radius; y <= v.y + radius; y++) {
-			pointc pt(x, y);
+			pointc pt = {x, y};
 			if(!pt)
 				continue;
 			set(pt, CellExplored);

@@ -25,11 +25,11 @@ static void great_pick_pockets() {
 static void gambling_cheat() {
 	last_number = roll_dice(1, 6) * 10 * gp;
 	if(player->roll(Charisma, -2)) {
-		show_message(Gambling—heatSuccess);
+		show_message(GamblingCheatSuccess);
 		addv(Coins, last_number);
 		addv(Reputation, 1);
 	} else {
-		show_message(Gambling—heatFail);
+		show_message(GamblingCheatFail);
 		addv(Coins, -last_number);
 		addv(Reputation, -1);
 	}
@@ -77,7 +77,7 @@ static void priest_and_golden_chalise() {
 
 static actioni carousing_actions[] = {
 	{GreatPickPockets, {}, {Theif}, great_pick_pockets},
-	{Gambling—heat, {}, {}, gambling_cheat},
+	{GamblingCheat, {}, {}, gambling_cheat},
 	{DrinkContest, {}, {}, drink_contest, is_dwarf_or_warrior},
 	{NudeNightRide, {}, {}, nude_night_ride},
 	{PriestAndGoldenChalise, {}, {}, priest_and_golden_chalise},

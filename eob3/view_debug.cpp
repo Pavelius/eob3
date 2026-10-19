@@ -303,25 +303,22 @@ static void edit_glyph(int current_glyph) {
 	}
 }
 
-static void draw_font_save() {
-	//auto p = findresid(font);
-	//if(!p)
-	//	return;
-	//char temp[260]; stringbuilder sb(temp);
-	//sb.add("%1/%2.fnt", p->folder, p->id);
-	//draw_font_save(temp, size.y, font_glyphs);
+static const char* font_name() {
+	if(font == res_data[FONT8])
+		return "font8";
+	return "font6";
 }
 
 static int get_glyph_width(unsigned char* p) {
 	auto m = 0;
 	for(auto i = 0; i < 8; i++) {
 		if(!vert_empty(p, i)) {
-			if(m < i)
-				m = i;
+			if(m < (i + 1))
+				m = (i + 1);
 		}
 	}
 	if(m)
-		return m + 1 + 1; // Symbols width and spacing
+		return m + 1; // Symbols width and spacing
 	return 8;
 }
 
@@ -349,13 +346,19 @@ static void draw_font_save(const char* url, int size, unsigned char* data) {
 		file.write(data + i * 8, size);
 }
 
-void show_scene_font() {
+static void draw_font_save() {
+	char temp[260]; stringbuilder sb(temp);
+	sb.add("D:/resources/eobx/eob1/fonts/%1.fnt", font_name());
+	draw_font_save(temp, size.y, font_glyphs);
+}
+
+static void show_scene_font(resn font_res) {
 	auto push_font = font;
 	answer_index = 0;
 	answer_per_page = 256;
 	answer_origin = 0;
 	auto sx = 10;
-	initialize_font(FONT6);
+	initialize_font(font_res);
 	while(ismodal()) {
 		if(answer_index < 0)
 			answer_index = 0;
@@ -399,7 +402,10 @@ void show_scene_font() {
 		focus_input();
 	}
 	font = push_font;
-	draw_font_save("art/core/fontac.fnt", size.y, font_glyphs); // Autosave font
+}
+
+void show_scene_font() {
+	show_scene_font((resn)hparam);
 }
 
 void convert_fonts_start() {

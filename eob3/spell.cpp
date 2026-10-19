@@ -130,7 +130,8 @@ bool creature::castprepare(spelln spell, int level) {
 	creatures.clear();
 	items.clear();
 	switch(spell_data[spell].type) {
-	case You: return add_creature(player, spell, level);
+	case You: return add_creature(this, spell, level);
+	case YouItem: return add_items(this, spell, level);
 	case Ally: case AllAlly: return add_party(spell, level);
 	case AllEnemy: case Enemy:
 		if(get_thrown(spell) == -1)
@@ -147,6 +148,14 @@ static creature* choose_player(bool interactive) {
 	for(auto p : creatures)
 		an.add((long)p, p->name());
 	return (creature*)choose_small_menu(getnm(CastOnWho), 0);
+}
+
+static item* choose_item(bool interactive) {
+	if(!interactive)
+		return items.random();
+	for(auto p : items)
+		an.add((long)p, p->namefull());
+	return (item*)choose_small_menu(getnm(CastOnWho), 0);
 }
 
 static void apply_targets(spelln spell, int level) {
@@ -196,6 +205,10 @@ bool creature::cast(spelln spell, int level, bool show_fail, bool show_cast, boo
 	case Ally:
 		creatures[0] = choose_player(!random_choose);
 		creatures.count = 1;
+		break;
+	case YouItem:
+		items[0] = choose_item(!random_choose);
+		items.count = 1;
 		break;
 	case Enemy:
 		creatures.shuffle();
@@ -248,8 +261,8 @@ void creature::apply(spelln spell, itemn value, unsigned duration) {
 
 bool item::allow(spelln spell, int level) {
 	switch(spell_data[spell].type) {
-	case AllAllyItems:
-		return true;
+	case AllAllyItems: case YouItem:
+		return apply(spell, level, false);
 	default:
 		return false;
 	}

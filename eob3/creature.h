@@ -221,11 +221,11 @@ extern creature* adventurers[party_size]; // Party of characters
 extern creature* player;
 extern creature* opponent;
 
-creature* get_creature(void* pointer);
+creature* get_creature(const void* pointer);
 creature* get_leader(creature** source);
 creature* new_character();
 
-wearn get_wear(void* pointer);
+wearn get_wear(const void* pointer);
 
 item* get_item(void* pointer);
 

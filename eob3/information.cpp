@@ -61,7 +61,7 @@ static void print_number(stringbuilder& sb) {
 }
 
 static void print_item(stringbuilder& sb) {
-	sb.addv(last_item->name(), 0);
+	sb.addv(last_item->namefull(), 0);
 }
 
 void stringbuilder_custom(stringbuilder& sb, const char* id) {

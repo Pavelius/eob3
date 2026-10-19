@@ -1277,7 +1277,7 @@ creature* new_character() {
 	return 0;
 }
 
-creature* get_creature(void* pointer) {
+creature* get_creature(const void* pointer) {
 	if(pointer >= characters && pointer < characters + lengthof(characters)) {
 		size_t index = ((unsigned char*)pointer - (unsigned char*)characters) / sizeof(characters[0]);
 		return characters + index;
@@ -1285,7 +1285,7 @@ creature* get_creature(void* pointer) {
 	return 0;
 }
 
-wearn get_wear(void* pointer) {
+wearn get_wear(const void* pointer) {
 	auto p = get_creature(pointer);
 	if(p && p->haveitem(pointer))
 		return (wearn)((item*)pointer - p->wears);

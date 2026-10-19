@@ -1377,13 +1377,17 @@ static void common_input() {
 	case Ctrl + 'I': execute(show_sprites_command, ITEMS); break;
 	case Ctrl + 'L': execute(show_sprites_command, ITEMGL); break;
 	case Ctrl + 'P': execute(show_sprites_command, SCENE); break;
-	case Ctrl + 'F': execute(show_scene_font); break;
+	case Ctrl + 'F': execute(show_scene_font, FONT6); break;
+	case Ctrl + 'G': execute(show_scene_font, FONT8); break;
 	case Ctrl + 'E': loc->set({20, 20}, CellExplored, 20); break;
 	}
 #endif
 }
 
 bool can_remove(const creature* player, const item* pi) {
+	auto wear = get_wear(pi);
+	if(wear >= Backpack && wear <= LastBackpack)
+		return true;
 	if(pi->cursed() || pi->natural()) {
 		player->say(CantRemoveItem, pi->name());
 		return false;

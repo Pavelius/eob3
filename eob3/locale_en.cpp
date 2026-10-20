@@ -352,6 +352,7 @@ const char* quest_speech[(LastQuest + 1) * (LastPhase + 1)] = {
 };
 const char* spell_names[LastSpell + 1] = {
 	"Bless", "Cure Light Wounds", "Detect Evil", "Detect Magic", "Protection From Evil", "Purify Food",
+	"Aid", "Flame Blade", "Find Traps", "Hold Person", "Resist Fire", "Resist Cold", "Slow Poison",
 	"Armor", "Burning Hands", "Chill Touch", "Comprehend Languages", "Friends", "Identify", "Magic Missile", "Mending", "Shield", "Shocking Grasp",
 };
 const char* name_names[50 * 4] = {

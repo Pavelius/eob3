@@ -14,6 +14,7 @@ typedef void(*fnevent)();
 
 enum spelln : unsigned char {
 	Bless, CureLightWound, DetectEvil, DetectMagic, ProtectionFromEvil, PurifyFood,
+	Aid, FlameBlade, FindTraps, HoldPerson, ResistFireSpell, ResistColdSpell, SlowPoison,
 	Armor, BurningHands, ChillTouch, ComprehendLanguages, Friends, Identify, MagicMissile, Mending, ShieldSpell, ShockingGrasp,
 	LastSpell = ShockingGrasp,
 };
@@ -22,7 +23,7 @@ enum spellfn : unsigned char {
 	You, Ally, AllAlly,
 	Enemy, AllEnemy,
 	AllAllyItems, YouItem,
-	SummonWeapon,
+	SummonWeapon, ShowArea,
 };
 
 extern const char* spell_names[LastSpell + 1];
@@ -32,6 +33,7 @@ struct spelli {
 	spellfn			type; // Effect type
 	spelln			index; // Spell (for presentation)
 	color			lighting; // Active color border hilite
+	fnevent			apply; // When active use this 
 	const char*		name() const { return spell_names[index]; }
 };
 extern spelli spell_data[LastSpell + 1];
@@ -49,10 +51,9 @@ struct targetref {
 };
 
 struct boost {
-	spelln			spell; // Spell index
 	targetref		target; // Spell target
 	unsigned		stop; // Stop when time will be this.
-	fnevent			proc; // Boost wearing function
+	spelln			spell; // Spell index
 	featn			feat; // Additional feat
 	itemn			summon; // Additional summoned weapon
 };

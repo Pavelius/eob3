@@ -762,8 +762,8 @@ static void update_duration() {
 		if(p->target == target) {
 			if(p->feat)
 				player->set(p->feat);
-			else if(p->proc)
-				p->proc();
+			else if(p->spell && spell_data[p->spell].apply)
+				spell_data[p->spell].apply();
 		}
 	}
 }

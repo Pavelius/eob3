@@ -211,7 +211,7 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	void setframe(short* frames, short index) const;
 	void update();
 private:
-	void apply(spelln spell, fnevent value, unsigned duration);
+	void apply(spelln spell, unsigned duration);
 	void apply(spelln spell, featn value, unsigned duration);
 	void apply(spelln spell, itemn value, unsigned duration);
 	void checklevel();

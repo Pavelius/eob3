@@ -47,11 +47,11 @@ bool creature::apply(spelln spell, int level, bool run) {
 		if(abilities[AC] >= 4)
 			return false;
 		if(run)
-			apply(spell, armor_effect, 8 * Hours);
+			apply(spell, 8 * Hours);
 		break;
 	case Bless:
 		if(run)
-			apply(spell, bless_effect, 5 + level);
+			apply(spell, 5 + level);
 		break;
 	case BurningHands:
 		if(run)
@@ -71,7 +71,7 @@ bool creature::apply(spelln spell, int level, bool run) {
 		if(languages.data == -1)
 			return false;
 		if(run)
-			apply(spell, comprehend_languages_effect, 5 + 5 * level);
+			apply(spell, 5 + 5 * level);
 		break;
 	case DetectEvil:
 		if(run)
@@ -107,7 +107,7 @@ bool creature::apply(spelln spell, int level, bool run) {
 		if(abilities[AC] >= 7)
 			return false;
 		if(run)
-			apply(spell, shield_effect, 5 * level);
+			apply(spell, 5 * level);
 		break;
 	default:
 		return false;
@@ -148,6 +148,17 @@ bool item::apply(spelln spell, int level, bool run) {
 	return true;
 }
 
+bool dungeoni::apply(spelln spell, int level) {
+	switch(spell) {
+	case FindTraps:
+		loc->add(points, CellButton, true);
+		break;
+	default:
+		return false;
+	}
+	return points.operator bool();
+}
+
 int get_thrown(spelln spell) {
 	switch(spell) {
 	case MagicMissile: return 5;
@@ -157,21 +168,29 @@ int get_thrown(spelln spell) {
 
 spelli spell_data[LastSpell + 1] = {
 	// Level 1 Cleric spells
-	{{1}, Ally, Bless, color(200,200,30)},
+	{{1}, Ally, Bless, color(200,200,30), bless_effect},
 	{{1}, Ally, CureLightWound},
 	{{1, 2}, AllAlly, DetectEvil},
 	{{1, 1}, AllAlly, DetectMagic},
 	{{1, 1}, Ally, ProtectionFromEvil, color(150, 0, 24)},
 	{{1}, AllAllyItems, PurifyFood},
+	// Level 2 Cleric spells
+	{{2}, Ally, Aid, color(200, 200, 64)},
+	{{2}, SummonWeapon, FlameBlade},
+	{{2}, ShowArea, FindTraps},
+	{{2}, Enemy, HoldPerson},
+	{{2}, Ally, ResistFireSpell},
+	{{2}, Ally, ResistColdSpell},
+	{{2}, Ally, SlowPoison},
 	// Level 1 Mage spells
-	{{0, 1}, You, Armor, color(50, 205, 50)},
+	{{0, 1}, You, Armor, color(50, 205, 50), armor_effect},
 	{{0, 1}, AllEnemy, BurningHands},
 	{{0, 1}, SummonWeapon, ChillTouch},
-	{{0, 1}, You, ComprehendLanguages},
+	{{0, 1}, You, ComprehendLanguages, {}, comprehend_languages_effect},
 	{{0, 1}, You, Friends},
 	{{0, 1}, YouItem, Identify},
 	{{0, 1}, Enemy, MagicMissile},
 	{{0, 1}, AllAllyItems, Mending},
-	{{0, 1}, Ally, ShieldSpell},
+	{{0, 1}, Ally, ShieldSpell, {}, shield_effect},
 	{{0, 1}, Enemy, ShockingGrasp},
 };

@@ -24,6 +24,7 @@ enum monstern : unsigned char;
 enum questn : unsigned char;
 enum resn : unsigned char;
 enum shapen : unsigned char;
+enum spelln : unsigned char;
 enum trapn : unsigned char;
 
 enum celln : unsigned char {
@@ -190,6 +191,7 @@ struct dungeoni : sitei, goalfc {
 	overlayi*		add(pointc v, directionn d, celln i);
 	void			add(overlayi* po, item& it);
 	void			add(monstern type, pointc v, directionn d, int side);
+	bool			apply(spelln spell, int level);
 	int				around(pointc v, celln t1, celln t2) const;
 	void			block(bool treat_door_as_passable) const;
 	void			broke(pointc v);
@@ -236,6 +238,8 @@ struct dungeoni : sitei, goalfc {
 	void			set(pointc v, cellfn i, int radius);
 	void			set(pointc v, cellfn i);
 	void			set(goaln v) { goalfc::set(v); }
+private:
+	void			add(pointca& result, celln type, bool keep);
 };
 extern dungeoni* loc; // Currently used dungeon. If loc = 0 then we are in city.
 extern dungeoni* locup; // Top level of currently used dungeon. Use for roof pit painting.

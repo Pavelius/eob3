@@ -641,3 +641,14 @@ bool dungeoni::pass(goaln goal) const {
 	default: return false;
 	}
 }
+
+void dungeoni::add(pointca& result, celln type, bool keep) {
+	pointc v;
+	for(v.y = 0; v.y < mpy; v.y++) {
+		for(v.x = 0; v.x < mpx; v.x++) {
+			if((data[v.y][v.x] == type) != keep)
+				continue;
+			result.addu(v);
+		}
+	}
+}

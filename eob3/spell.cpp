@@ -129,6 +129,7 @@ static bool add_monsters(spelln spell, int level, int distance) {
 bool creature::castprepare(spelln spell, int level) {
 	creatures.clear();
 	items.clear();
+	points.clear();
 	switch(spell_data[spell].type) {
 	case You: return add_creature(this, spell, level);
 	case YouItem: return add_items(this, spell, level);
@@ -138,6 +139,7 @@ bool creature::castprepare(spelln spell, int level) {
 			return add_monsters(spell, level, 0);
 		return add_monsters(spell, level, 3);
 	case AllAllyItems: return add_party_items(spell, level);
+	case ShowArea: return loc && loc->apply(spell, level);
 	default: return false;
 	}
 }
@@ -159,6 +161,8 @@ static item* choose_item(bool interactive) {
 }
 
 static void apply_targets(spelln spell, int level) {
+	if(points)
+		show_automap(points, 1);
 	for(auto p : creatures)
 		p->apply(spell, level, true);
 	for(auto p : items)
@@ -244,9 +248,8 @@ bool creature::allow(spelln spell, int level) {
 	}
 }
 
-void creature::apply(spelln spell, fnevent value, unsigned duration) {
-	auto p = add_boost(spell, this, duration);
-	p->proc = value;
+void creature::apply(spelln spell, unsigned duration) {
+	add_boost(spell, this, duration);
 }
 
 void creature::apply(spelln spell, featn value, unsigned duration) {

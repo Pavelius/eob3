@@ -162,6 +162,7 @@ bool dungeoni::apply(spelln spell, int level) {
 int get_thrown(spelln spell) {
 	switch(spell) {
 	case MagicMissile: return 5;
+	case HoldPerson: return 6;
 	default: return -1;
 	}
 }

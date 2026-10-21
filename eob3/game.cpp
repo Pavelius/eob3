@@ -1782,9 +1782,9 @@ static void use_magic_map(creature* player, item* last_item) {
 }
 
 static bool use_bless_effect(bool run) {
-	static spelln source[] = {CureLightWound};
+	static spelln healing_effect[] = {CureDisease, CureLightWound};
 	auto level = 20;
-	for(auto spell : source) {
+	for(auto spell : healing_effect) {
 		if(!player->castprepare(spell, level))
 			continue;
 		if(run)

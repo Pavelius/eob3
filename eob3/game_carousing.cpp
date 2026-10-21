@@ -106,6 +106,8 @@ void carousing() {
 		show_message(pa->action);
 		if(pa->proc)
 			pa->proc();
+		pass_time(roll_dice(1, 4, 2) * 15);
 	}
-	pass_time(roll_dice(1, 2, 2) * 60);
+	answer_picture = PicCarousingEnd;
+	show_message(CarousingEnd);
 }

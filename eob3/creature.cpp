@@ -791,6 +791,16 @@ static item* find_allowed_belt_item(creature* player, wearn wear) {
 	return 0;
 }
 
+void creature::pickbelt(wearn hand) {
+	if(wears[hand])
+		return;
+	auto pi = find_allowed_belt_item(this, hand);
+	if(!pi)
+		return;
+	wears[hand] = *pi; pi->clear();
+	shrinkbelt();
+}
+
 void change_quick_item(creature* player, wearn wear) {
 	if(!player)
 		return; // No player specified
@@ -814,8 +824,8 @@ static void update_summon() {
 		if(e.is(SummonedItem) && !have_boost_summon(e)) {
 			auto w = get_wear(&e);
 			e.clear();
-			if(w == RightHand)
-				change_quick_item(player, RightHand);
+			if(w == RightHand || w == LeftHand)
+				player->pickbelt(w);
 		}
 	}
 }

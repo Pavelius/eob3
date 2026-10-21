@@ -16,33 +16,16 @@ static int rolld(int c, int d, int m = 0) {
 	return m;
 }
 
-static void bless_effect() {
-	player->add(AttackMelee, 1);
-	player->add(AttackRange, 1);
-	player->add(DamageMelee, 1);
-	player->add(DamageRange, 1);
-	player->add(SaveVsMagic, 1);
-	player->add(SaveVsParalization, 1);
-	player->add(SaveVsPoison, 1);
-	player->add(SaveVsTraps, 1);
-}
-
-static void armor_effect() {
-	if(player->abilities[AC] < 4)
-		player->abilities[AC] = 4;
-}
-
-static void comprehend_languages_effect() {
-	player->languages.data = -1;
-}
-
-static void shield_effect() {
-	if(player->abilities[AC] < 7)
-		player->abilities[AC] += 7;
-}
-
 bool creature::apply(spelln spell, int level, bool run) {
 	switch(spell) {
+	case Aid:
+		if(find_boost(Bless, this))
+			return false;
+		if(run) {
+			hp_aid += roll_dice(1, 8);
+			apply(spell, (1 + level) * 5);
+		}
+		break;
 	case Armor:
 		if(abilities[AC] >= 4)
 			return false;
@@ -51,7 +34,7 @@ bool creature::apply(spelln spell, int level, bool run) {
 		break;
 	case Bless:
 		if(run)
-			apply(spell, 5 + level);
+			apply(spell, 6);
 		break;
 	case BurningHands:
 		if(run)
@@ -59,7 +42,7 @@ bool creature::apply(spelln spell, int level, bool run) {
 		break;
 	case ChillTouch:
 		if(run)
-			apply(spell, ChillTouchHand, 3 + level);
+			summon(spell, ChillTouchHand, (3 + level) * 10);
 		break;
 	case CureLightWound:
 		if(hp >= hpm || isdead())
@@ -68,10 +51,20 @@ bool creature::apply(spelln spell, int level, bool run) {
 			heal(rolld(1, 8, 0));
 		break;
 	case ComprehendLanguages:
-		if(languages.data == -1)
+		if(languages.data == -1 || isdead())
 			return false;
 		if(run)
 			apply(spell, 5 + 5 * level);
+		break;
+	case CreateFood:
+		if(run)
+			addgear(Ration, CommonItem, NoPower, 1);
+		break;
+	case CureDisease:
+		if(!is(DiseaseLevel) || isdead())
+			return false;
+		if(run)
+			abilities[DiseaseLevel] = 0;
 		break;
 	case DetectEvil:
 		if(run)
@@ -81,6 +74,10 @@ bool creature::apply(spelln spell, int level, bool run) {
 		if(run)
 			apply(spell, SeeMagical, 2 * level);
 		break;
+	case FlameBlade:
+		if(run)
+			summon(FlameBlade, FlameBladeHand, (4 + level / 2) * 10);
+		break;
 	case Friends:
 		if(charmable())
 			return false;
@@ -89,15 +86,47 @@ bool creature::apply(spelln spell, int level, bool run) {
 			// TODO: Need to make reaction roll
 		}
 		break;
+	case MagicalVestment:
+		break;
 	case MagicMissile:
 		if(run) {
 			auto count = 1 + (level - 1) / 2;
 			damage(ForceDamage, rolld(count, 4, count));
 		}
 		break;
+	case Prayer:
+		if(run)
+			apply(spell, level * 2);
+		break;
 	case ProtectionFromEvil:
 		if(run)
 			apply(spell, ControlEvil, 5 + level);
+		break;
+	case RemoveParalize:
+		if(!is(Paralizing))
+			return false;
+		if(run) {
+			dispell_magic(HoldPerson, this);
+			feats.remove(Paralizing);
+		}
+		break;
+	case ResistColdSpell:
+		if(is(ResistCold))
+			return false;
+		if(run)
+			apply(spell, ResistCold, level);
+		break;
+	case ResistFireSpell:
+		if(is(ResistFire))
+			return false;
+		if(run)
+			apply(spell, ResistFire, level);
+		break;
+	case SlowPoison:
+		if(is(StoppedPoison))
+			return false;
+		if(run)
+			apply(spell, StoppedPoison, level * 60);
 		break;
 	case ShockingGrasp:
 		if(run)
@@ -136,6 +165,12 @@ bool item::apply(spelln spell, int level, bool run) {
 		if(run)
 			hits = 0;
 		break;
+	case RemoveCurse:
+		if(!cursed())
+			return false;
+		if(run)
+			power = NoPower;
+		break;
 	case Identify:
 		if(identified)
 			return false;
@@ -167,22 +202,75 @@ int get_thrown(spelln spell) {
 	}
 }
 
+static void bless_effect() {
+	player->add(AttackMelee, 1);
+	player->add(AttackRange, 1);
+	player->add(DamageMelee, 1);
+	player->add(DamageRange, 1);
+	player->add(SaveVsMagic, 1);
+	player->add(SaveVsParalization, 1);
+	player->add(SaveVsPoison, 1);
+	player->add(SaveVsTraps, 1);
+}
+
+static void prayer_effect() {
+	player->add(AttackMelee, 2);
+	player->add(AttackRange, 2);
+	player->add(DamageMelee, 2);
+	player->add(DamageRange, 2);
+	player->add(SaveVsMagic, 2);
+	player->add(SaveVsParalization, 2);
+	player->add(SaveVsPoison, 2);
+	player->add(SaveVsTraps, 2);
+	player->add(AC, 2); // Enemies -2 to attack.
+}
+
+static void armor_effect() {
+	if(player->abilities[AC] < 4)
+		player->abilities[AC] = 4;
+}
+
+static void magical_vestment_effect() {
+	if(player->abilities[AC] < 4)
+		player->abilities[AC] = 4;
+}
+
+static void comprehend_languages_effect() {
+	player->languages.data = -1;
+}
+
+static void shield_effect() {
+	if(player->abilities[AC] < 7)
+		player->abilities[AC] += 7;
+}
+
+static void aid_stop() {
+	player->hp_aid = 0;
+}
+
 spelli spell_data[LastSpell + 1] = {
 	// Level 1 Cleric spells
-	{{1}, Ally, Bless, color(200,200,30), bless_effect},
+	{{1}, Ally, Bless, color(200, 200, 30), bless_effect},
 	{{1}, Ally, CureLightWound},
 	{{1, 2}, AllAlly, DetectEvil},
 	{{1, 1}, AllAlly, DetectMagic},
 	{{1, 1}, Ally, ProtectionFromEvil, color(150, 0, 24)},
 	{{1}, AllAllyItems, PurifyFood},
 	// Level 2 Cleric spells
-	{{2}, Ally, Aid, color(200, 200, 64)},
+	{{2}, Ally, Aid, color(200, 200, 30), bless_effect, aid_stop},
 	{{2}, SummonWeapon, FlameBlade},
 	{{2}, ShowArea, FindTraps},
-	{{2}, Enemy, HoldPerson},
+	{{2, 3}, Enemy, HoldPerson},
 	{{2}, Ally, ResistFireSpell},
 	{{2}, Ally, ResistColdSpell},
 	{{2}, Ally, SlowPoison},
+	// Level 3 Cleric spells
+	{{3}, You, CreateFood},
+	{{3}, Ally, CureDisease},
+	{{3}, You, MagicalVestment, color(94, 77, 178), magical_vestment_effect},
+	{{3}, AllAlly, Prayer, color(255, 239, 0), prayer_effect},
+	{{3, 4}, YouItem, RemoveCurse},
+	{{3}, Ally, RemoveParalize},
 	// Level 1 Mage spells
 	{{0, 1}, You, Armor, color(50, 205, 50), armor_effect},
 	{{0, 1}, AllEnemy, BurningHands},

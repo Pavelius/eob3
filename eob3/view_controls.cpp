@@ -674,6 +674,8 @@ static void greenbar(int vc, int vm) {
 		return;
 	if(vc < 0)
 		vc = 0;
+	else if(vc > vm)
+		vc = vm;
 	pushrect push;
 	pushfore push_fore;
 	color c1 = colors::green;
@@ -831,7 +833,7 @@ static void paint_sheet_head() {
 	caret.y = origin.y + 16;
 	width = 65;
 	height = 5;
-	greenbar(player->hp, player->hpm);
+	greenbar(player->gethp(), player->hpm);
 	caret.y = origin.y + 25;
 	greenbar(player->food, player->getfood());
 	caret.x = origin.x + 2;
@@ -1085,7 +1087,7 @@ static void paint_character() {
 	paint_avatar();
 	caret.y = push.caret.y + 44;
 	width = 65;
-	texta(str("%1i of %2i", player->hp, player->hpm), AlignCenter);
+	texta(str("%1i of %2i", player->gethp(), player->hpm), AlignCenter);
 }
 
 static void paint_character(bool disabled, bool hilite) {

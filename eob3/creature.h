@@ -169,7 +169,7 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	int get(classn v) const { auto n = get_class_index(type, v); return (n == -1) ? 0 : levels[n]; }
 	int getfood() const { return 6 * 10; } // Each turn make con test or decrease food.
 	int gethitpenalty(int bonus) const;
-	int gethp() const { return hpm; }
+	int gethp() const { return hp + hp_aid; }
 	int level() const { return npci::level(); }
 	int level(spelln spell) const;
 	void add(abilityn n, int v);
@@ -205,6 +205,7 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	bool iswarrior() const { return is(Fighter) || is(Paladin) || is(Ranger); }
 	bool specialized(const item& weapon) const;
 	void kill();
+	void pickbelt(wearn hand);
 	bool roll(abilityn v, int bonus = 0) const;
 	void remove(featn v) { feats.remove(v); }
 	void set(featn v) { feats.set(v); }
@@ -213,8 +214,8 @@ struct creature : npci, posable, statable, wearable, spellbook {
 private:
 	void apply(spelln spell, unsigned duration);
 	void apply(spelln spell, featn value, unsigned duration);
-	void apply(spelln spell, itemn value, unsigned duration);
 	void checklevel();
+	void summon(spelln spell, itemn item_type, unsigned duration, featn power = NoPower);
 };
 extern creature characters[32]; // All characters in game
 extern creature* adventurers[party_size]; // Party of characters

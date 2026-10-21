@@ -28,11 +28,11 @@ static unsigned char get_dungeon(const void* target) {
 
 targetref::targetref(const creature* p) {
 	if(is_character(p)) {
-		index = 0xFE;
-		type = p - characters;
+		type = 0xFE;
+		index = p - characters;
 	} else {
-		index = get_dungeon(p);
-		type = p - dungeons[index].monsters;
+		type = get_dungeon(p);
+		index = p - dungeons[index].monsters;
 	}
 }
 
@@ -42,6 +42,34 @@ targetref::operator creature*() const {
 	else if(type == 0xFE)
 		return characters + index;
 	return dungeons[type].monsters + index;
+}
+
+boost* find_boost(spelln spell, targetref target) {
+	auto pe = boosts + boost_count;
+	for(auto p = boosts; p < pe; p++) {
+		if(p->spell == spell && p->target == target)
+			return p;
+	}
+	return 0;
+}
+
+static void boost_stop(boost* pb) {
+	if(spell_data[pb->spell].stopping) {
+		pushvalue push(player);
+		player = pb->target;
+		if(player)
+			spell_data[pb->spell].stopping();
+	}
+}
+
+bool dispell_magic(spelln spell, targetref target) {
+	auto p = find_boost(spell, target);
+	if(p) {
+		boost_stop(p);
+		memset((void*)p, 0, sizeof(*p));
+		return true;
+	}
+	return false;
 }
 
 static boost* add_boost(spelln spell, creature* player, unsigned duration) {
@@ -59,9 +87,8 @@ void check_boost(unsigned stamp) {
 	for(auto pb = boosts; pb < pe; pb++) {
 		if(pb->stop > stamp)
 			*ps++ = *pb;
-		else {
-			// TODO: remove boost possible callback implementation
-		}
+		else
+			boost_stop(pb);
 	}
 	boost_count = ps - boosts;
 }
@@ -98,6 +125,8 @@ static bool add_party_items(spelln spell, int level) {
 static bool add_creature(creature* player, spelln spell, int level) {
 	if(!player)
 		return false;
+	if(find_boost(spell, player))
+		return false;
 	if(!player->allow(spell, level))
 		return false;
 	creatures.add(player);
@@ -131,6 +160,12 @@ bool creature::castprepare(spelln spell, int level) {
 	items.clear();
 	points.clear();
 	switch(spell_data[spell].type) {
+	case SummonWeapon:
+		if(!wears[RightHand])
+			return true;
+		if(wears[RightHand].natural() || wears[RightHand].cursed())
+			return false;
+		return freebelt();
 	case You: return add_creature(this, spell, level);
 	case YouItem: return add_items(this, spell, level);
 	case Ally: case AllAlly: return add_party(spell, level);
@@ -218,6 +253,9 @@ bool creature::cast(spelln spell, int level, bool show_fail, bool show_cast, boo
 		creatures.shuffle();
 		creatures.count = 1;
 		break;
+	case SummonWeapon:
+		player->apply(spell, level, true);
+		break;
 	default:
 		break;
 	}
@@ -238,8 +276,6 @@ bool creature::cast(spelln spell) {
 
 bool creature::allow(spelln spell, int level) {
 	switch(spell_data[spell].type) {
-	case SummonWeapon:
-		return true;
 	case AllAlly: case Ally: case You:
 	case Enemy: case AllEnemy:
 		return apply(spell, level, false);
@@ -257,9 +293,20 @@ void creature::apply(spelln spell, featn value, unsigned duration) {
 	p->feat = value;
 }
 
-void creature::apply(spelln spell, itemn value, unsigned duration) {
+void creature::summon(spelln spell, itemn item_type, unsigned duration, featn power) {
+	auto wear = item_data[item_type].wear;
+	if(wear == RightHand || wear == LeftHand) {
+		if(wears[wear]) {
+			addbelt(wears[wear]);
+			if(wears[wear])
+				return;
+		}
+	}
+	wears[wear] = item_type;
+	wears[wear].purpose = SummonedItem;
+	wears[wear].power = power;
 	auto p = add_boost(spell, this, duration);
-	p->summon = value;
+	p->summon = item_type;
 }
 
 bool item::allow(spelln spell, int level) {

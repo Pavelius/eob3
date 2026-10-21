@@ -15,6 +15,7 @@ typedef void(*fnevent)();
 enum spelln : unsigned char {
 	Bless, CureLightWound, DetectEvil, DetectMagic, ProtectionFromEvil, PurifyFood,
 	Aid, FlameBlade, FindTraps, HoldPerson, ResistFireSpell, ResistColdSpell, SlowPoison,
+	CreateFood, CureDisease, MagicalVestment, Prayer, RemoveCurse, RemoveParalize,
 	Armor, BurningHands, ChillTouch, ComprehendLanguages, Friends, Identify, MagicMissile, Mending, ShieldSpell, ShockingGrasp,
 	LastSpell = ShockingGrasp,
 };
@@ -34,6 +35,7 @@ struct spelli {
 	spelln			index; // Spell (for presentation)
 	color			lighting; // Active color border hilite
 	fnevent			apply; // When active use this 
+	fnevent			stopping; // When active spell stop
 	const char*		name() const { return spell_names[index]; }
 };
 extern spelli spell_data[LastSpell + 1];
@@ -80,9 +82,12 @@ spella* get_spellbook(const creature* target);
 
 int get_thrown(spelln spell); // If differ from -1 spell is range.
 
+boost* find_boost(spelln spell, targetref target);
+
 void camp_autocast();
 bool can_cast_spell(int type, int level);
 bool can_learn_spell(int type, int level);
 void check_boost(unsigned stamp);
+bool dispell_magic(spelln spell, targetref target);
 void prepare_default_spells();
 void random_spells(int level, int count);

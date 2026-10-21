@@ -101,7 +101,7 @@ itemi item_data[LastItem + 1] = {
 	{Usable, 0, {113, 20}, {}, {}}, // StoneCrest
 	{Usable, 0, {105, 21}, {}, {}}, // RedCircle
 	{RightHand, 0, {80}, {}, {}}, // ChillTouchHand
-	{RightHand, 0, {82}, {}, {}}, // FlameBladeHand
+	{RightHand, 0, {82}, {}, {0, 1, 5, FireDamage, {1, 4, 4}, {1, 6, 4}}}, // FlameBladeHand
 	{RightHand, 0, {}, {}, {}}, // Bite1d6
 	{RightHand, 0, {119}, {}, {}}, // Claws1d3
 	{RightHand, 0, {119}, {}, {}}, // Claws1d4
@@ -275,13 +275,21 @@ void wearable::additem(item& it) {
 }
 
 void wearable::addbelt(item& it) {
-	for(auto i = FirstBelt; i <= LastBelt; i = (wearn)(i+1)) {
-		if(!wears[i]) {
-			wears[i] = it;
+	for(auto& e : beltitems()) {
+		if(!e) {
+			e = it;
 			it.clear();
 			break;
 		}
 	}
+}
+
+bool wearable::freebelt() {
+	for(auto& e : beltitems()) {
+		if(!e)
+			return true;
+	}
+	return false;
 }
 
 void wearable::shrinkbelt() {

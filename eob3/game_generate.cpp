@@ -159,7 +159,7 @@ static void party_random_generation() {
 	create(1, Human, Female, Fighter, NeutralGood);
 	create(2, Elf, Female, MageTheif, ChaoticGood);
 	create(3, Dwarf, Male, Cleric, ChaoticGood);
-	player->addgear(PriestScroll, CommonItem, (featn)FindTraps, 1);
+	player->addgear(PriestScroll, CommonItem, (featn)Aid, 1);
 	create(0, Human, Male, Fighter, LawfulGood);
 }
 #endif // _DEBUG

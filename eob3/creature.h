@@ -75,8 +75,8 @@ enum speechn : unsigned char {
 	CantFindTarget, CantUseInSettlement, CantRemoveItem,
 	ThisFoodIsRotten,
 	AlreadyOpened, AlreadyDisabled,
-	CanReturnToBase,
-	LastSpeech = CanReturnToBase
+	CanReturnToBase, NoQuickItems,
+	LastSpeech = NoQuickItems
 };
 
 extern const char* ability_names[Experience + 1];

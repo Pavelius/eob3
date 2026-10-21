@@ -769,23 +769,63 @@ static void update_duration() {
 }
 
 static bool have_boost_summon(const item& it) {
-	//referencei target = player;
-	//for(auto& e : bsdata<boosti>()) {
-	//	if(e.target == target && e.type == BoostSpell) {
-	//		if(it.is(bsdata<spelli>::elements[e.param].summon))
-	//			return true;
-	//	}
-	//}
+	targetref target = player;
+	auto pe = boosts + boost_count;
+	for(auto p = boosts; p < pe; p++) {
+		if(p->target == target && p->summon)
+			return true;
+	}
 	return false;
+}
+
+static void shrink_belt_items(creature* player) {
+	auto ps = player->wears + FirstBelt;
+	auto pe = player->wears + LastBelt;
+	for(auto p = ps; p < pe; p++) {
+		if(*p)
+			*ps++ = *p;
+	}
+	while(ps < pe)
+		ps->clear();
+}
+
+static void add_last_belt(creature* player, item& it) {
+	auto pe = player->wears + LastBelt;
+	for(auto p = player->wears + FirstBelt; p < pe; p++) {
+		if(!(*p)) {
+			*p++ = it;
+			it.clear();
+			break;
+		}
+	}
+}
+
+static void change_quick_item(creature* player, wearn w) {
+	if(!player)
+		return;
+	if(!player->wears[FirstBelt]) {
+		player->say(NoQuickItems);
+		return;
+	}
+	if(!allow_wear(player->wears[FirstBelt].type, w))
+		return;
+	if(!player->allow(player->wears[FirstBelt].type))
+		return;
+	if(!can_remove(player, player->wears + w))
+		return;
+	auto it = player->wears[w];
+	player->wears[w] = player->wears[FirstBelt];
+	shrink_belt_items(player);
+	add_last_belt(player, it);
 }
 
 static void update_summon() {
 	for(auto& e : player->wears) {
 		if(e.is(SummonedItem) && !have_boost_summon(e)) {
-			// auto w = e.geti().wear;
+			auto w = get_wear(&e);
 			e.clear();
-			//if(w == RightHand)
-			//	change_quick_item(player, RightHand);
+			if(w == RightHand)
+				change_quick_item(player, RightHand);
 		}
 	}
 }

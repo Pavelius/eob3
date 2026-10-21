@@ -251,6 +251,7 @@ const char* speech_names1[LastSpeech + 1] = {
 	"The door is already open",
 	"The trap has been disarmed",
 	"All is done here, we must return to city",
+	"No items on belt",
 };
 const char* speech_names2[LastSpeech + 1] = {
 	"I don't use %1",
@@ -283,6 +284,7 @@ const char* speech_names2[LastSpeech + 1] = {
 	"This lock has already been picked",
 	"This trap is not active",
 	"All goals is done. Let's out of here",
+	"No quick items to put in",
 };
 const char* speech_names3[LastSpeech + 1] = {
 	"I don't need %1",
@@ -315,6 +317,7 @@ const char* speech_names3[LastSpeech + 1] = {
 	"Stop, already opened",
 	"Stop, the trap has been disarmed",
 	"Let's go to the city for reward",
+	"No items",
 };
 const char* wallmsg_names[LastWellMessage + 1] = {
 	"%1i magical weapons lie hidden on this level.",

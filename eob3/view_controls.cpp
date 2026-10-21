@@ -1537,17 +1537,24 @@ void alternate_focus_input() {
 	}
 }
 
+static void change_quick_item() {
+	auto pi = (item*)current_focus;
+	auto pn = get_creature(pi);
+	auto w = get_wear(pi);
+	change_quick_item(pn, w);
+}
+
 static void adventure_input() {
 	switch(hkey) {
 	case 'M': execute(player_manipulate); break;
 	case 'E': execute(cast_spell); break;
 	case 'V': execute(show_dungeon_automap); break;
+	case 'R': change_quick_item(); break;
 	default:
 		alternate_focus_input();
 		character_input();
 		break;
 	}
-	//	{'R', change_quick_item},
 }
 
 static void paint_adventure() {

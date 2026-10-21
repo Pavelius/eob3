@@ -195,14 +195,12 @@ extern item* last_item;
 
 struct wearable {
 	item		wears[LastBelt + 1];
+	void		addbelt(item& v);
 	void		addgear(itemn type, purposen purpose, featn power = NoPower, unsigned char identified = 1);
 	void		additem(item& it);
 	slice<item> backpack() { return slice<item>(wears + Backpack, wears + LastBackpack + 1); }
 	slice<item> beltslots() { return slice<item>(wears + FirstBelt, wears + LastBelt + 1); }
 	slice<item> equipment() { return slice<item>(wears + Head, wears + Legs + 1); }
-	item*		freebelt();
-	item*		freebackpack();
-	void		putbelt(item& v);
 	void		shrinkbelt();
 	bool		haveitem(const void* p) const { return p >= wears && p <= wears + sizeof(wears) / sizeof(wears[0]); }
 	bool		haveitem(itemn v) const { for(auto& e : wears) if(e.type == v) return true; return false; }

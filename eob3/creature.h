@@ -251,6 +251,7 @@ bool allow(alignmentn type, classn v);
 bool allow(classn type, racen v);
 bool can_remove(const creature* player, const item* pi);
 bool can_loose(const creature* player, const item* pi);
+void change_quick_item(creature* player, wearn wear);
 void check_reaction(creature** creatures, int bonus);
 void create_character(racen race, gendern gender, classn class_type, alignmentn alignment);
 void create_monster(monstern type);

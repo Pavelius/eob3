@@ -778,45 +778,35 @@ static bool have_boost_summon(const item& it) {
 	return false;
 }
 
-static void shrink_belt_items(creature* player) {
-	auto ps = player->wears + FirstBelt;
-	auto pe = player->wears + LastBelt;
-	for(auto p = ps; p < pe; p++) {
-		if(*p)
-			*ps++ = *p;
+static item* find_allowed_belt_item(creature* player, wearn wear) {
+	for(auto i = FirstBelt; i <= LastBelt; i = (wearn)(i + 1)) {
+		if(!player->wears[i])
+			continue;
+		if(!allow_wear(player->wears[i].type, wear))
+			continue;
+		if(!player->allow(player->wears[FirstBelt].type))
+			continue;
+		return player->wears + i;
 	}
-	while(ps < pe)
-		ps->clear();
+	return 0;
 }
 
-static void add_last_belt(creature* player, item& it) {
-	auto pe = player->wears + LastBelt;
-	for(auto p = player->wears + FirstBelt; p < pe; p++) {
-		if(!(*p)) {
-			*p++ = it;
-			it.clear();
-			break;
-		}
-	}
-}
-
-static void change_quick_item(creature* player, wearn w) {
+void change_quick_item(creature* player, wearn wear) {
 	if(!player)
-		return;
-	if(!player->wears[FirstBelt]) {
+		return; // No player specified
+	if(wear != LeftHand && wear != RightHand)
+		return; // Can change only in hands
+	if(!can_remove(player, player->wears + wear))
+		return; // If item phisically can't be removed
+	auto pi = find_allowed_belt_item(player, wear);
+	if(!pi) {
 		player->say(NoQuickItems);
 		return;
 	}
-	if(!allow_wear(player->wears[FirstBelt].type, w))
-		return;
-	if(!player->allow(player->wears[FirstBelt].type))
-		return;
-	if(!can_remove(player, player->wears + w))
-		return;
-	auto it = player->wears[w];
-	player->wears[w] = player->wears[FirstBelt];
-	shrink_belt_items(player);
-	add_last_belt(player, it);
+	auto it = player->wears[wear];
+	player->wears[wear] = *pi; pi->clear();
+	player->shrinkbelt();
+	player->addbelt(it);
 }
 
 static void update_summon() {

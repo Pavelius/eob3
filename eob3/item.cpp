@@ -274,22 +274,40 @@ void wearable::additem(item& it) {
 	}
 }
 
+void wearable::addbelt(item& it) {
+	for(auto i = FirstBelt; i <= LastBelt; i = (wearn)(i+1)) {
+		if(!wears[i]) {
+			wears[i] = it;
+			it.clear();
+			break;
+		}
+	}
+}
+
+void wearable::shrinkbelt() {
+	auto ps = wears + FirstBelt;
+	auto pe = wears + LastBelt;
+	for(auto p = ps; p <= pe; p++) {
+		if(*p)
+			*ps++ = *p;
+	}
+	while(ps <= pe) {
+		ps->clear();
+		ps++;
+	}
+}
+
 bool allow_wear(itemn type, wearn n) {
 	if(n >= Backpack && n <= LastBackpack)
 		return true;
 	auto v = item_data[type].wear;
+	if(n >= FirstBelt && n <= LastBelt)
+		return v == LeftHand || v == RightHand;
 	switch(v) {
-	case LeftRing:
-	case RightRing:
-		return n == LeftRing
-			|| n == RightRing;
+	case LeftRing: case RightRing:
+		return n == LeftRing || n == RightRing;
 	case LeftHand:
-		return type == Dagger
-			|| n == LeftHand
-			|| n == Readable
-			|| n == Drinkable;
-	case FirstBelt: case SecondBelt: case LastBelt:
-		return n == RightHand;
+		return type == Dagger || n == LeftHand;
 	default:
 		if(v >= Backpack && v <= LastBackpack)
 			return true;

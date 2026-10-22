@@ -241,6 +241,9 @@
     <ClCompile Include="collection.cpp">
       <Filter>support</Filter>
     </ClCompile>
+    <ClCompile Include="stringset.cpp">
+      <Filter>support</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="action.h">
@@ -349,6 +352,9 @@
       <Filter>support</Filter>
     </ClInclude>
     <ClInclude Include="collection.h">
+      <Filter>support</Filter>
+    </ClInclude>
+    <ClInclude Include="stringset.h">
       <Filter>support</Filter>
     </ClInclude>
   </ItemGroup>

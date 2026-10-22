@@ -171,6 +171,7 @@
     <ClInclude Include="rect.h" />
     <ClInclude Include="slice.h" />
     <ClInclude Include="stringbuilder.h" />
+    <ClInclude Include="stringset.h" />
     <ClInclude Include="stringvar.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="view_focus.h" />
@@ -256,6 +257,7 @@
     </ClCompile>
     <ClCompile Include="point.cpp" />
     <ClCompile Include="stringbuilder.cpp" />
+    <ClCompile Include="stringset.cpp" />
     <ClCompile Include="stringvar.cpp" />
     <ClCompile Include="view_automap.cpp" />
     <ClCompile Include="view_controls.cpp" />

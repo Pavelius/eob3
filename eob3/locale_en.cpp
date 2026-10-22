@@ -3,6 +3,7 @@
 #include "dungeon.h"
 #include "game.h"
 #include "quest.h"
+#include "stringset.h"
 
 const char* message_names[LastMessage + 1] = {
 	"Cancel", "Continue", "Title", "Yes", "No", "OK", "Agree", "Decline", "On", "Off",
@@ -108,14 +109,11 @@ const char* feat_names[LastFeat + 1] = {
 	"Two-Handed", "Deadly", "Disease", "Poison", "Precise",
 	"Alertness", "Healing", "Extra-Healing",
 	"Drain Energy", "Drain Strength", "Dispel Evil", "Holyness", "Vampiric", "Vorpal",
-	"Immune to Illusion", "Immune to Normal Weapon", "Immune to Disease",
+	"Immune to Illusion", "Immune to Normal Weapon", "Immune to Disease", "Immune to Fear",
 	"Resist Fire", "Resist Cold", "Resist Bludgeon", "Resist Piercing", "Resist Slashing",
 	"Blinking", "Blinding", "Blur", "Displacing", "Invisibility", "Paralyze", "Regeneration", "Slow Poison",
 	"See Magic", "See Curse",
-	"Surprise", "Pain", "Panic", "Moved", "Slow Movement", "Undead",
-};
-const char* fatigue_status[4] = {
-	"Fresh", "Fatigued", "Tired", "Exhausted",
+	"Surprise", "Pain", "Panic", "Moved", "Slowed", "Undead",
 };
 const char* direction_names[Down + 1] = {
 	"Center", "Left", "Up", "Right", "Down",
@@ -409,3 +407,19 @@ const char* name_names[50 * 4] = {
 	"Jasper", "Pella", "Nobbin", "Rilla", "Bungo",
 	"Tessa", "Hobson", "Daisy", "Merrin", "Posy"
 };
+stringset stringset_data[] = {
+	DSTEXT(action_names),
+	DSTEXT(language_names),
+	DSTEXT(race_names),
+	DSTEXT(monster_names),
+	DSTEXT(speech_names1),
+	DSTEXT(speech_names2),
+	DSTEXT(speech_names3),
+	DSTEXT(wallmsg_names),
+	DSTEXT(quest_rumor),
+	DSTEXT(quest_speech),
+	DSTEXT(spell_names),
+	DSTEXT(item_names),
+	DSTEXT(name_names),
+	DSTEXT(message_names),
+	{}};

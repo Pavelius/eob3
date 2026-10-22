@@ -30,7 +30,7 @@ enum featn : unsigned char {
 	TwoHanded, Deadly, DiseaseAttack, PoisonAttack, Precise,
 	Alertness, Healing, ExtraHealing, GiantStrenght,
 	DrainEnergy, DrainStrenght, DispelEvil, Holy, VampiricAttack, Vorpal,
-	ImmuneIllusion, ImmuneNormalWeapon, ImmuneDisease,
+	ImmuneIllusion, ImmuneNormalWeapon, ImmuneDisease, ImmuneFear,
 	ResistFire, ResistCold, ResistBludgeon, ResistPiercing, ResistSlashing,
 	Blinked, Blind, Blurred, Displaced, Invisible, Paralizing, Regenerated, StoppedPoison,
 	SeeMagical, SeeCursed,

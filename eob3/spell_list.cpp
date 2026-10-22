@@ -53,6 +53,12 @@ bool creature::apply(spelln spell, int level, bool run) {
 		if(run)
 			summon(spell, ChillTouchHand, (3 + level) * 10);
 		break;
+	case CloackOfBravery:
+		if(run) {
+			feats.remove(Panic);
+			apply(spell, ImmuneFear, 8 * 60);
+		}
+		break;
 	case ComprehendLanguages:
 		if(languages.data == -1 || isdead())
 			return false;
@@ -238,7 +244,8 @@ bool dungeoni::apply(spelln spell, int level) {
 int get_thrown(spelln spell) {
 	switch(spell) {
 	case MagicMissile: return 5;
-	case HoldPerson: return 6;
+	case HoldUndead: case HoldPerson: return 6;
+	case Fireball: return 2;
 	default: return -1;
 	}
 }
@@ -349,4 +356,26 @@ spelli spell_data[LastSpell + 1] = {
 	{{0, 1}, AllAllyItems, Mending},
 	{{0, 1}, Ally, ShieldSpell, {}, shield_effect},
 	{{0, 1}, Enemy, ShockingGrasp},
+	// Level 2 Mage spells
+	{{0, 2}, Enemy, Blinding},
+	{{0, 2}, You, Blur},
+	{{0, 2}, AllEnemy, HypnoticPattern},
+	{{0, 2}, You, Knock},
+	{{0, 2}, Ally, Invisibility},
+	{{0, 2}, ShowArea, LocateGems},
+	{{0, 2}, Enemy, MelfAcidArrow},
+	{{0, 2}, You, MirrorImage},
+	{{0, 2}, Enemy, Scare},
+	{{0, 2}, Ally, StrenghtSpell},
+	// Level 3 Mage spells
+	{{0, 3}, Ally, Blink},
+	{{0, 3}, You, Clairaudience},
+	{{0, 3}, You, DispellMagic},
+	{{0, 3}, AllEnemy, Fireball},
+	{{0, 3}, Ally, Haste},
+	{{0, 3}, Enemy, HoldUndead},
+	{{0, 3}, Enemy, Suggestion},
+	{{0, 3}, Enemy, VampiricTouch},
+	// Level 4 Mage spells
+	{{0, 4}, Ally, ImprovedInvisibility},
 };

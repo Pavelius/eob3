@@ -21,7 +21,10 @@ enum spelln : unsigned char {
 	BladeBarrier, FindPath, HealSpell, HeroesFeast, WorldOfRecall,
 	Restoration, FireStorm, Ressurection, SunRay, SymbolPain,
 	Armor, BurningHands, ChillTouch, ComprehendLanguages, Friends, Identify, MagicMissile, Mending, ShieldSpell, ShockingGrasp,
-	LastSpell = ShockingGrasp,
+	Blinding, Blur, HypnoticPattern, Knock, Invisibility, LocateGems, MelfAcidArrow, MirrorImage, Scare, StrenghtSpell,
+	Blink, Clairaudience, DispellMagic, Fireball, Haste, HoldUndead, Suggestion, VampiricTouch,
+	ImprovedInvisibility,
+	LastSpell = ImprovedInvisibility,
 };
 
 enum spellfn : unsigned char {
@@ -71,7 +74,7 @@ struct spellbook {
 };
 
 struct spella : spellbook {
-	unsigned		data[(LastSpell + 31) / 32];
+	unsigned		data[1 + LastSpell / 32];
 	void			addspells(int level, int count);
 	bool			is(spelln v) const { return (data[v / 32] & (1 << (v % 32))) != 0; }
 	void			remove(spelln v) { data[v / 32] &= ~(1 << (v % 32)); }

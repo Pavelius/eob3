@@ -45,13 +45,13 @@ static unsigned get_checksum() {
 	return result;
 }
 
-static void serial(archive& a) {
+static const char* serial(archive& a) {
 	if(!a.signature("SAV"))
-		return;
-	if(!a.version(0, 2))
-		return;
+		return "Bad file signature";
+	if(!a.version(0, 3))
+		return "Incorrect sav file version";
 	if(!a.checksum(get_checksum()))
-		return;
+		return "Invalid file checksum";
 	if(!a.writemode)
 		game_clear();
 	a.set(game);
@@ -72,6 +72,7 @@ static void serial(archive& a) {
 		else
 			next_scene(play_city_actions);
 	}
+	return 0;
 }
 
 void game_file(char* result, const char* folder, const char* name, const char* ext, int index) {
@@ -104,7 +105,11 @@ bool game_serial(const char* id, bool write_mode, bool run_game) {
 	if(!file)
 		return false;
 	archive a(file, write_mode);
-	serial(a);
+	auto error = serial(a);
+	if(error) {
+		message_box(error);
+		return false;
+	}
 	if(run_game) {
 		if(loc)
 			next_scene(play_dungeon);

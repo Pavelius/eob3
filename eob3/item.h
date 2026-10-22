@@ -36,7 +36,7 @@ enum featn : unsigned char {
 	SeeMagical, SeeCursed,
 	Surprised, Painful, Panic, Moved, SlowMove, Undead,
 	LastFeat = Undead,
-	SwordPower, MeleeWeaponPower, RangedWeaponPower,
+	SwordPower, MeleeWeaponPower, RangedWeaponPower, ArmorPowers,
 	MageSpells, PriestSpells, WandSpells,
 };
 enum damagen : unsigned char {

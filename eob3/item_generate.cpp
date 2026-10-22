@@ -22,6 +22,11 @@ static featn ranged_weapon_powers[] = {
 	Magical3, Magical3,
 	Magical4,
 	Flaming, Freezing};
+static featn armor_powers[] = {
+	Magical, Magical, Magical, Magical, Magical,
+	Magical2, Magical2, Magical2,
+	Magical3, Magical3,
+	Magical4, Magical5};
 static itemn random_treasure[] = {
 	BlueGem, BlueGem, BlueGem, BlueGem, BlueGem,
 	GreenGem, GreenGem, GreenGem,
@@ -42,7 +47,10 @@ static itemn random_ring[] = {BlueRing, GreenRing, RedRing};
 static itemn random_item[] = {RandomWeapon, RandomSmallItem};
 static itemn random_tavern_pick_pockets[] = {RandomTreasure, RandomRing};
 
-static spelln mage_spell_1[] = {Armor, BurningHands, BurningHands, ChillTouch, ComprehendLanguages, Friends, Identify, MagicMissile, MagicMissile, Mending, ShieldSpell, ShockingGrasp};
+static spelln mage_spell_1[] = {Armor, BurningHands, BurningHands, ChillTouch, ComprehendLanguages, DetectMagic, Friends, Identify, MagicMissile, MagicMissile, Mending, ShieldSpell, ShockingGrasp};
+static spelln mage_spell_2[] = {Blinding, Blur, HypnoticPattern, Knock, Invisibility, LocateGems, MelfAcidArrow, MirrorImage, Scare, StrenghtSpell};
+static spelln mage_spell_3[] = {Blink, Clairaudience, DispellMagic, Fireball, Haste, HoldUndead, Suggestion, VampiricTouch};
+static spelln mage_spell_4[] = {ImprovedInvisibility};
 static spelln priest_spell_1[] = {CureLightWound, DetectEvil, DetectMagic, PurifyFood};
 static spelln priest_spell_2[] = {Aid, FindTraps, ResistFireSpell, ResistColdSpell, SlowPoison};
 static spelln priest_spell_3[] = {CureDisease, MagicalVestment, Prayer, RemoveCurse};
@@ -53,6 +61,7 @@ static spelln priest_spell_7[] = {Restoration, Ressurection, SunRay};
 static spelln wand_spells[] = {
 	MagicMissile, MagicMissile, MagicMissile, BurningHands, BurningHands, BurningHands,
 	ShockingGrasp, ShockingGrasp, DetectMagic,
+	MelfAcidArrow, Fireball, Fireball,
 };
 
 item shops[LastShop + 1][6];
@@ -72,9 +81,10 @@ itemn random(itemn v) {
 
 featn random(featn v) {
 	switch(v) {
-	case SwordPower: return maprnd(sword_powers);
+	case ArmorPowers: return maprnd(armor_powers);
 	case MeleeWeaponPower: return maprnd(melee_weapon_powers);
 	case RangedWeaponPower: return maprnd(ranged_weapon_powers);
+	case SwordPower: return maprnd(sword_powers);
 	case PriestSpells: case MageSpells: case WandSpells: return NoPower;
 	default: return v;
 	}
@@ -107,7 +117,12 @@ static spelln random_priest_spell(int level) {
 }
 
 static spelln random_mage_spell(int level) {
-	return maprnd(mage_spell_1);
+	switch(level) {
+	case 2: return maprnd(mage_spell_2);
+	case 3: return maprnd(mage_spell_3);
+	case 4: return maprnd(mage_spell_4);
+	default: return maprnd(mage_spell_1);
+	}
 }
 
 static bool can_be_mundane(featn power) {

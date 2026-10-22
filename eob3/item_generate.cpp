@@ -44,6 +44,12 @@ static itemn random_tavern_pick_pockets[] = {RandomTreasure, RandomRing};
 
 static spelln mage_spell_1[] = {Armor, BurningHands, BurningHands, ChillTouch, ComprehendLanguages, Friends, Identify, MagicMissile, MagicMissile, Mending, ShieldSpell, ShockingGrasp};
 static spelln priest_spell_1[] = {CureLightWound, DetectEvil, DetectMagic, PurifyFood};
+static spelln priest_spell_2[] = {Aid, FindTraps, ResistFireSpell, ResistColdSpell, SlowPoison};
+static spelln priest_spell_3[] = {CureDisease, MagicalVestment, Prayer, RemoveCurse};
+static spelln priest_spell_4[] = {CloackOfBravery, CureSeriousWounds, FreeAction, NeutralizePoison, ProtectionFromEvil10ft};
+static spelln priest_spell_5[] = {CureCriticalWounds, RaiseDead, TrueSeeing};
+static spelln priest_spell_6[] = {FindPath, HealSpell, HeroesFeast, WorldOfRecall};
+static spelln priest_spell_7[] = {Restoration, Ressurection, SunRay};
 static spelln wand_spells[] = {
 	MagicMissile, MagicMissile, MagicMissile, BurningHands, BurningHands, BurningHands,
 	ShockingGrasp, ShockingGrasp, DetectMagic,
@@ -82,12 +88,22 @@ static int random_spell_level() {
 	case 16: return 5;
 	case 17: return 6;
 	case 18: return 7;
+	case 19: return 8;
+	case 20: return 9;
 	default: return 1;
 	}
 }
 
 static spelln random_priest_spell(int level) {
-	return maprnd(priest_spell_1);
+	switch(level) {
+	case 2: return maprnd(priest_spell_2);
+	case 3: return maprnd(priest_spell_3);
+	case 4: return maprnd(priest_spell_4);
+	case 5: return maprnd(priest_spell_5);
+	case 6: return maprnd(priest_spell_6);
+	case 7: return maprnd(priest_spell_7);
+	default: return maprnd(priest_spell_1);
+	}
 }
 
 static spelln random_mage_spell(int level) {

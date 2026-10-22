@@ -16,6 +16,10 @@ enum spelln : unsigned char {
 	Bless, CureLightWound, DetectEvil, DetectMagic, ProtectionFromEvil, PurifyFood,
 	Aid, FlameBlade, FindTraps, HoldPerson, ResistFireSpell, ResistColdSpell, SlowPoison,
 	CreateFood, CureDisease, MagicalVestment, Prayer, RemoveCurse, RemoveParalize,
+	Abjure, CloackOfBravery, CureSeriousWounds, Fear, FreeAction, NeutralizePoison, ProtectionFromEvil10ft,
+	CureCriticalWounds, DispellEvil, FlameStrike, RaiseDead, TrueSeeing,
+	BladeBarrier, FindPath, HealSpell, HeroesFeast, WorldOfRecall,
+	Restoration, FireStorm, Ressurection, SunRay, SymbolPain,
 	Armor, BurningHands, ChillTouch, ComprehendLanguages, Friends, Identify, MagicMissile, Mending, ShieldSpell, ShockingGrasp,
 	LastSpell = ShockingGrasp,
 };

@@ -18,6 +18,15 @@ static int rolld(int c, int d, int m = 0) {
 
 bool creature::apply(spelln spell, int level, bool run) {
 	switch(spell) {
+	case Abjure:
+		if(!is(Demon))
+			return false;
+		if(run) {
+			auto chance_roll = imax(5, imin(50 + 5 * (level - this->level()), 95));
+			if(chance(chance_roll))
+				kill();
+		}
+		break;
 	case Aid:
 		if(find_boost(Bless, this))
 			return false;
@@ -44,12 +53,6 @@ bool creature::apply(spelln spell, int level, bool run) {
 		if(run)
 			summon(spell, ChillTouchHand, (3 + level) * 10);
 		break;
-	case CureLightWound:
-		if(hp >= hpm || isdead())
-			return false;
-		if(run)
-			heal(rolld(1, 8, 0));
-		break;
 	case ComprehendLanguages:
 		if(languages.data == -1 || isdead())
 			return false;
@@ -58,13 +61,31 @@ bool creature::apply(spelln spell, int level, bool run) {
 		break;
 	case CreateFood:
 		if(run)
-			addgear(Ration, CommonItem, NoPower, 1);
+			addgear(Ration, CommonItem);
+		break;
+	case CureCriticalWounds:
+		if(hp >= hpm || isdead() || is(Undead))
+			return false;
+		if(run)
+			heal(rolld(3, 8, 3));
 		break;
 	case CureDisease:
 		if(!is(DiseaseLevel) || isdead())
 			return false;
 		if(run)
 			abilities[DiseaseLevel] = 0;
+		break;
+	case CureLightWound:
+		if(hp >= hpm || isdead() || is(Undead))
+			return false;
+		if(run)
+			heal(rolld(1, 8, 0));
+		break;
+	case CureSeriousWounds:
+		if(hp >= hpm || isdead() || is(Undead))
+			return false;
+		if(run)
+			heal(rolld(2, 8, 1));
 		break;
 	case DetectEvil:
 		if(run)
@@ -86,6 +107,14 @@ bool creature::apply(spelln spell, int level, bool run) {
 			// TODO: Need to make reaction roll
 		}
 		break;
+	case HeroesFeast:
+		if(isdead())
+			return false;
+		if(run) {
+			abilities[DiseaseLevel] = 0;
+			addgear(RationIron, CommonItem);
+		}
+		break;
 	case MagicalVestment:
 		break;
 	case MagicMissile:
@@ -93,6 +122,12 @@ bool creature::apply(spelln spell, int level, bool run) {
 			auto count = 1 + (level - 1) / 2;
 			damage(ForceDamage, rolld(count, 4, count));
 		}
+		break;
+	case NeutralizePoison:
+		if(!is(PoisonLevel))
+			return false;
+		if(run)
+			abilities[PoisonLevel] = 0;
 		break;
 	case Prayer:
 		if(run)
@@ -137,6 +172,12 @@ bool creature::apply(spelln spell, int level, bool run) {
 			return false;
 		if(run)
 			apply(spell, 5 * level);
+		break;
+	case TrueSeeing:
+		if(is(ImmuneIllusion))
+			return false;
+		if(run)
+			apply(TrueSeeing, ImmuneIllusion, level * 5);
 		break;
 	default:
 		return false;
@@ -271,6 +312,32 @@ spelli spell_data[LastSpell + 1] = {
 	{{3}, AllAlly, Prayer, color(255, 239, 0), prayer_effect},
 	{{3, 4}, YouItem, RemoveCurse},
 	{{3}, Ally, RemoveParalize},
+	// Level 4 Cleric spells
+	{{4}, Enemy, Abjure},
+	{{4}, Ally, CloackOfBravery, color(159, 143, 239)},
+	{{4}, Ally, CureSeriousWounds},
+	{{4}, Enemy, Fear},
+	{{4}, Ally, FreeAction, color(94, 77, 178)},
+	{{4}, Ally, NeutralizePoison},
+	{{4, 3}, AllAlly, ProtectionFromEvil10ft, color(150, 0, 24)},
+	// Level 5 Cleric spells
+	{{5}, Ally, CureCriticalWounds},
+	{{5}, Enemy, DispellEvil},
+	{{5}, AllEnemy, FlameStrike},
+	{{5}, Ally, RaiseDead},
+	{{5}, You, TrueSeeing},
+	// Level 6 Cleric spells
+	{{6}, AllEnemy, BladeBarrier},
+	{{6}, ShowArea, FindPath},
+	{{6}, Ally, HealSpell},
+	{{6}, AllAlly, HeroesFeast},
+	{{6}, You, WorldOfRecall},
+	// Level 7 Cleric spells
+	{{7}, Ally, Restoration},
+	{{7}, AllEnemy, FireStorm},
+	{{7}, Ally, Ressurection},
+	{{7}, AllEnemy, SunRay},
+	{{7}, AllEnemy, SymbolPain},
 	// Level 1 Mage spells
 	{{0, 1}, You, Armor, color(50, 205, 50), armor_effect},
 	{{0, 1}, AllEnemy, BurningHands},

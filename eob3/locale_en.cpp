@@ -358,6 +358,9 @@ const char* spell_names[LastSpell + 1] = {
 	"Bless", "Cure Light Wounds", "Detect Evil", "Detect Magic", "Protection From Evil", "Purify Food",
 	"Aid", "Flame Blade", "Find Traps", "Hold Person", "Resist Fire", "Resist Cold", "Slow Poison",
 	"Create Food", "Cure Disease", "Magical Vestment", "Prayer", "Remove Curse", "Remove Paralize",
+	"Cure Critical Wounds", "Dispell Evil", "Flame Strike", "Raise Dead", "True Seeing",
+	"Blade Barrier", "Find Path", "Heal", "Heroes Feast", "World Of Recall",
+	"Restoration", "Fire Storm", "Ressurection", "Sun Ray", "Pain Symbol",
 	"Armor", "Burning Hands", "Chill Touch", "Comprehend Languages", "Friends", "Identify", "Magic Missile", "Mending", "Shield", "Shocking Grasp",
 };
 const char* name_names[50 * 4] = {

@@ -1873,6 +1873,53 @@ void drop_item() {
 	loc->drop(party.pos, *last_item, get_side(get_side(player), get_drop(party.d)));
 }
 
+static void use_tome(creature* player, item* last_item) {
+	auto result = true;
+	if(!player->roll(Intellegence))
+		consolen(getnm(PlayerFailToUnderstandText));
+	else {
+		consolen(getnm(PlayerRead));
+		consolens(' ');
+		switch(d20()) {
+		case 1: case 2: case 3: case 4:
+			console("%LearnNeutralDouble");
+			player->addexp(200);
+			break;
+		case 5: case 6:
+			player->addexp(300, LawfulGood);
+			player->addexp(300, NeutralGood);
+			player->addexp(300, ChaoticGood);
+			if(last_item->hits < 7)
+				last_item->hits++;
+			break;
+		case 7: case 8:
+			player->addexp(300, LawfulEvil);
+			player->addexp(300, NeutralEvil);
+			player->addexp(300, ChaoticEvil);
+			if(last_item->hits < 7)
+				last_item->hits++;
+			break;
+		case 9: case 10:
+			player->damage(Bludgeon, xrand(1, 4));
+			break;
+		case 11:
+			if(player->basic.abilities[Intellegence] < 25) {
+				player->basic.abilities[Intellegence]++;
+				player->update();
+				if(last_item->hits<7)
+					last_item->hits = 7;
+			}
+			break;
+		default:
+			console("%LearnNeutral");
+			player->addexp(100);
+			break;
+		}
+	}
+	last_item->usecharge(getnm(UseLastChange), 60);
+	pass_time(xrand(20, 60));
+}
+
 void use_item(creature* player, item* last_item, wearn wear) {
 	if(!player->isactable())
 		return;
@@ -1975,6 +2022,7 @@ void use_item(creature* player, item* last_item, wearn wear) {
 		case TheifTools: use_theif_tools(player, last_item); break;
 		case GrapplingHook: use_grappling_hook(player, last_item); break;
 		case MagicMap: use_magic_map(player, last_item); break;
+		case MageBook: use_tome(player, last_item); break;
 		default: break;
 		}
 		break;

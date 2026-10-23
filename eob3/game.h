@@ -45,7 +45,7 @@ enum messagen : unsigned char {
 	AnimalStayStill,
 	ItemPowerName, Rotten, Damaged, Few, Several, Many,
 	PlayerIsDisabled, PlayerPickUpItem, PlayerCastSpell, PlayerDrinkPotion, PlayerFailedSkill, PlayerSuccessSkill,
-	PlayerLearnSpell, PlayerLearnSpellFail,
+	PlayerLearnSpell, PlayerLearnSpellFail, PlayerFailToUnderstandText, PlayerRead,
 	AllPartyDead,
 	PartyGoingUp, PartyGoingDown, PartyFallPit, PartyFailedSurprise, EnemyFailedSurprise,
 	RaiseLevelSuccess,

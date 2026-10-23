@@ -18,8 +18,8 @@ const stringset* stringset_find(const char** names) {
 	return 0;
 }
 
-bool stringset_identifier(const char* identifier, stringbuilder& sb) {
-	auto p = stringset_find(identifier);
+bool stringset_identifier(stringbuilder& sb, const char* id) {
+	auto p = stringset_find(id);
 	if(!p)
 		return false;
 	sb.addv(p->names[rand() % p->count], 0);

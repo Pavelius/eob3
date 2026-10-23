@@ -40,6 +40,7 @@ const char* message_names[LastMessage + 1] = {
 	"%1 of %2", "Rotten", "Damaged", "Few", "Several", "Many",
 	"%Player is incapacitated", "%Player picks up %1", "%1 casts %2", "%Player drinks %1", "%1 fails the %2 check", "%1 succeeds on the %2 check",
 	"%Player learn %1 spell", "%Player fail to learn spell",
+	"%Player fail to understand text", "%Player read",
 	"All party members are dead or incapacitated. Your adventure ends here...",
 	"The party ascends...", "The party descends...", "The party falls into a pit!", "Suddenly, enemies attack!", "Enemy surprised!",
 	"%1 has reached level %2i as a %3!",
@@ -407,6 +408,15 @@ const char* name_names[50 * 4] = {
 	"Jasper", "Pella", "Nobbin", "Rilla", "Bungo",
 	"Tessa", "Hobson", "Daisy", "Merrin", "Posy"
 };
+
+static const char* GroupAdjustment[] = {"ancient", "forgotten", "religious"};
+static const char* GroupName[] = {"cult", "kindom", "tribe", "nation"};
+static const char* LearnNeutral[] = {"%StoryType %StoryKind about %MonsterName", "%GroupAdjustment %GroupName adventures"};
+static const char* LearnNeutralDouble[] = {"excited %StoryKind about people of %GroupAdjustment %GroupName", "bard %StoryKind"};
+static const char* MonsterName[] = {"giant", "dragon", "manticore", "troll", "purple worm"};
+static const char* StoryKind[] = {"tale", "poem", "story"};
+static const char* StoryType[] = {"interesting", "mundane", "funny", "sad"};
+
 stringset stringset_data[] = {
 	DSTEXT(action_names),
 	DSTEXT(language_names),
@@ -422,4 +432,12 @@ stringset stringset_data[] = {
 	DSTEXT(item_names),
 	DSTEXT(name_names),
 	DSTEXT(message_names),
+	// Random text block
+	DSTEXT(GroupAdjustment),
+	DSTEXT(GroupName),
+	DSTEXT(LearnNeutral),
+	DSTEXT(LearnNeutralDouble),
+	DSTEXT(MonsterName),
+	DSTEXT(StoryKind),
+	DSTEXT(StoryType),
 	{}};

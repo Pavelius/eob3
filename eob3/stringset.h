@@ -32,6 +32,6 @@ extern stringset stringset_data[];
 const stringset* stringset_find(const char* id);
 const stringset* stringset_find(const char** names);
 
-bool stringset_identifier(const char* identifier, stringbuilder& sb);
+bool stringset_identifier(stringbuilder& sb, const char* identifier);
 
 const char* test_stringset();

@@ -22,6 +22,7 @@
 #include "rand.h"
 #include "quest.h"
 #include "stringbuilder.h"
+#include "stringset.h"
 #include "stringvar.h"
 
 /*static void addv(stringbuilder& sb, const dice& v) {
@@ -70,6 +71,8 @@ static void stairs_down_part(stringbuilder& sb) {
 
 void stringbuilder_custom(stringbuilder& sb, const char* id) {
 	if(stringvar_identifier(sb, id))
+		return;
+	if(stringset_identifier(sb, id))
 		return;
 	default_string(sb, id);
 }

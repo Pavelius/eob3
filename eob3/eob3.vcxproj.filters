@@ -244,6 +244,9 @@
     <ClCompile Include="stringset.cpp">
       <Filter>support</Filter>
     </ClCompile>
+    <ClCompile Include="bin_forest.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="action.h">

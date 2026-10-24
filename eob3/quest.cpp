@@ -36,6 +36,6 @@ static sitei unknown_forest[] = {
 };
 
 questi quests[] = {
-	{0, ChaNord1, PicSewerEntrance, PicSewerEntrance, MusBinge, {Coins, 1000, Reputation, 5}, flooded_collectors, {KillAlmostAllMonsters, 3}},
-	{1, ChaDexter, PicSewerEntrance, PicSewerEntrance, MusBinge, {Coins, 1500, Reputation, 5}, unknown_forest, {ExploreMostArea, 1}},
+	{10, ChaNord1, PicSewerEntrance, PicSewerEntrance, MusBinge, {Coins, 1000, Reputation, 5}, flooded_collectors, {KillAlmostAllMonsters, 3}},
+	{0, ChaRanger, PicAdventure, PicForest, MusTravel, {Coins, 1500, Reputation, 5}, unknown_forest, {ExploreMostArea, 1}},
 };

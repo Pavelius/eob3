@@ -12,6 +12,7 @@ extern unsigned char bin_decors[];
 extern unsigned char bin_dung[];
 extern unsigned char bin_font6[];
 extern unsigned char bin_font8[];
+extern unsigned char bin_forest[];
 extern unsigned char bin_green[];
 extern unsigned char bin_invent[];
 extern unsigned char bin_items[];
@@ -30,7 +31,7 @@ extern unsigned char bin_leech[];
 
 sprite* res_data[LastRes + 1] = {
 	RS(font6), RS(font8),
-	RS(blue), RS(brick), 0, RS(dung), 0, RS(green), 0,
+	RS(blue), RS(brick), 0, RS(dung), RS(forest), RS(green), 0,
 	RS(kobold), RS(leech),
 	RS(border), RS(chargen), RS(chargenb), RS(compass), RS(invent),
 	RS(itemgs), RS(itemgl), RS(items), RS(overlays), RS(decors),

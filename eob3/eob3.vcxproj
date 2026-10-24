@@ -184,6 +184,7 @@
     <ClCompile Include="bin_compass.cpp" />
     <ClCompile Include="bin_decors.cpp" />
     <ClCompile Include="bin_dung.cpp" />
+    <ClCompile Include="bin_forest.cpp" />
     <ClCompile Include="bin_green.cpp" />
     <ClCompile Include="bin_kobold.cpp" />
     <ClCompile Include="bin_leech.cpp" />

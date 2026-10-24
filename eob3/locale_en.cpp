@@ -346,13 +346,25 @@ const char* quest_rumor[(LastQuest + 1) * 5] = {
 	"There are three marks on the lever. Turn it the wrong way, and the water will flood the leech nests. Or your tunnel. Heh-heh.",
 	"There are fresh scratches on the wall in the lower passage. They lead upward, as if something huge were crawling across the stone.",
 	"Can you hear the bell beneath the water? It is no bell. It is calling to whatever sleeps deep beneath the city."
+	"The boss wears a whistle around his neck. When he blows it, the gray ones charge the road.",
+	"The big wolf is chained by the fire. As long as it howls, the pack won't stray far.",
+	"The human scout is locked in the old charcoal pit. He keeps shouting, and the boss is threatening to shut him up for good.",
+	"The palisade is rotten on the east side of the camp. Just don't make a sound there - the wolf trail is nearby.",
+	"We heard a second alpha howling in the forest at night. Maybe it will come for the prisoner... or maybe it will eat him and us too."
 };
 const char* quest_speech[(LastQuest + 1) * (LastPhase + 1)] = {
+	// 0
 	"\"Well met, my friends.\" Chief of local guard was good spirited. You sit in local tavern. \"My name if Halfast Rodgar. And I am chief of local guard as you now.\"\0\"We have a problem in collectors. Two our men are going down and not returned yet. Maybe, there is a some kind of monsters inside.\"\0\"I need your help to deal with them. Kill them all. Going down to the last level and kill all of these creatures and our comunity will reward you. Small rewar, say %QuestRewardGold silver pieces.\"\0",
 	"\"Very well! You are good mens. Let's luck be with you.\"\0",
 	0,
 	"Old collector builded hundred years ago. What lie below the earth? You open metal door and get in a sticky flooded tunnel...\0",
-	"You are back? I don't expect you do this job. So ... here %QuestRewardGold gold pieces.\0And found me later. You may give a service to goverment and army.",
+	"You are back? I don't expect you do this job. So ... here %QuestRewardGold gold pieces.\0And found me later. You may give a service to goverment and army.\0",
+	// 1
+	"Man in tavern sit to you table. \"Hello. My name is Alf Bowmen and I local ranger.\"\0\"As you know, this city is lay on outskirs of civilization. Wast and unexplored forest lay to the north in a week of foot travel. A dangerous and ancient forest.\"\0He gulp a beer and continue \"And what lay in this forest? Forgotten treasures of ancient civilization? Maybe. And I give you chance to explore this for my money.\"\0\"Explore this forest, investigate its forgotten corners and I pay you %QuestRewardGold gold piece for information. I use it to hunt prey and, maybe to settle in those lands.\"\0",
+	"\"Great! Wait for your reports, when you explore most part of forest entrance to the north.\"\0",
+	"You move to north several day by foot. Green valley lay around you, but to nothern side you see moutains.\0",
+	"On eight day of travel you enter into deep forest.\0",
+	0,
 };
 const char* spell_names[LastSpell + 1] = {
 	"Bless", "Cure Light Wounds", "Detect Evil", "Detect Magic", "Protection From Evil", "Purify Food",

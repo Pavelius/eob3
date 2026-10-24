@@ -2081,8 +2081,9 @@ void go_adventure() {
 	if(!confirm_quest(pa))
 		return;
 	show_quest(pa, PhaseAgree);
-	answer_picture = pa->adventure;
+	setv(pa->adventure);
 	show_quest(pa, PhaseAdventure);
+	setv(pa->enter);
 	show_quest(pa, PhaseEnter);
 	all_party(start_quest_equipment, true);
 	enter_dungeon(1, CellStairsUp);

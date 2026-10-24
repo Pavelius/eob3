@@ -164,10 +164,38 @@ static void party_random_generation() {
 }
 #endif // _DEBUG
 
+static unsigned select_quests(questi** result, int difficult) {
+	auto ps = result;
+	for(auto& e : quests) {
+		if(e.difficult == difficult)
+			*ps++ = &e;
+	}
+	return ps - result;
+}
+
+static unsigned add_quests(questi** result, int difficult, unsigned max_count) {
+	questi* source[LastQuest + 1];
+	auto count = select_quests(source, difficult);
+	zshuffle(source, count);
+	if(count > max_count)
+		count = max_count;
+	memcpy(result, source, count * sizeof(result[0]));
+	return count;
+}
+
+static void prepare_quests() {
+	questi* result[LastQuest + 1] = {};
+	unsigned total_quest_count = 0;
+	for(auto difficult = 0; difficult <= 4; difficult++)
+		total_quest_count += add_quests(result + total_quest_count, difficult, 2);
+	for(unsigned i = 0; i < total_quest_count; i++) {
+		result[i]->set(QuestPrepared);
+		dungeon_create(result[i]->index(), result[i]->sites);
+	}
+}
+
 static void start_campaign() {
-	auto quest = (questn)0;
-	quests[quest].set(QuestPrepared);
-	dungeon_create(quest, quests[quest].sites);
+	prepare_quests();
 }
 
 void game_generation() {

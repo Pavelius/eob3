@@ -57,7 +57,8 @@ enum abilityn : unsigned char {
 };
 enum monstern : unsigned char {
 	NoMonster,
-	Kobold, Leech, DwarfWarrior, Spider,
+	Kobold, Leech, Wolf,
+	DwarfWarrior, Spider,
 	LastMonster = Spider
 };
 enum reactions : unsigned char {
@@ -125,6 +126,7 @@ struct monsteri {
 	alignmentn		alignment; // Default behaivor. Evil is aggressive.
 	itemn			items[4]; // This items will be equip and some time looted.
 	featc			feats; // Special feats
+	unsigned char	abilitites[Charisma - Strenght + 1];
 };
 extern monsteri monsters[LastMonster + 1];
 

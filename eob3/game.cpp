@@ -1920,7 +1920,7 @@ static void use_tome(creature* player, item* last_item) {
 			if(player->basic.abilities[Intellegence] < 25) {
 				player->basic.abilities[Intellegence]++;
 				player->update();
-				if(last_item->hits<7)
+				if(last_item->hits < 7)
 					last_item->hits = 7;
 			}
 			break;
@@ -2133,7 +2133,7 @@ static bool talk_rumor() {
 	auto p = active_quest();
 	if(!p || p->identify())
 		return false;
-	monsters_talk(quest_rumor[p->rumor++]);
+	monsters_talk(quest_rumor[p->index() * (LastPhase + 1) + p->rumor++]);
 	return true;
 }
 
@@ -2194,6 +2194,8 @@ static bool talk_gift_item() {
 }
 
 static bool talk_gift_key() {
+	if(loc && loc->type == FOREST)
+		return false; // There is no doors in forest
 	auto v = create_gift({CooperKey});
 	show_message(HelpKey, v.name());
 	return party_add(adventurers, v);

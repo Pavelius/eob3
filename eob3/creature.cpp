@@ -1537,6 +1537,13 @@ bool party_add(creature** source, itemn item_type, int chance_magical, int chanc
 	return party_add(source, v);
 }
 
+static void set_monster_ability(const unsigned char* source) {
+	for(auto i = 0; i < 6; i++) {
+		if(source[i])
+			player->basic.abilities[Strenght + i] = source[i];
+	}
+}
+
 bool is_character(const creature* p) {
 	return p >= characters && p <= characters + lengthof(characters);
 }
@@ -1653,6 +1660,7 @@ void create_monster(monstern type) {
 			player->equip(item_type);
 	}
 	standart_ability();
+	set_monster_ability(e.abilitites);
 	reroll_monster_hits();
 	player->update();
 	finish_character();

@@ -788,11 +788,11 @@ static void pass_time_activity() {
 		game.next_turn += 10;
 		all_party(check_food, true);
 		all_creatures(update_every_turn);
-		check_return_to_base();
 	}
 	while(minute >= game.next_half_hour) {
 		game.next_half_hour += 10 * 3;
 		all_creatures(update_every_half_hour);
+		check_return_to_base();
 	}
 	while(minute >= game.next_hour) {
 		game.next_hour += 10 * 6;

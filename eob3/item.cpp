@@ -38,26 +38,26 @@ itemi item_data[LastItem + 1] = {
 	{RightHand, 15 * gp, {2, 0}, {}, {0, 1, 4, Slashing, {1, 6}, {1, 8}}, {}, SwordPower}, // ShortSword
 	{RightHand, 50 * gp, {42, 0}, {TwoHanded}, {0, 1, 10, Slashing, {1, 10}, {3, 6}}, {}, SwordPower}, // TwoHandedSword
 	{RightHand, 40 * gp, {10, 6}, {TwoHanded}, {0, 1, 7, Piercing, {1, 6}, {1, 6}, Arrow}, {}, RangedWeaponPower}, // Bow
-	{RightHand, 0, {18, 4}, {TwoHanded}, {0, 1, 7, Bludgeon, {1, 4}, {1, 3}, Stone}, {}, RangedWeaponPower}, // Sling
+	{RightHand, 20, {18, 4}, {TwoHanded}, {0, 1, 7, Bludgeon, {1, 4}, {1, 3}, Stone}, {}, RangedWeaponPower}, // Sling
 	{Body, 0, {32, 8}, {}, {}, {}}, // Robe
 	{Body, 0, {17, 8}, {}, {}, {}}, // RedCloack
 	{Body, 0, {92, 8}, {}, {}, {}}, // BlueCloack
-	{Body, 0, {31, 11}, {}, {}, {2}}, // LeatherArmor
-	{Body, 0, {30, 9}, {}, {}, {4}}, // ScaleMail
-	{Body, 0, {29, 9}, {}, {}, {5}}, // ChainMail
-	{Body, 0, {28, 9}, {}, {}, {6}}, // BandedMail
-	{Body, 0, {26, 9}, {}, {}, {8}}, // PlateMail
-	{Head, 0, {20, 6}, {}, {}, {}}, // Helm
-	{Head, 0, {73, 6}, {}, {}, {}}, // DwarvenHelm
-	{LeftHand, 0, {23, 7}, {}, {}, {1}}, // Shield
-	{LeftHand, 0, {71, 7}, {}, {}, {1}}, // DwarvenShield
-	{Legs, 0, {9, 9}, {}, {}, {}}, // Boots
-	{Elbow, 0, {25, 16}, {}, {}, {}}, // Bracers
+	{Body, 30*gp, {31, 11}, {}, {}, {2}}, // LeatherArmor
+	{Body, 50 * gp, {30, 9}, {}, {}, {4}}, // ScaleMail
+	{Body, 60 * gp, {29, 9}, {}, {}, {5}}, // ChainMail
+	{Body, 120 * gp, {28, 9}, {}, {}, {6}}, // BandedMail
+	{Body, 400 * gp, {26, 9}, {}, {}, {8}}, // PlateMail
+	{Head, 5 * gp, {20, 6}, {}, {}, {}}, // Helm
+	{Head, 20 * gp, {73, 6}, {}, {}, {}}, // DwarvenHelm
+	{LeftHand, 10 * gp, {23, 7}, {}, {}, {1}}, // Shield
+	{LeftHand, 40 * gp, {71, 7}, {}, {}, {1}}, // DwarvenShield
+	{Legs, 20, {9, 9}, {}, {}, {}}, // Boots
+	{Elbow, 5 * gp, {25, 16}, {}, {}, {}}, // Bracers
 	{LeftRing, 30 * gp, {78, 15}, {}, {}, {}}, // BlueRing
 	{LeftRing, 60 * gp, {79, 15}, {}, {}, {}}, // GreenRing
 	{LeftRing, 120 * gp, {55, 15}, {}, {}, {}}, // RedRing
-	{Neck, 0, {33, 26}, {}, {}, {}}, // Amulet
-	{Neck, 0, {34, 26}, {}, {}, {}}, // Medalion
+	{Neck, 5 * gp, {33, 26}, {}, {}, {}}, // Amulet
+	{Neck, 60 * gp, {34, 26}, {}, {}, {}}, // Medalion
 	{Drinkable, 50 * gp, {40, 19}, {}, {}, {}}, // BluePotion
 	{Drinkable, 70 * gp, {41, 19}, {}, {}, {}}, // GreenPotion
 	{Drinkable, 90 * gp, {39, 19}, {}, {}, {}}, // RedPotion
@@ -92,7 +92,7 @@ itemi item_data[LastItem + 1] = {
 	{Key, 10, {58, 8}}, // SteelKey
 	{Key, 10, {87, 8}}, // SkullKey
 	{Key, 50, {88, 8}}, // MoonKey
-	{Key, 100, {102, 8}}, // JewelKey
+	{Key, 20 * gp, {102, 8}}, // JewelKey
 	{Usable, 0, {60, 3}, {}, {}}, // StoneDagger
 	{Usable, 0, {57, 22}, {}, {}}, // StoneGem
 	{Neck, 0, {64, 26}, {}, {}}, // StoneAmulet

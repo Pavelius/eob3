@@ -66,7 +66,12 @@ static void print_item(stringbuilder& sb) {
 }
 
 static void stairs_down_part(stringbuilder& sb) {
-	sb.addv(world_side_names[get_part_placement(loc->state.down.pos)], 0);
+	auto n = loc->state.down.pos;
+	if(!n)
+		n = loc->state.up.pos;
+	if(!n)
+		n = loc->state.portal.pos;
+	sb.addv(world_side_names[get_part_placement(n)], 0);
 }
 
 void stringbuilder_custom(stringbuilder& sb, const char* id) {

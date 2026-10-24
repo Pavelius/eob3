@@ -1883,26 +1883,30 @@ static void use_tome(creature* player, item* last_item) {
 		switch(d20()) {
 		case 1: case 2: case 3: case 4:
 			console("%LearnNeutralDouble");
-			player->addexp(200);
+			player->addexp(100);
 			break;
 		case 5: case 6:
-			player->addexp(300, LawfulGood);
-			player->addexp(300, NeutralGood);
-			player->addexp(300, ChaoticGood);
+			console("%LearnGood");
+			player->addexp(250, LawfulGood);
+			player->addexp(200, NeutralGood);
+			player->addexp(200, ChaoticGood);
 			if(last_item->hits < 7)
 				last_item->hits++;
 			break;
 		case 7: case 8:
-			player->addexp(300, LawfulEvil);
-			player->addexp(300, NeutralEvil);
+			console("%LearnEvil");
+			player->addexp(150, LawfulEvil);
+			player->addexp(200, NeutralEvil);
 			player->addexp(300, ChaoticEvil);
 			if(last_item->hits < 7)
 				last_item->hits++;
 			break;
 		case 9: case 10:
+			console("%LearnPain");
 			player->damage(Bludgeon, xrand(1, 4));
 			break;
 		case 11:
+			console("%LearnIntellegence");
 			if(player->basic.abilities[Intellegence] < 25) {
 				player->basic.abilities[Intellegence]++;
 				player->update();
@@ -1912,11 +1916,11 @@ static void use_tome(creature* player, item* last_item) {
 			break;
 		default:
 			console("%LearnNeutral");
-			player->addexp(100);
+			player->addexp(50);
 			break;
 		}
 	}
-	last_item->usecharge(getnm(UseLastChange), 60);
+	last_item->usecharge(getnm(UseLastChange), 65);
 	pass_time(xrand(20, 60));
 }
 

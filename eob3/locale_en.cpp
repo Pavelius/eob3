@@ -413,9 +413,14 @@ static const char* GroupAdjustment[] = {"ancient", "forgotten", "religious"};
 static const char* GroupName[] = {"cult", "kindom", "tribe", "nation"};
 static const char* LearnNeutral[] = {"%StoryType %StoryKind about %MonsterName", "%GroupAdjustment %GroupName adventures"};
 static const char* LearnNeutralDouble[] = {"excited %StoryKind about people of %GroupAdjustment %GroupName", "bard %StoryKind"};
+static const char* LearnEvil[] = {"%StoryKind explain evil deeds", "bad %StoryKind about %GroupAdjustment %GroupName", "terrifying %StoryKind about %GroupAdjustment deeds"};
+static const char* LearnGood[] = {"%StoryKind explain good deeds", "%StoryKind about bravest heroes of %GroupAdjustment %GroupName", "brilliant %StoryKind about %GroupAdjustment deeds"};
+static const char* LearnPain[] = {"long and exhaused tale", "a tale with bad end"};
+static const char* LearnIntellegence[] = {"science work about %ScienceKind"};
 static const char* MonsterName[] = {"giant", "dragon", "manticore", "troll", "purple worm"};
 static const char* StoryKind[] = {"tale", "poem", "story"};
 static const char* StoryType[] = {"interesting", "mundane", "funny", "sad"};
+static const char* ScienceKind[] = {"mathematic", "phisic", "universe", "mechanic"};
 
 stringset stringset_data[] = {
 	DSTEXT(action_names),
@@ -437,7 +442,12 @@ stringset stringset_data[] = {
 	DSTEXT(GroupName),
 	DSTEXT(LearnNeutral),
 	DSTEXT(LearnNeutralDouble),
+	DSTEXT(LearnEvil),
+	DSTEXT(LearnGood),
+	DSTEXT(LearnIntellegence),
+	DSTEXT(LearnPain),
 	DSTEXT(MonsterName),
+	DSTEXT(ScienceKind),
 	DSTEXT(StoryKind),
 	DSTEXT(StoryType),
 	{}};

@@ -174,7 +174,7 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	void add(abilityn n, int v);
 	void add(featn feat, unsigned duration) {}
 	void addexp(unsigned v) { experience += v; checklevel(); }
-	void addexp(unsigned v, alignmentn alignment) { if(alignment) addexp(v); }
+	void addexp(unsigned v, alignmentn alignment) { if(is(alignment)) addexp(v); }
 	bool allow(itemn type) const;
 	bool allow(itemn type, speechn speech) const;
 	bool apply(spelln spell, int level, bool run);

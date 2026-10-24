@@ -103,6 +103,7 @@ bool check_suspecious();
 long choose_player_action(const char* cancel);
 long choose_message(actionn id, bool can_cancel = true);
 bool enough(const variablei& v1, const variablei& v2);
+void leave_outside();
 bool indoor(actionn v);
 bool is_closed(actionn v);
 bool is_night();

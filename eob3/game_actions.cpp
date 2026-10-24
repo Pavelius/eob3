@@ -5,12 +5,13 @@
 #include "game.h"
 #include "perference.h"
 #include "pushvalue.h"
+#include "quest.h"
 #include "rand.h"
 #include "sound.h"
 
 actionn location = NoAction;
 
-static void leave_outside() {
+void leave_outside() {
 	location = NoAction;
 }
 
@@ -255,6 +256,10 @@ static bool if_need_healing() {
 	return if_wounded() || player->is(DiseaseLevel) || player->is(PoisonLevel);
 }
 
+static bool if_active_quest() {
+	return active_quest() != 0;
+}
+
 static actioni tavern_actions[] = {
 	{EatFoodAndDrink, {Coins, 20}, {}, eat_and_drink},
 	{PickPocketsAction, {}, {Theif}, pick_pockets},
@@ -287,7 +292,7 @@ static actioni palace_actions[] = {
 	{LeaveOutside, {}, {}, leave_outside},
 	{}};
 static actioni city_actions[] = {
-	{GoAdventure, {}, {}, go_adventure},
+	{GoAdventure, {}, {}, go_adventure, if_active_quest},
 	{Tavern},
 	{Blacksmith, {Reputation, 25}},
 	{Temple},

@@ -352,6 +352,7 @@ const char* quest_speech[(LastQuest + 1) * (LastPhase + 1)] = {
 	"\"Very well! You are good mens. Let's luck be with you.\"\0",
 	0,
 	"Old collector builded hundred years ago. What lie below the earth? You open metal door and get in a sticky flooded tunnel...\0",
+	"You are back? I don't expect you do this job. So ... here %QuestRewardGold gold pieces.\0And found me later. You may give a service to goverment and army.",
 };
 const char* spell_names[LastSpell + 1] = {
 	"Bless", "Cure Light Wounds", "Detect Evil", "Detect Magic", "Protection From Evil", "Purify Food",

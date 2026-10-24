@@ -110,4 +110,5 @@ void carousing() {
 	}
 	answer_picture = PicCarousingEnd;
 	show_message(CarousingEnd);
+	leave_outside();
 }

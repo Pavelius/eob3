@@ -538,8 +538,11 @@ static void check_quest_complited() {
 		return;
 	if(!quest_complite(p))
 		return;
+	pushvalue push_picture(answer_picture);
+	answer_picture = p->picture;
 	all_party(clear_quest_items, false); // Remove quest item only if done quest
 	show_quest(p, PhaseReward); game += p->rewards;
+	party_addexp_each(p->rewards.variables[Coins]);
 	p->set(QuestPassed);
 }
 
@@ -1089,6 +1092,13 @@ void party_addexp(int value) {
 void party_addexp(int value, alignmentn alignment) {
 	for(auto p : adventurers) {
 		if(p && !p->isdisabled() && p->is(alignment))
+			p->addexp(value);
+	}
+}
+
+void party_addexp_each(int value) {
+	for(auto p : adventurers) {
+		if(p)
 			p->addexp(value);
 	}
 }
@@ -2076,10 +2086,6 @@ void go_adventure() {
 	show_quest(pa, PhaseEnter);
 	all_party(start_quest_equipment, true);
 	enter_dungeon(1, CellStairsUp);
-}
-
-void leave_quest() {
-
 }
 
 void enter_dungeon(int level, celln location) {

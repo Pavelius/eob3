@@ -1379,6 +1379,7 @@ static void common_input() {
 	case Ctrl + 'I': execute(show_sprites_command, ITEMS); break;
 	case Ctrl + 'L': execute(show_sprites_command, ITEMGL); break;
 	case Ctrl + 'P': execute(show_sprites_command, SCENE); break;
+	case Ctrl + 'M': execute(show_sprites_command, CHIMERA); break;
 	case Ctrl + 'F': execute(show_scene_font, FONT6); break;
 	case Ctrl + 'G': execute(show_scene_font, FONT8); break;
 	case Ctrl + 'E': loc->set({20, 20}, CellExplored, 20); break;

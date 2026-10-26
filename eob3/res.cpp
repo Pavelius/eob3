@@ -3,13 +3,16 @@
 #define RS(T) (sprite*)bin_##T
 
 extern unsigned char bin_blue[];
+extern unsigned char bin_bonenaga[];
 extern unsigned char bin_border[];
 extern unsigned char bin_brick[];
 extern unsigned char bin_chargen[];
 extern unsigned char bin_chargenb[];
+extern unsigned char bin_chimera[];
 extern unsigned char bin_compass[];
 extern unsigned char bin_decors[];
 extern unsigned char bin_dung[];
+extern unsigned char bin_evilwiz[];
 extern unsigned char bin_font6[];
 extern unsigned char bin_font8[];
 extern unsigned char bin_forest[];
@@ -25,6 +28,7 @@ extern unsigned char bin_portm[];
 extern unsigned char bin_scene[];
 extern unsigned char bin_thrown[];
 extern unsigned char bin_xspl[];
+extern unsigned char bin_wight[];
 extern unsigned char bin_wolf[];
 
 extern unsigned char bin_kobold[];
@@ -33,7 +37,7 @@ extern unsigned char bin_leech[];
 sprite* res_data[LastRes + 1] = {
 	RS(font6), RS(font8),
 	RS(blue), RS(brick), 0, RS(dung), RS(forest), RS(green), 0,
-	RS(kobold), RS(leech), RS(wolf),
+	RS(bonenaga), RS(chimera), RS(evilwiz), RS(kobold), RS(leech), RS(wight), RS(wolf),
 	RS(border), RS(chargen), RS(chargenb), RS(compass), RS(invent),
 	RS(itemgs), RS(itemgl), RS(items), RS(overlays), RS(decors),
 	RS(menu), RS(playfld), RS(portm), RS(scene), RS(thrown), RS(xspl)

@@ -32,7 +32,7 @@ static sitei flooded_collectors[] = {
 	{BRICK, Human, 1, {Kobold, Leech}, NoMonster, GreatLair, IronKey, NoItem, 0, 0, 0, 0, 0, 0, 0, 0, ArrowTrap},
 };
 static sitei unknown_forest[] = {
-	{FOREST, Goblinoid, 2, {Kobold, Wolf}, NoMonster, Lair, NoItem, NoItem, 8, 0, 0, 4, 0, 0, 0, 0, ArrowTrap},
+	{FOREST, Goblinoid, 1, {Kobold, Wolf}, NoMonster, Lair, NoItem, NoItem, 8, 0, 0, 4, 0, 0, 0, 0, ArrowTrap},
 };
 
 questi quests[] = {

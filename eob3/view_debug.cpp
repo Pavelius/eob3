@@ -483,7 +483,19 @@ static void show_sprites(resn id, point start, point size) {
 	}
 }
 
-static void show_scenes(resn id) {
+static resn next_res(resn id, bool prev) {
+	if(prev) {
+		if(id > BONENAGA && id <= WOLF)
+			return (resn)(id - 1);
+		return id;
+	} else {
+		if(id >= BONENAGA && id < WOLF)
+			return (resn)(id + 1);
+		return id;
+	}
+}
+
+static void show_scenes(resn id, point origin) {
 	pushrect push;
 	pushfore push_fore;
 	pushfont push_font(0);
@@ -496,7 +508,7 @@ static void show_scenes(resn id) {
 			focus = maximum - 1;
 		image(0, 0, res_data[PLAYFLD], 0, 0);
 		image(0, 0, res_data[BORDER], 0, 0);
-		image(8, 8, res_data[id], focus, 0);
+		image(origin.x, origin.y, res_data[id], focus, 0);
 		fore = colors::white;
 		setpos(5, 180, 280, 6 * 3);
 		texta(str("index %1i of %2i", focus, maximum), TextBold);
@@ -504,6 +516,8 @@ static void show_scenes(resn id) {
 		switch(hkey) {
 		case KeyRight: focus++; break;
 		case KeyLeft: focus--; break;
+		case KeyUp: id = next_res(id, true); break;
+		case KeyDown: id = next_res(id, false); break;
 		case KeyEscape: breakmodal(0); break;
 		}
 	}
@@ -515,8 +529,8 @@ static void show_sprites(resn id) {
 	case ITEMGL: show_sprites(ITEMGL, {32, 24}, {64, 32}); break;
 	case ITEMGS: show_sprites(ITEMGS, {16, 16}, {32, 32}); break;
 	case PORTM: show_sprites(PORTM, {0, 0}, {32, 32}); break;
-	case SCENE: show_scenes(SCENE); break;
-	default: break;
+	case SCENE: show_scenes(SCENE, {8,8}); break;
+	default: show_scenes(id, {88, 88}); break;
 	}
 }
 

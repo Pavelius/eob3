@@ -2,6 +2,7 @@
 
 #define RS(T) (sprite*)bin_##T
 
+extern unsigned char bin_ant[];
 extern unsigned char bin_blue[];
 extern unsigned char bin_bonenaga[];
 extern unsigned char bin_border[];
@@ -57,7 +58,7 @@ extern unsigned char bin_wyvern[];
 sprite* res_data[LastRes + 1] = {
 	RS(font6), RS(font8),
 	RS(blue), RS(brick), 0, RS(dung), RS(forest), RS(green), 0,
-	RS(bonenaga), RS(chimera), RS(evilwiz), RS(feyr), RS(groan), RS(hag), RS(kobold), RS(leech), RS(lich), RS(minotaur),
+	RS(ant), RS(bonenaga), RS(chimera), RS(evilwiz), RS(feyr), RS(groan), RS(hag), RS(kobold), RS(leech), RS(lich), RS(minotaur),
 	RS(mist), RS(mound), RS(oslug), RS(pudding), RS(scaladar), RS(shadow), RS(shound), RS(slither), RS(snaga), RS(steelsh),
 	RS(troll), RS(ubeast), RS(water), RS(weird), RS(wghost), RS(wight), RS(wolf), RS(wyvern),
 	RS(border), RS(chargen), RS(chargenb), RS(compass), RS(invent),

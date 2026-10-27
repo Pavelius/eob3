@@ -485,11 +485,11 @@ static void show_sprites(resn id, point start, point size) {
 
 static resn next_res(resn id, bool prev) {
 	if(prev) {
-		if(id > BONENAGA && id <= WYVERN)
+		if(id > ANT && id <= WYVERN)
 			return (resn)(id - 1);
 		return id;
 	} else {
-		if(id >= BONENAGA && id < WYVERN)
+		if(id >= ANT && id < WYVERN)
 			return (resn)(id + 1);
 		return id;
 	}

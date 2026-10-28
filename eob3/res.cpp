@@ -14,8 +14,17 @@ extern unsigned char bin_brick[];
 extern unsigned char bin_chargen[];
 extern unsigned char bin_chargenb[];
 extern unsigned char bin_chimera[];
+extern unsigned char bin_cleric1[];
+extern unsigned char bin_cleric2[];
+extern unsigned char bin_cleric3[];
 extern unsigned char bin_compass[];
+extern unsigned char bin_cube[];
 extern unsigned char bin_decors[];
+extern unsigned char bin_disbeast[];
+extern unsigned char bin_dragon[];
+extern unsigned char bin_dran[];
+extern unsigned char bin_drider1[];
+extern unsigned char bin_drowelf[];
 extern unsigned char bin_dung[];
 extern unsigned char bin_evilwiz[];
 extern unsigned char bin_feyr[];
@@ -66,10 +75,11 @@ sprite* res_data[LastRes + 1] = {
 	RS(font6), RS(font8),
 	RS(blue), RS(brick), 0, RS(dung), RS(forest), RS(green), 0,
 	RS(ant), RS(aservant), RS(basilisk), RS(beholder), RS(bulette), RS(bonenaga), RS(chimera),
+	RS(cleric1), RS(cleric2), RS(cleric3), RS(cube), RS(disbeast), RS(drider1), RS(dragon), RS(dran), RS(drowelf),
 	RS(evilwiz), RS(feyr), RS(groan), RS(hag), RS(kobold), RS(leech), RS(lich), RS(minotaur),
 	RS(mist), RS(mound), RS(oslug), RS(pudding), RS(scaladar), RS(shadow), RS(shound), RS(slither), RS(snaga), RS(steelsh),
 	RS(troll), RS(ubeast), RS(water), RS(weird), RS(wghost), RS(wight), RS(wolf), RS(wyvern),
-	RS(xanath1), RS(xorn1), RS(zombie),
+	RS(xorn1), RS(zombie),
 	RS(border), RS(chargen), RS(chargenb), RS(compass), RS(invent),
 	RS(itemgs), RS(itemgl), RS(items), RS(overlays), RS(decors),
 	RS(menu), RS(playfld), RS(portm), RS(scene), RS(thrown), RS(xspl),

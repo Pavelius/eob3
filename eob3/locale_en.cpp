@@ -218,7 +218,8 @@ const char* item_names[LastItem + 1] = {
 };
 const char* monster_names[LastMonster + 1] = {
 	"Nobody",
-	"Kobold", "Leech", "Dwarf", "Spider",
+	"Kobold", "Leech", "Wolf",
+	"Dwarf", "Spider",
 };
 const char* speech_names1[LastSpeech + 1] = {
 	"How can I use %1?",

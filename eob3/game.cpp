@@ -594,7 +594,7 @@ static void group_damage(creature** creatures, pointc v, directionn d, const com
 			targets--;
 		}
 	}
-	if(ei.ammo && test_projectile && d100() < 30) {
+	if(ei.ammo && test_projectile && d100() < 20) {
 		item it(ei.ammo);
 		it.hits = 7; // A few of ...
 		loc->drop(v, it, xrand(0, 3));

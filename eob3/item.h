@@ -90,6 +90,9 @@ enum trapn : unsigned char {
 	LastTrap = SpearTrap
 };
 
+const int THROWS = 2;
+const int THROWX = 7;
+
 extern const char* item_names[LastItem + 1];
 extern const char* feat_names[LastFeat + 1];
 

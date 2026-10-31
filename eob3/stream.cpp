@@ -123,5 +123,6 @@ char* szurl(char* result, const char* base_url, const char* folder, const char* 
 			sb.add(".");
 		sb.add(ext);
 	}
+	sb.change('\\', '/');
 	return result;
 }

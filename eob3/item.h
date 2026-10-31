@@ -86,8 +86,8 @@ enum shopn : unsigned char {
 	LastShop = MagicShop
 };
 enum trapn : unsigned char {
-	ArrowTrap, SpearTrap,
-	LastTrap = SpearTrap
+	ArrowTrap, SpearTrap, FireTrap,
+	LastTrap = FireTrap
 };
 
 const int THROWS = 2;

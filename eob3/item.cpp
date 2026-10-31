@@ -119,6 +119,7 @@ itemi item_data[LastItem + 1] = {
 combati traps[LastTrap + 1] = {
 	{0, 1, THROWX + 3 * 2, Piercing, {1, 6}, {1, 6}, Arrow},
 	{0, 1, THROWX + 0 * 2, Piercing, {1, 8}, {1, 8}, Spear},
+	{0, 4, THROWS + 0, FireDamage, {3, 6}, {3, 6}},
 };
 
 static_assert(sizeof(item) == sizeof(int));

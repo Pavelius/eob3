@@ -1118,7 +1118,7 @@ static void fill_sprite(renderi* p, int avatar_thrown, directionn drs, int side)
 	} else if(avatar_thrown >= 100) {
 		p->frame[0] = avatar_thrown - 100;
 		p->rdata = res_data[ITEMGS];
-	} else if(avatar_thrown >= 7) {
+	} else if(avatar_thrown >= THROWX) {
 		p->frame[0] = avatar_thrown;
 		p->rdata = res_data[THROWN];
 		if(drs == Down) {

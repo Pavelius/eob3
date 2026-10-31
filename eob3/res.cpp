@@ -37,16 +37,27 @@ extern unsigned char bin_frgiant[];
 extern unsigned char bin_fsnake[];
 extern unsigned char bin_gargoyle[];
 extern unsigned char bin_gasspore[];
+extern unsigned char bin_golem[];
 extern unsigned char bin_green[];
 extern unsigned char bin_groan[];
+extern unsigned char bin_guard1[];
+extern unsigned char bin_guard2[];
+extern unsigned char bin_guardian[];
 extern unsigned char bin_hag[];
+extern unsigned char bin_hellhnd[];
 extern unsigned char bin_invent[];
 extern unsigned char bin_items[];
 extern unsigned char bin_itemgl[];
 extern unsigned char bin_itemgs[];
+extern unsigned char bin_kenku[];
 extern unsigned char bin_kobold[];
+extern unsigned char bin_kuotoa[];
 extern unsigned char bin_leech[];
 extern unsigned char bin_lich[];
+extern unsigned char bin_mantis[];
+extern unsigned char bin_mantis1[];
+extern unsigned char bin_medusa[];
+extern unsigned char bin_mindflay[];
 extern unsigned char bin_menu[];
 extern unsigned char bin_minotaur[];
 extern unsigned char bin_mist[];
@@ -56,21 +67,29 @@ extern unsigned char bin_overlays[];
 extern unsigned char bin_playfld[];
 extern unsigned char bin_portm[];
 extern unsigned char bin_pudding[];
+extern unsigned char bin_rust1[];
+extern unsigned char bin_salamndr[];
 extern unsigned char bin_scene[];
 extern unsigned char bin_scaladar[];
 extern unsigned char bin_shadow[];
+extern unsigned char bin_shindia[];
 extern unsigned char bin_shound[];
+extern unsigned char bin_skeleton[];
+extern unsigned char bin_skelwar[];
 extern unsigned char bin_slither[];
 extern unsigned char bin_snaga[];
+extern unsigned char bin_spider1[];
 extern unsigned char bin_steelsh[];
 extern unsigned char bin_thrown[];
 extern unsigned char bin_troll[];
 extern unsigned char bin_xspl[];
 extern unsigned char bin_ubeast[];
+extern unsigned char bin_wasp[];
 extern unsigned char bin_water[];
 extern unsigned char bin_weird[];
 extern unsigned char bin_wghost[];
 extern unsigned char bin_wight[];
+extern unsigned char bin_willowis[];
 extern unsigned char bin_wolf[];
 extern unsigned char bin_wyvern[];
 extern unsigned char bin_xanath1[];
@@ -82,10 +101,12 @@ sprite* res_data[LastRes + 1] = {
 	RS(blue), RS(brick), 0, RS(dung), RS(forest), RS(green), 0,
 	RS(ant), RS(aservant), RS(basilisk), RS(beholder), RS(bulette), RS(bonenaga), RS(chimera),
 	RS(cleric1), RS(cleric2), RS(cleric3), RS(cube), RS(disbeast), RS(drider1), RS(dragon), RS(dran), RS(drowelf),
-	RS(dwarf), RS(evilwiz), RS(feyr), RS(flind), RS(frgiant), RS(fsnake), RS(gargoyle), RS(gasspore),
-	RS(groan), RS(hag), RS(kobold), RS(leech), RS(lich), RS(minotaur),
-	RS(mist), RS(mound), RS(oslug), RS(pudding), RS(scaladar), RS(shadow), RS(shound), RS(slither), RS(snaga), RS(steelsh),
-	RS(troll), RS(ubeast), RS(water), RS(weird), RS(wghost), RS(wight), RS(wolf), RS(wyvern),
+	RS(dwarf), RS(evilwiz), RS(feyr), RS(flind), RS(frgiant), RS(fsnake), RS(gargoyle), RS(groan), RS(gasspore),
+	RS(golem), RS(guard1), RS(guard2), RS(guardian), RS(hag), RS(hellhnd), RS(kenku), RS(kobold), RS(kuotoa), RS(leech), RS(lich),
+	RS(mantis), RS(mantis1), RS(medusa), RS(mindflay), RS(minotaur), RS(mist), RS(mound), RS(oslug), RS(pudding),
+	RS(rust1), RS(salamndr), RS(scaladar), RS(shadow), RS(shindia), RS(shound), RS(skeleton), RS(skelwar),
+	RS(slither), RS(snaga), RS(spider1), RS(steelsh),
+	RS(troll), RS(ubeast), RS(water), RS(wasp), RS(weird), RS(wghost), RS(wight), RS(willowis), RS(wolf), RS(wyvern),
 	RS(xorn1), RS(zombie),
 	RS(border), RS(chargen), RS(chargenb), RS(compass), RS(invent),
 	RS(itemgs), RS(itemgl), RS(items), RS(overlays), RS(decors),

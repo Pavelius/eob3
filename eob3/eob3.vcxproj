@@ -226,7 +226,6 @@
     <ClCompile Include="bin_mantis.cpp" />
     <ClCompile Include="bin_mantis1.cpp" />
     <ClCompile Include="bin_medusa.cpp" />
-    <ClCompile Include="bin_mflayer.cpp" />
     <ClCompile Include="bin_mindflay.cpp" />
     <ClCompile Include="bin_minotaur.cpp" />
     <ClCompile Include="bin_mist.cpp" />

@@ -57,7 +57,7 @@ enum abilityn : unsigned char {
 };
 enum monstern : unsigned char {
 	NoMonster,
-	Kobold, Leech, Wolf,
+	Kobold, Leech, Skeleton, Wolf,
 	DwarfWarrior, Spider,
 	LastMonster = Spider
 };

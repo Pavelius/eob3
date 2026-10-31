@@ -59,8 +59,8 @@ enum monstern : unsigned char {
 	NoMonster,
 	Kobold, GoblinWarrior, Leech, Wolf,
 	DwarfWarrior, Spider,
-	Skeleton, Zombie,
-	LastMonster = Zombie
+	Skeleton, Zombie, Ghoul, Ghast, Wight,
+	LastMonster = Wight
 };
 enum reactions : unsigned char {
 	Indifferent, Friendly, Careful, Hostile,

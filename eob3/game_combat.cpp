@@ -291,8 +291,10 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 				defender->add(PoisonLevel, xrand(2, 8));
 		}
 		// RULE: paralized attack of ghouls and others
-		if(player->is(weapon, Paralizing) && !defender->roll(SaveVsParalization))
-			defender->add(Paralizing, xrand(3, 8));
+		if(player->is(weapon, ParalizeAttack)) {
+			if(!defender->roll(SaveVsParalization))
+				defender->add(Paralizing, xrand(1, 6) + player->level());
+		}
 		drain_attack(defender, weapon, DrainStrenght, DrainedStrenght, 0);
 		drain_attack(defender, weapon, DrainEnergy, DrainedLevels, -100);
 		// Poison attack

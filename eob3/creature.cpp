@@ -861,6 +861,8 @@ static int get_save_value(int save_index_value) {
 static void update_saves() {
 	for(auto i = SaveVsParalization; i <= SaveVsMagic; i = (abilityn)(i + 1))
 		player->add(i, get_save_value(save_index[i - SaveVsParalization]));
+	if(player->is(ResistCharm))
+		player->add(SaveVsParalization, 4);
 }
 
 static void update_thac0() {
@@ -1104,6 +1106,14 @@ static void apply_class_ability(creature* player, classn type, int level) {
 	default: break;
 	}
 	apply_spell_progression(player, type, level);
+}
+
+static void apply_race_ability() {
+	switch(player->race) {
+	case Elf:
+		player->basic.feats.set(ResistCharm);
+		break;
+	}
 }
 
 static void apply_class_ability() {
@@ -1620,6 +1630,7 @@ static void start_unique_equipment() {
 }
 
 void finish_character() {
+	apply_race_ability();
 	apply_class_ability();
 	update_player();
 	update_player_hits();

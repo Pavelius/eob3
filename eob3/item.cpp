@@ -102,13 +102,14 @@ itemi item_data[LastItem + 1] = {
 	{Usable, 0, {105, 21}, {}, {}}, // RedCircle
 	{RightHand, 0, {80}, {}, {}}, // ChillTouchHand
 	{RightHand, 0, {82}, {}, {0, 1, 5, FireDamage, {1, 4, 4}, {1, 6, 4}}}, // FlameBladeHand
-	{RightHand, 0, {}, {}, {}}, // Bite1d6
-	{RightHand, 0, {119}, {}, {}}, // Claws1d3
-	{RightHand, 0, {119}, {}, {}}, // Claws1d4
+	{Head, 0, {}, {}, {0, 1, 6, Piercing, {1, 6}}}, // Bite1d6
+	{Head, 0, {}, {}, {0, 1, 6, Piercing, {1, 8}}}, // Bite1d6
+	{RightHand, 0, {}, {}, {0, 2, 2, Slashing, {1, 3}}}, // Claws1d3
+	{RightHand, 0, {}, {}, {0, 2, 2, Slashing, {1, 4}}}, // Claws1d4
 	{RightHand, 0, {119}, {}, {}}, // Hag2d4
 	{RightHand, 0, {51}, {}, {}}, // Mandibules
-	{RightHand, 0, {83}, {}, {}}, // Slam1d4
-	{RightHand, 0, {83}, {}, {}}, // Slam1d8
+	{RightHand, 0, {}, {}, {0, 1, 4, Bludgeon, {1, 4}}}, // Slam1d4
+	{RightHand, 0, {}, {}, {0, 1, 4, Bludgeon, {1, 8}}}, // Slam1d8
 	{RightHand, 0, {51}, {}, {}}, // Sting1d8
 	{Quiver, 0, {16, 5}, {}, {}}, // Arrow
 	{Quiver, 0, {19, 2}, {}, {}}, // Stone

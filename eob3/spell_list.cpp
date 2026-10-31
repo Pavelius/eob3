@@ -378,4 +378,6 @@ spelli spell_data[LastSpell + 1] = {
 	{{0, 3}, Enemy, VampiricTouch},
 	// Level 4 Mage spells
 	{{0, 4}, Ally, ImprovedInvisibility},
+	// Special abilities
+	{{}, AllEnemy, TurnUndead},
 };

@@ -24,7 +24,8 @@ enum spelln : unsigned char {
 	Blinding, Blur, HypnoticPattern, Knock, Invisibility, LocateGems, MelfAcidArrow, MirrorImage, Scare, StrenghtSpell,
 	Blink, Clairaudience, DispellMagic, Fireball, Haste, HoldUndead, Suggestion, VampiricTouch,
 	ImprovedInvisibility,
-	LastSpell = ImprovedInvisibility,
+	TurnUndead,
+	LastSpell = TurnUndead,
 };
 
 enum spellfn : unsigned char {

@@ -57,9 +57,10 @@ enum abilityn : unsigned char {
 };
 enum monstern : unsigned char {
 	NoMonster,
-	Kobold, Leech, Skeleton, Wolf,
+	Kobold, Leech, Wolf,
 	DwarfWarrior, Spider,
-	LastMonster = Spider
+	Skeleton, Zombie,
+	LastMonster = Zombie
 };
 enum reactions : unsigned char {
 	Indifferent, Friendly, Careful, Hostile,

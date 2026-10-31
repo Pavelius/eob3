@@ -110,7 +110,7 @@ const char* feat_names[LastFeat + 1] = {
 	"Two-Handed", "Deadly", "Disease", "Poison", "Precise",
 	"Alertness", "Healing", "Extra-Healing",
 	"Drain Energy", "Drain Strength", "Dispel Evil", "Holyness", "Vampiric", "Vorpal",
-	"Immune to Illusion", "Immune to Normal Weapon", "Immune to Disease", "Immune to Fear",
+	"Immune to Illusion", "Immune to Normal Weapon", "Immune to Disease", "Immune to Poison", "Immune to Fear",
 	"Resist Fire", "Resist Cold", "Resist Bludgeon", "Resist Piercing", "Resist Slashing",
 	"Blinking", "Blinding", "Blur", "Displacing", "Invisibility", "Paralyze", "Regeneration", "Slow Poison",
 	"See Magic", "See Curse",

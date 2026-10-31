@@ -143,12 +143,13 @@ long choose_small_menu(const char* header, const char* cancel, int* columns);
 void choose_spells(const char* title, const char* cancel, int spell_type);
 void enter_dungeon(int level, celln location);
 void fix_animate();
-void fix_attack(const creature* attacker, wearn slot, int hits);
+void fix_attack(const creature* attacker, wearn slot, int hits, int enemy_distance);
 void fix_damage(const creature* target, int value);
 void fix_monster_attack(const creature* target);
 void fix_monster_attack_end(const creature* target);
 void fix_monster_damage(const creature* target);
 void fix_monster_damage_end();
+void fix_thrown(creature* attacker, wearn slot, int hits, int distance);
 void focus_input();
 void game_clear();
 void game_file(char* result, const char* folder, const char* name, const char* ext, int index = 0); // Result is minimum 512 chars.

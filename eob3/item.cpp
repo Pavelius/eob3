@@ -37,7 +37,7 @@ itemi item_data[LastItem + 1] = {
 	{RightHand, 20 * gp, {1, 0}, {}, {0, 1, 5, Slashing, {1, 8}, {1, 12}}, {}, SwordPower}, // Longsword
 	{RightHand, 15 * gp, {2, 0}, {}, {0, 1, 4, Slashing, {1, 6}, {1, 8}}, {}, SwordPower}, // ShortSword
 	{RightHand, 50 * gp, {42, 0}, {TwoHanded}, {0, 1, 10, Slashing, {1, 10}, {3, 6}}, {}, SwordPower}, // TwoHandedSword
-	{RightHand, 40 * gp, {10, 6}, {TwoHanded}, {0, 1, 7, Piercing, {1, 6}, {1, 6}, Arrow}, {}, RangedWeaponPower}, // Bow
+	{RightHand, 40 * gp, {10, 6, 13}, {TwoHanded}, {0, 1, 7, Piercing, {1, 6}, {1, 6}, Arrow}, {}, RangedWeaponPower}, // Bow
 	{RightHand, 20, {18, 4}, {TwoHanded}, {0, 1, 7, Bludgeon, {1, 4}, {1, 3}, Stone}, {}, RangedWeaponPower}, // Sling
 	{Body, 0, {32, 8}, {}, {}, {}}, // Robe
 	{Body, 0, {17, 8}, {}, {}, {}}, // RedCloack
@@ -111,12 +111,13 @@ itemi item_data[LastItem + 1] = {
 	{RightHand, 0, {}, {}, {0, 1, 4, Bludgeon, {1, 4}}}, // Slam1d4
 	{RightHand, 0, {}, {}, {0, 1, 4, Bludgeon, {1, 8}}}, // Slam1d8
 	{RightHand, 0, {51}, {}, {}}, // Sting1d8
-	{Quiver, 0, {16, 5}, {}, {}}, // Arrow
+	{Quiver, 0, {16, 5, 13}, {}, {}}, // Arrow
 	{Quiver, 0, {19, 2}, {}, {}}, // Stone
 	{Quiver, 0, {14, 0}, {}, {}}, // Dart
 };
 
 combati traps[LastTrap + 1] = {
+	{0, 1, 13, Piercing, {1, 6}, {1, 6}, Arrow},
 	{0, 1, 13, Piercing, {1, 6}, {1, 6}, Arrow},
 };
 

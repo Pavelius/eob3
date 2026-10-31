@@ -349,7 +349,7 @@ bool creature::equip(itemn item_type, featn power) {
 		if(!allow(v.type))
 			return false;
 	}
-	for(auto i = Head; i <= Quiver; i = (wearn)(i + 1)) {
+	for(auto i = Head; i <= LastBelt; i = (wearn)(i + 1)) {
 		if(wears[i])
 			continue;
 		if(!allow_wear(v.type, i))
@@ -1584,6 +1584,10 @@ static void start_equipment() {
 			player->equip(Shield);
 			player->equip(Helm);
 		}
+		if(player->is(Ranger)) {
+			player->equip(Bow);
+			player->equip(Arrow);
+		}
 		player->equip(LeatherArmor);
 		break;
 	case Cleric:
@@ -1621,7 +1625,7 @@ void start_quest_equipment() {
 static void start_unique_equipment() {
 	switch(player->type) {
 	case Theif:
-		if(player->race==Halfling)
+		if(player->race == Halfling)
 			player->addgear(RedRing, CommonItem, Invisible, 0);
 		break;
 	default:

@@ -534,6 +534,7 @@ static void show_sprites(resn id) {
 	case ITEMGL: show_sprites(ITEMGL, {32, 24}, {64, 32}); break;
 	case ITEMGS: show_sprites(ITEMGS, {16, 16}, {32, 32}); break;
 	case PORTM: show_sprites(PORTM, {0, 0}, {32, 32}); break;
+	case THROWN: show_sprites(id, {16, 16}, {32, 32}); break;
 	case SCENE: show_scenes(SCENE, {8,8}); break;
 	default: show_scenes(id, {88, 88}); break;
 	}

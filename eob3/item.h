@@ -86,8 +86,8 @@ enum shopn : unsigned char {
 	LastShop = MagicShop
 };
 enum trapn : unsigned char {
-	ArrowTrap,
-	LastTrap = ArrowTrap
+	ArrowTrap, SpearTrap,
+	LastTrap = SpearTrap
 };
 
 extern const char* item_names[LastItem + 1];

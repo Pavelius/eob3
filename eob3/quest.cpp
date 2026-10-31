@@ -34,6 +34,9 @@ static sitei flooded_collectors[] = {
 static sitei unknown_forest[] = {
 	{FOREST, Goblinoid, 1, {GoblinWarrior, Wolf}, NoMonster, Lair, NoItem, NoItem, 8, 0, 0, 4, 0, 0, 0, 0, ArrowTrap},
 };
+static sitei cursed_dungeon[] = {
+	{DUNG, Human, 1, {Skeleton, Zombie}, NoMonster, Lair, NoItem, NoItem, 8, 0, 0, 4, 0, 0, 0, 0, ArrowTrap},
+};
 
 questi quests[] = {
 	{10, ChaNord1, PicSewerEntrance, PicSewerEntrance, MusBinge, {Coins, 1000, Reputation, 5}, flooded_collectors, {KillAlmostAllMonsters, 3}},

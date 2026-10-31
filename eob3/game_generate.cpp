@@ -156,7 +156,7 @@ static void create(int index, racen race, gendern gender, classn type, alignment
 }
 
 static void party_random_generation() {
-	create(1, Human, Female, Fighter, NeutralGood);
+	create(1, Human, Female, Ranger, NeutralGood);
 	create(2, Elf, Female, MageTheif, ChaoticGood);
 	create(3, Dwarf, Male, Cleric, ChaoticGood);
 	player->addgear(PriestScroll, CommonItem, (featn)Aid, 1);

@@ -161,7 +161,7 @@ static void hit_equipment(creature* player) {
 	}
 }
 
-static void single_attack(creature* defender, wearn slot, int bonus, int multiplier) {
+static void single_attack(creature* defender, wearn slot, int bonus, int multiplier, int distance) {
 	if(!defender || defender->isdisabled())
 		return;
 	auto& weapon = player->wears[slot];
@@ -255,13 +255,14 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 			hits = -1; // Miss if blinked away
 	}
 	// Show result
+	fix_thrown(player, slot, hits, distance);
 	if(!player->is(ImmuneIllusion) && defender->get(DuplicateIllusion)) {
 		if(hits > 0)
 			defender->add(DuplicateIllusion, -1);
 		hits = -2; // RULE: Mirror image effect
 	} else
 		defender->damage(damage_type, hits, magic_bonus);
-	fix_attack(player, slot, hits);
+	fix_attack(player, slot, hits, distance);
 	if(hits > 0 && defender->hp > 0) {
 		// After all effects, if hit, do additional effects
 		if(is_critical_hit) {
@@ -309,7 +310,7 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 		weapon.damage(getnm(ItemBroken));
 }
 
-static void single_main_attack(wearn wear, creature* enemy, int bonus, int multiplier) {
+static void single_main_attack(wearn wear, creature* enemy, int bonus, int multiplier, int distance) {
 	auto number_attacks = player->wears[wear].geti().combat.number_attacks * 2;
 	if(!number_attacks)
 		number_attacks = 2;
@@ -320,10 +321,10 @@ static void single_main_attack(wearn wear, creature* enemy, int bonus, int multi
 		number_attacks += 1;
 	number_attacks /= 2;
 	while(number_attacks-- > 0)
-		single_attack(enemy, wear, bonus, multiplier);
+		single_attack(enemy, wear, bonus, multiplier, distance);
 }
 
-static void make_full_attack(creature* enemy, int bonus) {
+static void make_full_attack(creature* enemy, int bonus, int distance) {
 	if(!enemy)
 		return;
 	fix_monster_attack(player);
@@ -346,12 +347,12 @@ static void make_full_attack(creature* enemy, int bonus) {
 		}
 	}
 	if(wp2) {
-		single_main_attack(RightHand, enemy, bonus + player->gethitpenalty(-4), multiplier);
-		single_attack(enemy, LeftHand, bonus + player->gethitpenalty(-6), multiplier);
+		single_main_attack(RightHand, enemy, bonus + player->gethitpenalty(-4), multiplier, distance);
+		single_attack(enemy, LeftHand, bonus + player->gethitpenalty(-6), multiplier, distance);
 	} else
-		single_main_attack(RightHand, enemy, bonus, multiplier);
+		single_main_attack(RightHand, enemy, bonus, multiplier, distance);
 	if(wp3)
-		single_attack(enemy, Head, bonus, multiplier);
+		single_attack(enemy, Head, bonus, multiplier, distance);
 	fix_monster_attack_end(player);
 }
 
@@ -374,7 +375,7 @@ bool make_object_attack(pointc v) {
 		if(hits < toughness)
 			hits = -1;
 	}
-	fix_attack(player, slot, hits);
+	fix_attack(player, slot, hits, 0);
 	if(hits > 0)
 		loc->broke(v);
 	return true;
@@ -518,11 +519,11 @@ void make_attacks(bool melee_combat) {
 				auto left_side = (get_side(player->side, d) % 2) == 0;
 				if(player->islarge())
 					left_side = (rand() % 2);
-				make_full_attack(get_opponent(left_side, false), 0);
+				make_full_attack(get_opponent(left_side, false), 0, enemy_distance);
 			}
 		} else {
 			auto left_side = (player->side % 2) == 0;
-			make_full_attack(get_opponent(left_side, true), 0);
+			make_full_attack(get_opponent(left_side, true), 0, enemy_distance);
 		}
 		fix_animate();
 	}

@@ -76,16 +76,23 @@ void fix_damage(const creature* target, int value) {
 	}
 }
 
-// If hits == -1 the attack is missed
-void fix_attack(const creature* attacker, wearn slot, int hits) {
+void thrown_item(pointc v, directionn d, int avatar_thrown, int side, int distance);
+
+void fix_thrown(creature* attacker, wearn slot, int hits, int distance) {
 	auto pind = party_index(adventurers, attacker);
 	if(pind == -1)
 		return;
 	// If thrown animation fix attack
 	auto avatar_thrown = attacker->wears[slot].geti().avatar.thrown;
-	if(avatar_thrown) {
-		// thrown_item(party, Up, avatar_thrown, pind % 2, enemy_distance);
-	}
+	if(avatar_thrown != -1)
+		thrown_item(party.pos, Up, avatar_thrown, pind % 2, distance);
+}
+
+// If hits == -1 the attack is missed
+void fix_attack(const creature* attacker, wearn slot, int hits, int distance) {
+	auto pind = party_index(adventurers, attacker);
+	if(pind == -1)
+		return;
 	if(disp_weapon[pind][((slot == RightHand) ? 0 : 1)] != -1)
 		fix_animate();
 	disp_weapon[pind][((slot == RightHand) ? 0 : 1)] = hits;
@@ -1382,6 +1389,7 @@ static void common_input() {
 	case Ctrl + 'M': execute(show_sprites_command, CHIMERA); break;
 	case Ctrl + 'F': execute(show_scene_font, FONT6); break;
 	case Ctrl + 'G': execute(show_scene_font, FONT8); break;
+	case Ctrl + 'T': execute(show_sprites_command, THROWN); break;
 	case Ctrl + 'E': loc->set({20, 20}, CellExplored, 20); break;
 	}
 #endif

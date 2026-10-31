@@ -45,7 +45,7 @@ static bool auto_test() {
 
 int main(int argc, char* argv[]) {
 	// start_random_seed = getcputime();
-	start_random_seed = 14479921;
+	start_random_seed = 14421921;
 	srand(start_random_seed);
 	initialize_gui();
 	initialize_shapes();

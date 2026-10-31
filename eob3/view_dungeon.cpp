@@ -1106,7 +1106,7 @@ static int get_index_pos(pointc index) {
 }
 
 int thrown_side(int avatar_thrown, int side) {
-	if(avatar_thrown >= 7 && avatar_thrown <= 14)
+	if(avatar_thrown >= THROWX && avatar_thrown <= THROWX + 10 * 2)
 		return side;
 	return -1;
 }

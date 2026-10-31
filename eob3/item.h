@@ -91,7 +91,7 @@ enum trapn : unsigned char {
 };
 
 const int THROWS = 2;
-const int THROWX = 7;
+const int THROWX = 16;
 
 extern const char* item_names[LastItem + 1];
 extern const char* feat_names[LastFeat + 1];

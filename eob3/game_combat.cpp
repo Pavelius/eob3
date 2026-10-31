@@ -189,7 +189,6 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 	// Magical weapon stats
 	auto magic_bonus = get_magic(power);
 	bonus += attack.attack;
-	bonus += magic_bonus;
 	// Other stats
 	auto ac = defender->get(AC);
 	if(!isrange) {
@@ -257,12 +256,13 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 	}
 	// Show result
 	if(!player->is(ImmuneIllusion) && defender->get(DuplicateIllusion)) {
+		if(hits > 0)
+			defender->add(DuplicateIllusion, -1);
 		hits = -2; // RULE: Mirror image effect
-		defender->add(DuplicateIllusion, -1);
 	} else
 		defender->damage(damage_type, hits, magic_bonus);
 	fix_attack(player, slot, hits);
-	if(hits > 0) {
+	if(hits > 0 && defender->hp > 0) {
 		// After all effects, if hit, do additional effects
 		if(is_critical_hit) {
 			// RULE: Weapon with spell cast it when critical hit occurs
@@ -363,8 +363,8 @@ bool make_object_attack(pointc v) {
 	auto toughness = get_hit_points(object);
 	if(!toughness)
 		return false;
-	auto bonus = 0;
 	auto attack = player->getattack(slot, true);
+	auto bonus = attack.attack;
 	auto tohit = 20 - bonus - 10;
 	auto rolls = xrand(1, 20);
 	auto hits = -1;
@@ -460,8 +460,9 @@ void creature::damage(damagen type, int value, bool magic_wepon) {
 	switch(type) {
 	case HealthDamage: case IllDamage: break; // Absolutely silent damage
 	case PoisonDamage: consolen(getnm(FeelPoison), name()); break;
-	default: fix_damage(this, value); break;
+	default: fix_damage(this, value); break; // Must include full damage value, include damage to temporary hit points.
 	}
+	// After fix damage reduce by temporary hit points.
 	if(hp_aid > 0) {
 		if(hp_aid >= value) {
 			hp_aid -= value;

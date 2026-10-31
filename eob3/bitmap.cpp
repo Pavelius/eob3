@@ -65,6 +65,7 @@ void bitmap_write(const char* url, unsigned char* bits, int width, int height, i
 		bmi.color_used = 0;
 		break;
 	}
+	bmf.bits += bmi.color_used * sizeof(color);
 	if(!scanline)
 		scanline = color_scanline(bmi.width, bmi.bpp);
 	int wscn = color_scanline(bmi.width, bmi.bpp);

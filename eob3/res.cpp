@@ -2,21 +2,25 @@
 
 #define RS(T) (sprite*)bin_##T
 
+extern unsigned char bin_ankheg[];
 extern unsigned char bin_ant[];
 extern unsigned char bin_aservant[];
 extern unsigned char bin_basilisk[];
 extern unsigned char bin_beholder[];
 extern unsigned char bin_bulette[];
+extern unsigned char bin_carrion[];
 extern unsigned char bin_blue[];
 extern unsigned char bin_bonenaga[];
 extern unsigned char bin_border[];
 extern unsigned char bin_brick[];
+extern unsigned char bin_bugbear[];
 extern unsigned char bin_chargen[];
 extern unsigned char bin_chargenb[];
 extern unsigned char bin_chimera[];
 extern unsigned char bin_cleric1[];
 extern unsigned char bin_cleric2[];
 extern unsigned char bin_cleric3[];
+extern unsigned char bin_cocatric[];
 extern unsigned char bin_compass[];
 extern unsigned char bin_cube[];
 extern unsigned char bin_decors[];
@@ -27,6 +31,8 @@ extern unsigned char bin_drider1[];
 extern unsigned char bin_drowelf[];
 extern unsigned char bin_dung[];
 extern unsigned char bin_dwarf[];
+extern unsigned char bin_eelement[];
+extern unsigned char bin_ettin[];
 extern unsigned char bin_evilwiz[];
 extern unsigned char bin_feyr[];
 extern unsigned char bin_flind[];
@@ -37,6 +43,9 @@ extern unsigned char bin_frgiant[];
 extern unsigned char bin_fsnake[];
 extern unsigned char bin_gargoyle[];
 extern unsigned char bin_gasspore[];
+extern unsigned char bin_ghost[];
+extern unsigned char bin_ghoul[];
+extern unsigned char bin_goblin[];
 extern unsigned char bin_golem[];
 extern unsigned char bin_green[];
 extern unsigned char bin_groan[];
@@ -45,24 +54,30 @@ extern unsigned char bin_guard2[];
 extern unsigned char bin_guardian[];
 extern unsigned char bin_hag[];
 extern unsigned char bin_hellhnd[];
+extern unsigned char bin_hobgob[];
 extern unsigned char bin_invent[];
 extern unsigned char bin_items[];
 extern unsigned char bin_itemgl[];
 extern unsigned char bin_itemgs[];
 extern unsigned char bin_kenku[];
+extern unsigned char bin_knight[];
 extern unsigned char bin_kobold[];
 extern unsigned char bin_kuotoa[];
 extern unsigned char bin_leech[];
 extern unsigned char bin_lich[];
 extern unsigned char bin_mantis[];
 extern unsigned char bin_mantis1[];
+extern unsigned char bin_meazel[];
 extern unsigned char bin_medusa[];
 extern unsigned char bin_mindflay[];
 extern unsigned char bin_menu[];
 extern unsigned char bin_minotaur[];
 extern unsigned char bin_mist[];
 extern unsigned char bin_mound[];
+extern unsigned char bin_mummy[];
+extern unsigned char bin_orc[];
 extern unsigned char bin_oslug[];
+extern unsigned char bin_otyught[];
 extern unsigned char bin_overlays[];
 extern unsigned char bin_playfld[];
 extern unsigned char bin_portm[];
@@ -73,41 +88,50 @@ extern unsigned char bin_scene[];
 extern unsigned char bin_scaladar[];
 extern unsigned char bin_shadow[];
 extern unsigned char bin_shindia[];
+extern unsigned char bin_shghoul[];
 extern unsigned char bin_shound[];
 extern unsigned char bin_skeleton[];
 extern unsigned char bin_skelwar[];
 extern unsigned char bin_slither[];
 extern unsigned char bin_snaga[];
+extern unsigned char bin_spectre[];
 extern unsigned char bin_spider1[];
 extern unsigned char bin_steelsh[];
 extern unsigned char bin_thrown[];
+extern unsigned char bin_tlincall[];
+extern unsigned char bin_troglody[];
 extern unsigned char bin_troll[];
 extern unsigned char bin_xspl[];
 extern unsigned char bin_ubeast[];
+extern unsigned char bin_umberhul[];
 extern unsigned char bin_wasp[];
 extern unsigned char bin_water[];
 extern unsigned char bin_weird[];
+extern unsigned char bin_wererat[];
 extern unsigned char bin_wghost[];
 extern unsigned char bin_wight[];
 extern unsigned char bin_willowis[];
 extern unsigned char bin_wolf[];
+extern unsigned char bin_wraith2[];
 extern unsigned char bin_wyvern[];
 extern unsigned char bin_xanath1[];
+extern unsigned char bin_xill[];
 extern unsigned char bin_xorn1[];
 extern unsigned char bin_zombie[];
 
 sprite* res_data[LastRes + 1] = {
 	RS(font6), RS(font8),
 	RS(blue), RS(brick), 0, RS(dung), RS(forest), RS(green), 0,
-	RS(ant), RS(aservant), RS(basilisk), RS(beholder), RS(bulette), RS(bonenaga), RS(chimera),
-	RS(cleric1), RS(cleric2), RS(cleric3), RS(cube), RS(disbeast), RS(drider1), RS(dragon), RS(dran), RS(drowelf),
-	RS(dwarf), RS(evilwiz), RS(feyr), RS(flind), RS(frgiant), RS(fsnake), RS(gargoyle), RS(groan), RS(gasspore),
-	RS(golem), RS(guard1), RS(guard2), RS(guardian), RS(hag), RS(hellhnd), RS(kenku), RS(kobold), RS(kuotoa), RS(leech), RS(lich),
-	RS(mantis), RS(mantis1), RS(medusa), RS(mindflay), RS(minotaur), RS(mist), RS(mound), RS(oslug), RS(pudding),
-	RS(rust1), RS(salamndr), RS(scaladar), RS(shadow), RS(shindia), RS(shound), RS(skeleton), RS(skelwar),
-	RS(slither), RS(snaga), RS(spider1), RS(steelsh),
-	RS(troll), RS(ubeast), RS(water), RS(wasp), RS(weird), RS(wghost), RS(wight), RS(willowis), RS(wolf), RS(wyvern),
-	RS(xorn1), RS(zombie),
+	RS(ankheg), RS(ant), RS(aservant), RS(basilisk), RS(beholder), RS(bugbear), RS(bulette), RS(carrion), RS(bonenaga), RS(chimera),
+	RS(cleric1), RS(cleric2), RS(cleric3), RS(cocatric), RS(cube), RS(disbeast), RS(drider1), RS(dragon), RS(dran), RS(drowelf),
+	RS(dwarf), RS(eelement), RS(ettin), RS(evilwiz), RS(feyr), RS(flind), RS(frgiant), RS(fsnake), RS(gargoyle), RS(groan), RS(gasspore),
+	RS(ghost), RS(ghoul), RS(goblin), RS(golem), RS(guard1), RS(guard2), RS(guardian), RS(hag), RS(hellhnd), RS(hobgob), RS(kenku), RS(knight),
+	RS(kobold), RS(kuotoa), RS(leech), RS(lich), RS(mantis), RS(mantis1), RS(meazel), RS(medusa), RS(mindflay), RS(minotaur),
+	RS(mist), RS(mound), RS(mummy), RS(orc), RS(oslug), RS(otyught), RS(pudding),
+	RS(rust1), RS(salamndr), RS(scaladar), RS(shadow), RS(shghoul), RS(shindia), RS(shound), RS(skeleton), RS(skelwar),
+	RS(slither), RS(snaga), RS(spectre), RS(spider1), RS(steelsh), RS(tlincall), RS(troglody),
+	RS(troll), RS(ubeast), RS(umberhul), RS(water), RS(wasp), RS(weird), RS(wererat), RS(wghost), RS(wight), RS(willowis), RS(wolf), RS(wraith2), RS(wyvern),
+	RS(xill), RS(xorn1), RS(zombie),
 	RS(border), RS(chargen), RS(chargenb), RS(compass), RS(invent),
 	RS(itemgs), RS(itemgl), RS(items), RS(overlays), RS(decors),
 	RS(menu), RS(playfld), RS(portm), RS(scene), RS(thrown), RS(xspl),

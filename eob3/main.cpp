@@ -10,7 +10,6 @@
 #include "stringvar.h"
 
 void main_util();
-void dunghack_util();
 
 static void next_main_menu() {
 	auto result = choose_main_menu();
@@ -55,7 +54,6 @@ int main(int argc, char* argv[]) {
 	if(!auto_test())
 		return -1;
 	main_util();
-	dunghack_util();
 #endif
 	// music_enable = false;
 	sys_create_window(-1, -1, 320, 200, 0, 32);

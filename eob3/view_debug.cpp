@@ -485,11 +485,11 @@ static void show_sprites(resn id, point start, point size) {
 
 static resn next_res(resn id, bool prev) {
 	if(prev) {
-		if(id > ANT && id <= ZOMBIE)
+		if(id > FirstMonRes && id <= LastMonRes)
 			return (resn)(id - 1);
 		return id;
 	} else {
-		if(id >= ANT && id < ZOMBIE)
+		if(id >= FirstMonRes && id < LastMonRes)
 			return (resn)(id + 1);
 		return id;
 	}
@@ -501,6 +501,7 @@ static void show_scenes(resn id, point origin) {
 	pushfont push_font(0);
 	int focus = 0;
 	auto maximum = res_data[id]->count;
+	auto is_monster = (id >= FirstMonRes && id <= LastMonRes);
 	while(ismodal()) {
 		if(focus < 0)
 			focus = 0;
@@ -512,6 +513,10 @@ static void show_scenes(resn id, point origin) {
 		fore = colors::white;
 		setpos(5, 180, 280, 6 * 3);
 		texta(str("index %1i of %2i", focus, maximum), TextBold);
+		if(is_monster) {
+			caret = text_next;
+			texta(str("monster %1i of %2i", id - FirstMonRes, LastMonRes - FirstMonRes + 1), TextBold);
+		}
 		domodal();
 		switch(hkey) {
 		case KeyRight: focus++; break;

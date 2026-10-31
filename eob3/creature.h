@@ -118,6 +118,16 @@ struct racenc {
 	constexpr void set(racen v) { data |= (1 << v); }
 };
 
+struct statable {
+	char	abilities[LastAbility + 1] = {};
+	featc	feats = {};
+	constexpr statable() = default;
+	template<typename... Ts> constexpr statable(abilityn v, int n, Ts... args) : statable(args...) { add(v, n); }
+	template<typename... Ts> constexpr statable(featn v, Ts... args) : statable(args...) { add(v); }
+	constexpr void add(abilityn v, int n) { abilities[v] += n; }
+	constexpr void add(featn v) { feats.set(v); }
+};
+
 struct monsteri {
 	resn			res; // Main graphic resource
 	racen			race; // Main race of creature
@@ -126,15 +136,9 @@ struct monsteri {
 	int				exp; // Experience award for killing.
 	alignmentn		alignment; // Default behaivor. Evil is aggressive.
 	itemn			items[4]; // This items will be equip and some time looted.
-	featc			feats; // Special feats
-	unsigned char	abilitites[Charisma - Strenght + 1];
+	statable		basic; // Special feats
 };
 extern monsteri monsters[LastMonster + 1];
-
-struct statable {
-	char			abilities[LastAbility + 1];
-	featc			feats;
-};
 
 struct npci {
 	alignmentn		alignment;

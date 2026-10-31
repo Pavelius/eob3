@@ -993,11 +993,6 @@ static void apply_abilities(char* result, const char* source) {
 		result[Strenght + i] += source[i];
 }
 
-static void standart_ability() {
-	for(size_t i = 0; i < 6; i++)
-		player->basic.abilities[Strenght + i] = 10;
-}
-
 static void apply_minimal(char* result, classn type) {
 	auto n = get_class_count(type);
 	for(int i = 0; i < n; i++)
@@ -1219,7 +1214,7 @@ int creature::expaward() const {
 		r += 1;
 	if(is(Undead))
 		r++;
-	if(is(Paralizing))
+	if(is(ParalizeAttack))
 		r += 1;
 	if(basic.abilities[ResistMagic] >= 50)
 		r += 1;
@@ -1547,10 +1542,10 @@ bool party_add(creature** source, itemn item_type, int chance_magical, int chanc
 	return party_add(source, v);
 }
 
-static void set_monster_ability(const unsigned char* source) {
-	for(auto i = 0; i < 6; i++) {
-		if(source[i])
-			player->basic.abilities[Strenght + i] = source[i];
+static void set_monster_ability() {
+	for(auto i = Strenght; i <= Charisma; i = (abilityn)(i+1)) {
+		if(player->basic.abilities[i] == 0)
+			player->basic.abilities[i] = 10;
 	}
 }
 
@@ -1667,15 +1662,14 @@ void create_monster(monstern type) {
 	player->gender = Male;
 	player->type = Monster;
 	player->levels[0] = e.hd;
-	player->basic.abilities[AC] += (10 - e.ac);
-	player->basic.feats = e.feats;
+	player->basic = e.basic;
+	player->basic.abilities[AC] = (10 - e.ac);
+	set_monster_ability();
 	// Add items
 	for(auto item_type : e.items) {
 		if(item_type)
 			player->equip(item_type);
 	}
-	standart_ability();
-	set_monster_ability(e.abilitites);
 	reroll_monster_hits();
 	player->update();
 	finish_character();

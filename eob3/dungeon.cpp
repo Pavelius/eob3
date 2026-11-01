@@ -80,10 +80,7 @@ static celln get_wall(celln v) {
 }
 
 static celln get_broken(celln v) {
-	switch(v) {
-	case CellBarel: return CellBarelDestroyed;
-	default: return CellUnknown;
-	}
+	return cells[v].activate;
 }
 
 bool filter_corridor(pointc v) {

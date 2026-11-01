@@ -352,6 +352,9 @@
     <ClCompile Include="stringbuilder.cpp" />
     <ClCompile Include="stringset.cpp" />
     <ClCompile Include="stringvar.cpp" />
+    <ClCompile Include="testing.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="view_automap.cpp" />
     <ClCompile Include="view_controls.cpp" />
     <ClCompile Include="view_dungeon.cpp" />

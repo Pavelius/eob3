@@ -8,8 +8,8 @@
 static const char* getnm(speechn id) {
 	auto n = rand() % 3;
 	switch(n) {
-	case 1: return speech_names2[id] ? speech_names2[id] : speech_names1[id];
-	case 2: return speech_names3[id] ? speech_names3[id] : speech_names1[id];
+	case 1: return speech_names2[id];
+	case 2: return speech_names3[id];
 	default: return speech_names1[id];
 	}
 }

@@ -9,6 +9,7 @@
 #include "timer.h"
 #include "stringvar.h"
 
+bool auto_test();
 void main_util();
 
 static void next_main_menu() {
@@ -25,38 +26,6 @@ void main_menu() {
 	an.add((long)buttoncancel, getnm(ExitGame));
 	next_main_menu();
 }
-
-#ifdef _DEBUG
-
-static const char* test_items() {
-	if(item_data[Robe].wear != Body)
-		return "Robe is not Body wear.";
-	if(item_data[Helm].avatar.pack != 20)
-		return "Helm item wrong avatar. Maybe incorrect item index.";
-	return 0;
-}
-
-static const char* test_locale() {
-	if(!monster_names[LastMonster])
-		return "Monster names invalid.";
-	return 0;
-}
-
-static bool auto_test() {
-	typedef const char* (*fntest)();
-	static fntest source[] = {test_locale, test_items};
-	auto result = true;
-	for(auto proc : source) {
-		auto error = proc();
-		if(error) {
-			message_box(error);
-			result = false;
-		}
-	}
-	return result;
-}
-
-#endif
 
 int main(int argc, char* argv[]) {
 	// start_random_seed = getcputime();

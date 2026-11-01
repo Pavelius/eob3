@@ -190,7 +190,7 @@ const char* race_names[Halfling + 1] = {
 };
 const char* language_names[LastRace + 1] = {
 	"Common", "Dwarvish", "Elvish", "Elvish", "Halflings",
-	"Goblin", "Animal Speech"
+	"Goblin", "Demonic", "Animal"
 };
 const char* item_names[LastItem + 1] = {
 	"NoItem",
@@ -258,8 +258,8 @@ const char* speech_names1[LastSpeech + 1] = {
 const char* speech_names2[LastSpeech + 1] = {
 	"I don't use %1",
 	"I don't understand %-1 language",
-	0,
-	0,
+	"This is a %1",
+	"This is %1",
 	"Where's the item?",
 	"I can't equip %1 like that",
 	"It looks like a %1",
@@ -291,8 +291,8 @@ const char* speech_names2[LastSpeech + 1] = {
 const char* speech_names3[LastSpeech + 1] = {
 	"I don't need %1",
 	"I can't read %-1 shit!",
-	0,
-	0,
+	"This is a %1",
+	"This is %1",
 	"Nothing to examine",
 	"Wrong item place",
 	"It's probably a %1",
@@ -347,7 +347,7 @@ const char* quest_rumor[(LastQuest + 1) * 5] = {
 	"Something whispers in our minds beyond the old sluice. We do not go there. Even our bravest come back changed.",
 	"There are three marks on the lever. Turn it the wrong way, and the water will flood the leech nests. Or your tunnel. Heh-heh.",
 	"There are fresh scratches on the wall in the lower passage. They lead upward, as if something huge were crawling across the stone.",
-	"Can you hear the bell beneath the water? It is no bell. It is calling to whatever sleeps deep beneath the city."
+	"Can you hear the bell beneath the water? It is no bell. It is calling to whatever sleeps deep beneath the city.",
 	"The boss wears a whistle around his neck. When he blows it, the gray ones charge the road.",
 	"The big wolf is chained by the fire. As long as it howls, the pack won't stray far.",
 	"The human scout is locked in the old charcoal pit. He keeps shouting, and the boss is threatening to shut him up for good.",
@@ -379,7 +379,7 @@ const char* spell_names[LastSpell + 1] = {
 	"Armor", "Burning Hands", "Chill Touch", "Comprehend Languages", "Friends", "Identify", "Magic Missile", "Mending", "Shield", "Shocking Grasp",
 	"Blinding", "Blur", "Hypnotic Pattern", "Knock", "Invisibility", "Locate Gems", "Melf's Acid Arrow", "Mirror Image", "Scare", "Strenght",
 	"Blink", "Clairaudience", "Dispell Magic", "Fireball", "Haste", "Hold Undead", "Suggestion", "Vampiric Touch",
-	"Improved Invisibility",
+	"Improved Invisibility", "Turn Undead"
 };
 const char* name_names[50 * 4] = {
 	"Aldren", "Elira", "Garrick", "Mirena", "Taren", // Human names
@@ -447,7 +447,7 @@ stringset stringset_data[] = {
 	DSTEXT(speech_names3),
 	DSTEXT(wallmsg_names),
 	DSTEXT(quest_rumor),
-	DSTEXT(quest_speech),
+	// DSTEXT(quest_speech),
 	DSTEXT(spell_names),
 	DSTEXT(item_names),
 	DSTEXT(name_names),

@@ -35,7 +35,9 @@ static sitei unknown_forest[] = {
 	{FOREST, Goblinoid, 1, {GoblinWarrior, Wolf}, NoMonster, Lair, NoItem, NoItem, 8, 0, 0, 4, 0, 0, 0, 0, ArrowTrap},
 };
 static sitei cursed_dungeon[] = {
-	{DUNG, Human, 1, {Skeleton, Zombie}, NoMonster, Lair, NoItem, NoItem, 8, 0, 0, 4, 0, 0, 0, 0, ArrowTrap},
+	{DUNG, Human, 2, {Skeleton, Zombie}, NoMonster, Lair, NoItem, NoItem, 0, 0, 0, 0, 0, 0, 0, 0, SpearTrap},
+	{DUNG, Human, 2, {Zombie, Ghoul}, Wight, Lair, NoItem, NoItem, 0, 0, 0, 0, 0, 0, 0, 0, SpearTrap},
+	{DUNG, Human, 1, {Ghoul, Shadow}, Wight, Lair, NoItem, NoItem, 0, 0, 0, 0, 0, 0, 0, 0, SpearTrap},
 };
 
 questi quests[] = {

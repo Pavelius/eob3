@@ -1671,6 +1671,7 @@ void create_monster(monstern type) {
 			player->equip(item_type);
 	}
 	reroll_monster_hits();
+	create_monster_pallette();
 	player->update();
 	finish_character();
 }

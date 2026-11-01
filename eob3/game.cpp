@@ -1096,6 +1096,13 @@ void party_addexp(int value, alignmentn alignment) {
 	}
 }
 
+void party_addexp(int value, classn type) {
+	for(auto p : adventurers) {
+		if(p && !p->isdisabled() && p->is(type))
+			p->addexp(value);
+	}
+}
+
 void party_addexp_each(int value) {
 	for(auto p : adventurers) {
 		if(p)
@@ -1365,6 +1372,7 @@ static void monsters_leave() {
 }
 
 static void animal_hunt() {
+	party_addexp(100, Ranger);
 	monsters_kill();
 	dungeon_drop(Ration);
 }
@@ -2106,6 +2114,12 @@ static bool is_animal() {
 	return opponent->is(Animal);
 }
 
+static bool is_ranger_animal() {
+	if(!is_animal())
+		return false;
+	return party_is(adventurers, Ranger);
+}
+
 static bool is_personality() {
 	return !is_animal();
 }
@@ -2226,13 +2240,13 @@ static void bribe() {
 
 actioni talk_carefully[] = {
 	{Lie, {}, {}, lie, is_personality},
-	{CalmDown, {}, {Ranger}, monsters_leave, is_animal},
+	{CalmDown, {}, {}, monsters_leave, is_ranger_animal},
 	{Bribe, {}, {}, bribe, is_bribeable},
 	{Attack, {}, {}, attack_enemy},
 	{}};
 
 actioni talk_friendly[] = {
 	{Talk, {}, {}, talk_help, is_personality},
-	{Hunt, {}, {Ranger}, animal_hunt, is_animal},
+	{Hunt, {}, {}, animal_hunt, is_ranger_animal},
 	{Ambush, {}, {}, ambush_enemy},
 	{}};

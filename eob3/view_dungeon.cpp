@@ -990,18 +990,20 @@ void fix_monster_attack_end(const creature* target) {
 	}
 }
 
-void add_color_data(pma* result, const unsigned char* bitdata) {
-	palspr* epr = static_cast<palspr*>(result);
-	epr->name[0] = 'C';
-	epr->name[1] = 'O';
-	epr->name[2] = 'L';
-	epr->name[3] = 0;
-	epr->size = sizeof(*epr);
-	epr->count = 18;
+pma* add_color_data(const unsigned char* bitdata) {
+	static palspr epr;
+	memset(&epr, 0, sizeof(epr));
+	epr.name[0] = 'C';
+	epr.name[1] = 'O';
+	epr.name[2] = 'L';
+	epr.name[3] = 0;
+	epr.size = sizeof(epr);
+	epr.count = 18;
 	for(auto x = 0; x < 18; x++) {
 		for(auto y = 0; y < 16; y++)
-			epr->data[x][y] = bitdata[(200 - 16 + y) * 320 + (320 - 18 + x)];
+			epr.data[x][y] = bitdata[(200 - 16 + y) * 320 + (320 - 18 + x)];
 	}
+	return &epr;
 }
 
 void renderi::paint() const {

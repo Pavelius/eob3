@@ -82,7 +82,7 @@ const char* action_names[LastAction + 1] = {
 	"Repair Weapons",
 	"Make Camp", "Rest Party", "Scribe Scrolls", "Memorize Spells", "Pray for Spells",
 	"Game options", "Start a new game", "Load game", "Save game", "Exit game", "Preferences",
-	"Ambush", "Attack", "Calm Down", "Hunt", "Talk", "Lie", "Bribe",
+	"Ambush", "Attack", "Calm", "Hunt", "Talk", "Lie", "Bribe",
 	"You're too exhausted to try that again. Get some rest, or find something less demanding to do.",
 	"The locals are growing suspicious, and you've attracted too much attention. Better lay low until tomorrow.",
 	"Go Outside",
@@ -218,8 +218,9 @@ const char* item_names[LastItem + 1] = {
 };
 const char* monster_names[LastMonster + 1] = {
 	"Nobody",
-	"Kobold", "Leech", "Wolf",
+	"Kobold", "Goblin", "Leech", "Wolf",
 	"Dwarf", "Spider",
+	"Skeleton", "Zombie", "Ghoul", "Ghast", "Shadow", "Wight",
 };
 const char* speech_names1[LastSpeech + 1] = {
 	"How can I use %1?",

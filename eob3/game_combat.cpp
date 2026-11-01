@@ -310,8 +310,8 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 			if(!defender->roll(SaveVsParalization))
 				defender->add(Paralizing, xrand(1, 6) + player->level());
 		}
-		drain_attack(defender, weapon, DrainStrenght, DrainedStrenght, 0);
-		drain_attack(defender, weapon, DrainEnergy, DrainedLevels, -100);
+		drain_attack(defender, weapon, DrainStrenghtAttack, DrainedStrenght, 0);
+		drain_attack(defender, weapon, DrainEnergyAttack, DrainedLevels, -100);
 		// Poison attack
 		//if(wi.is(OfPoison))
 		// defender->add(Poison, Instant, SaveNegate);

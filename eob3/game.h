@@ -12,8 +12,9 @@ const int scry = 15 * 8;
 struct creature;
 struct item;
 struct sprite;
-struct pointca;
 struct perferencei;
+struct pma;
+struct pointca;
 
 typedef void(*fnevent)(); // Callback function of any command executing
 typedef void(*fnoutput)(const char* format); // Callback function of string out
@@ -21,6 +22,7 @@ typedef void(*fnapaint)(int index, long value, const char* text, unsigned key);
 
 enum alignmentn : unsigned char;
 enum celln : unsigned char;
+enum classn : unsigned char;
 enum itemn : unsigned char;
 enum variablen : unsigned char;
 enum questn : unsigned char;
@@ -109,6 +111,8 @@ extern int last_number;
 extern unsigned long current_cpu_time;
 extern bool need_update_animation;
 
+pma* add_color_data(const unsigned char* bitdata); // Export color data
+
 int get_hour();
 int getv(variablen v);
 int roll_dice(int d);
@@ -170,6 +174,7 @@ void paint_dungeon();
 void paint_main_menu();
 void party_addexp(int value);
 void party_addexp(int value, alignmentn alignment);
+void party_addexp(int value, classn type);
 void party_addexp_each(int value);
 void party_addexp_good(int value);
 void party_addexp_evil(int value);

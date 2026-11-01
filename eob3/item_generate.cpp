@@ -127,7 +127,7 @@ static spelln random_mage_spell(int level) {
 
 static bool can_be_mundane(featn power) {
 	switch(power) {
-	case SwordPower: case MeleeWeaponPower:
+	case SwordPower: case MeleeWeaponPower: case RangedWeaponPower: case ArmorPowers:
 		return true;
 	default:
 		return false;

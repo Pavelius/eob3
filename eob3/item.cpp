@@ -107,7 +107,7 @@ itemi item_data[LastItem + 1] = {
 	{Head, 0, {}, {}, {0, 1, 6, Piercing, {1, 8}}}, // Bite1d8
 	{RightHand, 0, {}, {}, {0, 2, 2, Slashing, {1, 3}}}, // Claws1d3
 	{RightHand, 0, {}, {}, {0, 2, 2, Slashing, {1, 4}}}, // Claws1d4
-	{RightHand, 0, {119}, {}, {}}, // Hag2d4
+	{RightHand, 0, {119}, {}, {0, 1, 4, Bludgeon, {2, 4}}}, // Hag2d4
 	{RightHand, 0, {51}, {}, {}}, // Mandibules
 	{RightHand, 0, {}, {}, {0, 1, 4, Bludgeon, {1, 4}}}, // Slam1d4
 	{RightHand, 0, {}, {}, {0, 1, 4, Bludgeon, {1, 8}}}, // Slam1d8

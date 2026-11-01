@@ -102,8 +102,9 @@ itemi item_data[LastItem + 1] = {
 	{Usable, 0, {105, 21}, {}, {}}, // RedCircle
 	{RightHand, 0, {80}, {}, {}}, // ChillTouchHand
 	{RightHand, 0, {82}, {}, {0, 1, 5, FireDamage, {1, 4, 4}, {1, 6, 4}}}, // FlameBladeHand
+	{Head, 0, {}, {}, {0, 1, 4, Piercing, {1, 4}}}, // Bite1d4
 	{Head, 0, {}, {}, {0, 1, 6, Piercing, {1, 6}}}, // Bite1d6
-	{Head, 0, {}, {}, {0, 1, 6, Piercing, {1, 8}}}, // Bite1d6
+	{Head, 0, {}, {}, {0, 1, 6, Piercing, {1, 8}}}, // Bite1d8
 	{RightHand, 0, {}, {}, {0, 2, 2, Slashing, {1, 3}}}, // Claws1d3
 	{RightHand, 0, {}, {}, {0, 2, 2, Slashing, {1, 4}}}, // Claws1d4
 	{RightHand, 0, {119}, {}, {}}, // Hag2d4

@@ -213,7 +213,7 @@ const char* item_names[LastItem + 1] = {
 	"Stone Dagger", "Stone Gem", "Stone Amulet", "Stone Sphere", "Stone Holy Symbol", "Stone Crest",
 	"Circle",
 	"Chill Touch", "Flame Blade",
-	"Bite", "Bite", "Claws", "Claws", "Hag", "Mandibles", "Slam", "Slam", "Sting",
+	"Bite", "Bite", "Bite", "Claws", "Claws", "Hag", "Mandibles", "Slam", "Slam", "Sting",
 	"Arrows", "Stones", "Darts"
 };
 const char* monster_names[LastMonster + 1] = {

@@ -65,7 +65,7 @@ enum itemn : unsigned char {
 	StoneDagger, StoneGem, StoneAmulet, StoneSphere, StoneHolySymbol, StoneCrest,
 	RedCircle,
 	ChillTouchHand, FlameBladeHand,
-	Bite1d6, Bite1d8, Claws1d3, Claws1d4, Hag2d4, Mandibules, Slam1d4, Slam1d8, Sting1d8,
+	Bite1d4, Bite1d6, Bite1d8, Claws1d3, Claws1d4, Hag2d4, Mandibules, Slam1d4, Slam1d8, Sting1d8,
 	Arrow, Stone, Dart,
 	LastItem = Dart,
 	RandomItem, RandomSmallItem, RandomWeapon,

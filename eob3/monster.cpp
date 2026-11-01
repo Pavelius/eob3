@@ -6,7 +6,7 @@ monsteri monsters[LastMonster + 1] = {
 	{KOBOLD, Goblinoid, {}, 0, 7, 7, LawfulEvil, {Dagger}},
 	{GOBLIN, Goblinoid, {}, 1, 8, 15, LawfulEvil, {Axe, Shield}, {Constitution, 6}},
 	{LEECH, Animal, {}, 4, 9, 175, TrueNeutral, {}, {DiseaseAttack, VampiricAttack}},
-	{WOLF, Animal, {}, 3, 7, 65, TrueNeutral, {Claws1d4}, {Strenght, 16}},
+	{WOLF, Animal, {}, 3, 7, 65, TrueNeutral, {Bite1d6}, {Strenght, 16}},
 	{DWARF, Dwarf, {}, 1, 7, 30, LawfulGood, {BattleAxe, DwarvenHelm}, {}},
 	{SPIDER1, Animal, {}, 3, 7, 30, LawfulGood, {Bite1d6}, {PoisonAttack}},
 	{SKELETON, Human, {}, 1, 7, 65, TrueNeutral, {Axe, Helm}, {ResistPiercing, ResistSlashing, ImmuneDisease, ImmunePoison, Undead}},

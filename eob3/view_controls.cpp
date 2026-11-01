@@ -1528,6 +1528,7 @@ static void character_input() {
 	case 'D': execute(player_drop_item); break;
 	case 'U': execute(player_use_item); break;
 	case 'Q': execute(examine_item); break;
+	case 'B': sfx_use_item(Longsword); break;
 	case KeyEscape:
 		if(!character_view_proc)
 			break;

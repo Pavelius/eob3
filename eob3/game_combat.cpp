@@ -6,6 +6,7 @@
 #include "dungeon.h"
 #include "game.h"
 #include "math.h"
+#include "sound.h"
 #include "rand.h"
 
 static adat<creature*, 16> combatants;
@@ -161,6 +162,18 @@ static void hit_equipment(creature* player) {
 	}
 }
 
+void sfx_use_item(itemn type) {
+	switch(type) {
+	case Longsword: case ShortSword: case TwoHandedSword:
+		// sound_play(9, 35, 100); // Arrow
+		break;
+	default:
+		//sound_play(9, 38, 100);
+		//sound_play(9, 41, 110);
+		break;
+	}
+}
+
 static void single_attack(creature* defender, wearn slot, int bonus, int multiplier, int distance) {
 	if(!defender || defender->isdisabled())
 		return;
@@ -256,6 +269,7 @@ static void single_attack(creature* defender, wearn slot, int bonus, int multipl
 	}
 	// Show result
 	fix_thrown(player, slot, hits, distance);
+	sfx_use_item(weapon.type);
 	if(!player->is(ImmuneIllusion) && defender->get(DuplicateIllusion)) {
 		if(hits > 0)
 			defender->add(DuplicateIllusion, -1);

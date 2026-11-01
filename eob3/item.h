@@ -223,3 +223,4 @@ bool is_identified(const void* object);
 void normalize_shop(shopn id);
 void refresh_shop(shopn id);
 void refresh_shops();
+void sfx_use_item(itemn type);

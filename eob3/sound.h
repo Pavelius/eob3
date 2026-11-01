@@ -16,3 +16,4 @@ extern soundn current_music;
 void music_setvolume(short unsigned v);
 void music_stop();
 void music_update();
+void sound_play(unsigned char chanel, unsigned char note, unsigned char velocity);

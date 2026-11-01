@@ -193,7 +193,7 @@ class midiplayer {
 
 	void reset() {
 		for(auto channel = 0; channel < 16; ++channel) {
-			midiOutShortMsg( (HMIDIOUT)stream, 0xB0 | channel | (123 << 8)); // CC 123 - All Notes Off
+			midiOutShortMsg((HMIDIOUT)stream, 0xB0 | channel | (123 << 8)); // CC 123 - All Notes Off
 			midiOutShortMsg((HMIDIOUT)stream, 0xB0 | channel | (121 << 8)); // CC 121 - Reset All Controllers
 		}
 	}
@@ -266,6 +266,10 @@ public:
 		midiOutSetVolume(stream, v);
 	}
 
+	void play(unsigned char channel, unsigned char note, unsigned char velocity) {
+		midiOutShortMsg(stream, (0x90 + channel) | (note << 8) | (velocity << 16));
+	}
+
 };
 
 #else
@@ -311,4 +315,10 @@ void music_stop() {
 
 void music_setvolume(short unsigned v) {
 	music.setvolume(v);
+}
+
+void sound_play(unsigned char chanel, unsigned char note, unsigned char velocity) {
+	if(!sound_enable)
+		return;
+	music.play(chanel, note, velocity);
 }

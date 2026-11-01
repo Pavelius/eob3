@@ -24,11 +24,17 @@ static void natural_healing(int bonus) {
 	}
 }
 
+static void refresh_ability_spells() {
+	if(player->get(Cleric) >= 1)
+		player->spells[TurnUndead] += 4; // Each cleric have 3 turn undead spells.
+}
+
 static void refresh_memorized_spells() {
 	auto ps = get_spellbook(player);
 	if(!ps)
 		return;
 	memcpy(player->spells, ps->spells, sizeof(player->spells));
+	refresh_ability_spells();
 }
 
 static void satisfy() {

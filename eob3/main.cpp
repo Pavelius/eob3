@@ -28,18 +28,32 @@ void main_menu() {
 
 #ifdef _DEBUG
 
-static bool test_items() {
+static const char* test_items() {
 	if(item_data[Robe].wear != Body)
-		return false;
+		return "Robe is not Body wear.";
 	if(item_data[Helm].avatar.pack != 20)
-		return false;
-	return true;
+		return "Helm item wrong avatar. Maybe incorrect item index.";
+	return 0;
+}
+
+static const char* test_locale() {
+	if(!monster_names[LastMonster])
+		return "Monster names invalid.";
+	return 0;
 }
 
 static bool auto_test() {
-	if(!test_items())
-		return false;
-	return true;
+	typedef const char* (*fntest)();
+	static fntest source[] = {test_locale, test_items};
+	auto result = true;
+	for(auto proc : source) {
+		auto error = proc();
+		if(error) {
+			message_box(error);
+			result = false;
+		}
+	}
+	return result;
 }
 
 #endif
@@ -51,15 +65,15 @@ int main(int argc, char* argv[]) {
 	initialize_gui();
 	initialize_shapes();
 	stringbuilder::custom = stringbuilder_custom;
+	music_enable = false;
+	sys_create_window(-1, -1, 320, 200, 0, 32);
+	sys_caption("Eye of beholder (remake)");
+	sys_timer(100);
 #ifdef _DEBUG
 	if(!auto_test())
 		return -1;
 	main_util();
 #endif
-	music_enable = false;
-	sys_create_window(-1, -1, 320, 200, 0, 32);
-	sys_caption("Eye of beholder (remake)");
-	sys_timer(100);
 	next_scene(main_menu);
 	start_scene();
 	return 0;

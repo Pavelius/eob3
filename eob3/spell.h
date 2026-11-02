@@ -30,7 +30,7 @@ enum spelln : unsigned char {
 
 enum spellfn : unsigned char {
 	You, Ally, AllAlly,
-	Enemy, AllEnemy,
+	Enemy, AllEnemy, AllEnemySpecial,
 	AllAllyItems, YouItem,
 	SummonWeapon, ShowArea,
 };
@@ -44,6 +44,7 @@ struct spelli {
 	color			lighting; // Active color border hilite
 	fnevent			apply; // When active use this 
 	fnevent			stopping; // When active spell stop
+	fnevent			prepare; // Before casting spell
 	const char*		name() const { return spell_names[index]; }
 };
 extern spelli spell_data[LastSpell + 1];
@@ -85,6 +86,7 @@ struct spella : spellbook {
 extern spella spellbooks[32]; // Size exacly equal lenghtof(characters)
 
 extern creature* caster;
+extern bool spell_failed;
 
 spella* get_spellbook(const creature* target);
 

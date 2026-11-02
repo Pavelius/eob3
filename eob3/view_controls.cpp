@@ -1382,6 +1382,7 @@ static void common_input() {
 	switch(hkey) {
 	case Ctrl + 'A': execute(show_sprites_command, PORTM); break;
 	case Ctrl + 'S': execute(show_sprites_command, ITEMGS); break;
+	case Ctrl + 'C': execute(show_sprites_command, CHARGENB); break;
 	case Ctrl + 'D': show_dungeon_images(); break;
 	case Ctrl + 'I': execute(show_sprites_command, ITEMS); break;
 	case Ctrl + 'L': execute(show_sprites_command, ITEMGL); break;

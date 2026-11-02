@@ -8,11 +8,13 @@
 #include "game.h"
 #include "math.h"
 #include "pushvalue.h"
+#include "rand.h"
 #include "spell.h"
 
 spella			spellbooks[32];
 boost			boosts[256];
 unsigned char	boost_count;
+bool			spell_failed;
 
 static collection<creature> creatures;
 static collection<item> items;
@@ -173,6 +175,8 @@ bool creature::castprepare(spelln spell, int level) {
 		if(get_thrown(spell) == -1)
 			return add_monsters(spell, level, 0);
 		return add_monsters(spell, level, 3);
+	case AllEnemySpecial:
+		return add_monsters(spell, level, 0);
 	case AllAllyItems: return add_party_items(spell, level);
 	case ShowArea: return loc && loc->apply(spell, level);
 	default: return false;
@@ -259,10 +263,15 @@ bool creature::cast(spelln spell, int level, bool show_fail, bool show_cast, boo
 	default:
 		break;
 	}
-	if(show_cast)
-		consolen(getnm(PlayerCastSpell), name(), spell_names[spell]);
-	apply_targets(spell, level);
-	add_spell_experience(spell);
+	spell_failed = false;
+	if(spell_data[spell].prepare)
+		spell_data[spell].prepare();
+	if(!spell_failed) {
+		if(show_cast)
+			consolen(getnm(PlayerCastSpell), name(), spell_names[spell]);
+		apply_targets(spell, level);
+		add_spell_experience(spell);
+	}
 	if(expand_slots && spell < lengthof(spells)) {
 		if(spells[spell] > 0)
 			spells[spell]--;
@@ -443,4 +452,59 @@ void spella::addspells(int level, int count) {
 	// Add random
 	for(auto v : spells.records<spelln>())
 		set(v);
+}
+
+static void monsters_kill() {
+	for(auto p : creatures) {
+		if(p && *p)
+			p->kill();
+	}
+}
+
+static void monsters_flee() {
+}
+
+static void turning_monsters() {
+	// -2 value is automatic dispell and additional 2d4 turned (actually no work)
+	// -1 value is automatic dispell
+	// 0 value is automatic turned
+	// 30 value is impossible turned
+	static char chances[][14] = {
+		{10, 7, 4, 0, 0, -1, -1, -2, -2, -2, -2, -2, -2, -2}, // 0 HD
+		{13, 10, 7, 4, 0, 0, -1, -1, -2, -2, -2, -2, -2, -2}, // 1 HD
+		{16, 13, 10, 7, 4, 0, 0, -1, -1, -2, -2, -2, -2, -2}, // 2 HD
+		{19, 16, 13, 10, 7, 4, 0, 0, -1, -1, -2, -2, -2, -2}, // 3 HD
+		{19, 16, 13, 10, 7, 4, 0, 0, -1, -1, -2, -2, -2, -2}, // 4 HD
+		{20, 19, 16, 13, 10, 7, 4, 0, 0, -1, -1, -2, -2, -2}, // 5 HD
+		{30, 20, 19, 16, 13, 10, 7, 4, 0, 0, -1, -1, -2, -2}, // 6 HD
+		{30, 30, 20, 19, 16, 13, 10, 7, 4, 0, 0, -1, -1, -2}, // 7 HD
+		{30, 30, 30, 20, 19, 16, 13, 10, 7, 4, 0, 0, -1, -1}, // 8 HD
+		{30, 30, 30, 30, 20, 19, 16, 13, 10, 7, 4, 0, 0, -1}, // 9 HD
+		{30, 30, 30, 30, 30, 20, 19, 16, 13, 10, 7, 4, 0, 0}, // 10 HD
+		{30, 30, 30, 30, 30, 30, 20, 19, 16, 13, 10, 7, 4, 0}, // 11 HD
+	};
+	auto pl = caster->level() + caster->get(TurnUndeadBonus);
+	if(pl <= 0)
+		return;
+	if(pl > 14)
+		pl = 14;
+	for(auto p : creatures) {
+		if(!p || p->isdisabled())
+			continue;
+		auto hd = p->level();
+		if(hd > 11)
+			hd = 11;
+		auto chance = chances[hd][pl - 1];
+		if(chance < 0) {
+			consolen("%1 turned %2 to dust", player->name(), p->name());
+			monsters_kill();
+		} else if(chance > 20) {
+			consolen("%1 can't turn this creatures!", player->name());
+		} else if(chance == 0 || (d20() >= chance)) {
+			consolen("%1 turned %2 to flee", player->name(), p->name());
+			monsters_flee();
+		} else
+			consolen("%1 fail to turn %2", player->name(), p->name());
+		break;
+	}
 }

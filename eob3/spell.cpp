@@ -464,7 +464,7 @@ static void monsters_kill() {
 static void monsters_flee() {
 }
 
-static void turning_monsters() {
+static void turn_monsters(const char* name, int level) {
 	// -2 value is automatic dispell and additional 2d4 turned (actually no work)
 	// -1 value is automatic dispell
 	// 0 value is automatic turned
@@ -483,28 +483,27 @@ static void turning_monsters() {
 		{30, 30, 30, 30, 30, 20, 19, 16, 13, 10, 7, 4, 0, 0}, // 10 HD
 		{30, 30, 30, 30, 30, 30, 20, 19, 16, 13, 10, 7, 4, 0}, // 11 HD
 	};
-	auto pl = caster->level() + caster->get(TurnUndeadBonus);
-	if(pl <= 0)
+	if(level <= 0)
 		return;
-	if(pl > 14)
-		pl = 14;
+	if(level > 14)
+		level = 14;
 	for(auto p : creatures) {
 		if(!p || p->isdisabled())
 			continue;
 		auto hd = p->level();
 		if(hd > 11)
 			hd = 11;
-		auto chance = chances[hd][pl - 1];
+		auto chance = chances[hd][level - 1];
 		if(chance < 0) {
-			consolen("%1 turned %2 to dust", player->name(), p->name());
+			consolen("%1 turned %2 to dust", name, p->name());
 			monsters_kill();
 		} else if(chance > 20) {
-			consolen("%1 can't turn this creatures!", player->name());
+			consolen("%1 can't turn this creatures!", name);
 		} else if(chance == 0 || (d20() >= chance)) {
-			consolen("%1 turned %2 to flee", player->name(), p->name());
+			consolen("%1 turned %2 to flee", name, p->name());
 			monsters_flee();
 		} else
-			consolen("%1 fail to turn %2", player->name(), p->name());
+			consolen("%1 fail to turn %2", name, p->name());
 		break;
 	}
 }

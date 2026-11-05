@@ -96,9 +96,6 @@ enum picturen : unsigned char {
 	TavGreatPickPockets, TavDrinkContest, TavNudeNightRide, TavStoryPriest, TavHobbit,
 	LastPicture = TavHobbit
 };
-enum effectn : unsigned char {
-	FireEffect, LightingEffect, SpellEffect, BlurEffect,
-};
 
 extern const char* direction_names[Down + 1];
 extern const char* message_names[LastMessage + 1];

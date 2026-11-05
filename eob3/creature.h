@@ -80,6 +80,9 @@ enum speechn : unsigned char {
 	CanReturnToBase, NoQuickItems,
 	LastSpeech = NoQuickItems
 };
+enum effectn : unsigned char {
+	FireEffect, LightingEffect, SpellEffect, BlurEffect,
+};
 
 extern const char* ability_names[Experience + 1];
 extern const char* ability_short[Experience + 1];
@@ -196,6 +199,7 @@ struct creature : npci, posable, statable, wearable, spellbook {
 	void damage(damagen type, int value, abilityn save, bool save_negate);
 	bool drink(featn v, bool run);
 	bool equip(itemn item_type, featn power = NoPower);
+	void fix(effectn value) const;
 	void heal(int hits);
 	bool is(abilityn v) const { return abilities[v] > 0; }
 	bool is(alignmentn v) const { return alignment == v; }

@@ -32,6 +32,7 @@ static point cancel_position;
 static bool hilite_player;
 static int disp_damage[6];
 static int disp_weapon[6][2];
+static effecti disp_effect[6];
 static unsigned animate_counter;
 static int* table_columns;
 static slice<unsigned char> character_avatars;
@@ -636,12 +637,6 @@ static void paint_avatar_border() {
 	}
 }
 
-/*static void paint_shadow() {
-	auto push = alpha; alpha = 64;
-	rectf();
-	alpha = push;
-}*/
-
 static void apply_switch_page() {
 	player = (creature*)hparam;
 	set_focus_by_player();
@@ -666,6 +661,7 @@ static void paint_avatar() {
 	paint_avatar_stats();
 	auto pind = party_index(adventurers, player);
 	if(pind != -1) {
+		disp_effect[pind].paint(current_cpu_time);
 		auto v = disp_damage[pind];
 		if(v) {
 			auto push_caret = caret;
@@ -677,7 +673,6 @@ static void paint_avatar() {
 	caret = push.caret;
 	button({caret.x, caret.y, caret.x + 31, caret.y + 32});
 	fire(apply_switch_page, (long)player);
-	paint_effects(player, current_cpu_time);
 }
 
 static void greenbar(int vc, int vm) {
@@ -1255,7 +1250,6 @@ static void paint_large_menu() {
 	paint_background(PLAYFLD);
 	paint_compass_no_input(party.d);
 	paint_avatars_no_focus_hilite();
-	update_effects(current_cpu_time);
 	paint_console();
 	if(!loc)
 		paint_party_status();
@@ -1268,7 +1262,6 @@ static void paint_large_menu_no_hilite() {
 	paint_background(PLAYFLD);
 	paint_compass_no_input(party.d);
 	paint_avatars_no_focus();
-	update_effects(current_cpu_time);
 	paint_console();
 	if(!loc)
 		paint_party_status();
@@ -1285,7 +1278,6 @@ static void paint_small_menu() {
 	else
 		paint_picture();
 	paint_avatars_no_focus_hilite();
-	update_effects(current_cpu_time);
 	paint_console();
 	paint_small_menu({68, 124}, 110, 50);
 	setpos(71, 126, 109, 6 + 1);
@@ -1381,20 +1373,64 @@ static void make_screenshoot() {
 	bitmap_write(temp, canvas->ptr(0, 0), canvas->width, canvas->height, canvas->bpp, canvas->scanline, 0);
 }
 
-static void show_test() {
-	// add_effect({185, 11}, LightingEffect, current_cpu_time + 40, 300);
-	switch(2) {
-	case 1:
-		add_effect(player, {16 * 0, 16 * 0}, SpellEffect, current_cpu_time, effect_duration * 5);
-		add_effect(player, {16 * 1, 16 * 0}, SpellEffect, current_cpu_time + effect_duration / 2, effect_duration * 5);
-		add_effect(player, {16 * 0, 16 * 1}, SpellEffect, current_cpu_time + (effect_duration * 3) / 2, effect_duration * 5);
-		add_effect(player, {16 * 1, 16 * 1}, SpellEffect, current_cpu_time + effect_duration / 3, effect_duration * 5);
-		break;
-	case 2:
-		add_effect(player, {0, 16 * 0}, BlurEffect, current_cpu_time, effect_duration * 4);
-		add_effect(player, {0, 16 * 1}, BlurEffect, current_cpu_time, effect_duration * 4);
-		break;
+static bool paint_animated(resn res, short unsigned frame, short unsigned count, unsigned tick) {
+	auto v = tick / effect_duration;
+	if(v >= count)
+		return false;
+	image(caret.x, caret.y, res_data[res], frame + v, 0);
+	return true;
+}
+
+static bool paint_ciclic(resn res, short unsigned frame, short unsigned count, unsigned tick) {
+	auto index = (tick / effect_duration) % (count * 2);
+	auto v = index;
+	if(v >= count)
+		v = count * 2 - index - 1;
+	if(v >= count)
+		return false;
+	image(caret.x, caret.y, res_data[res], frame + v, 0);
+	return true;
+}
+
+static bool paint_quad(resn res, short unsigned frame, short unsigned count, unsigned tick) {
+	auto push_caret = caret;
+	const auto m = effect_duration * 5;
+	const auto d1 = effect_duration / 2;
+	const auto d2 = (3 * effect_duration) / 2;
+	const auto d3 = effect_duration / 3;
+	if(tick < m)
+		paint_ciclic(res, frame, count, tick);
+	if(tick >= d1 && tick < d1 + m) {
+		caret = push_caret + point(16, 16);
+		paint_ciclic(res, frame, count, tick - d1);
 	}
+	if(tick >= d2 && tick < d2 + m) {
+		caret = push_caret + point(0, 16);
+		paint_ciclic(res, frame, count, tick - d2);
+	}
+	if(tick >= d3) {
+		caret = push_caret + point(16, 0);
+		paint_ciclic(res, frame, count, tick - d3);
+	}
+	caret = push_caret;
+	return tick < effect_duration * 7;
+}
+
+void creature::fix(effectn v) const {
+	auto i = party_index(adventurers, this);
+	if(i == -1)
+		return;
+	auto p = disp_effect + i;
+	switch(v) {
+	case FireEffect: p->set(paint_animated, SPELLS, 0, 2, current_cpu_time + 20); break;
+	case LightingEffect: p->set(paint_animated, SPELLS, 2, 2, current_cpu_time + 20); break;
+	case SpellEffect: p->set(paint_quad, SPELLS, 4, 3, current_cpu_time + 20); break;
+	default: break;
+	}
+}
+
+static void show_test() {
+	player->fix(SpellEffect);
 }
 
 static void common_input() {
@@ -1602,7 +1638,6 @@ static void paint_adventure() {
 	animation_update();
 	paint_dungeon();
 	paint_party_sheets();
-	update_effects(current_cpu_time);
 	update_focus_player();
 	adventure_input();
 	console_scroll(3000);
@@ -1630,7 +1665,6 @@ static void paint_city_no_input() {
 
 static void paint_city() {
 	paint_city_no_input();
-	update_effects(current_cpu_time);
 	focus_input();
 	alternate_focus_input();
 	character_input();
@@ -2244,25 +2278,6 @@ void message_box(const char* format) {
 	an.add(1, getnm(OK), 0, KeyEnter);
 	choose_dialog(format, 8);
 }
-
-static void paint_animated(resn res, short unsigned frame, short unsigned count, unsigned tick) {
-	image(caret.x, caret.y, res_data[res], frame + (tick / effect_duration) % count, 0);
-}
-
-static void paint_ciclic(resn res, short unsigned frame, short unsigned count, unsigned tick) {
-	auto index = (tick / effect_duration) % (count * 2);
-	auto v = index;
-	if(v >= count)
-		v = count * 2 - index - 1;
-	image(caret.x, caret.y, res_data[res], frame + v, 0);
-}
-
-effecti effects[] = {
-	{paint_animated, SPELLS, 0, 2}, // FireEffect
-	{paint_animated, SPELLS, 2, 2}, // LightingEffect
-	{paint_ciclic, SPELLS, 4, 3}, // SpellEffect
-	{paint_animated, SPELLS, 7, 4}, // BlurEffect
-};
 
 static void main_beforemodal() {
 	current_cpu_time = getcputime();

@@ -483,10 +483,6 @@ int party_index(creature** source, const creature* player) {
 	return -1;
 }
 
-/*static void addv(abilityn v, int n) {
-	n += player->abilities[v];
-}*/
-
 static void addv(abilityn v, int n, int minimum, int maximum) {
 	n += player->abilities[v];
 	if(n < minimum)

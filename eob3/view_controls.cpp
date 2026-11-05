@@ -11,6 +11,7 @@
 #include "sound.h"
 #include "stream.h"
 #include "timer.h"
+#include "view_effect.h"
 #include "view_focus.h"
 
 namespace colors {
@@ -42,6 +43,7 @@ unsigned long current_cpu_time;
 static void paint_inventory();
 
 const int animation_step = 300;
+const int effect_duration = 200;
 
 pushfont::pushfont(int size) : pushfont() {
 	::font = res_data[size ? FONT8 : FONT6];
@@ -672,8 +674,10 @@ static void paint_avatar() {
 			caret = push_caret;
 		}
 	}
-	button({push.caret.x, push.caret.y, push.caret.x + 31, push.caret.y + 32});
+	caret = push.caret;
+	button({caret.x, caret.y, caret.x + 31, caret.y + 32});
 	fire(apply_switch_page, (long)player);
+	paint_effects(player, current_cpu_time);
 }
 
 static void greenbar(int vc, int vm) {
@@ -1251,6 +1255,7 @@ static void paint_large_menu() {
 	paint_background(PLAYFLD);
 	paint_compass_no_input(party.d);
 	paint_avatars_no_focus_hilite();
+	update_effects(current_cpu_time);
 	paint_console();
 	if(!loc)
 		paint_party_status();
@@ -1263,6 +1268,7 @@ static void paint_large_menu_no_hilite() {
 	paint_background(PLAYFLD);
 	paint_compass_no_input(party.d);
 	paint_avatars_no_focus();
+	update_effects(current_cpu_time);
 	paint_console();
 	if(!loc)
 		paint_party_status();
@@ -1279,6 +1285,7 @@ static void paint_small_menu() {
 	else
 		paint_picture();
 	paint_avatars_no_focus_hilite();
+	update_effects(current_cpu_time);
 	paint_console();
 	paint_small_menu({68, 124}, 110, 50);
 	setpos(71, 126, 109, 6 + 1);
@@ -1374,6 +1381,22 @@ static void make_screenshoot() {
 	bitmap_write(temp, canvas->ptr(0, 0), canvas->width, canvas->height, canvas->bpp, canvas->scanline, 0);
 }
 
+static void show_test() {
+	// add_effect({185, 11}, LightingEffect, current_cpu_time + 40, 300);
+	switch(2) {
+	case 1:
+		add_effect(player, {16 * 0, 16 * 0}, SpellEffect, current_cpu_time, effect_duration * 5);
+		add_effect(player, {16 * 1, 16 * 0}, SpellEffect, current_cpu_time + effect_duration / 2, effect_duration * 5);
+		add_effect(player, {16 * 0, 16 * 1}, SpellEffect, current_cpu_time + (effect_duration * 3) / 2, effect_duration * 5);
+		add_effect(player, {16 * 1, 16 * 1}, SpellEffect, current_cpu_time + effect_duration / 3, effect_duration * 5);
+		break;
+	case 2:
+		add_effect(player, {0, 16 * 0}, BlurEffect, current_cpu_time, effect_duration * 4);
+		add_effect(player, {0, 16 * 1}, BlurEffect, current_cpu_time, effect_duration * 4);
+		break;
+	}
+}
+
 static void common_input() {
 	switch(hkey) {
 	case Ctrl + F5: execute(make_screenshoot); break;
@@ -1381,17 +1404,19 @@ static void common_input() {
 #ifdef _DEBUG
 	switch(hkey) {
 	case Ctrl + 'A': execute(show_sprites_command, PORTM); break;
-	case Ctrl + 'S': execute(show_sprites_command, ITEMGS); break;
 	case Ctrl + 'C': execute(show_sprites_command, CHARGENB); break;
 	case Ctrl + 'D': show_dungeon_images(); break;
-	case Ctrl + 'I': execute(show_sprites_command, ITEMS); break;
-	case Ctrl + 'L': execute(show_sprites_command, ITEMGL); break;
-	case Ctrl + 'P': execute(show_sprites_command, SCENE); break;
-	case Ctrl + 'M': execute(show_sprites_command, CHIMERA); break;
+	case Ctrl + 'E': loc->set({20, 20}, CellExplored, 20); break;
 	case Ctrl + 'F': execute(show_scene_font, FONT6); break;
 	case Ctrl + 'G': execute(show_scene_font, FONT8); break;
+	case Ctrl + 'H': execute(show_sprites_command, SPELLS); break;
+	case Ctrl + 'I': execute(show_sprites_command, ITEMS); break;
+	case Ctrl + 'L': execute(show_sprites_command, ITEMGL); break;
+	case Ctrl + 'M': execute(show_sprites_command, CHIMERA); break;
+	case Ctrl + 'P': execute(show_sprites_command, SCENE); break;
+	case Ctrl + 'S': execute(show_sprites_command, ITEMGS); break;
 	case Ctrl + 'T': execute(show_sprites_command, THROWN); break;
-	case Ctrl + 'E': loc->set({20, 20}, CellExplored, 20); break;
+	case Ctrl + 'X': execute(show_sprites_command, XSPL); break;
 	}
 #endif
 }
@@ -1563,6 +1588,7 @@ static void adventure_input() {
 	case 'E': execute(cast_spell); break;
 	case 'V': execute(show_dungeon_automap); break;
 	case 'R': change_quick_item(); break;
+	case Ctrl + 'W': execute(show_test); break;
 	default:
 		alternate_focus_input();
 		character_input();
@@ -1576,6 +1602,7 @@ static void paint_adventure() {
 	animation_update();
 	paint_dungeon();
 	paint_party_sheets();
+	update_effects(current_cpu_time);
 	update_focus_player();
 	adventure_input();
 	console_scroll(3000);
@@ -1603,6 +1630,7 @@ static void paint_city_no_input() {
 
 static void paint_city() {
 	paint_city_no_input();
+	update_effects(current_cpu_time);
 	focus_input();
 	alternate_focus_input();
 	character_input();
@@ -2216,6 +2244,25 @@ void message_box(const char* format) {
 	an.add(1, getnm(OK), 0, KeyEnter);
 	choose_dialog(format, 8);
 }
+
+static void paint_animated(resn res, short unsigned frame, short unsigned count, unsigned tick) {
+	image(caret.x, caret.y, res_data[res], frame + (tick / effect_duration) % count, 0);
+}
+
+static void paint_ciclic(resn res, short unsigned frame, short unsigned count, unsigned tick) {
+	auto index = (tick / effect_duration) % (count * 2);
+	auto v = index;
+	if(v >= count)
+		v = count * 2 - index - 1;
+	image(caret.x, caret.y, res_data[res], frame + v, 0);
+}
+
+effecti effects[] = {
+	{paint_animated, SPELLS, 0, 2}, // FireEffect
+	{paint_animated, SPELLS, 2, 2}, // LightingEffect
+	{paint_ciclic, SPELLS, 4, 3}, // SpellEffect
+	{paint_animated, SPELLS, 7, 4}, // BlurEffect
+};
 
 static void main_beforemodal() {
 	current_cpu_time = getcputime();

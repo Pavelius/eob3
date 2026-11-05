@@ -174,6 +174,7 @@
     <ClInclude Include="stringset.h" />
     <ClInclude Include="stringvar.h" />
     <ClInclude Include="timer.h" />
+    <ClInclude Include="view_effect.h" />
     <ClInclude Include="view_focus.h" />
     <ClInclude Include="win.h" />
   </ItemGroup>
@@ -260,6 +261,7 @@
     <ClCompile Include="bin_slither.cpp" />
     <ClCompile Include="bin_snaga.cpp" />
     <ClCompile Include="bin_spectre.cpp" />
+    <ClCompile Include="bin_spells.cpp" />
     <ClCompile Include="bin_spider1.cpp" />
     <ClCompile Include="bin_steelsh.cpp" />
     <ClCompile Include="bin_thrown.cpp" />
@@ -358,6 +360,7 @@
     <ClCompile Include="view_automap.cpp" />
     <ClCompile Include="view_controls.cpp" />
     <ClCompile Include="view_dungeon.cpp" />
+    <ClCompile Include="view_effect.cpp" />
     <ClCompile Include="view_focus.cpp" />
     <ClCompile Include="view_debug.cpp" />
     <ClCompile Include="win_draw.cpp" />

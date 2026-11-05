@@ -76,7 +76,7 @@ enum resn : unsigned char {
 	TROLL, UBEAST, UMBERHUL, WATER, WASP, WEIRD, WERERAT, WGHOST, WIGHT, WILLOWIS, WOLF, WRAITH2, WYVERN, XILL, XORN, ZOMBIE,
 	BORDER, CHARGEN, CHARGENB, COMPASS, INVENT,
 	ITEMGS, ITEMGL, ITEMS, OVERLAYS, DECORS,
-	MENU, PLAYFLD, PORTM, SCENE, THROWN, XSPL,
+	MENU, PLAYFLD, PORTM, SCENE, THROWN, SPELLS, XSPL,
 	LastRes = XSPL, FirstMonRes = ANKHEG, LastMonRes = ZOMBIE,
 };
 enum soundn : unsigned char {
@@ -95,6 +95,9 @@ enum picturen : unsigned char {
 	PicShop, PicSellItems, PicTriumph, PicSewerEntrance, PicCarousingEnd,
 	TavGreatPickPockets, TavDrinkContest, TavNudeNightRide, TavStoryPriest, TavHobbit,
 	LastPicture = TavHobbit
+};
+enum effectn : unsigned char {
+	FireEffect, LightingEffect, SpellEffect, BlurEffect,
 };
 
 extern const char* direction_names[Down + 1];

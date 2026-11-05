@@ -95,6 +95,7 @@ extern unsigned char bin_skelwar[];
 extern unsigned char bin_slither[];
 extern unsigned char bin_snaga[];
 extern unsigned char bin_spectre[];
+extern unsigned char bin_spells[];
 extern unsigned char bin_spider1[];
 extern unsigned char bin_steelsh[];
 extern unsigned char bin_thrown[];
@@ -134,5 +135,5 @@ sprite* res_data[LastRes + 1] = {
 	RS(xill), RS(xorn1), RS(zombie),
 	RS(border), RS(chargen), RS(chargenb), RS(compass), RS(invent),
 	RS(itemgs), RS(itemgl), RS(items), RS(overlays), RS(decors),
-	RS(menu), RS(playfld), RS(portm), RS(scene), RS(thrown), RS(xspl),
+	RS(menu), RS(playfld), RS(portm), RS(scene), RS(thrown), RS(spells), RS(xspl),
 };

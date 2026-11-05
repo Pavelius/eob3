@@ -530,13 +530,15 @@ static void show_scenes(resn id, point origin) {
 
 static void show_sprites(resn id) {
 	switch(id) {
-	case ITEMS: show_sprites(ITEMS, {8, 8}, {16, 16}); break;
-	case ITEMGL: show_sprites(ITEMGL, {32, 24}, {64, 32}); break;
-	case ITEMGS: show_sprites(ITEMGS, {16, 16}, {32, 32}); break;
-	case PORTM: show_sprites(PORTM, {0, 0}, {32, 32}); break;
+	case ITEMS: show_sprites(id, {8, 8}, {16, 16}); break;
+	case ITEMGL: show_sprites(id, {32, 24}, {64, 32}); break;
+	case ITEMGS: show_sprites(id, {16, 16}, {32, 32}); break;
+	case PORTM: show_sprites(id, {0, 0}, {32, 32}); break;
 	case THROWN: show_sprites(id, {16, 16}, {32, 32}); break;
-	case SCENE: show_scenes(SCENE, {8, 8}); break;
-	case CHARGENB: show_sprites(CHARGENB, {8, 8}, {48, 24}); break;
+	case SCENE: show_scenes(id, {8, 8}); break;
+	case CHARGENB: show_sprites(id, {8, 8}, {48, 24}); break;
+	case SPELLS: show_sprites(id, {0, 0}, {16, 16}); break;
+	case XSPL: show_sprites(id, {0, 0}, {32, 32}); break;
 	default: show_scenes(id, {88, 88}); break;
 	}
 }

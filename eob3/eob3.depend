@@ -33,31 +33,31 @@
 
 1790665249 /home/user-331/projects/eob3/eob3/rand.h
 
-1790665249 source:/home/user-331/projects/eob3/eob3/bin_border.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_border.cpp
 
-1790665249 source:/home/user-331/projects/eob3/eob3/bin_chargen.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_chargen.cpp
 
-1790665249 source:/home/user-331/projects/eob3/eob3/bin_chargenb.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_chargenb.cpp
 
-1790665249 source:/home/user-331/projects/eob3/eob3/bin_font6.cpp
+1793030077 source:/home/user-331/projects/eob3/eob3/bin_font6.cpp
 
 1790665249 source:/home/user-331/projects/eob3/eob3/bin_font8.cpp
 
-1790665249 source:/home/user-331/projects/eob3/eob3/bin_invent.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_invent.cpp
 
 1790665249 source:/home/user-331/projects/eob3/eob3/appearance.cpp
 	"action.h"
 	"creature.h"
 	"game.h"
 
-1792418186 /home/user-331/projects/eob3/eob3/action.h
+1793030077 /home/user-331/projects/eob3/eob3/action.h
 
-1792418107 /home/user-331/projects/eob3/eob3/creature.h
+1793886253 /home/user-331/projects/eob3/eob3/creature.h
 	"item.h"
 	"pointc.h"
 	"spell.h"
 
-1792418107 /home/user-331/projects/eob3/eob3/item.h
+1793886253 /home/user-331/projects/eob3/eob3/item.h
 	"dice.h"
 	"slice.h"
 
@@ -65,7 +65,7 @@
 
 1792419927 /home/user-331/projects/eob3/eob3/pointc.h
 
-1792418107 /home/user-331/projects/eob3/eob3/game.h
+1793886253 /home/user-331/projects/eob3/eob3/game.h
 
 1790665249 source:/home/user-331/projects/eob3/eob3/bin_itemgl.cpp
 
@@ -75,15 +75,15 @@
 
 1790665249 source:/home/user-331/projects/eob3/eob3/bin_menu.cpp
 
-1790665249 source:/home/user-331/projects/eob3/eob3/bin_playfld.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_playfld.cpp
 
-1790665249 source:/home/user-331/projects/eob3/eob3/bin_portm.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_portm.cpp
 
-1792418107 source:/home/user-331/projects/eob3/eob3/bin_scene.cpp
+1793030077 source:/home/user-331/projects/eob3/eob3/bin_scene.cpp
 
-1790665249 source:/home/user-331/projects/eob3/eob3/bin_xspl.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_xspl.cpp
 
-1790942449 source:/home/user-331/projects/eob3/eob3/bitmap.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/bitmap.cpp
 	"color.h"
 	"math.h"
 	"stream.h"
@@ -118,7 +118,7 @@
 
 1790665249 /home/user-331/projects/eob3/eob3/timer.h
 
-1792418995 source:/home/user-331/projects/eob3/eob3/creature.cpp
+1793887108 source:/home/user-331/projects/eob3/eob3/creature.cpp
 	"creature.h"
 	"console.h"
 	"game.h"
@@ -130,14 +130,14 @@
 	"dice.h"
 	"rand.h"
 
-1790923977 source:/home/user-331/projects/eob3/eob3/draw.cpp
+1793886296 source:/home/user-331/projects/eob3/eob3/draw.cpp
 	"draw.h"
 	"math.h"
 
 1790665249 source:/home/user-331/projects/eob3/eob3/draw_text.cpp
 	"draw.h"
 
-1792418227 source:/home/user-331/projects/eob3/eob3/dungeon.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/dungeon.cpp
 	"assign.h"
 	"dungeon.h"
 	"game.h"
@@ -145,7 +145,7 @@
 
 1790665249 /home/user-331/projects/eob3/eob3/assign.h
 
-1792063300 /home/user-331/projects/eob3/eob3/dungeon.h
+1793030077 /home/user-331/projects/eob3/eob3/dungeon.h
 	"creature.h"
 	"pointca.h"
 
@@ -153,7 +153,7 @@
 	"adat.h"
 	"pointc.h"
 
-1792419842 source:/home/user-331/projects/eob3/eob3/dungeon_generate.cpp
+1792420076 source:/home/user-331/projects/eob3/eob3/dungeon_generate.cpp
 	"assign.h"
 	"answers.h"
 	"dungeon.h"
@@ -169,7 +169,7 @@
 1790665249 /home/user-331/projects/eob3/eob3/shape.h
 	"pointc.h"
 
-1792419808 source:/home/user-331/projects/eob3/eob3/game.cpp
+1793886287 source:/home/user-331/projects/eob3/eob3/game.cpp
 	"action.h"
 	"answers.h"
 	"console.h"
@@ -187,7 +187,7 @@
 	"stringbuilder.h"
 	"view_focus.h"
 
-1791873470 /home/user-331/projects/eob3/eob3/sound.h
+1793886253 /home/user-331/projects/eob3/eob3/sound.h
 
 1790665249 /home/user-331/projects/eob3/eob3/stringvar.h
 	"stringbuilder.h"
@@ -213,7 +213,7 @@
 	"pushvalue.h"
 	"sound.h"
 
-1792419325 source:/home/user-331/projects/eob3/eob3/game_generate.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/game_generate.cpp
 	"action.h"
 	"answers.h"
 	"console.h"
@@ -226,7 +226,7 @@
 	"rand.h"
 	"sound.h"
 
-1792419784 source:/home/user-331/projects/eob3/eob3/information.cpp
+1793030077 source:/home/user-331/projects/eob3/eob3/information.cpp
 	"action.h"
 	"creature.h"
 	"dice.h"
@@ -235,29 +235,31 @@
 	"rand.h"
 	"quest.h"
 	"stringbuilder.h"
+	"stringset.h"
 	"stringvar.h"
 
-1792418107 source:/home/user-331/projects/eob3/eob3/item.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/item.cpp
 	"console.h"
 	"game.h"
 	"item.h"
 	"spell.h"
 	"stringbuilder.h"
 
-1792418107 source:/home/user-331/projects/eob3/eob3/item_generate.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/item_generate.cpp
 	"item.h"
 	"game.h"
 	"rand.h"
 	"spell.h"
 
-1792418373 source:/home/user-331/projects/eob3/eob3/locale_en.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/locale_en.cpp
 	"action.h"
 	"creature.h"
 	"dungeon.h"
 	"game.h"
 	"quest.h"
+	"stringset.h"
 
-1791791544 /home/user-331/projects/eob3/eob3/quest.h
+1793887244 /home/user-331/projects/eob3/eob3/quest.h
 	"action.h"
 	"dungeon.h"
 	"slice.h"
@@ -268,11 +270,11 @@
 1790665249 source:/home/user-331/projects/eob3/eob3/mid_music.cpp
 	"sound.h"
 
-1792130597 source:/home/user-331/projects/eob3/eob3/monster.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/monster.cpp
 	"game.h"
 	"creature.h"
 
-1792063300 source:/home/user-331/projects/eob3/eob3/npc.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/npc.cpp
 	"console.h"
 	"creature.h"
 	"dungeon.h"
@@ -288,7 +290,7 @@
 	"math.h"
 	"pointc.h"
 
-1791873470 source:/home/user-331/projects/eob3/eob3/midi.cpp
+1793886342 source:/home/user-331/projects/eob3/eob3/midi.cpp
 	"sound.h"
 	"slice.h"
 	"win.h"
@@ -300,12 +302,12 @@
 	"pointca.h"
 	"rand.h"
 
-1792418789 source:/home/user-331/projects/eob3/eob3/quest.cpp
+1793887262 source:/home/user-331/projects/eob3/eob3/quest.cpp
 	"dungeon.h"
 	"game.h"
 	"quest.h"
 
-1791180051 source:/home/user-331/projects/eob3/eob3/res.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/res.cpp
 	"game.h"
 
 1790665249 source:/home/user-331/projects/eob3/eob3/scale.cpp
@@ -317,7 +319,7 @@
 	"stringbuilder.h"
 	"math.h"
 
-1790665249 source:/home/user-331/projects/eob3/eob3/stream.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/stream.cpp
 	"stream.h"
 	"stringbuilder.h"
 	"slice.h"
@@ -337,7 +339,7 @@
 
 1790665249 /home/user-331/projects/eob3/eob3/view_focus.h
 
-1790943134 source:/home/user-331/projects/eob3/eob3/view_debug.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/view_debug.cpp
 	"draw.h"
 	"stream.h"
 	"math.h"
@@ -346,7 +348,7 @@
 	"stringbuilder.h"
 	"view_focus.h"
 
-1792418107 source:/home/user-331/projects/eob3/eob3/view_controls.cpp
+1793887130 source:/home/user-331/projects/eob3/eob3/view_controls.cpp
 	"answers.h"
 	"console.h"
 	"creature.h"
@@ -360,6 +362,7 @@
 	"sound.h"
 	"stream.h"
 	"timer.h"
+	"view_effect.h"
 	"view_focus.h"
 
 1788442202 source:/home/user-331/projects/eob3/eob3/nix_time.cpp
@@ -393,13 +396,13 @@
 
 1790923977 source:/home/user-331/projects/eob3/eob3/bin_green.cpp
 
-1790923977 source:/home/user-331/projects/eob3/eob3/bin_kobold.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_kobold.cpp
 
-1790923977 source:/home/user-331/projects/eob3/eob3/bin_leech.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_leech.cpp
 
 1790923977 source:/home/user-331/projects/eob3/eob3/bin_overlays.cpp
 
-1792418258 source:/home/user-331/projects/eob3/eob3/game_carousing.cpp
+1793030077 source:/home/user-331/projects/eob3/eob3/game_carousing.cpp
 	"action.h"
 	"answers.h"
 	"creature.h"
@@ -415,7 +418,7 @@
 	"point.h"
 	"draw.h"
 
-1791546121 source:/home/user-331/projects/eob3/eob3/view_dungeon.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/view_dungeon.cpp
 	"creature.h"
 	"draw.h"
 	"dungeon.h"
@@ -438,7 +441,7 @@
 	"draw.h"
 	"stringbuilder.h"
 
-1791873470 /home/user-331/projects/eob3/eob3/spell.h
+1793886253 /home/user-331/projects/eob3/eob3/spell.h
 	"color.h"
 
 1791180051 /home/user-331/projects/eob3/eob3/perference.h
@@ -452,7 +455,7 @@
 1791180051 /home/user-331/projects/eob3/eob3/collectiona.h
 	"adat.h"
 
-1792418107 source:/home/user-331/projects/eob3/eob3/spell_list.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/spell_list.cpp
 	"action.h"
 	"creature.h"
 	"dungeon.h"
@@ -460,7 +463,7 @@
 	"math.h"
 	"spell.h"
 
-1792418815 source:/home/user-331/projects/eob3/eob3/spell.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/spell.cpp
 	"action.h"
 	"answers.h"
 	"collection.h"
@@ -471,9 +474,10 @@
 	"game.h"
 	"math.h"
 	"pushvalue.h"
+	"rand.h"
 	"spell.h"
 
-1792418107 source:/home/user-331/projects/eob3/eob3/game_actions.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/game_actions.cpp
 	"action.h"
 	"answers.h"
 	"console.h"
@@ -481,10 +485,11 @@
 	"game.h"
 	"perference.h"
 	"pushvalue.h"
+	"quest.h"
 	"rand.h"
 	"sound.h"
 
-1792418107 source:/home/user-331/projects/eob3/eob3/game_combat.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/game_combat.cpp
 	"action.h"
 	"adat.h"
 	"answers.h"
@@ -493,6 +498,7 @@
 	"dungeon.h"
 	"game.h"
 	"math.h"
+	"sound.h"
 	"rand.h"
 
 1791180051 source:/home/user-331/projects/eob3/eob3/game_talk.cpp
@@ -507,9 +513,9 @@
 
 1791180051 source:/home/user-331/projects/eob3/eob3/bin_compass.cpp
 
-1791180051 source:/home/user-331/projects/eob3/eob3/bin_thrown.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_thrown.cpp
 
-1791873470 source:/home/user-331/projects/eob3/eob3/main.cpp
+1793886253 source:/home/user-331/projects/eob3/eob3/main.cpp
 	"action.h"
 	"answers.h"
 	"creature.h"
@@ -521,7 +527,7 @@
 	"timer.h"
 	"stringvar.h"
 
-1792419571 source:/home/user-331/projects/eob3/eob3/serial.cpp
+1793030077 source:/home/user-331/projects/eob3/eob3/serial.cpp
 	"archive.h"
 	"game.h"
 	"quest.h"
@@ -534,4 +540,207 @@
 	"archive.h"
 	"slice.h"
 	"stringbuilder.h"
+
+1793030077 /home/user-331/projects/eob3/eob3/stringset.h
+
+1793030077 source:/home/user-331/projects/eob3/eob3/stringset.cpp
+	"rand.h"
+	"stringbuilder.h"
+	"stringset.h"
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_bonenaga.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_chimera.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_evilwiz.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_feyr.cpp
+
+1793030077 source:/home/user-331/projects/eob3/eob3/bin_forest.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_groan.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_hag.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_lich.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_minotaur.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_mist.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_mound.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_oslug.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_pudding.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_scaladar.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_shadow.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_shound.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_slither.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_snaga.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_steelsh.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_troll.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_ubeast.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_water.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_weird.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_wghost.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_wight.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_wolf.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_wyvern.cpp
+
+1793886253 /home/user-331/projects/eob3/eob3/view_effect.h
+
+1793886253 source:/home/user-331/projects/eob3/eob3/view_effect.cpp
+	"draw.h"
+	"pushvalue.h"
+	"slice.h"
+	"view_effect.h"
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_ankheg.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_ant.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_aservant.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_basilisk.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_beholder.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_bugbear.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_bulette.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_carrion.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_cleric1.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_cleric2.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_cleric3.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_cocatric.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_cube.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_disbeast.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_dragon.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_dran.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_drider1.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_drowelf.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_dwarf.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_eelement.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_ettin.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_flind.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_frgiant.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_fsnake.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_gargoyle.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_gasspore.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_ghost.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_ghoul.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_goblin.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_golem.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_guard1.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_guard2.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_guardian.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_hellhnd.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_hobgob.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_kenku.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_knight.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_kuotoa.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_mage.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_mantis.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_mantis1.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_meazel.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_medusa.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_mflayer.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_mindflay.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_mummy.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_orc.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_otyught.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_rust1.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_salamndr.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_shghoul.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_shindia.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_skeleton.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_skelwar.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_spectre.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_spells.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_spider1.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_tlincall.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_troglody.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_umberhul.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_wasp.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_wererat.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_willowis.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_wraith2.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_xill.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_xorn1.cpp
+
+1793886253 source:/home/user-331/projects/eob3/eob3/bin_zombie.cpp
 

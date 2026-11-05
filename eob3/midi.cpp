@@ -290,6 +290,9 @@ public:
 	void play(const unsigned* data, unsigned size, unsigned short division) {
 	}
 
+	void play(unsigned char channel, unsigned char note, unsigned char velocity) {
+	}
+
 	void setvolume(unsigned short value) {
 	}
 

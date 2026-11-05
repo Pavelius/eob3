@@ -1892,7 +1892,6 @@ void drop_item() {
 }
 
 static void use_tome(creature* player, item* last_item) {
-	auto result = true;
 	if(!player->roll(Intellegence))
 		consolen(getnm(PlayerFailToUnderstandText));
 	else {

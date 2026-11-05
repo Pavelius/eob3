@@ -230,46 +230,6 @@ static void raw832m(unsigned char* d, int d_scan, unsigned char* s, int s_scan, 
 	}
 }
 
-static void raw32(unsigned char* d, int d_scan, unsigned char* s, int s_scan, int width, int height) {
-	const int cbs = 3;
-	const int cbd = 4;
-	if(width <= 0)
-		return;
-	if(!alpha)
-		return;
-	if(alpha == 255) {
-		while(height-- > 0) {
-			unsigned char* sb = s;
-			unsigned char* se = s + width * cbs;
-			unsigned char* p1 = d;
-			while(sb < se) {
-				p1[0] = sb[0];
-				p1[1] = sb[1];
-				p1[2] = sb[2];
-				sb += cbs;
-				p1 += cbd;
-			}
-			s += s_scan;
-			d += d_scan;
-		}
-	} else {
-		while(height-- > 0) {
-			unsigned char* sb = s;
-			unsigned char* se = s + width * cbs;
-			unsigned char* p1 = d;
-			while(sb < se) {
-				p1[0] = (((int)p1[0] * (255 - alpha)) + ((sb[0]) * (alpha))) >> 8;
-				p1[1] = (((int)p1[1] * (255 - alpha)) + ((sb[1]) * (alpha))) >> 8;
-				p1[2] = (((int)p1[2] * (255 - alpha)) + ((sb[2]) * (alpha))) >> 8;
-				sb += cbs;
-				p1 += cbd;
-			}
-			s += s_scan;
-			d += d_scan;
-		}
-	}
-}
-
 static void rle832(unsigned char* p1, int d1, unsigned char* s, int h, const unsigned char* s1, const unsigned char* s2, unsigned char alpha, const color* pallette) {
 	const int cbd = 32 / 8;
 	unsigned char* d = p1;

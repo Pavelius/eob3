@@ -1392,12 +1392,12 @@ static bool paint_ciclic(resn res, short unsigned frame, short unsigned count, u
 	return true;
 }
 
-static bool paint_quad(resn res, short unsigned frame, short unsigned count, unsigned tick) {
+/*static bool paint_quad(resn res, short unsigned frame, short unsigned count, unsigned tick) {
 	auto push_caret = caret;
-	const auto m = effect_duration * 5;
-	const auto d1 = effect_duration / 2;
-	const auto d2 = (3 * effect_duration) / 2;
-	const auto d3 = effect_duration / 3;
+	const auto m = effect_duration * 6;
+	const auto d1 = 1 * effect_duration;
+	const auto d2 = 2 * effect_duration;
+	const auto d3 = 3 * effect_duration;
 	if(tick < m)
 		paint_ciclic(res, frame, count, tick);
 	if(tick >= d1 && tick < d1 + m) {
@@ -1414,6 +1414,25 @@ static bool paint_quad(resn res, short unsigned frame, short unsigned count, uns
 	}
 	caret = push_caret;
 	return tick < effect_duration * 7;
+}*/
+
+static bool paint_trio(resn res, short unsigned frame, short unsigned count, unsigned tick) {
+	auto push_caret = caret;
+	const auto m = effect_duration * 5;
+	const auto d1 = 1 * effect_duration;
+	const auto d2 = 2 * effect_duration;
+	if(tick < m)
+		paint_ciclic(res, frame, count, tick);
+	if(tick >= d1 && tick < d1 + m) {
+		caret = push_caret + point(16, 8);
+		paint_ciclic(res, frame, count, tick - d1);
+	}
+	if(tick >= d2 && tick < d2 + m) {
+		caret = push_caret + point(4, 16);
+		paint_ciclic(res, frame, count, tick - d2);
+	}
+	caret = push_caret;
+	return tick < effect_duration * 7;
 }
 
 void creature::fix(effectn v) const {
@@ -1424,7 +1443,7 @@ void creature::fix(effectn v) const {
 	switch(v) {
 	case FireEffect: p->set(paint_animated, SPELLS, 0, 2, current_cpu_time + 20); break;
 	case LightingEffect: p->set(paint_animated, SPELLS, 2, 2, current_cpu_time + 20); break;
-	case SpellEffect: p->set(paint_quad, SPELLS, 4, 3, current_cpu_time + 20); break;
+	case SpellEffect: p->set(paint_trio, SPELLS, 4, 3, current_cpu_time + 20); break;
 	default: break;
 	}
 }

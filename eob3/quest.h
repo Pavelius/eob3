@@ -7,8 +7,8 @@
 struct sitei;
 
 enum questn : unsigned char {
-	FloodedCollectors, FintPathToForest,
-	LastQuest = FintPathToForest,
+	FloodedCollectors, FindPathToForest, TakeRelict,
+	LastQuest = TakeRelict,
 };
 
 enum picturen : unsigned char;

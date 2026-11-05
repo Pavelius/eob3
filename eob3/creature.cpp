@@ -1104,6 +1104,8 @@ static void apply_race_ability() {
 	case Elf:
 		player->basic.feats.set(ResistCharm);
 		break;
+	default:
+		break;
 	}
 }
 

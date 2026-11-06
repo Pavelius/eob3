@@ -41,7 +41,7 @@ static sitei cursed_dungeon[] = {
 };
 
 questi quests[] = {
-	{10, ChaNord1, PicSewerEntrance, PicSewerEntrance, MusBinge, {Coins, 1000, Reputation, 5}, flooded_collectors, {KillAlmostAllMonsters, 3}},
-	{0, ChaRanger, PicAdventure, PicForest, MusBinge, {Coins, 1500, Reputation, 5}, unknown_forest, {ExploreMostArea, 1}},
+	{0, ChaNord1, PicSewerEntrance, PicSewerEntrance, MusBinge, {Coins, 1000, Reputation, 5}, flooded_collectors, {KillAlmostAllMonsters, 3}},
+	{1, ChaRanger, PicAdventure, PicForest, MusBinge, {Coins, 1500, Reputation, 5}, unknown_forest, {ExploreMostArea, 1}},
 	{2, ChaRanger, PicAdventure, PicForest, MusBinge, {Coins, 2500, Reputation, 5}, cursed_dungeon, {KillAlmostAllMonsters, 2}},
 };

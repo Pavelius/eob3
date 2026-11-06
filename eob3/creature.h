@@ -81,7 +81,7 @@ enum speechn : unsigned char {
 	LastSpeech = NoQuickItems
 };
 enum effectn : unsigned char {
-	FireEffect, LightingEffect, SpellEffect, BlurEffect,
+	FireEffect, LightingEffect, SpellEffect, RedEffect, BlurEffect,
 };
 
 extern const char* ability_names[Experience + 1];

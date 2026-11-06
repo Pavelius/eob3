@@ -199,11 +199,17 @@ static item* choose_item(bool interactive) {
 	return (item*)choose_small_menu(getnm(CastOnWho), 0);
 }
 
+static effectn creature_effect(spelln v) {
+	return SpellEffect;
+}
+
 static void apply_targets(spelln spell, int level) {
 	if(points)
 		show_automap(points, 1);
-	for(auto p : creatures)
-		p->apply(spell, level, true);
+	for(auto p : creatures) {
+		if(p->apply(spell, level, true))
+			p->fix(creature_effect(spell));
+	}
 	for(auto p : items)
 		p->apply(spell, level, true);
 }

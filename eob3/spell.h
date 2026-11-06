@@ -5,6 +5,7 @@
 enum abilityn : unsigned char;
 enum celln : unsigned char;
 enum damagen : unsigned char;
+enum effectn : unsigned char;
 enum featn : unsigned char;
 
 struct creature;
@@ -45,6 +46,7 @@ struct spelli {
 	fnevent			apply; // When active use this 
 	fnevent			stopping; // When active spell stop
 	fnevent			prepare; // Before casting spell
+	effectn			effect;
 	const char*		name() const { return spell_names[index]; }
 };
 extern spelli spell_data[LastSpell + 1];

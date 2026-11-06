@@ -44,7 +44,6 @@ unsigned long current_cpu_time;
 static void paint_inventory();
 
 const int animation_step = 300;
-const int effect_duration = 200;
 
 pushfont::pushfont(int size) : pushfont() {
 	::font = res_data[size ? FONT8 : FONT6];
@@ -1373,16 +1372,16 @@ static void make_screenshoot() {
 	bitmap_write(temp, canvas->ptr(0, 0), canvas->width, canvas->height, canvas->bpp, canvas->scanline, 0);
 }
 
-static bool paint_animated(resn res, short unsigned frame, short unsigned count, unsigned tick) {
-	auto v = tick / effect_duration;
+static bool paint_animated(resn res, short unsigned frame, short unsigned count, unsigned tick, unsigned speed) {
+	auto v = tick / speed;
 	if(v >= count)
 		return false;
 	image(caret.x, caret.y, res_data[res], frame + v, 0);
 	return true;
 }
 
-static bool paint_ciclic(resn res, short unsigned frame, short unsigned count, unsigned tick) {
-	auto index = (tick / effect_duration) % (count * 2);
+static bool paint_ciclic(resn res, short unsigned frame, short unsigned count, unsigned tick, unsigned speed) {
+	auto index = (tick / speed) % (count * 2);
 	auto v = index;
 	if(v >= count)
 		v = count * 2 - index - 1;
@@ -1392,47 +1391,25 @@ static bool paint_ciclic(resn res, short unsigned frame, short unsigned count, u
 	return true;
 }
 
-/*static bool paint_quad(resn res, short unsigned frame, short unsigned count, unsigned tick) {
+static bool paint_trio(resn res, short unsigned frame, short unsigned count, unsigned tick, unsigned speed) {
 	auto push_caret = caret;
-	const auto m = effect_duration * 6;
-	const auto d1 = 1 * effect_duration;
-	const auto d2 = 2 * effect_duration;
-	const auto d3 = 3 * effect_duration;
-	if(tick < m)
-		paint_ciclic(res, frame, count, tick);
+	const auto m = speed * ((unsigned)count) * 2;
+	const auto d1 = 1 * speed;
+	const auto d2 = 2 * speed;
+	if(tick < m) {
+		caret = push_caret + point(8, 8);
+		paint_ciclic(res, frame, count, tick, speed);
+	}
 	if(tick >= d1 && tick < d1 + m) {
-		caret = push_caret + point(16, 16);
-		paint_ciclic(res, frame, count, tick - d1);
+		caret = push_caret + point(16 + 8, 8 + 8);
+		paint_ciclic(res, frame, count, tick - d1, speed);
 	}
 	if(tick >= d2 && tick < d2 + m) {
-		caret = push_caret + point(0, 16);
-		paint_ciclic(res, frame, count, tick - d2);
-	}
-	if(tick >= d3) {
-		caret = push_caret + point(16, 0);
-		paint_ciclic(res, frame, count, tick - d3);
+		caret = push_caret + point(4 + 8, 16 + 8);
+		paint_ciclic(res, frame, count, tick - d2, speed);
 	}
 	caret = push_caret;
-	return tick < effect_duration * 7;
-}*/
-
-static bool paint_trio(resn res, short unsigned frame, short unsigned count, unsigned tick) {
-	auto push_caret = caret;
-	const auto m = effect_duration * 5;
-	const auto d1 = 1 * effect_duration;
-	const auto d2 = 2 * effect_duration;
-	if(tick < m)
-		paint_ciclic(res, frame, count, tick);
-	if(tick >= d1 && tick < d1 + m) {
-		caret = push_caret + point(16, 8);
-		paint_ciclic(res, frame, count, tick - d1);
-	}
-	if(tick >= d2 && tick < d2 + m) {
-		caret = push_caret + point(4, 16);
-		paint_ciclic(res, frame, count, tick - d2);
-	}
-	caret = push_caret;
-	return tick < effect_duration * 7;
+	return tick < speed * ((unsigned)count+3) * 2;
 }
 
 void creature::fix(effectn v) const {
@@ -1443,13 +1420,14 @@ void creature::fix(effectn v) const {
 	switch(v) {
 	case FireEffect: p->set(paint_animated, SPELLS, 0, 2, current_cpu_time + 20); break;
 	case LightingEffect: p->set(paint_animated, SPELLS, 2, 2, current_cpu_time + 20); break;
-	case SpellEffect: p->set(paint_trio, SPELLS, 4, 3, current_cpu_time + 20); break;
+	case SpellEffect: p->set(paint_trio, SPELLS, 4, 3, current_cpu_time + 20, 200); break;
+	case RedEffect: p->set(paint_trio, SPELLS, 7, 7, current_cpu_time + 20, 100); break;
 	default: break;
 	}
 }
 
 static void show_test() {
-	player->fix(SpellEffect);
+	player->fix(RedEffect);
 }
 
 static void common_input() {

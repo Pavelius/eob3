@@ -8,14 +8,15 @@ void effecti::paint(unsigned current_tick) {
 		return;
 	if(start > current_tick)
 		return;
-	if(!proc(res, frame, count, current_tick - start))
+	if(!proc(res, frame, count, current_tick - start, speed))
 		clear();
 }
 
-void effecti::set(fnproc proc, resn res, short unsigned frame, short unsigned count, unsigned start) {
+void effecti::set(fnproc proc, resn res, short unsigned frame, short unsigned count, unsigned start, unsigned speed) {
 	this->proc = proc;
 	this->res = res;
 	this->frame = frame;
 	this->count = count;
 	this->start = start;
+	this->speed = speed;
 }

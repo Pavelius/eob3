@@ -352,7 +352,12 @@ const char* quest_rumor[(LastQuest + 1) * 5] = {
 	"The big wolf is chained by the fire. As long as it howls, the pack won't stray far.",
 	"The human scout is locked in the old charcoal pit. He keeps shouting, and the boss is threatening to shut him up for good.",
 	"The palisade is rotten on the east side of the camp. Just don't make a sound there - the wolf trail is nearby.",
-	"We heard a second alpha howling in the forest at night. Maybe it will come for the prisoner... or maybe it will eat him and us too."
+	"We heard a second alpha howling in the forest at night. Maybe it will come for the prisoner... or maybe it will eat him and us too.",
+	"The bell rings by itself whenever someone crosses the crypt threshold. With every toll, the dead rise from their alcoves.",
+	"Our names were written in the book. As long as its pages remain intact, we remember who we were.",
+	"The keeper still watches by the far door. The key to the burial hall hangs on his chest.",
+	"Do not touch the silver seal on the wall. When it was torn away, the stone cracked and a cold wind woke us.",
+	"The one who rings the bell is hiding behind the stone partition. We hear his footsteps, but we cannot reach him."
 };
 const char* quest_speech[(LastQuest + 1) * (LastPhase + 1)] = {
 	// 0

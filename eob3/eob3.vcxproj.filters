@@ -532,6 +532,24 @@
     <ClCompile Include="view_effect.cpp">
       <Filter>logic</Filter>
     </ClCompile>
+    <ClCompile Include="bin_crimson.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_drow.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_mezz.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_mflayer.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_silver.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
+    <ClCompile Include="bin_xanatha.cpp">
+      <Filter>resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="action.h">

@@ -1623,6 +1623,7 @@ static void adventure_input() {
 	case 'R': change_quick_item(); break;
 	case Ctrl + 'W': execute(show_test); break;
 	default:
+		common_input();
 		alternate_focus_input();
 		character_input();
 		break;

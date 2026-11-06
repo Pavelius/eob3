@@ -197,12 +197,14 @@
     <ClCompile Include="bin_cleric3.cpp" />
     <ClCompile Include="bin_cocatric.cpp" />
     <ClCompile Include="bin_compass.cpp" />
+    <ClCompile Include="bin_crimson.cpp" />
     <ClCompile Include="bin_cube.cpp" />
     <ClCompile Include="bin_decors.cpp" />
     <ClCompile Include="bin_disbeast.cpp" />
     <ClCompile Include="bin_dragon.cpp" />
     <ClCompile Include="bin_dran.cpp" />
     <ClCompile Include="bin_drider1.cpp" />
+    <ClCompile Include="bin_drow.cpp" />
     <ClCompile Include="bin_drowelf.cpp" />
     <ClCompile Include="bin_dung.cpp" />
     <ClCompile Include="bin_dwarf.cpp" />
@@ -239,6 +241,8 @@
     <ClCompile Include="bin_mantis1.cpp" />
     <ClCompile Include="bin_meazel.cpp" />
     <ClCompile Include="bin_medusa.cpp" />
+    <ClCompile Include="bin_mezz.cpp" />
+    <ClCompile Include="bin_mflayer.cpp" />
     <ClCompile Include="bin_mindflay.cpp" />
     <ClCompile Include="bin_minotaur.cpp" />
     <ClCompile Include="bin_mist.cpp" />
@@ -256,6 +260,7 @@
     <ClCompile Include="bin_shghoul.cpp" />
     <ClCompile Include="bin_shindia.cpp" />
     <ClCompile Include="bin_shound.cpp" />
+    <ClCompile Include="bin_silver.cpp" />
     <ClCompile Include="bin_skeleton.cpp" />
     <ClCompile Include="bin_skelwar.cpp" />
     <ClCompile Include="bin_slither.cpp" />
@@ -280,6 +285,7 @@
     <ClCompile Include="bin_wolf.cpp" />
     <ClCompile Include="bin_wraith2.cpp" />
     <ClCompile Include="bin_wyvern.cpp" />
+    <ClCompile Include="bin_xanatha.cpp" />
     <ClCompile Include="bin_xill.cpp" />
     <ClCompile Include="bin_xorn1.cpp" />
     <ClCompile Include="bin_zombie.cpp" />

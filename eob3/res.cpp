@@ -22,12 +22,14 @@ extern unsigned char bin_cleric2[];
 extern unsigned char bin_cleric3[];
 extern unsigned char bin_cocatric[];
 extern unsigned char bin_compass[];
+extern unsigned char bin_crimson[];
 extern unsigned char bin_cube[];
 extern unsigned char bin_decors[];
 extern unsigned char bin_disbeast[];
 extern unsigned char bin_dragon[];
 extern unsigned char bin_dran[];
 extern unsigned char bin_drider1[];
+extern unsigned char bin_drow[];
 extern unsigned char bin_drowelf[];
 extern unsigned char bin_dung[];
 extern unsigned char bin_dwarf[];
@@ -69,6 +71,7 @@ extern unsigned char bin_mantis[];
 extern unsigned char bin_mantis1[];
 extern unsigned char bin_meazel[];
 extern unsigned char bin_medusa[];
+extern unsigned char bin_mezz[];
 extern unsigned char bin_mindflay[];
 extern unsigned char bin_menu[];
 extern unsigned char bin_minotaur[];
@@ -90,6 +93,7 @@ extern unsigned char bin_shadow[];
 extern unsigned char bin_shindia[];
 extern unsigned char bin_shghoul[];
 extern unsigned char bin_shound[];
+extern unsigned char bin_silver[];
 extern unsigned char bin_skeleton[];
 extern unsigned char bin_skelwar[];
 extern unsigned char bin_slither[];
@@ -116,13 +120,14 @@ extern unsigned char bin_wolf[];
 extern unsigned char bin_wraith2[];
 extern unsigned char bin_wyvern[];
 extern unsigned char bin_xanath1[];
+extern unsigned char bin_xanatha[];
 extern unsigned char bin_xill[];
 extern unsigned char bin_xorn1[];
 extern unsigned char bin_zombie[];
 
 sprite* res_data[LastRes + 1] = {
 	RS(font6), RS(font8),
-	RS(blue), RS(brick), 0, RS(dung), RS(forest), RS(green), 0,
+	RS(blue), RS(brick), RS(crimson), RS(drow), RS(dung), RS(forest), RS(green), RS(mezz), RS(silver), RS(xanatha),
 	RS(ankheg), RS(ant), RS(aservant), RS(basilisk), RS(beholder), RS(bugbear), RS(bulette), RS(carrion), RS(bonenaga), RS(chimera),
 	RS(cleric1), RS(cleric2), RS(cleric3), RS(cocatric), RS(cube), RS(disbeast), RS(drider1), RS(dragon), RS(dran), RS(drowelf),
 	RS(dwarf), RS(eelement), RS(ettin), RS(evilwiz), RS(feyr), RS(flind), RS(frgiant), RS(fsnake), RS(gargoyle), RS(groan), RS(gasspore),

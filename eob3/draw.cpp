@@ -230,6 +230,118 @@ static void raw832m(unsigned char* d, int d_scan, unsigned char* s, int s_scan, 
 	}
 }
 
+static void rle832_v1(unsigned char* p1, int d1, unsigned char* s, int h, const unsigned char* s1, const unsigned char* s2, unsigned char alpha, const color* pallette) {
+	const int cbd = 4;
+	unsigned char* d = p1;
+	while(true) {
+		auto c1 = *s++;
+		auto c2 = *s++;
+		if(c1 == 0 && c2 == 0) { // Next line
+			p1 += d1;
+			s1 += d1;
+			s2 += d1;
+			if(--h == 0)
+				break;
+			d = p1;
+			continue;
+		}
+		d += c1 * cbd;
+		auto p2 = d + c2 * cbd;
+		if(p2 <= s1 || d >= s2) {
+			// Clip left or right fully invisible part
+			d += c2 * cbd;
+			s += c2;
+			continue;
+		} else if(d < s1 && p2 > s1) {
+			// Clip left partially invisible part
+			unsigned char sk = (unsigned char)((s1 - d) / cbd);
+			d += sk * cbd;
+			s += sk;
+			c2 -= sk;
+		}
+		// Visible part
+		if(alpha == 0xFF) {
+			do {
+				if(d >= s2)
+					break;
+				*((color*)d) = pallette[*s++];
+				d += cbd;
+			} while(--c2);
+		} else {
+			do {
+				if(d >= s2)
+					break;
+				unsigned char* s1 = (unsigned char*)&pallette[*s++];
+				d[0] = (((int)d[0] * (255 - alpha)) + ((s1[0]) * (alpha))) >> 8;
+				d[1] = (((int)d[1] * (255 - alpha)) + ((s1[1]) * (alpha))) >> 8;
+				d[2] = (((int)d[2] * (255 - alpha)) + ((s1[2]) * (alpha))) >> 8;
+				d += cbd;
+			} while(--c2);
+		}
+		if(c2) {
+			// Clip right invisible part
+			d += c2 * cbd;
+			s += c2;
+		}
+	}
+}
+
+static void rle832m_v1(unsigned char* p1, int d1, unsigned char* s, int h, const unsigned char* s1, const unsigned char* s2, unsigned char alpha, const color* pallette) {
+	const int cbd = 4;
+	unsigned char* d = p1;
+	while(true) {
+		auto c1 = *s++;
+		auto c2 = *s++;
+		if(c1 == 0 && c2 == 0) { // Next line
+			p1 += d1;
+			s1 += d1;
+			s2 += d1;
+			if(--h == 0)
+				break;
+			d = p1;
+			continue;
+		}
+		d -= c1 * cbd;
+		auto p2 = d - c2 * cbd;
+		if(p2 <= s2 || d >= s1) {
+			// Clip left or right fully invisible part
+			d -= c2 * cbd;
+			s += c2;
+			continue;
+		} else if(p1 < s1 && d > s1) {
+			// Clip left partially invisible part
+			unsigned char sk = (unsigned char)((s1 - p2) / cbd);
+			d -= sk * cbd;
+			s += sk;
+			c2 -= sk;
+		}
+		// Visible part
+		if(alpha == 0xFF) {
+			do {
+				if(d >= s2)
+					break;
+				*((color*)d) = pallette[*s++];
+				d -= cbd;
+			} while(--c2);
+		} else {
+			do {
+				if(d >= s2)
+					break;
+				unsigned char* s1 = (unsigned char*)&pallette[*s++];
+				d[0] = (((int)d[0] * (255 - alpha)) + ((s1[0]) * (alpha))) >> 8;
+				d[1] = (((int)d[1] * (255 - alpha)) + ((s1[1]) * (alpha))) >> 8;
+				d[2] = (((int)d[2] * (255 - alpha)) + ((s1[2]) * (alpha))) >> 8;
+				d -= cbd;
+			} while(--c2);
+		}
+		if(c2) {
+			// Clip right invisible part
+			d -= c2 * cbd;
+			s += c2;
+		}
+	}
+}
+
 static void rle832(unsigned char* p1, int d1, unsigned char* s, int h, const unsigned char* s1, const unsigned char* s2, unsigned char alpha, const color* pallette) {
 	const int cbd = 32 / 8;
 	unsigned char* d = p1;
@@ -463,9 +575,6 @@ static void alc132(unsigned char* p1, int d1, unsigned char* s, int h, const uns
 		if(ap >= 255) {
 			while(c--) {
 				*((color*)d) = fore;
-//				d[0] = fb;
-//				d[1] = fg;
-//				d[2] = fr;
 				d += cbd;
 			}
 		} else {
@@ -598,32 +707,6 @@ static void cpy32t(unsigned char* d, int d_scan, unsigned char* s, int s_scan, i
 		d += d_scan;
 	} while(--height);
 }
-
-//static void cpy32t(unsigned char* d, int d_scan, unsigned char* s, int s_scan, int width, int height) {
-//	if(height <= 0 || width <= 0)
-//		return;
-//	do {
-//		color* d2 = (color*)d;
-//		color* sb = (color*)s;
-//		color* se = sb + width;
-//		while(sb < se) {
-//			if(!sb->a) {
-//				d2++;
-//				sb++;
-//			} else if(sb->a == 0xFF)
-//				*d2++ = *sb++;
-//			else {
-//				auto ap = sb->a;
-//				d2->r = (((int)d2->r * (255 - ap)) + ((sb->r) * (ap))) >> 8;
-//				d2->g = (((int)d2->g * (255 - ap)) + ((sb->g) * (ap))) >> 8;
-//				d2->b = (((int)d2->b * (255 - ap)) + ((sb->b) * (ap))) >> 8;
-//				d2++; sb++;
-//			}
-//		}
-//		s += s_scan;
-//		d += d_scan;
-//	} while(--height);
-//}
 
 bool dragactive() {
 	return drag_active;
@@ -1164,6 +1247,8 @@ void texta(const char* string, unsigned state) {
 void image(int x, int y, const sprite* e, int id, int flags) {
 	int x2, y2;
 	color* pal;
+	if(!alpha)
+		return; // Skip if fully trancparent
 	if(!e)
 		return;
 	const sprite::frame& f = e->get(id);
@@ -1193,7 +1278,7 @@ void image(int x, int y, const sprite* e, int id, int flags) {
 	}
 	unsigned char* s = (unsigned char*)e + f.offset;
 	if(y2<clipping.y1 || y>clipping.y2 || x2<clipping.x1 || x>clipping.x2)
-		return;
+		return; // Totally clipped image
 	if(y < clipping.y1) {
 		if((flags & ImageMirrorV) == 0) {
 			switch(f.encode) {

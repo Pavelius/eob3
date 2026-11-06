@@ -1217,8 +1217,7 @@ void thrown_item(pointc v, directionn d, int avatar_thrown, int side, int distan
 }
 
 void show_dungeon_images() {
-	// static resn sprites[] = {BRICK, CRIMSON, DROW, DUNG, GREEN, FOREST, MEZZ, SILVER, XANATHA};
-	static resn sprites[] = {BRICK, BLUE, DUNG, GREEN};
+	static resn sprites[] = {BLUE, BRICK, CRIMSON, DROW, DUNG, FOREST, GREEN, MEZZ, SILVER, XANATHA};
 	static int sprites_count = lengthof(sprites);
 	pushrect push;
 	pushfore push_fore;
@@ -1226,7 +1225,7 @@ void show_dungeon_images() {
 	auto show_texture = true;
 	auto po = res_data[OVERLAYS];
 	int focus = 0;
-	int sprite_number = 0;
+	int sprite_number = 1;
 	while(ismodal()) {
 		if(sprite_number < 0)
 			sprite_number = 0;

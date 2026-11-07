@@ -2284,6 +2284,8 @@ static void main_beforemodal() {
 	cancel_position.clear();
 }
 
+extern color pal_dung[256];
+
 void initialize_gui() {
 	font = res_data[FONT8];
 	fore = colors::white;
@@ -2292,5 +2294,5 @@ void initialize_gui() {
 	colors::special = color(64, 255, 255);
 	colors::text = colors::white;
 	pbeforemodal = main_beforemodal;
-	palt = (color*)res_data[MENU]->ptr(res_data[MENU]->get(0).pallette);
+	palt = pal_dung;
 }

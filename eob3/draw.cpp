@@ -235,8 +235,7 @@ static void rle832_v1(unsigned char* p1, int d1, unsigned char* s, int h, const 
 	unsigned char* d = p1;
 	while(true) {
 		auto c1 = *s++;
-		auto c2 = *s++;
-		if(c1 == 0 && c2 == 0) { // Next line
+		if(c1 == 0xFF) { // Next line
 			p1 += d1;
 			s1 += d1;
 			s2 += d1;
@@ -246,6 +245,7 @@ static void rle832_v1(unsigned char* p1, int d1, unsigned char* s, int h, const 
 			continue;
 		}
 		d += c1 * cbd;
+		auto c2 = *s++;
 		auto p2 = d + c2 * cbd;
 		if(p2 <= s1 || d >= s2) {
 			// Clip left or right fully invisible part
@@ -291,8 +291,7 @@ static void rle832m_v1(unsigned char* p1, int d1, unsigned char* s, int h, const
 	unsigned char* d = p1;
 	while(true) {
 		auto c1 = *s++;
-		auto c2 = *s++;
-		if(c1 == 0 && c2 == 0) { // Next line
+		if(c1 == 0xFF) { // Next line
 			p1 += d1;
 			s1 += d1;
 			s2 += d1;
@@ -302,6 +301,7 @@ static void rle832m_v1(unsigned char* p1, int d1, unsigned char* s, int h, const
 			continue;
 		}
 		d -= c1 * cbd;
+		auto c2 = *s++;
 		auto p2 = d - c2 * cbd;
 		if(p2 <= s2 || d >= s1) {
 			// Clip left or right fully invisible part

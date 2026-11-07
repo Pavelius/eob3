@@ -1418,10 +1418,10 @@ void creature::fix(effectn v) const {
 		return;
 	auto p = disp_effect + i;
 	switch(v) {
-	case FireEffect: p->set(paint_animated, SPELLS, 0, 2, current_cpu_time + 20); break;
-	case LightingEffect: p->set(paint_animated, SPELLS, 2, 2, current_cpu_time + 20); break;
-	case SpellEffect: p->set(paint_trio, SPELLS, 4, 3, current_cpu_time + 20, 200); break;
-	case RedEffect: p->set(paint_trio, SPELLS, 7, 7, current_cpu_time + 20, 100); break;
+	case FireEffect: p->set(paint_animated, SPELLS, 0, 2, current_cpu_time + 10); break;
+	case LightingEffect: p->set(paint_animated, SPELLS, 2, 2, current_cpu_time + 10); break;
+	case SpellEffect: p->set(paint_trio, SPELLS, 4, 3, current_cpu_time + 10, 150); break;
+	case RedEffect: p->set(paint_trio, SPELLS, 7, 7, current_cpu_time + 10, 100); break;
 	default: break;
 	}
 }

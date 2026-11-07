@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 	initialize_gui();
 	initialize_shapes();
 	stringbuilder::custom = stringbuilder_custom;
-	// music_enable = false;
+	music_enable = false;
 	sys_create_window(-1, -1, 320, 200, 0, 32);
 	sys_caption("Eye of beholder (remake)");
 	sys_timer(100);

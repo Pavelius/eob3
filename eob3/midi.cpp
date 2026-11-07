@@ -17,7 +17,6 @@
 */
 
 #include "sound.h"
-#include "slice.h"
 
 #ifdef _MSC_VER
 
@@ -40,20 +39,20 @@ const int MMSYSERR_NOERROR = 0; /* no error */
 #define MHDR_INQUEUE    0x00000004  /* reserved for driver */
 #define MHDR_ISSTRM     0x00000008  /* buffer is stream buffer */
 
-#define MM_MOM_OPEN         0x3C7 /* MIDI output */
-#define MM_MOM_CLOSE        0x3C8
-#define MM_MOM_DONE         0x3C9
+#define MM_MOM_OPEN     0x3C7 /* MIDI output */
+#define MM_MOM_CLOSE    0x3C8
+#define MM_MOM_DONE     0x3C9
 
 #define MOM_OPEN        MM_MOM_OPEN
 #define MOM_CLOSE       MM_MOM_CLOSE
 #define MOM_DONE        MM_MOM_DONE
 
-#define MEVT_SHORTMSG       ((unsigned char)0x00)    /* parm = shortmsg for midiOutShortMsg */
-#define MEVT_TEMPO          ((unsigned char)0x01)    /* parm = new tempo in microsec/qn     */
-#define MEVT_NOP            ((unsigned char)0x02)    /* parm = unused; does nothing         */
+#define MEVT_SHORTMSG   ((unsigned char)0x00)    /* parm = shortmsg for midiOutShortMsg */
+#define MEVT_TEMPO      ((unsigned char)0x01)    /* parm = new tempo in microsec/qn     */
+#define MEVT_NOP        ((unsigned char)0x02)    /* parm = unused; does nothing         */
 
-#define MIDIPROP_SET        0x80000000L
-#define MIDIPROP_GET        0x40000000L
+#define MIDIPROP_SET    0x80000000L
+#define MIDIPROP_GET    0x40000000L
 
 #define MIDIPROP_TIMEDIV    0x00000001L
 #define MIDIPROP_TEMPO      0x00000002L
@@ -109,10 +108,10 @@ WINMMAPI MMRESULT WINAPI midiOutSetVolume(HMIDIOUT hmo, DWORD dwVolume);
 class midiplayer {
 
 	static const unsigned BufferSize = 15000; // 60000 bytes, 5000 MIDI events
+	MIDIHDR			header = {};
 	const unsigned*	data = 0;
 	unsigned		size = 0;
 	unsigned		position = 0;
-	MIDIHDR			header = {};
 	void*			stream = 0;
 	volatile bool	done = false;
 
@@ -126,8 +125,8 @@ class midiplayer {
 
 	static bool unprepare(void* stream, MIDIHDR& header) {
 		if((header.dwFlags & MHDR_PREPARED) != 0) {
-			auto error_code = midiOutUnprepareHeader(stream, &header, sizeof(MIDIHDR));
-			if(error_code != MMSYSERR_NOERROR)
+			auto error = midiOutUnprepareHeader(stream, &header, sizeof(MIDIHDR));
+			if(error != MMSYSERR_NOERROR)
 				return false;
 			header = {};
 		}
@@ -179,7 +178,8 @@ class midiplayer {
 
 	void initialize() {
 		auto device = MIDI_MAPPER;
-		if(midiStreamOpen(&stream, &device, 1, (DWORD_PTR)&callback, (DWORD_PTR)this, CALLBACK_FUNCTION) != MMSYSERR_NOERROR)
+		auto error = midiStreamOpen(&stream, &device, 1, (DWORD_PTR)&callback, (DWORD_PTR)this, CALLBACK_FUNCTION);
+		if(error != MMSYSERR_NOERROR)
 			stream = 0;
 	}
 
@@ -220,10 +220,6 @@ public:
 		position = 0;
 	}
 
-	bool playing() const {
-		return data != 0;
-	}
-
 	void play(const unsigned* data, unsigned size, unsigned short division) {
 
 		if(this->data == data) {
@@ -242,7 +238,6 @@ public:
 		MIDIPROPTIMEDIV div{};
 		div.cbStruct = sizeof(div);
 		div.dwTimeDiv = division;
-
 		if(midiStreamProperty(stream, (unsigned char*)&div, MIDIPROP_SET | MIDIPROP_TIMEDIV) != MMSYSERR_NOERROR)
 			return;
 
@@ -266,10 +261,6 @@ public:
 		midiOutSetVolume(stream, v);
 	}
 
-	void play(unsigned char channel, unsigned char note, unsigned char velocity) {
-		midiOutShortMsg(stream, (0x90 + channel) | (note << 8) | (velocity << 16));
-	}
-
 };
 
 #else
@@ -290,9 +281,6 @@ public:
 	void play(const unsigned* data, unsigned size, unsigned short division) {
 	}
 
-	void play(unsigned char channel, unsigned char note, unsigned char velocity) {
-	}
-
 	void setvolume(unsigned short value) {
 	}
 
@@ -303,7 +291,6 @@ public:
 static midiplayer music;
 
 bool music_enable = true;
-bool sound_enable = true;
 soundn current_music;
 
 void music_update() {
@@ -318,10 +305,4 @@ void music_stop() {
 
 void music_setvolume(short unsigned v) {
 	music.setvolume(v);
-}
-
-void sound_play(unsigned char chanel, unsigned char note, unsigned char velocity) {
-	if(!sound_enable)
-		return;
-	music.play(chanel, note, velocity);
 }

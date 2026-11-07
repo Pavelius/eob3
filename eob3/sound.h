@@ -10,10 +10,8 @@ struct soundi {
 extern soundi songs[];
 
 extern bool music_enable;
-extern bool sound_enable;
 extern soundn current_music;
 
 void music_setvolume(short unsigned v);
 void music_stop();
 void music_update();
-void sound_play(unsigned char chanel, unsigned char note, unsigned char velocity);

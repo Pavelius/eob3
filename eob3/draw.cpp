@@ -230,7 +230,25 @@ static void raw832m(unsigned char* d, int d_scan, unsigned char* s, int s_scan, 
 	}
 }
 
-static void rle832_v1(unsigned char* p1, int d1, unsigned char* s, int h, const unsigned char* s1, const unsigned char* s2, unsigned char alpha, const color* pallette) {
+#ifdef USE_NEW_FORMAT
+
+static unsigned char* skip_v3(unsigned char* s, int h) {
+	const int cbs = 1;
+	if(!s || !h)
+		return s;
+	while(true) {
+		unsigned char c1 = *s++;
+		if(c1 == 0xFF) {
+			if(--h == 0)
+				return s;
+			continue;
+		}
+		unsigned char c2 = *s++;
+		s += c2;
+	}
+}
+
+static void rle832(unsigned char* p1, int d1, unsigned char* s, int h, const unsigned char* s1, const unsigned char* s2, unsigned char alpha, const color* pallette) {
 	const int cbd = 4;
 	unsigned char* d = p1;
 	while(true) {
@@ -286,7 +304,7 @@ static void rle832_v1(unsigned char* p1, int d1, unsigned char* s, int h, const 
 	}
 }
 
-static void rle832m_v1(unsigned char* p1, int d1, unsigned char* s, int h, const unsigned char* s1, const unsigned char* s2, unsigned char alpha, const color* pallette) {
+static void rle832m(unsigned char* p1, int d1, unsigned char* s, int h, const unsigned char* s1, const unsigned char* s2, unsigned char alpha, const color* pallette) {
 	const int cbd = 4;
 	unsigned char* d = p1;
 	while(true) {
@@ -303,14 +321,15 @@ static void rle832m_v1(unsigned char* p1, int d1, unsigned char* s, int h, const
 		d -= c1 * cbd;
 		auto c2 = *s++;
 		auto p2 = d - c2 * cbd;
-		if(p2 <= s2 || d >= s1) {
+		if(d <= s1 || p2 > s2) {
 			// Clip left or right fully invisible part
 			d -= c2 * cbd;
 			s += c2;
 			continue;
-		} else if(p1 < s1 && d > s1) {
+		}
+		if(d > s2) {
 			// Clip left partially invisible part
-			unsigned char sk = (unsigned char)((s1 - p2) / cbd);
+			unsigned char sk = (unsigned char)((p2 - s2) / cbd);
 			d -= sk * cbd;
 			s += sk;
 			c2 -= sk;
@@ -318,14 +337,14 @@ static void rle832m_v1(unsigned char* p1, int d1, unsigned char* s, int h, const
 		// Visible part
 		if(alpha == 0xFF) {
 			do {
-				if(d >= s2)
+				if(d < s1)
 					break;
 				*((color*)d) = pallette[*s++];
 				d -= cbd;
 			} while(--c2);
 		} else {
 			do {
-				if(d >= s2)
+				if(d < s1)
 					break;
 				unsigned char* s1 = (unsigned char*)&pallette[*s++];
 				d[0] = (((int)d[0] * (255 - alpha)) + ((s1[0]) * (alpha))) >> 8;
@@ -339,6 +358,33 @@ static void rle832m_v1(unsigned char* p1, int d1, unsigned char* s, int h, const
 			d -= c2 * cbd;
 			s += c2;
 		}
+	}
+}
+
+#else
+
+static unsigned char* skip_v3(unsigned char* s, int h) {
+	const int cbs = 1;
+	if(!s || !h)
+		return s;
+	while(true) {
+		unsigned char c = *s++;
+		if(c == 0) {
+			if(--h == 0)
+				return s;
+		} else if(c <= 0x9F) {
+			if(c <= 0x7F)
+				s += c * cbs;
+			else {
+				if(c == 0x80)
+					c = *s++;
+				else
+					c -= 0x80;
+				s++;
+				s += c * cbs;
+			}
+		} else if(c == 0xA0)
+			s++;
 	}
 }
 
@@ -534,84 +580,7 @@ static void rle832m(unsigned char* p1, int d1, unsigned char* s, int h, const un
 	}
 }
 
-static void alc132(unsigned char* p1, int d1, unsigned char* s, int h, const unsigned char* s1, const unsigned char* s2, unsigned char alpha) {
-	const int cbd = 32 / 8;
-	unsigned char* d = p1;
-	if(!alpha)
-		return;
-	auto fb = fore.b;
-	auto fg = fore.g;
-	auto fr = fore.r;
-	auto ap = alpha;
-	if(fore.a && fore.a != 255)
-		ap = (unsigned char)((ap * fore.a) >> 8);
-	if(!ap)
-		return;
-	while(true) {
-		unsigned char c = *s++;
-		if(c == 0xFF) {
-			p1 += d1;
-			s1 += d1;
-			s2 += d1;
-			if(--h == 0)
-				break;
-			d = p1;
-			continue; // New line
-		}
-		d += c * cbd; // Skip c bytes
-		c = *s++;
-		if(c == 0) {
-			// Skip visible part
-			continue;
-		} else if(d >= s2 || (d + c * cbd) <= s1) {
-			d += c * cbd; // Total invisible
-			continue;
-		} else if(d < s1) {
-			auto n = (s1 - d) / cbd;
-			c -= n;
-			d += n * cbd;
-		} else if(d + c * cbd > s2)
-			c = (s2 - d) / cbd;
-		if(ap >= 255) {
-			while(c--) {
-				*((color*)d) = fore;
-				d += cbd;
-			}
-		} else {
-			while(c--) {
-				d[0] = (((int)d[0] * (255 - ap)) + ((fb) * (ap))) >> 8;
-				d[1] = (((int)d[1] * (255 - ap)) + ((fg) * (ap))) >> 8;
-				d[2] = (((int)d[2] * (255 - ap)) + ((fr) * (ap))) >> 8;
-				d += cbd;
-			}
-		}
-	}
-}
-
-static unsigned char* skip_v3(unsigned char* s, int h) {
-	const int cbs = 1;
-	if(!s || !h)
-		return s;
-	while(true) {
-		unsigned char c = *s++;
-		if(c == 0) {
-			if(--h == 0)
-				return s;
-		} else if(c <= 0x9F) {
-			if(c <= 0x7F)
-				s += c * cbs;
-			else {
-				if(c == 0x80)
-					c = *s++;
-				else
-					c -= 0x80;
-				s++;
-				s += c * cbs;
-			}
-		} else if(c == 0xA0)
-			s++;
-	}
-}
+#endif
 
 static void scale_line_32(unsigned char* dst, unsigned char* src, int sw, int tw) {
 	const int cbd = 4;
@@ -1303,12 +1272,12 @@ void image(int x, int y, const sprite* e, int id, int flags) {
 		return;
 	int wd = (flags & ImageMirrorV) ? -canvas->scanline : canvas->scanline;
 	int sy = (flags & ImageMirrorV) ? y2 - 1 : y;
+	if(!f.pallette || (flags & ImagePallette))
+		pal = palt;
+	else
+		pal = (color*)e->ptr(f.pallette);
 	switch(f.encode) {
 	case sprite::RAW8:
-		if(!f.pallette || (flags & ImagePallette))
-			pal = palt;
-		else
-			pal = (color*)e->ptr(f.pallette);
 		if(!pal)
 			return;
 		if(x < clipping.x1) {
@@ -1328,10 +1297,6 @@ void image(int x, int y, const sprite* e, int id, int flags) {
 			raw832(ptr(x, y), wd, s, f.sx, x2 - x, y2 - y, pal);
 		break;
 	case sprite::RLE8:
-		if(!f.pallette || (flags & ImagePallette))
-			pal = palt;
-		else
-			pal = (color*)e->ptr(f.pallette);
 		if(!pal)
 			return;
 		if(flags & ImageMirrorH)
@@ -1344,12 +1309,6 @@ void image(int x, int y, const sprite* e, int id, int flags) {
 				ptr(clipping.x1, sy),
 				ptr(clipping.x2, sy),
 				alpha, pal);
-		break;
-	case sprite::ALC1:
-		alc132(ptr(x, sy), wd, s, y2 - y,
-			ptr(clipping.x1, sy),
-			ptr(clipping.x2, sy),
-			alpha);
 		break;
 	default:
 		break;

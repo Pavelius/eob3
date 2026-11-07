@@ -19,6 +19,8 @@
 
 #pragma once
 
+// #define USE_NEW_FORMAT
+
 typedef void(*fnevent)();
 
 enum picturen : unsigned char;
@@ -89,7 +91,7 @@ struct pma {
 };
 
 struct sprite : pma {
-	enum encodes { Auto, RAW, RLE, ALC, RAW8, RLE8, ALC1 };
+	enum encodes { RAW8, RLE8 };
 	struct frame {
 		short sx, sy;
 		short ox, oy;

@@ -26,6 +26,8 @@
 //};
 //}
 
+#define HEADER_SIZE 52
+
 int texth() {
 	if(!font)
 		return 0;
@@ -35,7 +37,7 @@ int texth() {
 int textw(int sym) {
 	if(!font)
 		return 0;
-	return font->ptr(sizeof(sprite))[(unsigned char)sym];
+	return font->ptr(HEADER_SIZE)[(unsigned char)sym];
 }
 
 void glyph(int sym, unsigned flags) {
@@ -54,12 +56,12 @@ void glyph(int sym, unsigned flags) {
 	}
 	int height = font->height;
 	int width = font->width;
-	auto base = (unsigned char*)font->ptr(sizeof(sprite) + 256 + sym * font->height);
+	auto base = (unsigned char*)font->ptr(HEADER_SIZE + 256 + sym * font->height);
 	for(int h = 0; h < height; h++) {
 		unsigned char line = base[h];
 		unsigned char bit = 0x80;
 		for(int w = 0; w < width; w++) {
-			if((line & bit) == bit)
+			if((line & bit) != 0)
 				pixel(caret.x + w, caret.y + h);
 			bit = bit >> 1;
 		}

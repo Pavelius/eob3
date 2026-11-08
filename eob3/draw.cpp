@@ -1469,36 +1469,6 @@ const pma* pma::getheader(const char* id) const {
 	return 0;
 }
 
-const char* pma::getstring(int id) const {
-	auto p = getheader("STR");
-	if(!p || id > p->count)
-		return "";
-	return (char*)p + ((unsigned*)((char*)p + sizeof(*p)))[id];
-}
-
-int sprite::ganim(int index, int tick) {
-	if(!cicles)
-		return 0;
-	cicle* c = gcicle(index);
-	if(!c->count)
-		return 0;
-	return c->start + tick % c->count;
-}
-
-int sprite::glyph(unsigned sym) const {
-	// First interval (latin plus number plus ASCII)
-	unsigned* pi = (unsigned*)edata();
-	unsigned* p2 = pi + esize() / sizeof(unsigned);
-	unsigned n = 0;
-	while(pi < p2) {
-		if(sym >= pi[0] && sym <= pi[1])
-			return sym - pi[0] + n;
-		n += pi[1] - pi[0] + 1;
-		pi += 2;
-	}
-	return 't' - 0x21; // Unknown symbol is question mark
-}
-
 rect sprite::frame::getrect(int x, int y, unsigned flags) const {
 	int x2, y2;
 	if(!offset)

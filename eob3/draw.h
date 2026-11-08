@@ -83,39 +83,28 @@ extern color text;
 }
 
 struct pma {
-	char name[4]; // Identifier of current block
-	int	size; // Size of all block
-	int	count; // Count of records in this block
+	char		name[4]; // Identifier of current block
+	unsigned	size; // Size of all block, or zero if last block.
 	const pma* getheader(const char* name) const;
-	const char* getstring(int id) const;
+	void setheader(const char* v) { name[0] = v[0]; name[1] = v[1]; name[2] = v[2]; name[3] = 0; }
 };
 
 struct sprite : pma {
 	enum encodes { RAW8, RLE8 };
 	struct frame {
+		encodes encode;
 		short sx, sy;
 		short ox, oy;
-		encodes encode;
 		unsigned pallette;
 		unsigned offset;
 		rect getrect(int x, int y, unsigned flags) const;
 	};
-	struct cicle {
-		short unsigned	start;
-		short unsigned	count;
-	};
-	short int			width, height; // common size of all frames (if applicable)
-	short int			ascend, descend; // top or down ascend
-	short unsigned		flags; // must be zero
-	unsigned			cicles; // count of anim structure
-	unsigned			cicles_offset;
+	unsigned			count; // Count of records in this block
+	short unsigned		width, height; // common size of all frames (if applicable)
 	frame				frames[1];
 	int					esize() const { return frames[0].offset - (sizeof(sprite) + sizeof(frame) * (count - 1)); }
 	const unsigned char* edata() const { return (const unsigned char*)this + sizeof(sprite) + sizeof(frame) * (count - 1); }
-	int					ganim(int index, int tick);
-	const frame&		get(int id) const { return frames[(id >= count) ? 0 : id]; }
-	cicle*				gcicle(int index) { return (cicle*)ptr(cicles_offset) + index; }
-	int					glyph(unsigned sym) const;
+	const frame&		get(short unsigned v) const { return frames[v]; }
 	const unsigned char* ptr(unsigned o) const { return (unsigned char*)this + o; }
 };
 

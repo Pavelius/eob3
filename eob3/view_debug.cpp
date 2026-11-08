@@ -424,11 +424,11 @@ void convert_fonts() {
 	draw_font_save("art/core/font6c.fnt", size.y, font_glyphs);
 }
 
-static void paint_sprites(resn id, point offset, int& focus, int per_line) {
+static void paint_sprites(resn id, point offset, unsigned& focus, int per_line) {
 	auto p = res_data[id];
 	if(!p)
 		return;
-	auto index = 0;
+	unsigned index = 0;
 	auto push_line = caret;
 	auto count = per_line;
 	while(index < p->count) {
@@ -455,7 +455,7 @@ static void show_sprites(resn id, point start, point size) {
 	pushrect push;
 	pushfore push_fore;
 	pushfont push_font(0);
-	int focus = 0;
+	unsigned focus = 0;
 	auto maximum = res_data[id]->count;
 	auto per_line = 320 / size.x;
 	while(ismodal()) {
@@ -499,8 +499,8 @@ static void show_scenes(resn id, point origin) {
 	pushrect push;
 	pushfore push_fore;
 	pushfont push_font(0);
-	int focus = 0;
-	auto maximum = res_data[id]->count;
+	unsigned focus = 0;
+	unsigned maximum = res_data[id]->count;
 	auto is_monster = (id >= FirstMonRes && id <= LastMonRes);
 	while(ismodal()) {
 		if(focus < 0)
@@ -509,7 +509,8 @@ static void show_scenes(resn id, point origin) {
 			focus = maximum - 1;
 		image(0, 0, res_data[PLAYFLD], 0, 0);
 		image(0, 0, res_data[BORDER], 0, 0);
-		image(origin.x, origin.y, res_data[id], focus, 0);
+		if(id<lengthof(res_data))
+			image(origin.x, origin.y, res_data[id], focus, 0);
 		fore = colors::white;
 		setpos(5, 180, 280, 6 * 3);
 		texta(str("index %1i of %2i", focus, maximum), TextBold);

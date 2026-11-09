@@ -163,6 +163,7 @@ void go_adventure();
 void header_yellow(const char* format);
 void initialize_gui();
 bool if_blessing_good();
+void leave_dungeon();
 void load_game();
 void main_menu();
 void make_attacks(bool melee_combat);

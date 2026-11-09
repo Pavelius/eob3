@@ -1270,7 +1270,7 @@ static void loot_identyfing() {
 	}
 }
 
-static void leave_dungeon() {
+void leave_dungeon() {
 	all_party(clear_mission_equipment, true);
 	all_party(clear_edible, true);
 	check_quest_complited();

@@ -145,9 +145,10 @@ int get_chance_identify(itemn v) {
 
 bool is_large(itemn type) {
 	switch(type) {
-	case Longsword: case ShortSword: case TwoHandedSword:
+	case Longsword: case ShortSword: case TwoHandedSword: 
 	case Mace: case Flail: case Staff: case Spear:
 	case Axe: case BattleAxe: case Halberd:
+	case Bow:
 	case Shield: case DwarvenShield:
 	case LeatherArmor: case ChainMail: case PlateMail: case ScaleMail: case BandedMail: case Robe:
 	case WarHammer: case Club: case GrapplingHook:

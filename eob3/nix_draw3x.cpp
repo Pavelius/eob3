@@ -21,6 +21,7 @@
 #include <cstdlib>
 #include "draw.h"
 #include "stringbuilder.h"
+#include <time.h>
 
 #define SCALE_FACTOR 3
 

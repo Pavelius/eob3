@@ -529,7 +529,7 @@ static void show_scenes(resn id, point origin) {
 	}
 }
 
-static void show_sprites(const sprite* ps) {
+/*static void show_sprites(const sprite* ps) {
 	pushrect push;
 	pushfore push_fore;
 	pushfont push_font(0);
@@ -556,7 +556,7 @@ static void show_sprites(const sprite* ps) {
 		case KeyEscape: breakmodal(0); break;
 		}
 	}
-}
+}*/
 
 static void show_sprites(resn id) {
 	switch(id) {

@@ -43,7 +43,7 @@ struct spelli {
 	spellfn			type; // Effect type
 	spelln			index; // Spell (for presentation)
 	color			lighting; // Active color border hilite
-	fnevent			apply; // When active use this 
+	fnevent			apply; // When active use this
 	fnevent			stopping; // When active spell stop
 	fnevent			prepare; // Before casting spell
 	effectn			effect;
@@ -103,3 +103,4 @@ void check_boost(unsigned stamp);
 bool dispell_magic(spelln spell, targetref target);
 void prepare_default_spells();
 void random_spells(int level, int count);
+void turn_monsters(const char* name, int level);

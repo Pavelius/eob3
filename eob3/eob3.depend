@@ -18,7 +18,7 @@
 	"slice.h"
 	<stdarg.h>
 
-1790923977 /home/user-331/projects/eob3/eob3/draw.h
+1794222897 /home/user-331/projects/eob3/eob3/draw.h
 	"color.h"
 	"point.h"
 
@@ -33,17 +33,17 @@
 
 1790665249 /home/user-331/projects/eob3/eob3/rand.h
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_border.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_border.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_chargen.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_chargen.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_chargenb.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_chargenb.cpp
 
 1793030077 source:/home/user-331/projects/eob3/eob3/bin_font6.cpp
 
 1790665249 source:/home/user-331/projects/eob3/eob3/bin_font8.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_invent.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_invent.cpp
 
 1790665249 source:/home/user-331/projects/eob3/eob3/appearance.cpp
 	"action.h"
@@ -52,7 +52,7 @@
 
 1793030077 /home/user-331/projects/eob3/eob3/action.h
 
-1793886253 /home/user-331/projects/eob3/eob3/creature.h
+1794222897 /home/user-331/projects/eob3/eob3/creature.h
 	"item.h"
 	"pointc.h"
 	"spell.h"
@@ -65,23 +65,23 @@
 
 1792419927 /home/user-331/projects/eob3/eob3/pointc.h
 
-1793886253 /home/user-331/projects/eob3/eob3/game.h
+1794222897 /home/user-331/projects/eob3/eob3/game.h
 
-1790665249 source:/home/user-331/projects/eob3/eob3/bin_itemgl.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_itemgl.cpp
 
-1790665249 source:/home/user-331/projects/eob3/eob3/bin_itemgs.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_itemgs.cpp
 
-1790665249 source:/home/user-331/projects/eob3/eob3/bin_items.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_items.cpp
 
-1790665249 source:/home/user-331/projects/eob3/eob3/bin_menu.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_menu.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_playfld.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_playfld.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_portm.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_portm.cpp
 
-1793030077 source:/home/user-331/projects/eob3/eob3/bin_scene.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_scene.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_xspl.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_xspl.cpp
 
 1793886253 source:/home/user-331/projects/eob3/eob3/bitmap.cpp
 	"color.h"
@@ -130,11 +130,11 @@
 	"dice.h"
 	"rand.h"
 
-1793886296 source:/home/user-331/projects/eob3/eob3/draw.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/draw.cpp
 	"draw.h"
 	"math.h"
 
-1790665249 source:/home/user-331/projects/eob3/eob3/draw_text.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/draw_text.cpp
 	"draw.h"
 
 1793886253 source:/home/user-331/projects/eob3/eob3/dungeon.cpp
@@ -169,7 +169,7 @@
 1790665249 /home/user-331/projects/eob3/eob3/shape.h
 	"pointc.h"
 
-1793886287 source:/home/user-331/projects/eob3/eob3/game.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/game.cpp
 	"action.h"
 	"answers.h"
 	"console.h"
@@ -187,7 +187,7 @@
 	"stringbuilder.h"
 	"view_focus.h"
 
-1793886253 /home/user-331/projects/eob3/eob3/sound.h
+1794222897 /home/user-331/projects/eob3/eob3/sound.h
 
 1790665249 /home/user-331/projects/eob3/eob3/stringvar.h
 	"stringbuilder.h"
@@ -251,7 +251,7 @@
 	"rand.h"
 	"spell.h"
 
-1793886253 source:/home/user-331/projects/eob3/eob3/locale_en.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/locale_en.cpp
 	"action.h"
 	"creature.h"
 	"dungeon.h"
@@ -290,9 +290,8 @@
 	"math.h"
 	"pointc.h"
 
-1793886342 source:/home/user-331/projects/eob3/eob3/midi.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/midi.cpp
 	"sound.h"
-	"slice.h"
 	"win.h"
 
 1791791544 /home/user-331/projects/eob3/eob3/win.h
@@ -302,12 +301,12 @@
 	"pointca.h"
 	"rand.h"
 
-1793887262 source:/home/user-331/projects/eob3/eob3/quest.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/quest.cpp
 	"dungeon.h"
 	"game.h"
 	"quest.h"
 
-1793886253 source:/home/user-331/projects/eob3/eob3/res.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/res.cpp
 	"game.h"
 
 1790665249 source:/home/user-331/projects/eob3/eob3/scale.cpp
@@ -339,7 +338,7 @@
 
 1790665249 /home/user-331/projects/eob3/eob3/view_focus.h
 
-1793886253 source:/home/user-331/projects/eob3/eob3/view_debug.cpp
+1794222936 source:/home/user-331/projects/eob3/eob3/view_debug.cpp
 	"draw.h"
 	"stream.h"
 	"math.h"
@@ -348,7 +347,7 @@
 	"stringbuilder.h"
 	"view_focus.h"
 
-1793887130 source:/home/user-331/projects/eob3/eob3/view_controls.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/view_controls.cpp
 	"answers.h"
 	"console.h"
 	"creature.h"
@@ -377,7 +376,7 @@
 	"stream.h"
 	"stringbuilder.h"
 
-1790928104 source:/home/user-331/projects/eob3/eob3/nix_draw3x.cpp
+1793892538 source:/home/user-331/projects/eob3/eob3/nix_draw3x.cpp
 	<X11/keysym.h>
 	<X11/Xlib.h>
 	<X11/Xutil.h>
@@ -385,22 +384,23 @@
 	<cstdlib>
 	"draw.h"
 	"stringbuilder.h"
+	<time.h>
 
-1790923977 source:/home/user-331/projects/eob3/eob3/bin_blue.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_blue.cpp
 
-1790923977 source:/home/user-331/projects/eob3/eob3/bin_brick.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_brick.cpp
 
-1790923977 source:/home/user-331/projects/eob3/eob3/bin_decors.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_decors.cpp
 
-1790923977 source:/home/user-331/projects/eob3/eob3/bin_dung.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_dung.cpp
 
-1790923977 source:/home/user-331/projects/eob3/eob3/bin_green.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_green.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_kobold.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_kobold.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_leech.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_leech.cpp
 
-1790923977 source:/home/user-331/projects/eob3/eob3/bin_overlays.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_overlays.cpp
 
 1793030077 source:/home/user-331/projects/eob3/eob3/game_carousing.cpp
 	"action.h"
@@ -418,7 +418,7 @@
 	"point.h"
 	"draw.h"
 
-1793886253 source:/home/user-331/projects/eob3/eob3/view_dungeon.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/view_dungeon.cpp
 	"creature.h"
 	"draw.h"
 	"dungeon.h"
@@ -441,7 +441,7 @@
 	"draw.h"
 	"stringbuilder.h"
 
-1793886253 /home/user-331/projects/eob3/eob3/spell.h
+1794223028 /home/user-331/projects/eob3/eob3/spell.h
 	"color.h"
 
 1791180051 /home/user-331/projects/eob3/eob3/perference.h
@@ -455,7 +455,7 @@
 1791180051 /home/user-331/projects/eob3/eob3/collectiona.h
 	"adat.h"
 
-1793886253 source:/home/user-331/projects/eob3/eob3/spell_list.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/spell_list.cpp
 	"action.h"
 	"creature.h"
 	"dungeon.h"
@@ -463,7 +463,7 @@
 	"math.h"
 	"spell.h"
 
-1793886253 source:/home/user-331/projects/eob3/eob3/spell.cpp
+1794223028 source:/home/user-331/projects/eob3/eob3/spell.cpp
 	"action.h"
 	"answers.h"
 	"collection.h"
@@ -477,7 +477,7 @@
 	"rand.h"
 	"spell.h"
 
-1793886253 source:/home/user-331/projects/eob3/eob3/game_actions.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/game_actions.cpp
 	"action.h"
 	"answers.h"
 	"console.h"
@@ -511,9 +511,9 @@
 	"draw.h"
 	"stringbuilder.h"
 
-1791180051 source:/home/user-331/projects/eob3/eob3/bin_compass.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_compass.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_thrown.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_thrown.cpp
 
 1793886253 source:/home/user-331/projects/eob3/eob3/main.cpp
 	"action.h"
@@ -548,199 +548,212 @@
 	"stringbuilder.h"
 	"stringset.h"
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_bonenaga.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_bonenaga.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_chimera.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_chimera.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_evilwiz.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_evilwiz.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_feyr.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_feyr.cpp
 
-1793030077 source:/home/user-331/projects/eob3/eob3/bin_forest.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_forest.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_groan.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_groan.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_hag.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_hag.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_lich.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_lich.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_minotaur.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_minotaur.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_mist.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_mist.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_mound.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_mound.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_oslug.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_oslug.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_pudding.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_pudding.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_scaladar.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_scaladar.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_shadow.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_shadow.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_shound.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_shound.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_slither.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_slither.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_snaga.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_snaga.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_steelsh.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_steelsh.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_troll.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_troll.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_ubeast.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_ubeast.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_water.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_water.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_weird.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_weird.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_wghost.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_wghost.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_wight.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_wight.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_wolf.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_wolf.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_wyvern.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_wyvern.cpp
 
-1793886253 /home/user-331/projects/eob3/eob3/view_effect.h
+1794222897 /home/user-331/projects/eob3/eob3/view_effect.h
 
-1793886253 source:/home/user-331/projects/eob3/eob3/view_effect.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/view_effect.cpp
 	"draw.h"
 	"pushvalue.h"
 	"slice.h"
 	"view_effect.h"
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_ankheg.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_ankheg.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_ant.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_ant.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_aservant.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_aservant.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_basilisk.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_basilisk.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_beholder.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_beholder.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_bugbear.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_bugbear.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_bulette.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_bulette.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_carrion.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_carrion.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_cleric1.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_cleric1.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_cleric2.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_cleric2.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_cleric3.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_cleric3.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_cocatric.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_cocatric.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_cube.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_cube.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_disbeast.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_disbeast.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_dragon.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_dragon.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_dran.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_dran.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_drider1.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_drider1.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_drowelf.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_drowelf.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_dwarf.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_dwarf.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_eelement.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_eelement.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_ettin.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_ettin.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_flind.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_flind.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_frgiant.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_frgiant.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_fsnake.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_fsnake.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_gargoyle.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_gargoyle.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_gasspore.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_gasspore.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_ghost.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_ghost.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_ghoul.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_ghoul.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_goblin.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_goblin.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_golem.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_golem.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_guard1.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_guard1.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_guard2.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_guard2.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_guardian.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_guardian.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_hellhnd.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_hellhnd.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_hobgob.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_hobgob.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_kenku.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_kenku.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_knight.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_knight.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_kuotoa.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_kuotoa.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_mage.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_mage.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_mantis.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_mantis.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_mantis1.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_mantis1.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_meazel.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_meazel.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_medusa.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_medusa.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_mflayer.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_mflayer.cpp
 
 1793886253 source:/home/user-331/projects/eob3/eob3/bin_mindflay.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_mummy.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_mummy.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_orc.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_orc.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_otyught.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_otyught.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_rust1.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_rust1.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_salamndr.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_salamndr.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_shghoul.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_shghoul.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_shindia.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_shindia.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_skeleton.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_skeleton.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_skelwar.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_skelwar.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_spectre.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_spectre.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_spells.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_spells.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_spider1.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_spider1.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_tlincall.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_tlincall.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_troglody.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_troglody.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_umberhul.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_umberhul.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_wasp.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_wasp.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_wererat.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_wererat.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_willowis.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_willowis.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_wraith2.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_wraith2.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_xill.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_xill.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_xorn1.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_xorn1.cpp
 
-1793886253 source:/home/user-331/projects/eob3/eob3/bin_zombie.cpp
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_zombie.cpp
+
+1794222897 source:/home/user-331/projects/eob3/eob3/pal_dung.cpp
+	"color.h"
+
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_crimson.cpp
+
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_drow.cpp
+
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_xanatha.cpp
+
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_mezz.cpp
+
+1794222897 source:/home/user-331/projects/eob3/eob3/bin_silver.cpp
 

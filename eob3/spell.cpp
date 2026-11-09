@@ -470,7 +470,7 @@ static void monsters_kill() {
 static void monsters_flee() {
 }
 
-static void turn_monsters(const char* name, int level) {
+void turn_monsters(const char* name, int level) {
 	// -2 value is automatic dispell and additional 2d4 turned (actually no work)
 	// -1 value is automatic dispell
 	// 0 value is automatic turned

@@ -63,12 +63,14 @@
 		<Unit filename="bin_cleric3.cpp" />
 		<Unit filename="bin_cocatric.cpp" />
 		<Unit filename="bin_compass.cpp" />
+		<Unit filename="bin_crimson.cpp" />
 		<Unit filename="bin_cube.cpp" />
 		<Unit filename="bin_decors.cpp" />
 		<Unit filename="bin_disbeast.cpp" />
 		<Unit filename="bin_dragon.cpp" />
 		<Unit filename="bin_dran.cpp" />
 		<Unit filename="bin_drider1.cpp" />
+		<Unit filename="bin_drow.cpp" />
 		<Unit filename="bin_drowelf.cpp" />
 		<Unit filename="bin_dung.cpp" />
 		<Unit filename="bin_dwarf.cpp" />
@@ -112,6 +114,7 @@
 		<Unit filename="bin_meazel.cpp" />
 		<Unit filename="bin_medusa.cpp" />
 		<Unit filename="bin_menu.cpp" />
+		<Unit filename="bin_mezz.cpp" />
 		<Unit filename="bin_mflayer.cpp" />
 		<Unit filename="bin_mindflay.cpp" />
 		<Unit filename="bin_minotaur.cpp" />
@@ -133,6 +136,7 @@
 		<Unit filename="bin_shghoul.cpp" />
 		<Unit filename="bin_shindia.cpp" />
 		<Unit filename="bin_shound.cpp" />
+		<Unit filename="bin_silver.cpp" />
 		<Unit filename="bin_skeleton.cpp" />
 		<Unit filename="bin_skelwar.cpp" />
 		<Unit filename="bin_slither.cpp" />
@@ -157,6 +161,7 @@
 		<Unit filename="bin_wolf.cpp" />
 		<Unit filename="bin_wraith2.cpp" />
 		<Unit filename="bin_wyvern.cpp" />
+		<Unit filename="bin_xanatha.cpp" />
 		<Unit filename="bin_xill.cpp" />
 		<Unit filename="bin_xorn1.cpp" />
 		<Unit filename="bin_xspl.cpp" />
@@ -202,6 +207,7 @@
 		<Unit filename="nix_io_file.cpp" />
 		<Unit filename="nix_time.cpp" />
 		<Unit filename="npc.cpp" />
+		<Unit filename="pal_dung.cpp" />
 		<Unit filename="perference.cpp" />
 		<Unit filename="perference.h" />
 		<Unit filename="point.cpp" />

@@ -771,11 +771,13 @@ static void paint_item(item& it, wearn id, int emphty_avatar = -1, int pallette_
 		avatar = emphty_avatar;
 	if(avatar != -1) {
 		auto rs = res_data[ITEMS];
-		if(pallette_feat) {
+		if(pallette_feat != -1) {
 			color pallette[256];
 			auto& e = rs->get(avatar);
-			auto p = (color*)rs->ptr(e.pallette);
-			memcpy(pallette, p, sizeof(pallette));
+			if(e.pallette)
+				memcpy(pallette, rs->ptr(e.pallette), sizeof(pallette));
+			else
+				memcpy(pallette, palt, sizeof(pallette));
 			switch(pallette_feat) {
 			case SeeMagical:
 				pallette[12] = colors::blue.mix(colors::white, get_alpha(140, 160));
@@ -1409,7 +1411,7 @@ static bool paint_trio(resn res, short unsigned frame, short unsigned count, uns
 		paint_ciclic(res, frame, count, tick - d2, speed);
 	}
 	caret = push_caret;
-	return tick < speed * ((unsigned)count+3) * 2;
+	return tick < speed * ((unsigned)count + 3) * 2;
 }
 
 void creature::fix(effectn v) const {
@@ -1429,6 +1431,8 @@ void creature::fix(effectn v) const {
 static void show_test() {
 	player->fix(RedEffect);
 }
+
+void show_sprite_command();
 
 static void common_input() {
 	switch(hkey) {

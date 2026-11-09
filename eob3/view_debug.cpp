@@ -509,7 +509,7 @@ static void show_scenes(resn id, point origin) {
 			focus = maximum - 1;
 		image(0, 0, res_data[PLAYFLD], 0, 0);
 		image(0, 0, res_data[BORDER], 0, 0);
-		if(id<lengthof(res_data))
+		if(id < lengthof(res_data))
 			image(origin.x, origin.y, res_data[id], focus, 0);
 		fore = colors::white;
 		setpos(5, 180, 280, 6 * 3);
@@ -524,6 +524,35 @@ static void show_scenes(resn id, point origin) {
 		case KeyLeft: focus--; break;
 		case KeyUp: id = next_res(id, true); break;
 		case KeyDown: id = next_res(id, false); break;
+		case KeyEscape: breakmodal(0); break;
+		}
+	}
+}
+
+static void show_sprites(const sprite* ps) {
+	pushrect push;
+	pushfore push_fore;
+	pushfont push_font(0);
+	unsigned focus = 0;
+	unsigned maximum = ps->count;
+	point origin = {8, 20};
+	while(ismodal()) {
+		if(focus < 0)
+			focus = 0;
+		else if(focus > maximum - 1)
+			focus = maximum - 1;
+		fore = colors::black;
+		rectf();
+		image(origin.x, origin.y, ps, 0, 0);
+		if(focus > 0)
+			image(origin.x, origin.y, ps, focus, 0);
+		fore = colors::white;
+		setpos(5, 180, 280, 6 * 3);
+		texta(str("index %1i of %2i", focus, maximum), TextBold);
+		domodal();
+		switch(hkey) {
+		case KeyRight: focus++; break;
+		case KeyLeft: focus--; break;
 		case KeyEscape: breakmodal(0); break;
 		}
 	}
@@ -547,3 +576,10 @@ static void show_sprites(resn id) {
 void show_sprites_command() {
 	show_sprites((resn)hparam);
 }
+
+//extern unsigned char bin_d2_ofinald[];
+//extern unsigned char bin_d2_intro9[];
+//
+//void show_sprite_command() {
+//	show_sprites((sprite*)bin_d2_intro9);
+//}

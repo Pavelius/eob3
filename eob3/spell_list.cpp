@@ -185,6 +185,12 @@ bool creature::apply(spelln spell, int level, bool run) {
 		if(run)
 			apply(TrueSeeing, ImmuneIllusion, level * 5);
 		break;
+	case TurnUndead:
+		if(!is(Undead))
+			return false;
+		if(run) {
+		}
+		break;
 	case WorldOfRecall:
 		if(party_index(adventurers, this) == -1)
 			return false;

@@ -61,6 +61,13 @@ static void print_number(stringbuilder& sb) {
 	sb.add("%1i", last_number);
 }
 
+static void location_dweller(stringbuilder& sb) {
+	if(loc->habbits[1])
+		sb.add(monster_names[loc->habbits[1]]);
+	else
+		monster_names[loc->habbits[0]];
+}
+
 static void print_item(stringbuilder& sb) {
 	sb.addv(last_item->namefull(), 0);
 }
@@ -85,6 +92,7 @@ void stringbuilder_custom(stringbuilder& sb, const char* id) {
 stringvari stringvars[] = {
 	{"Class", player_class},
 	{"Coins", player_gold},
+	{"Dweller", location_dweller},
 	{"Item", print_item},
 	{"Number", print_number},
 	{"Opponent", opponent_name},

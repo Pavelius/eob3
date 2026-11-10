@@ -196,6 +196,8 @@ static void prepare_quests() {
 
 static void start_campaign() {
 	prepare_quests();
+	quests[0].set(QuestPassed);
+	quests[1].set(QuestPassed);
 }
 
 void game_generation() {

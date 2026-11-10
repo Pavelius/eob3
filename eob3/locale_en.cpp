@@ -37,6 +37,7 @@ const char* message_names[LastMessage + 1] = {
 	"This sign must mean something",
 	"Exit is in %StairsDownPart side of area",
 	"%Opponent stands still, watching you carefully.",
+	"%Opponent stands still and looking at you.",
 	"%1 of %2", "Rotten", "Damaged", "Few", "Several", "Many",
 	"%Player is incapacitated", "%Player picks up %1", "%1 casts %2", "%Player drinks %1", "%1 fails the %2 check", "%1 succeeds on the %2 check",
 	"%Player learn %1 spell", "%Player fail to learn spell",
@@ -372,6 +373,12 @@ const char* quest_speech[(LastQuest + 1) * (LastPhase + 1)] = {
 	"You move to north several day by foot. Green valley lay around you, but to nothern side you see moutains.\0",
 	"On eight day of travel you enter into deep forest.\0",
 	0,
+	// 2
+	"\"Hello. Are you ... that ... adventures?\" man smoking tabacco sitting in tavern address to you \"My name is Dunkan. And I have a job for you.\"\0\"I need you service to take some item from ruin, hauted by evil undead long time ago. That item is my familiy relict. A stone medallion of Tempus.\"\0\"If you can deliver the item to me I will pay you %QuestRewardGold gold pieces.\"\0",
+	"\"You are so good for doing bussiness, men! Meet there when you will get this item.\"\0",
+	"After a several hours of feet travel to north you found ruins.",
+	"When you search ruins you found an entrance to ruins dungeon.",
+	"\"At least! I have this ... artefact. Very well! You reward just a gold. Take this.\"\0\"You are good in bussiness. Maybe I found you later.\"\0",
 };
 const char* spell_names[LastSpell + 1] = {
 	"Bless", "Cure Light Wounds", "Detect Evil", "Detect Magic", "Protection From Evil", "Purify Food",

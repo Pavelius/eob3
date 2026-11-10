@@ -1282,9 +1282,11 @@ static long monsters_talk(messagen id, messagen id2 = (messagen)0, messagen id3 
 	if(!opponent || !opponent->monster)
 		return 0;
 	char temp[320]; stringbuilder sb(temp);
-	if(opponent->race == Animal) {
+	if(opponent->race == Animal)
 		sb.add(getnm(AnimalStayStill));
-	} else {
+	else if(opponent->get(Intellegence)<=3)
+		sb.add(getnm(MonsterStayStill));
+	else {
 		sb.add("\"");
 		sb.add(getnm(id));
 		if(id2)
@@ -2085,11 +2087,15 @@ static bool is_ranger_animal() {
 }
 
 static bool is_personality() {
-	return !is_animal();
+	if(opponent->get(Intellegence) <= 3)
+		return false;
+	if(is_animal())
+		return false;
+	return true;
 }
 
 static bool is_bribeable() {
-	if(is_animal())
+	if(!is_personality())
 		return false;
 	return valuable_item != 0;
 }

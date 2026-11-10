@@ -44,7 +44,7 @@ enum messagen : unsigned char {
 	NoSpellsAvailable, SpellsAvailable,
 	WelcomeFriends, WhoIsYou, WhatHappens, HowYouGetHere, YouLiers, HelpIdentify, HelpCursed, HelpGift, HelpKey, TalkBribe,
 	LookUnknown, LookDrainageGate, LookStrangeDevice, LookUnknownTheifSign, LookTheifSign,
-	AnimalStayStill,
+	AnimalStayStill, MonsterStayStill,
 	ItemPowerName, Rotten, Damaged, Few, Several, Many,
 	PlayerIsDisabled, PlayerPickUpItem, PlayerCastSpell, PlayerDrinkPotion, PlayerFailedSkill, PlayerSuccessSkill,
 	PlayerLearnSpell, PlayerLearnSpellFail, PlayerFailToUnderstandText, PlayerRead,
@@ -89,10 +89,10 @@ enum soundn : unsigned char {
 };
 enum picturen : unsigned char {
 	NoPicture,
-	ChaAdaque, ChaAmaldo, ChaDexter, ChaNord1, ChaNord2, ChaPriestessSilune, ChaWitch, ChaRanger,
+	ChaAdaque, ChaAmaldo, ChaDexter, ChaNord1, ChaNord2, ChaPriestessSilune, ChaWitch, ChaRanger, ChaDealer,
 	PicCity, PicCityNight, PicDwarvenCity, PicClosed, PicForest, PicAdventure,
 	PicTavern, PicTavern2, PicInn, PicPickpockets, PicPickpocketsFail, PicGambling, PicForge, PicTemple, PicMagicShop,
-	PicShop, PicSellItems, PicTriumph, PicSewerEntrance, PicCarousingEnd,
+	PicShop, PicSellItems, PicTriumph, PicSewerEntrance, PicDungeonEntrance, PicCarousingEnd,
 	TavGreatPickPockets, TavDrinkContest, TavNudeNightRide, TavStoryPriest, TavHobbit,
 	LastPicture = TavHobbit
 };

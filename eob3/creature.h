@@ -121,6 +121,15 @@ struct racenc {
 	constexpr void set(racen v) { data |= (1 << v); }
 };
 
+struct classnc {
+	unsigned char data = 0;
+	classnc() = default;
+	template<typename... Ts> constexpr classnc(classn v, Ts... args) : classnc(args...) { set(v); }
+	constexpr explicit operator bool() const { return data != 0; }
+	bool is(classn v) const { return (data & (1 << v)) != 0; }
+	void set(classn v) { data |= (1 << v); }
+};
+
 struct statable {
 	char	abilities[LastAbility + 1] = {};
 	featc	feats = {};

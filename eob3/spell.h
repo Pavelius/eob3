@@ -88,7 +88,6 @@ struct spella : spellbook {
 extern spella spellbooks[32]; // Size exacly equal lenghtof(characters)
 
 extern creature* caster;
-extern bool spell_failed;
 
 spella* get_spellbook(const creature* target);
 

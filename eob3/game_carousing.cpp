@@ -76,11 +76,11 @@ static void priest_and_golden_chalise() {
 }
 
 static actioni carousing_actions[] = {
-	{GreatPickPockets, {}, {Theif}, great_pick_pockets},
-	{GamblingCheat, {}, {}, gambling_cheat},
-	{DrinkContest, {}, {}, drink_contest, is_dwarf_or_warrior},
-	{NudeNightRide, {}, {}, nude_night_ride},
-	{PriestAndGoldenChalise, {}, {}, priest_and_golden_chalise},
+	{GreatPickPockets, {}, great_pick_pockets, if_theif},
+	{GamblingCheat, {}, gambling_cheat},
+	{DrinkContest, {}, drink_contest, is_dwarf_or_warrior},
+	{NudeNightRide, {}, nude_night_ride},
+	{PriestAndGoldenChalise, {}, priest_and_golden_chalise},
 };
 const unsigned carouse_size = lengthof(carousing_actions);
 

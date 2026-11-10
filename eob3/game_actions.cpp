@@ -184,6 +184,9 @@ static void ask_for_miracle() {
 }
 
 static bool ask_spell_items(itemn type, bool run) {
+	auto caster_index = get_caster(get_caster_class(player->type));
+	if(caster_index == -1)
+		return false;
 	auto ps = get_spellbook(player);
 	if(!ps)
 		return false;
@@ -194,6 +197,8 @@ static bool ask_spell_items(itemn type, bool run) {
 			continue;
 		auto spell = e.getspell();
 		if(!spell)
+			continue;
+		if(spell_data[spell].levels[caster_index] == 0)
 			continue;
 		if(ps->is(spell))
 			continue; // Already known this spell
@@ -266,43 +271,64 @@ static bool if_active_quest() {
 	return active_quest() != 0;
 }
 
+bool if_theif() {
+	return player->is(Theif);
+}
+
+bool if_gambler() {
+	return player->is(Theif)
+		|| player->is(Fighter)
+		|| player->is(Ranger)
+		|| player->is(Mage);
+}
+
+static bool if_can_pray() {
+	return player->is(Cleric)
+		|| player->is(Paladin)
+		|| player->is(Ranger);
+}
+
+static bool if_can_memorize() {
+	return player->is(Mage);
+}
+
 static actioni tavern_actions[] = {
-	{EatFoodAndDrink, {Coins, 20}, {}, eat_and_drink},
-	{PickPocketsAction, {}, {Theif}, pick_pockets},
-	{Gambling, {}, {Theif, Fighter, Ranger, Mage}, gambling},
-	{Carousing, {Coins, 200}, {}, carousing},
-	{LeaveOutside, {}, {}, leave_outside},
+	{EatFoodAndDrink, {Coins, 20}, eat_and_drink},
+	{PickPocketsAction, {}, pick_pockets, if_theif},
+	{Gambling, {}, gambling, if_gambler},
+	{Carousing, {Coins, 200}, carousing},
+	{LeaveOutside, {}, leave_outside},
 	{}};
 static actioni inn_actions[] = {
-	{RestParty, {}, {}, rest_party_inn},
-	{MemorizeSpells, {}, {Mage}, memorize_spells},
-	{PrayForSpells, {}, {Cleric}, pray_for_spells},
-	{ScribleScrolls, {}, {Mage}, scrible_scrolls, if_scrible_scrolls},
-	{LeaveOutside, {}, {}, leave_outside},
+	{RestParty, {}, rest_party_inn},
+	{MemorizeSpells, {}, memorize_spells, if_can_memorize},
+	{PrayForSpells, {}, pray_for_spells, if_can_pray},
+	{ScribleScrolls, {}, scrible_scrolls, if_scrible_scrolls},
+	{LeaveOutside, {}, leave_outside},
 	{}};
 static actioni blacksmith_actions[] = {
-	{BuyWeapons, {}, {}, buy_weapons},
-	{RepairWeapons, {Coins, 20}, {}, repair_weapons, allow_repair_weapons},
-	{LeaveOutside, {}, {}, leave_outside},
+	{BuyWeapons, {}, buy_weapons},
+	{RepairWeapons, {Coins, 20}, repair_weapons, allow_repair_weapons},
+	{LeaveOutside, {}, leave_outside},
 	{}};
 static actioni temple_actions[] = {
-	{AskMiracle, {}, {}, ask_for_miracle, if_blessing_good},
-	{HealWounds, {Coins, 50}, {}, heal_wounds_and_illness, if_need_healing},
-	{Donate, {}, {}, donate},
-	{LeaveOutside, {}, {}, leave_outside},
+	{AskMiracle, {}, ask_for_miracle, if_blessing_good},
+	{HealWounds, {Coins, 50}, heal_wounds_and_illness, if_need_healing},
+	{Donate, {}, donate},
+	{LeaveOutside, {}, leave_outside},
 	{}};
 static actioni wizard_tower_actions[] = {
-	{LeaveOutside, {}, {}, leave_outside},
+	{LeaveOutside, {}, leave_outside},
 	{}};
 static actioni palace_actions[] = {
-	{LeaveOutside, {}, {}, leave_outside},
+	{LeaveOutside, {}, leave_outside},
 	{}};
 static actioni city_actions[] = {
-	{GoAdventure, {}, {}, go_adventure, if_active_quest},
+	{GoAdventure, {}, go_adventure, if_active_quest},
 	{Tavern},
 	{Blacksmith, {Reputation, 25}},
 	{Temple},
-	{Inn, {Coins, 30}, {}},
+	{Inn, {Coins, 30}},
 	{WizardTower, {Reputation, 45}},
 	{Palace, {Reputation, 70}},
 	{}};
@@ -384,20 +410,20 @@ static void game_perferences() {
 
 static void game_options() {
 	static actioni actions[] = {
-		{LoadGame, {}, {}, load_game},
-		{SaveGame, {}, {}, save_game},
-		{Settings, {}, {}, game_perferences},
-		{ExitGame, {}, {}, exit_game},
+		{LoadGame, {}, load_game},
+		{SaveGame, {}, save_game},
+		{Settings, {}, game_perferences},
+		{ExitGame, {}, exit_game},
 		{}};
 	open_options(actions);
 }
 
 void show_dungeon_options() {
 	static actioni actions[] = {
-		{MemorizeSpells, {}, {Mage}, memorize_spells},
-		{PrayForSpells, {}, {Cleric}, pray_for_spells},
-		{ScribleScrolls, {}, {Mage}, scrible_scrolls, if_scrible_scrolls},
-		{GameOptions, {}, {}, game_options},
+		{MemorizeSpells, {}, memorize_spells},
+		{PrayForSpells, {}, pray_for_spells},
+		{ScribleScrolls, {}, scrible_scrolls, if_scrible_scrolls},
+		{GameOptions, {}, game_options},
 		{}};
 	open_options(actions);
 }

@@ -649,3 +649,13 @@ void dungeoni::add(pointca& result, celln type, bool keep) {
 		}
 	}
 }
+
+pointc dungeoni::flee(pointc start, int minimum, int maximum) const {
+	pointca points;
+	loc->block(false);
+	loc->makewave(party.pos);
+	points.select(8, 16);
+	if(!points)
+		return pointc();
+	return points.random();
+}

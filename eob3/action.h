@@ -51,15 +51,6 @@ extern actionn location;
 inline const char* getnm(actionn v) { return action_names[v]; }
 inline const char* getnm(variablen v) { return variable_names[v]; }
 
-struct classnc {
-	unsigned char data = 0;
-	classnc() = default;
-	template<typename... Ts> constexpr classnc(classn v, Ts... args) : classnc(args...) { set(v); }
-	constexpr explicit operator bool() const { return data != 0; }
-	bool is(classn v) const { return (data & (1 << v)) != 0; }
-	void set(classn v) { data |= (1 << v); }
-};
-
 struct variablei {
 	unsigned variables[LastVariable + 1] = {};
 	constexpr variablei() = default;
@@ -80,7 +71,6 @@ extern gamei game;
 struct actioni {
 	actionn		action; // What action do.
 	variablei	required; // Pass this requitment to show action. Gold coins must be payed.
-	classnc		restriction; // If filled, only this classes can use action.
 	fnevent		proc; // This action resolve procedures
 	fncondition allow; // Allow action function. Can be null.
 	constexpr explicit operator bool() const { return action != NoAction; }

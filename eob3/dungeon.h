@@ -198,6 +198,7 @@ struct dungeoni : sitei, goalfc {
 	void			clear();
 	void			change(celln s, celln n);
 	void			drop(pointc v, item& it, int side);
+	pointc			flee(pointc start, int minimum = 8, int maximum = 16) const;
 	celln			get(pointc v) const;
 	overlayi*		get(pointc v, directionn d);
 	overlayi*		getlinked(pointc v);

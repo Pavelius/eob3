@@ -14,7 +14,6 @@
 spella			spellbooks[32];
 boost			boosts[256];
 unsigned char	boost_count;
-bool			spell_failed;
 
 static collection<creature> creatures;
 static collection<item> items;
@@ -269,15 +268,12 @@ bool creature::cast(spelln spell, int level, bool show_fail, bool show_cast, boo
 	default:
 		break;
 	}
-	spell_failed = false;
+	if(show_cast)
+		consolen(getnm(PlayerCastSpell), name(), spell_names[spell]);
 	if(spell_data[spell].prepare)
 		spell_data[spell].prepare();
-	if(!spell_failed) {
-		if(show_cast)
-			consolen(getnm(PlayerCastSpell), name(), spell_names[spell]);
-		apply_targets(spell, level);
-		add_spell_experience(spell);
-	}
+	apply_targets(spell, level);
+	add_spell_experience(spell);
 	if(expand_slots && spell < lengthof(spells)) {
 		if(spells[spell] > 0)
 			spells[spell]--;
@@ -460,6 +456,17 @@ void spella::addspells(int level, int count) {
 		set(v);
 }
 
+static void monsters_set(pointc pos) {
+	if(!pos)
+		return;
+	for(auto p : creatures) {
+		if(!p)
+			continue;
+		p->pos = pos;
+		p->set(Moved);
+	}
+}
+
 static void monsters_kill() {
 	for(auto p : creatures) {
 		if(p && *p)
@@ -468,6 +475,8 @@ static void monsters_kill() {
 }
 
 static void monsters_flee() {
+	if(loc)
+		monsters_set(loc->flee(party.pos, 8, 16));
 }
 
 void turn_monsters(const char* name, int level) {

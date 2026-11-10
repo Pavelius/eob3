@@ -163,6 +163,8 @@ void go_adventure();
 void header_yellow(const char* format);
 void initialize_gui();
 bool if_blessing_good();
+bool if_gambler();
+bool if_theif();
 void leave_dungeon();
 void load_game();
 void main_menu();

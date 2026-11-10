@@ -878,17 +878,6 @@ long choose_message(actionn id, bool can_cancel) {
 	return show_message(getnm(id), true, can_cancel ? getnm(Cancel) : 0, 27);
 }
 
-static bool pass_restriction(const classnc& v) {
-	if(!v)
-		return true;
-	auto n = get_class_count(player->type);
-	for(auto i = 0; i < n; i++) {
-		if(v.is(get_class(player->type, i)))
-			return true;
-	}
-	return false;
-}
-
 void setv(picturen v) {
 	if(!v)
 		return;
@@ -969,8 +958,6 @@ static void ask_actions(const actioni* source) {
 	for(auto p = source; *p; p++) {
 		if(p->required && !enough(game, p->required))
 			continue; // Can't pay or other reputation
-		if(!pass_restriction(p->restriction))
-			continue; // Not pass restriction
 		if(p->allow && !p->allow())
 			continue;
 		if(p->action >= Tavern && p->action <= Palace)
@@ -983,8 +970,6 @@ static void ask_actions(const actioni* source) {
 const actioni* pick_action(actioni** source, unsigned count) {
 	for(unsigned i = 0; i < count; i++) {
 		auto p = source[i];
-		if(!pass_restriction(p->restriction))
-			continue;
 		if(p->allow && !p->allow())
 			continue;
 		memmove(source + i, source + (i + 1), (count - (i + 1)) * sizeof(source[i]));
@@ -1327,26 +1312,6 @@ static bool monsters_talk(const actioni* actions, messagen id, messagen id2 = (m
 	apply_action(result);
 	return true;
 }
-
-/*
-static void monsters_flee() {
-	if(!loc)
-		return;
-	pointca points;
-	loc->block(false);
-	loc->makewave(party.pos);
-	points.select(8, 16);
-	if(!points)
-		return;
-	auto v = points.random();
-	creature* creatures[6]; loc->getmonsters(creatures, opponent->pos);
-	for(auto p : creatures) {
-		if(p) {
-			p->pos = v;
-			p->set(Moved);
-		}
-	}
-}*/
 
 static void monsters_kill() {
 	if(!loc || !opponent)
@@ -2238,14 +2203,14 @@ static void bribe() {
 }
 
 actioni talk_carefully[] = {
-	{Lie, {}, {}, lie, is_personality},
-	{CalmDown, {}, {}, monsters_leave, is_ranger_animal},
-	{Bribe, {}, {}, bribe, is_bribeable},
-	{Attack, {}, {}, attack_enemy},
+	{Lie, {}, lie, is_personality},
+	{CalmDown, {}, monsters_leave, is_ranger_animal},
+	{Bribe, {}, bribe, is_bribeable},
+	{Attack, {}, attack_enemy},
 	{}};
 
 actioni talk_friendly[] = {
-	{Talk, {}, {}, talk_help, is_personality},
-	{Hunt, {}, {}, animal_hunt, is_ranger_animal},
-	{Ambush, {}, {}, ambush_enemy},
+	{Talk, {}, talk_help, is_personality},
+	{Hunt, {}, animal_hunt, is_ranger_animal},
+	{Ambush, {}, ambush_enemy},
 	{}};

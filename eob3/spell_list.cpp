@@ -303,6 +303,10 @@ static void aid_stop() {
 	player->hp_aid = 0;
 }
 
+static void turn_undead() {
+	turn_monsters(player->name(), player->get(Cleric));
+}
+
 spelli spell_data[LastSpell + 1] = {
 	// Level 1 Cleric spells
 	{{1}, Ally, Bless, color(200, 200, 30), bless_effect},
@@ -386,5 +390,5 @@ spelli spell_data[LastSpell + 1] = {
 	// Level 4 Mage spells
 	{{0, 4}, Ally, ImprovedInvisibility},
 	// Special abilities
-	{{}, AllEnemy, TurnUndead},
+	{{}, AllEnemy, TurnUndead, {}, 0, 0, turn_undead},
 };

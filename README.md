@@ -5,6 +5,8 @@ The game features a completely new engine written from scratch in C++, while pre
 The rules are largely based on **AD&D 2nd Edition**, with some exceptions and adjustments made to better suit the game.
 
 ![Main menu](screenshots/MainMenu.bmp)
+![Main menu](screenshots/CityExample.bmp)
+![Main menu](screenshots/DungeonExample.bmp)
 
 ## Key Features
 

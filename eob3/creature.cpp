@@ -340,6 +340,8 @@ bool creature::allow(itemn type) const {
 bool creature::equip(itemn item_type, featn power) {
 	item v(item_type);
 	v.create(0, 0);
+	if(is_natural(item_type))
+		v.purpose = NaturalItem;
 	v.identified = 1;
 	if(!v)
 		return false;

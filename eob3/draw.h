@@ -104,7 +104,7 @@ struct sprite : pma {
 	frame				frames[1];
 	int					esize() const { return frames[0].offset - (sizeof(sprite) + sizeof(frame) * (count - 1)); }
 	const unsigned char* edata() const { return (const unsigned char*)this + sizeof(sprite) + sizeof(frame) * (count - 1); }
-	const frame&		get(short unsigned v) const { return frames[v]; }
+	const frame&		get(short unsigned v) const { return frames[v % count]; }
 	const unsigned char* ptr(unsigned o) const { return (unsigned char*)this + o; }
 };
 

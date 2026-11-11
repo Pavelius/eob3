@@ -420,8 +420,8 @@ static void game_options() {
 
 void show_dungeon_options() {
 	static actioni actions[] = {
-		{MemorizeSpells, {}, memorize_spells},
-		{PrayForSpells, {}, pray_for_spells},
+		{MemorizeSpells, {}, memorize_spells, if_can_memorize},
+		{PrayForSpells, {}, pray_for_spells, if_can_pray},
 		{ScribleScrolls, {}, scrible_scrolls, if_scrible_scrolls},
 		{GameOptions, {}, game_options},
 		{}};

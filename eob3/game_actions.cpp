@@ -50,7 +50,7 @@ void rest_party(int bonus) {
 		all_party(natural_healing, true, bonus);
 		all_party(camp_autocast, false);
 		all_party(refresh_memorized_spells, false);
-		all_party(satisfy, false);
+		all_party(satisfy, true);
 	}
 }
 

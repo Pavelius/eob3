@@ -294,8 +294,12 @@
     <ClCompile Include="draw_textf.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="dune_util.cpp" />
-    <ClCompile Include="eob3_util.cpp" />
+    <ClCompile Include="dune_util.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="eob3_util.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="game_carousing.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="answers.cpp" />

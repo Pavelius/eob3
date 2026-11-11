@@ -4,6 +4,8 @@
 The game features a completely new engine written from scratch in C++, while preserving the spirit and atmosphere of the original series. The gameplay has been expanded and modified with new mechanics and features rather than attempting to reproduce the original games exactly.
 The rules are largely based on **AD&D 2nd Edition**, with some exceptions and adjustments made to better suit the game.
 
+![Main menu](screenshots/MainMenu.bmp)
+
 ## Key Features
 
  - Custom C++ game engine written from scratch

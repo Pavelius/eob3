@@ -389,6 +389,19 @@ static void monsters_move(pointc v, directionn d) {
 	}
 }
 
+static directionn look_at_door(pointc v) {
+	static directionn source[] = {Up, Left, Right, Down};
+	for(auto nd : source) {
+		auto v1 = to(v, nd);
+		if(!v1)
+			continue;
+		auto cell = loc->get(v1);
+		if(cell == CellDoor)
+			return nd;
+	}
+	return Center;
+}
+
 static void monsters_movement() {
 	if(!loc)
 		return;
@@ -401,6 +414,11 @@ static void monsters_movement() {
 			auto d = random_free_look(e.pos, e.d, true);
 			if(d != Center)
 				monsters_move(e.pos, d);
+			else {
+				auto d = look_at_door(e.pos);
+				if(d != Center)
+					turnto(e.pos, d, false);
+			}
 		} else
 			monsters_stop(e.pos);
 	}

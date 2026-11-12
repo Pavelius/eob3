@@ -43,7 +43,7 @@ enum messagen : unsigned char {
 	WhatPlayerDo, WhichWayToGo, WhatYouWantToBuy, CastOnWho,
 	NoSpellsAvailable, SpellsAvailable,
 	WelcomeFriends, WhoIsYou, WhatHappens, HowYouGetHere, YouLiers, HelpIdentify, HelpCursed, HelpGift, HelpKey, TalkBribe,
-	LookUnknown, LookDrainageGate, LookStrangeDevice, LookUnknownTheifSign, LookTheifSign, LookSomthingBigClaws, LookScratch,
+	LookUnknown, LookDrainageGate, LookStrangeDevice, LookUnknownTheifSign, LookTheifSign, LookSomthingBigClaws, LookScratch, LookInDark,
 	AnimalStayStill, MonsterStayStill,
 	ItemPowerName, Rotten, Damaged, Few, Several, Many,
 	PlayerIsDisabled, PlayerPickUpItem, PlayerCastSpell, PlayerDrinkPotion, PlayerFailedSkill, PlayerSuccessSkill,

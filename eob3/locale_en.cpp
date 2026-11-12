@@ -38,6 +38,7 @@ const char* message_names[LastMessage + 1] = {
 	"Exit is in %StairsDownPart side of area",
 	"Something big leave this scratch",
 	"%Dweller leave this scratch",
+	"I see something in the dark",
 	"%Opponent stands still, watching you carefully.",
 	"%Opponent stands still and looking at you.",
 	"%1 of %2", "Rotten", "Damaged", "Few", "Several", "Many",

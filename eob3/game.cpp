@@ -1507,7 +1507,7 @@ static void examine(creature* player, resn dungeon, celln type) {
 		{LookUnknownTheifSign, LookDrainageGate}, // BRICK
 		{}, // CRIMSON
 		{}, // DROW
-		{LookSomthingBigClaws}, // DUNG
+		{LookSomthingBigClaws, LookInDark}, // DUNG
 	};
 	auto m = get_skilled(dungeon, type, player->race, player->type);
 	if(!m)

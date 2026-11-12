@@ -418,9 +418,6 @@ static bool ai_use_spells() {
 	//return true;
 }
 
-//static void move_closer(creature** creatures, directionn d) {
-//}
-//
 //void move_closer(pointc v) {
 //	creature* creatures[6] = {};
 //	loc->getmonsters(creatures, v);
@@ -431,7 +428,7 @@ static bool ai_use_spells() {
 
 static void drop_loot(creature* player) {
 	for(auto& it : player->wears) {
-		if(!it || it.is(NaturalItem) || it.is(SummonedItem))
+		if(!it || it.is(NaturalItem) || it.is(SummonedItem) || is_natural(it.type))
 			continue;
 		if(it.is(QuestItem) || (d100() < 15)) {
 			it.identify(0);
@@ -497,7 +494,6 @@ void make_attacks(bool melee_combat) {
 		auto v = to(party.pos, party.d);
 		auto d = to(party.d, Down);
 		turnto(v, d, true);
-		// move_closer(v);
 		enemy_distance = 1;
 		if(!select_combatants(v))
 			return;

@@ -56,8 +56,8 @@ itemi item_data[LastItem + 1] = {
 	{LeftRing, 30 * gp, {78, 15}, {}, {}, {}}, // BlueRing
 	{LeftRing, 60 * gp, {79, 15}, {}, {}, {}}, // GreenRing
 	{LeftRing, 120 * gp, {55, 15}, {}, {}, {}}, // RedRing
-	{Neck, 5 * gp, {33, 26}, {}, {}, {}}, // Amulet
-	{Neck, 60 * gp, {34, 26}, {}, {}, {}}, // Medalion
+	{Neck, 5 * gp, {33, 13}, {}, {}, {}}, // Amulet
+	{Neck, 60 * gp, {34, 13}, {}, {}, {}}, // Medalion
 	{Drinkable, 50 * gp, {40, 19}, {}, {}, {}}, // BluePotion
 	{Drinkable, 70 * gp, {41, 19}, {}, {}, {}}, // GreenPotion
 	{Drinkable, 90 * gp, {39, 19}, {}, {}, {}}, // RedPotion

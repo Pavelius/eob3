@@ -553,9 +553,6 @@
     <ClCompile Include="pal_dung.cpp">
       <Filter>resources</Filter>
     </ClCompile>
-    <ClCompile Include="dune_util.cpp">
-      <Filter>util</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="action.h">

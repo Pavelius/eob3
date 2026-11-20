@@ -377,7 +377,7 @@ const char* quest_speech[(LastQuest + 1) * (LastPhase + 1)] = {
 	"On the eighth day, you enter a deep forest.\0",
 	0,
 	// 2
-	"A man smoking tobacco sits at the tavern table and turns to you. \"Hello. Are you the adventurers I've heard about? My name is Dunkan, and I have a job for you. I need you to retrieve an item from a ruin haunted by undead. It is a family heirloom: a stone medallion of Tempus. Bring it back to me, and I'll pay you %QuestRewardGold silver coins.\"\0",
+	"A man smoking tobacco sits at the tavern table and turns to you. \"Hello. Are you the adventurers I've heard about? My name is Dunkan, and I have a job for you.\"\0\"I need you to retrieve an item from a ruin haunted by undead. It is a family heirloom: a stone medallion of Tempus. Bring it back to me, and I'll pay you %QuestRewardGold silver coins.\"\0",
 	"\"You drive a hard bargain, friends. Come back when you've found the medallion.\"\0",
 	"After several hours of walking north, you find the ruins.",
 	"While searching the ruins, you find an entrance to the dungeon below.",

@@ -76,7 +76,7 @@ const char* action_names[LastAction + 1] = {
 	"Lady Luck smiles upon you! You win %1i silver coins.",
 	"Luck isn't on your side today. You lose %1i silver coins.",
 	"Carousing",
-	"Ask for Miracle", "\"O mighty god, grant a portion of your power to this mortal, %1.\" The priestess continues praying for you. After some time, she completes the ritual.",
+	"Ask for a Miracle", "\"O mighty god, grant a portion of your power to this mortal, %1.\" The priestess continues praying for you. After some time, she completes the ritual.",
 	"Heal Wounds",
 	"Donate",
 	"\"How many silver coins will you donate to honor the Mighty God?\"",
@@ -151,7 +151,7 @@ const char* ability_short[Experience + 1] = {
 	"LS",
 	"MR",
 	"CD", "DS",
-	"AC", "Att", "Rng", "Dam", "Dam",
+	"AC", "MAtk", "RAtk", "MDam", "RDam",
 	"Speed", "Turn Undead", "Backstab", "Attacks",
 	"S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "Spells",
 	"BE", "RA",
@@ -256,8 +256,8 @@ const char* speech_names1[LastSpeech + 1] = {
 	"This food has gone bad",
 	"The door is already open",
 	"The trap has been disarmed",
-	"All is done here, we must return to city",
-	"No items on belt",
+	"We've done all we can here. We should return to the city.",
+	"No items on the belt.",
 };
 const char* speech_names2[LastSpeech + 1] = {
 	"I don't use %1",
@@ -318,7 +318,7 @@ const char* speech_names3[LastSpeech + 1] = {
 	"I've cast all my prepared spells",
 	"Where am I supposed to do that?",
 	"I can't use that here",
-	"I can't give you this",
+	"I can't give that to you.",
 	"I can't eat this rotten food!",
 	"Stop, already opened",
 	"Stop, the trap has been disarmed",
@@ -384,7 +384,7 @@ const char* quest_speech[(LastQuest + 1) * (LastPhase + 1)] = {
 	"\"At last! The medallion is mine again. Excellent! Here's your reward: %QuestRewardGold silver coins. You're good at this. Perhaps I'll have another job for you.\"\0",
 };
 const char* spell_names[LastSpell + 1] = {
-	"Bless", "Cure Light Wounds", "Detect Evil", "Detect Magic", "Protection From Evil", "Purify Food and Drink",
+	"Bless", "Cure Light Wounds", "Detect Evil", "Detect Magic", "Protection from Evil", "Purify Food and Drink",
 	"Aid", "Flame Blade", "Find Traps", "Hold Person", "Resist Fire", "Resist Cold", "Slow Poison",
 	"Create Food", "Cure Disease", "Magical Vestment", "Prayer", "Remove Curse", "Remove Paralysis",
 	"Abjure", "Cloak of Bravery", "Cure Serious Wounds", "Fear", "Free Action", "Neutralize Poison", "Protection from Evil, 10' Radius",
@@ -450,7 +450,7 @@ static const char* LearnIntellegence[] = {"a scientific work on %ScienceKind"};
 static const char* MonsterName[] = {"giant", "dragon", "manticore", "troll", "purple worm"};
 static const char* StoryKind[] = {"tale", "poem", "story"};
 static const char* StoryType[] = {"fascinating", "mundane", "funny", "sad"};
-static const char* ScienceKind[] = {"mathematics", "physics", "universe", "mechanics"};
+static const char* ScienceKind[] = {"mathematics", "physics", "the universe", "mechanics"};
 
 stringset stringset_data[] = {
 	DSTEXT(action_names),
